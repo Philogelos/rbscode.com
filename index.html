@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- thumbnail -->
+  <meta property="og:title" content="The Tech Lab - Jerusalem" />
+  <meta property="og:description" content="Unleash your imagination in Jerusalem’s boldest tech space. Code. Create. Conquer." />
+  <meta property="og:image" content="https://jerusalemtechlab.org/tech-lab-thumbnail-final.jpg" />
+  <meta property="og:url" content="https://jerusalemtechlab.org/" />
+  <meta property="og:type" content="website" />
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Tech Lab - Jerusalem</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(circle at center, #0f0c29, #302b63, #24243e);
+      color: #f1f1f1;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: linear-gradient(90deg, #00ffe0, #ff00c8);
+      padding: 30px 0;
+      text-align: center;
+      color: black;
+      box-shadow: 0 0 20px #00ffe0;
+      border-bottom: 2px solid #ff00c8;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      text-shadow: 0 0 15px #fff;
+      animation: pulseGlow 2s infinite alternate;
+    }
+
+    nav ul {
+      margin-top: 20px;
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    nav ul li a {
+      color: black;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1rem;
+      position: relative;
+    }
+
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      background: #fff;
+      left: 0;
+      bottom: -5px;
+      transition: width 0.3s;
+    }
+
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+
+    section {
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      color: #00ffe0;
+      text-shadow: 0 0 10px #00ffe0;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: auto;
+      color: #ccc;
+    }
+
+    .btn {
+      margin-top: 30px;
+      display: inline-block;
+      background: #ff00c8;
+      color: #fff;
+      padding: 15px 30px;
+      border-radius: 40px;
+      font-size: 1.2rem;
+      text-decoration: none;
+      box-shadow: 0 0 15px #ff00c8, 0 0 30px #ff00c8;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      background: #00ffe0;
+      box-shadow: 0 0 20px #00ffe0, 0 0 40px #00ffe0;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #00ffe0;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 0 15px #00ffe0;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .card h3 {
+      color: #ff00c8;
+      margin: 15px 0 10px;
+    }
+
+    .card p {
+      color: #bbb;
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
+
+    footer {
+      background: #111;
+      color: #666;
+      padding: 20px;
+      text-align: center;
+      border-top: 2px solid #ff00c8;
+    }
+
+    .footer-links a {
+      color: #888;
+      text-decoration: none;
+      margin: 0 15px;
+    }
+
+    .footer-links a:hover {
+      color: #fff;
+      text-shadow: 0 0 5px #00ffe0;
+    }
+
+    @keyframes pulseGlow {
+      0% {
+        text-shadow: 0 0 5px #fff, 0 0 10px #00ffe0;
+      }
+      100% {
+        text-shadow: 0 0 20px #ff00c8, 0 0 30px #ff00c8;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>The Tech Lab - Jerusalem</h1>
+    <nav>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#courses">Courses</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="https://mail.jerusalemtechlab.org/">Email sign in</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section id="welcome">
+    <h2>Welcome to the Future</h2>
+    <p>Unleash your imagination in Jerusalem’s boldest tech space. Code. Create. Conquer.</p>
+    <a href="#courses" class="btn">Enter the Lab</a>
+  </section>
+
+  <section id="about">
+    <h2>Who We Are</h2>
+    <p>The Tech Lab empowers young minds to build the future with code, design, and tech-driven innovation. No experience required — just curiosity and courage.</p>
+  </section>
+
+  <section id="courses">
+    <h2>Courses</h2>
+    <p>Explore interactive courses designed to launch kids into the world of digital creation.</p>
+    <div class="cards">
+      <div class="card">
+        <img src="scratch-tutorials.png" alt="Scratch">
+        <h3>Scratch Missions</h3>
+        <p>For young coders. Drag. Drop. Dream big.</p>
+      </div>
+      <a href="class1-all-overview.html" style="text-decoration: none; color: inherit;">
+        <div class="card">
+          <img src="web-dev.jpg" alt="Web Dev">
+          <h3>Web Dev Bootcamp</h3>
+          <p>Build real websites from zero to hero.</p>
+        </div>
+      </a>
+
+<!--       <div class="card">
+        <img src="web-dev.jpg" alt="Web Dev">
+        <h3>Web Dev Bootcamp</h3>
+        <p>Build real websites from zero to hero.</p>
+      </div> -->
+      <div class="card">
+        <img src="game-design.png" alt="Games">
+        <h3>Game Design</h3>
+        <p>Make games. Play them. Share with the world.</p>
+      </div>
+      <div class="card">
+        <img src="animation-design.jpg" alt="Animation">
+        <h3>Animation Studio</h3>
+        <p>Bring your characters to life with pixel magic.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Connect With Us</h2>
+    <p>Want to join a class or bring us to your school? Let’s make it happen.</p>
+    <p>📞 <a href="tel:+972585698696" style="color:#ff00c8">058-569-8696</a></p>
+    <p>📧 <a href="mailto:pdfreudiger@gmail.com" style="color:#00ffe0">pdfreudiger@gmail.com</a></p>
+    <a href="mailto:pdfreudiger@gmail.com" class="btn">Sign Up</a>
+  </section>
+
+<!--   <footer>
+    <div class="footer-links">
+      <a href="#about">About</a>
+      <a href="#courses">Courses</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <p>&copy; 2024 The Tech Lab - Jerusalem. Powered by future minds.</p>
+  </footer> -->
+    <footer>
+      <div class="footer-links">
+        <a href="#about">About</a>
+        <a href="#courses">Courses</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <p>&copy; 2024 The Tech Lab - Jerusalem. Powered by future minds.</p>
+      <p style="font-size: 0.8em; color: #444;">
+        Some images courtesy of 
+        <a href="https://easy-peasy.ai/ai-image-generator" target="_blank" rel="noopener noreferrer" style="color: #666; text-decoration: none;">
+          Easy Peasy AI
+        </a>
+      </p>
+    </footer>
+
+
+</body>
+</html>
