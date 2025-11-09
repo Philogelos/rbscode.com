@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guess the Number | RBScode</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    /* === RBScode Neon Theme (embedded) === */
+    :root{
+      --cyan:#00ffe0; --pink:#ff00c8; --dark1:#0f0c29; --dark2:#302b63; --dark3:#24243e;
+      --muted:#cfd3ff; --ink:#f1f1f1; --panel:rgba(255,255,255,0.06);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'Orbitron',sans-serif;
+      background:radial-gradient(circle at center,var(--dark1),var(--dark2),var(--dark3));
+      color:var(--ink); text-align:center; overflow-x:hidden;
+      min-height:100vh; display:flex; flex-direction:column;
+    }
+
+    /* Header */
+    .header{
+      background:linear-gradient(90deg,var(--cyan),var(--pink));
+      color:#000; padding:24px 12px; box-shadow:0 0 20px var(--cyan); border-bottom:2px solid var(--pink);
+    }
+    .header h1{font-size:clamp(1.8rem,3.5vw,3rem);text-shadow:0 0 12px #fff;}
+    .nav{margin-top:12px;display:flex;justify-content:center;gap:28px;flex-wrap:wrap;}
+    .nav a{color:#000;text-decoration:none;font-weight:700;position:relative;}
+    .nav a::after{content:"";position:absolute;left:0;bottom:-5px;height:2px;width:0%;background:#fff;transition:width .25s;}
+    .nav a:hover::after{width:100%}
+
+    /* Layout */
+    main{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;padding:60px 20px 80px;}
+    h2{color:var(--cyan);text-shadow:0 0 12px var(--cyan);margin-bottom:10px;}
+    .lead{color:var(--muted);max-width:620px;margin-bottom:22px;line-height:1.5;}
+
+    /* Input + button */
+    input{
+      padding:10px 14px;border-radius:22px;border:none;text-align:center;
+      font-family:'Orbitron',sans-serif;margin:6px;font-size:1rem;
+    }
+    button{
+      background:var(--pink);color:#fff;padding:10px 18px;border-radius:28px;border:none;
+      cursor:pointer;font-family:'Orbitron',sans-serif;font-weight:700;
+      box-shadow:0 0 15px var(--pink);transition:transform .2s,background .3s;
+    }
+    button:hover{
+      transform:scale(1.05);
+      background:var(--cyan);
+      box-shadow:0 0 20px var(--cyan);
+    }
+
+    /* Buttons (Back) */
+    .btn{
+      display:inline-block;margin-top:28px;background:var(--pink);color:#fff;
+      padding:12px 26px;border-radius:36px;text-decoration:none;font-weight:700;
+      box-shadow:0 0 15px var(--pink),0 0 30px var(--pink);
+      transition:transform .2s,background .25s,box-shadow .25s;
+    }
+    .btn:hover{
+      transform:scale(1.05);background:var(--cyan);
+      box-shadow:0 0 20px var(--cyan),0 0 40px var(--cyan);
+    }
+
+    /* Footer */
+    .footer{
+      background:#111;color:#777;text-align:center;padding:20px;
+      border-top:2px solid var(--pink);font-size:.95rem;
+    }
+  </style>
+</head>
+<body>
+  <header class="header pad-top-sm">
+    <h1>Guess the Number</h1>
+    <nav class="nav">
+      <a href="../index.html">Home</a>
+      <a href="../web-dev.html">Back to Bootcamp</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Guess the Number (1–10)</h2>
+    <p class="lead">A fun challenge that teaches <em>variables</em>, <em>conditions</em>, and <em>logic</em> in JavaScript.</p>
+
+    <div class="game-wrap">
+      <p id="msg">I picked a number. Can you guess it?</p>
+      <input id="g" type="number" min="1" max="10" placeholder="1–10">
+      <button onclick="go()">Guess</button>
+    </div>
+
+    <a href="../webdev.html#demos-heading" class="btn">⬅ Back to Demos</a>
+  </main>
+
+  <footer class="footer">
+    © 2025 The Tech Lab – Ramat Beit Shemesh.
+  </footer>
+
+  <script>
+    let n = 1 + Math.floor(Math.random()*10);
+    function go(){
+      const v = parseInt(document.getElementById('g').value,10);
+      if(!v) return;
+      if(v===n){
+        document.getElementById('msg').textContent='✅ Correct! New number picked.';
+        n = 1 + Math.floor(Math.random()*10);
+      } else if(v<n){
+        document.getElementById('msg').textContent='Too low! Try again.';
+      } else {
+        document.getElementById('msg').textContent='Too high! Try again.';
+      }
+    }
+  </script>
+</body>
+</html>

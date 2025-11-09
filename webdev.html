@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Build websites. Learn HTML, CSS, and JavaScript in The Tech Lab Web Dev Bootcamp."/>
+  <title>Web Development Bootcamp | The Tech Lab – RBS</title>
+  <link rel="icon" href="android-chrome-512x512.png" type="image/png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <style>
+    .grid { margin-top: 55px; }
+    .lead {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      color: #ccc;
+      max-width: 700px;
+      margin: 0 auto 20px;
+    }
+    .highlight {
+      color: #00ffe0;
+      text-shadow: 0 0 6px #00ffe0;
+    }
+    .lang-blocks {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 22px;
+      margin-top: 40px;
+    }
+    .lang {
+      background: var(--panel);
+      border: 1px solid var(--cyan);
+      border-radius: 20px;
+      padding: 24px;
+      width: 300px;
+      box-shadow: 0 0 15px rgba(0,255,224,0.2);
+      transition: transform .2s;
+    }
+    .lang:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0 25px var(--cyan);
+    }
+    .lang h3 {
+      color: var(--pink);
+      margin-bottom: 10px;
+      font-size: 1.4rem;
+    }
+    .lang p {
+      color: #bbb;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <header class="header pad-top-sm">
+    <h1>Web Development Bootcamp</h1>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section">
+      <h2>Build Websites. Shape the Future.</h2>
+      <p class="lead">
+        <span class="highlight">From Zero to Hero</span> – Build real websites from day one.<br>
+        Master HTML, CSS, and JavaScript to create projects you’ll be proud to share.
+      </p>
+      <a href="mailto:info@rbscode.com" class="btn">Join the Bootcamp</a>
+    </section>
+
+    <section class="section">
+      <h2>The Building Blocks of the Web</h2>
+      <p class="lead">
+        Every website and app you’ve ever used is built using three core languages.
+        In The Tech Lab, students learn them step by step — turning ideas into real, working projects.
+      </p>
+
+      <div class="lang-blocks max">
+        <div class="lang">
+          <h3>HTML</h3>
+          <p><strong>HyperText Markup Language</strong> is the foundation of every webpage.
+            It creates the structure — titles, buttons, images, and text.
+            Think of it as the skeleton of your website.</p>
+        </div>
+
+        <div class="lang">
+          <h3>CSS</h3>
+          <p><strong>Cascading Style Sheets</strong> make your pages beautiful.
+            CSS controls colors, layouts, animations, and design — turning plain HTML into something futuristic and alive.</p>
+        </div>
+
+        <div class="lang">
+          <h3>JavaScript</h3>
+          <p><strong>JavaScript</strong> adds brains and movement.
+            It makes your projects interactive — from flashing lights and changing colors to games and apps that react to the player’s actions.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 id="demos-heading">Mini Demos</h2>
+      <p class="lead">
+        These short, hands-on examples are part of our early JavaScript lessons —
+        after learning HTML and CSS, students unlock the power of <em>interactivity</em> and <em>logic</em>!
+      </p>
+
+      <div class="grid max">
+        <a class="card" href="demos/magic-color-box.html">
+          <img src="magic-color-box.png" alt="Magic Color Box">
+          <h3>Magic Color Box</h3>
+          <p>Events, randomness, and dynamic DOM updates.</p>
+        </a>
+
+        <a class="card" href="demos/reaction-game-2.html">
+          <img src="reaction-game.png" alt="Reaction Game">
+          <h3>Reaction Game</h3>
+          <p>Timing, suspense, and feedback — fun and fast to build.</p>
+        </a>
+
+        <a class="card" href="demos/guess-number.html">
+          <img src="https://placehold.co/600x400?text=Guess+Number" alt="Guess the Number">
+          <h3>Guess the Number</h3>
+          <p>Logic, input, and comparisons for problem-solving.</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <h2>Ready to Start?</h2>
+      <p>Join our next Web Dev group — limited spots available!</p>
+      <div class="contact-row">
+        <a class="contact-chip" href="https://wa.me/972585698696" target="_blank"><i class="fa-brands fa-whatsapp"></i>WhatsApp us</a>
+        <a class="contact-chip" href="mailto:info@rbscode.com"><i class="fa-solid fa-envelope"></i>info@rbscode.com</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    © 2025 The Tech Lab – Ramat Beit Shemesh.
+  </footer>
+</body>
+</html>

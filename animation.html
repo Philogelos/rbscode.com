@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="RBScode Animation Studio – bring your ideas to life with code and motion. Learn how to animate images with JavaScript and canvas." />
+  <title>Animation Studio | The Tech Lab – RBS</title>
+  <link rel="icon" type="image/png" href="android-chrome-512x512.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(circle at center, #0f0c29, #302b63, #24243e);
+      color: #f1f1f1;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    main {
+      width: 100%;
+      max-width: 880px;
+      padding: 15px 20px 0;
+      box-sizing: border-box;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* === HEADER === */
+    header {
+      text-align: center;
+      max-width: 600px;
+      margin-bottom: 10px;
+    }
+
+    header h1 {
+      color: #ff00c8;
+      font-size: 1.8rem;
+      text-shadow: 0 0 20px #ff00c8;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      color: #ccc;
+      font-size: 1rem;
+      line-height: 1.6;
+      letter-spacing: 0.3px;
+      text-wrap: balance;
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    /* === STUDIO CARD === */
+    .studio {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #00ffe0;
+      border-radius: 16px;
+      box-shadow: 0 0 15px #00ffe0;
+      padding: 15px 20px 25px;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    canvas {
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0 20px #00ffff, 0 0 30px #ff00c8;
+      width: 280px;
+      height: 280px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    #frameNumber {
+      color: #ff00c8;
+      margin-top: 6px;
+      font-size: 1rem;
+      text-shadow: 0 0 10px #ff00c8;
+    }
+
+    /* === CONTROLS === */
+    .controls {
+      margin-top: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .control-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 22px;
+      font-size: 0.95rem;
+      border: 1px solid #00ffe0;
+      border-radius: 50px;
+      background: rgba(0, 255, 255, 0.1);
+      color: #00ffe0;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.25s ease;
+      box-shadow: inset 0 0 8px #00ffe0, 0 0 10px #00ffe0;
+    }
+
+    .control-btn:hover {
+      transform: translateY(-2px) scale(1.05);
+      color: #ff00c8;
+      border-color: #ff00c8;
+      box-shadow: 0 0 20px #ff00c8, inset 0 0 10px #00ffe0;
+    }
+
+    .control-btn i {
+      font-size: 1rem;
+      color: inherit;
+    }
+
+    /* === SLIDER === */
+    .slider-box {
+      margin-top: 10px;
+      width: 220px;
+      margin-inline: auto;
+      color: #ccc;
+      text-shadow: 0 0 5px #00ffff;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    .slider-box label {
+      display: block;
+      margin-bottom: 5px;
+      color: #00ffff;
+      text-shadow: 0 0 6px #00ffff;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      -webkit-appearance: none;
+      background: linear-gradient(90deg, #ff00c8, #00ffff);
+      height: 5px;
+      border-radius: 4px;
+      outline: none;
+      box-shadow: 0 0 8px #00ffff;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid #ff00c8;
+      box-shadow: 0 0 10px #00ffff;
+      cursor: pointer;
+    }
+
+    #fpsValue {
+      display: block;
+      margin-top: 4px;
+      font-size: 0.9rem;
+      color: #00ffff;
+      text-shadow: 0 0 5px #00ffff;
+    }
+
+    /* === BACK BUTTONS === */
+    .back-btn {
+      margin-top: 25px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #00ffe0;
+      border-radius: 50px;
+      padding: 10px 25px;
+      color: #ff99ff;
+      text-decoration: none;
+      font-size: 1rem;
+      box-shadow: 0 0 10px rgba(0,255,255,0.3);
+      transition: all 0.3s ease-in-out;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .back-btn i {
+      color: #00ffe0;
+      font-size: 1.1rem;
+      transition: transform 0.3s, text-shadow 0.3s;
+    }
+
+    .back-btn:hover {
+      color: #00ffe0;
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #00ffe0, 0 0 40px #00ffe0;
+      border-color: #00ffe0;
+    }
+
+    .back-btn:hover i {
+      transform: translateX(-3px);
+      text-shadow: 0 0 10px #00ffe0;
+    }
+
+    /* Floating back on mobile */
+    .back-floating {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid #00ffe0;
+      padding: 6px 10px;
+      border-radius: 50px;
+      color: #00ffe0;
+      font-size: 0.9rem;
+      text-decoration: none;
+      box-shadow: 0 0 10px #00ffe0;
+      z-index: 10;
+      display: none;
+    }
+
+    .back-floating:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px #ff00c8;
+    }
+
+    /* === FOOTER === */
+    footer {
+      width: 100%;
+      max-width: 880px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #666;
+      padding: 10px 20px 15px;
+      margin-top: auto;
+    }
+
+    footer a {
+      color: #00ffff;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-shadow: 0 0 6px #00ffff;
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 760px) {
+      header p {
+        max-width: 90%;
+      }
+
+      canvas {
+        width: 85vw;
+        height: auto;
+      }
+
+      .back-floating {
+        display: inline-flex;
+      }
+
+      .back-btn {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <a href="index.html#courses" class="back-floating"><i class="fa-solid fa-arrow-left"></i></a>
+
+  <main>
+    <header>
+      <h1>⚡ Animation Studio ⚡</h1>
+      <p>
+        Welcome to The Tech Lab’s creative playground.<br>
+        Here’s a short demo from our <strong>Animation Studio</strong> course — animating a glowing <strong>Magic Jar</strong> sprite built entirely with HTML Canvas and JavaScript.
+      </p>
+    </header>
+
+    <div class="studio">
+      <canvas id="canvas" width="280" height="280"></canvas>
+      <div id="frameNumber">Frame: 1 / 5</div>
+
+      <div class="controls">
+        <button class="control-btn" id="prev"><i class="fa-solid fa-backward-step"></i> Prev</button>
+        <button class="control-btn" id="play"><i class="fa-solid fa-play"></i> Play</button>
+        <button class="control-btn" id="next">Next <i class="fa-solid fa-forward-step"></i></button>
+      </div>
+
+      <div class="slider-box">
+        <label for="fps">Speed Control</label>
+        <input type="range" id="fps" min="1" max="30" value="8" />
+        <span id="fpsValue">FPS: 8</span>
+      </div>
+    </div>
+
+    <a href="index.html#courses" class="back-btn"><i class="fa-solid fa-arrow-left"></i>Back</a>
+
+    <footer>
+      <p>Part of <a href="https://rbscode.com">RBScode</a> | Learn to animate your own sprites next!</p>
+    </footer>
+  </main>
+
+  <script>
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    const playBtn = document.getElementById("play");
+    const playIcon = playBtn.querySelector("i");
+
+    const totalFrames = 5;
+    const frames = [];
+    let currentFrame = 0;
+    let playing = false;
+    let fps = 8;
+    let frameInterval = 1000 / fps;
+    let lastTime = 0;
+
+    for (let i = 1; i <= totalFrames; i++) {
+      const img = new Image();
+      img.src = `images/magic-jar-${i}.jpg`;
+      frames.push(img);
+    }
+
+    frames[0].onload = () => drawFrame(0);
+
+    function drawFrame(index) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(frames[index], 0, 0, canvas.width, canvas.height);
+      document.getElementById("frameNumber").textContent =
+        `Frame: ${index + 1} / ${totalFrames}`;
+    }
+
+    function nextFrame() {
+      currentFrame = (currentFrame + 1) % totalFrames;
+      drawFrame(currentFrame);
+    }
+
+    function prevFrame() {
+      currentFrame = (currentFrame - 1 + totalFrames) % totalFrames;
+      drawFrame(currentFrame);
+    }
+
+    function animate(timestamp) {
+      if (!playing) return;
+      if (!lastTime) lastTime = timestamp;
+      const delta = timestamp - lastTime;
+      if (delta > frameInterval) {
+        nextFrame();
+        lastTime = timestamp;
+      }
+      requestAnimationFrame(animate);
+    }
+
+    document.getElementById("next").addEventListener("click", nextFrame);
+    document.getElementById("prev").addEventListener("click", prevFrame);
+
+    playBtn.addEventListener("click", function () {
+      playing = !playing;
+      if (playing) {
+        playIcon.classList.replace("fa-play", "fa-pause");
+        lastTime = 0;
+        requestAnimationFrame(animate);
+      } else {
+        playIcon.classList.replace("fa-pause", "fa-play");
+      }
+    });
+
+    const fpsSlider = document.getElementById("fps");
+    const fpsValue = document.getElementById("fpsValue");
+    fpsSlider.addEventListener("input", function () {
+      fps = parseInt(this.value);
+      frameInterval = 1000 / fps;
+      fpsValue.textContent = "FPS: " + fps;
+    });
+  </script>
+</body>
+</html>

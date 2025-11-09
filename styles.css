@@ -1,0 +1,158 @@
+/* ========== The Tech Lab – RBS: Shared Theme ========== */
+:root{
+  --cyan:#00ffe0; --pink:#ff00c8; --dark1:#0f0c29; --dark2:#302b63; --dark3:#24243e;
+  --muted:#cfd3ff; --ink:#f1f1f1; --panel:rgba(255,255,255,0.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family: 'Orbitron', sans-serif;
+  background: radial-gradient(circle at center, var(--dark1), var(--dark2), var(--dark3));
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* Header / Nav */
+.header{
+  background: linear-gradient(90deg, var(--cyan), var(--pink));
+  color: #000; text-align: center; padding: 24px 12px;
+  box-shadow: 0 0 20px var(--cyan); border-bottom:2px solid var(--pink);
+}
+.header h1{ font-size: clamp(1.8rem, 3.5vw, 3rem); text-shadow: 0 0 12px #fff; }
+.nav{
+  margin-top: 12px; display:flex; justify-content:center; gap:28px; flex-wrap:wrap;
+}
+.nav a{
+  color:#000; text-decoration:none; font-weight:700; position:relative;
+}
+.nav a::after{
+  content:""; position:absolute; left:0; bottom:-5px; height:2px; width:0%; background:#fff; transition:width .25s;
+}
+.nav a:hover::after{width:100%}
+
+/* Sections */
+.section{ padding: 64px 18px; text-align:center; }
+.section h2{
+  font-size: clamp(1.6rem, 3vw, 2.4rem); color: var(--cyan); text-shadow: 0 0 10px var(--cyan); margin-bottom: 14px;
+}
+.section p{ max-width: 760px; margin: 0 auto; color: #ccc; line-height: 1.65; }
+
+/* Buttons */
+.btn{
+  display:inline-block; margin-top:28px; background: var(--pink); color:#fff;
+  padding: 14px 28px; border-radius: 36px; text-decoration:none; font-weight:700;
+  box-shadow: 0 0 15px var(--pink), 0 0 30px var(--pink);
+  transition: transform .2s, background .25s, box-shadow .25s;
+}
+.btn:hover{
+  transform: scale(1.05); background: var(--cyan);
+  box-shadow: 0 0 20px var(--cyan), 0 0 40px var(--cyan);
+}
+
+/* Cards grid */
+.grid{
+  display:grid; gap:28px; margin-top:34px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  padding: 0 10px;
+}
+.card{
+  background: var(--panel); border:1px solid var(--cyan); border-radius:20px; padding: 20px;
+  box-shadow: 0 0 15px var(--cyan); transition: transform .22s ease;
+}
+.card:hover{ transform: translateY(-4px) }
+.card img{ width:100%; border-radius:12px; margin-bottom:10px; }
+.card h3{ color: var(--pink); margin: 10px 0 8px; }
+.card p{ color:#bbb }
+
+/* Contact row */
+.contact-row{
+  margin-top:18px; display:flex; flex-wrap:wrap; gap:16px; justify-content:center;
+}
+.contact-chip{
+  display:flex; align-items:center; gap:10px; text-decoration:none;
+  color:#ff99ff; padding:12px 22px; border-radius:50px; border:1px solid var(--cyan);
+  background: var(--panel); box-shadow: 0 0 10px rgba(0,255,255,.3); transition: transform .2s, box-shadow .25s;
+}
+.contact-chip i{ color: var(--cyan) }
+.contact-chip:hover{ transform: scale(1.06); box-shadow:0 0 20px var(--cyan) }
+
+/* Footer */
+.footer{
+  background:#111; color:#777; text-align:center; padding:20px; border-top:2px solid var(--pink);
+  font-size:.95rem;
+}
+
+/* Utility */
+.lead{ font-size:1.15rem; color:#ddd }
+.max{ max-width: 1080px; margin: 0 auto; }
+
+/* Canvas area (games) */
+.canvas-wrap{ display:flex; justify-content:center; margin-top:22px; }
+canvas{ border:1px solid var(--cyan); border-radius:12px; box-shadow:0 0 14px var(--cyan); background:#08101f }
+
+/* Sprite area (animation) */
+.sprite-wrap{ display:flex; flex-direction:column; gap:12px; align-items:center; }
+.controls{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:10px; }
+input[type="range"]{ width:240px }
+
+/* Responsive header helper spacing for pages with shorter heroes */
+.pad-top-sm{ padding-top: 18px }
+
+
+/* === Demo Pages === */
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 60px 20px 80px;
+}
+
+main h2 {
+  color: var(--cyan);
+  text-shadow: 0 0 12px var(--cyan);
+  margin-bottom: 10px;
+}
+
+main .lead {
+  color: var(--muted);
+  max-width: 620px;
+  margin-bottom: 26px;
+}
+
+.game-wrap {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Inputs and buttons for small games */
+input[type="number"], input[type="text"] {
+  padding: 10px 14px;
+  border-radius: 22px;
+  border: none;
+  text-align: center;
+  font-family: 'Orbitron', sans-serif;
+  margin: 6px;
+}
+
+button {
+  background: var(--pink);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 28px;
+  border: none;
+  cursor: pointer;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  box-shadow: 0 0 15px var(--pink);
+  transition: transform .2s, background .3s;
+}
+button:hover {
+  transform: scale(1.05);
+  background: var(--cyan);
+  box-shadow: 0 0 20px var(--cyan);
+}
+
