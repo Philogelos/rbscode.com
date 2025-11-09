@@ -217,6 +217,7 @@
       const delay=1000+Math.random()*2000;
       timeoutId=setTimeout(()=>{
         waiting=false;
+        result.textContent="Go!";
         box.className="green";
         startTime=Date.now();
       },delay);

@@ -9,7 +9,70 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="styles.css"/>
   <style>
-    .grid { margin-top: 55px; }
+    :root {
+      --cyan: #00ffe0;
+      --pink: #ff00c8;
+      --panel: rgba(255,255,255,0.05);
+    }
+
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(circle at center, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    header {
+      background: linear-gradient(90deg, var(--cyan), var(--pink));
+      padding: 25px 10px;
+      box-shadow: 0 0 15px var(--cyan);
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      margin: 0;
+      color: black;
+      text-shadow: 0 0 10px #fff;
+    }
+
+    .nav {
+      margin-top: 15px;
+    }
+
+    .nav a {
+      color: black;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 0 15px;
+      font-size: 1.1rem;
+      position: relative;
+    }
+
+    .nav a::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background: #fff;
+      left: 0;
+      bottom: -4px;
+      transition: width 0.3s;
+    }
+    .nav a:hover::after { width: 100%; }
+
+    .section {
+      padding: 60px 20px;
+    }
+
+    h2 {
+      color: var(--cyan);
+      text-shadow: 0 0 10px var(--cyan);
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+
     .lead {
       font-size: 1.2rem;
       line-height: 1.6;
@@ -17,10 +80,31 @@
       max-width: 700px;
       margin: 0 auto 20px;
     }
+
     .highlight {
-      color: #00ffe0;
-      text-shadow: 0 0 6px #00ffe0;
+      color: var(--cyan);
+      text-shadow: 0 0 6px var(--cyan);
     }
+
+    .btn {
+      display: inline-block;
+      background: var(--pink);
+      color: #fff;
+      padding: 14px 30px;
+      border-radius: 40px;
+      font-size: 1.1rem;
+      text-decoration: none;
+      box-shadow: 0 0 20px var(--pink);
+      transition: all 0.3s ease;
+      margin-top: 20px;
+    }
+    .btn:hover {
+      transform: scale(1.05);
+      background: var(--cyan);
+      box-shadow: 0 0 25px var(--cyan);
+      color: #000;
+    }
+
     .lang-blocks {
       display: flex;
       flex-wrap: wrap;
@@ -28,6 +112,7 @@
       gap: 22px;
       margin-top: 40px;
     }
+
     .lang {
       background: var(--panel);
       border: 1px solid var(--cyan);
@@ -51,10 +136,102 @@
       font-size: 1rem;
       line-height: 1.5;
     }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
+      margin-top: 50px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--cyan);
+      border-radius: 20px;
+      padding: 20px;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 0 15px rgba(0,255,224,0.2);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 25px var(--cyan);
+    }
+    .card img {
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 12px;
+    }
+    .card h3 {
+      color: var(--pink);
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+    }
+    .card p {
+      color: #bbb;
+      font-size: 1rem;
+    }
+
+    .contact-row {
+      margin-top: 25px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .contact-chip {
+      background: var(--panel);
+      border: 1px solid var(--cyan);
+      border-radius: 40px;
+      padding: 12px 20px;
+      color: var(--cyan);
+      text-decoration: none;
+      font-size: 1.1rem;
+      box-shadow: 0 0 10px rgba(0,255,255,0.3);
+      transition: all 0.3s;
+    }
+    .contact-chip:hover {
+      transform: scale(1.07);
+      background: var(--cyan);
+      color: #000;
+      box-shadow: 0 0 20px var(--cyan);
+    }
+
+    .footer {
+      background: #111;
+      padding: 20px;
+      color: #777;
+      border-top: 2px solid var(--pink);
+      font-size: 0.9rem;
+    }
+
+    /* =====================
+       MEDIA QUERIES
+       ===================== */
+    @media (max-width: 768px) {
+      header h1 { font-size: 1.8rem; }
+      .nav a { font-size: 1rem; margin: 0 10px; }
+      h2 { font-size: 1.6rem; }
+      .lead { font-size: 1rem; }
+      .btn { font-size: 1rem; padding: 12px 24px; }
+      .lang { width: 90%; }
+    }
+
+    @media (max-width: 480px) {
+      header { padding: 20px 5px; }
+      header h1 { font-size: 1.5rem; }
+      .section { padding: 40px 15px; }
+      h2 { font-size: 1.4rem; }
+      .lead { font-size: 0.95rem; }
+      .card img { border-radius: 10px; }
+      .btn { padding: 10px 20px; border-radius: 30px; }
+    }
   </style>
 </head>
 <body>
-  <header class="header pad-top-sm">
+  <header>
     <h1>Web Development Bootcamp</h1>
     <nav class="nav">
       <a href="index.html">Home</a>
@@ -79,7 +256,7 @@
         In The Tech Lab, students learn them step by step — turning ideas into real, working projects.
       </p>
 
-      <div class="lang-blocks max">
+      <div class="lang-blocks">
         <div class="lang">
           <h3>HTML</h3>
           <p><strong>HyperText Markup Language</strong> is the foundation of every webpage.
@@ -108,7 +285,7 @@
         after learning HTML and CSS, students unlock the power of <em>interactivity</em> and <em>logic</em>!
       </p>
 
-      <div class="grid max">
+      <div class="grid">
         <a class="card" href="demos/magic-color-box.html">
           <img src="magic-color-box.png" alt="Magic Color Box">
           <h3>Magic Color Box</h3>
@@ -133,8 +310,8 @@
       <h2>Ready to Start?</h2>
       <p>Join our next Web Dev group — limited spots available!</p>
       <div class="contact-row">
-        <a class="contact-chip" href="https://wa.me/972585698696" target="_blank"><i class="fa-brands fa-whatsapp"></i>WhatsApp us</a>
-        <a class="contact-chip" href="mailto:info@rbscode.com"><i class="fa-solid fa-envelope"></i>info@rbscode.com</a>
+        <a class="contact-chip" href="https://wa.me/972585698696" target="_blank">WhatsApp us</a>
+        <a class="contact-chip" href="mailto:info@rbscode.com">info@rbscode.com</a>
       </div>
     </section>
   </main>
