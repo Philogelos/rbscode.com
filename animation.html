@@ -356,8 +356,25 @@
       requestAnimationFrame(animate);
     }
 
-    document.getElementById("next").addEventListener("click", nextFrame);
-    document.getElementById("prev").addEventListener("click", prevFrame);
+    // document.getElementById("next").addEventListener("click", nextFrame);
+    // document.getElementById("prev").addEventListener("click", prevFrame);
+    function stopAnimation() {
+        if (playing) {
+            playing = false;
+            playIcon.classList.replace("fa-pause", "fa-play");
+        }
+    }
+
+    document.getElementById("next").addEventListener("click", () => {
+        stopAnimation();
+        nextFrame();
+    });
+
+    document.getElementById("prev").addEventListener("click", () => {
+        stopAnimation();
+        prevFrame();
+    });
+
 
     playBtn.addEventListener("click", function () {
       playing = !playing;
