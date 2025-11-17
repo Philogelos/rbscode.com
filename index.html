@@ -51,10 +51,24 @@
       color: black;
       box-shadow: 0 0 20px #00ffe0;
       border-bottom: 2px solid #ff00c8;
+
+      padding-right: 80px; /* gives room for the portal bubble */
+
     }
 
+    @media (max-width: 700px) {
+      header {
+        padding-right: 20px; /* back to normal */
+      }
+
+      header h1 {
+        font-size: 1.8rem; /* shrink for small displays */
+      }
+    }
+
+
     header h1 {
-      font-size: 3rem;
+      font-size: 2.6rem;
       text-shadow: 0 0 15px #fff;
       animation: pulseGlow 2s infinite alternate;
     }
@@ -247,6 +261,44 @@
         text-shadow: 0 0 20px #ff00c8, 0 0 30px #ff00c8;
       }
     }
+
+    .portal-bubble {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 55px;
+  height: 55px;
+  background: linear-gradient(135deg, #ff00c8, #00ffe0);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  box-shadow: 0 0 15px #00ffe0;
+  z-index: 9999;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.portal-bubble:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 25px #00ffe0, 0 0 30px #ff00c8;
+}
+
+/* MOBILE: Make it smaller */
+@media (max-width: 600px) {
+  .portal-bubble {
+    width: 45px;
+    height: 45px;
+    font-size: 16px;
+    top: 15px;
+    right: 15px;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -375,6 +427,12 @@
       </a>
     </p>
   </footer>
+  <a href="/Student-Portal/index.html" class="portal-bubble" title="Student Portal">
+  <!-- </>*   -->
+   <img src="favicon.ico" alt="Student-Portal">
+  <!-- replace with your icon -->
+</a>
+
 
 </body>
 </html>
