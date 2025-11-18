@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Epic Hero Card</title>
+  <meta charset="UTF-8">
+
+  <style>
+
+    /* -------------------------
+       PAGE BACKGROUND
+    --------------------------*/
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #1b2440, #050814);
+      font-family: Arial, sans-serif;
+      color: #e9faff;
+      padding: 40px;
+    }
+
+    /* -------------------------
+       MAIN CARD
+       (Using only flex + basic CSS)
+    /* --------------------------*/
+    .card {
+      max-width: 450px;  
+      /* 🔥 narrower card */
+      margin: auto;
+
+      background: rgba(5, 10, 30, 0.88);
+      border-radius: 18px;
+      border: 2px solid #00eaff;
+
+      padding: 20px;
+      box-shadow: 0 0 24px rgba(0, 234, 255, 0.7);
+
+      display: flex;  
+      /* ONLY flex rule used */
+      gap: 20px;
+    } 
+
+    /* -------------------------
+       IMAGE
+    --------------------------*/
+    .hero-img {
+      width: 180px;
+      /* height: 180px; */
+      border-radius: 12px;
+      border: 2px solid #00eaff;
+      object-fit: cover;
+      box-shadow: 0 0 15px rgba(0, 234, 255, 0.6);
+    }
+
+    /* -------------------------
+       TEXT BLOCK
+       (Just an extra class, no new tags)
+    --------------------------*/
+    .right-side {
+      flex: 1;
+    }
+
+    .hero-name {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #00eaff;
+      text-shadow: 0 0 12px #00eaff;
+    }
+
+    .hero-role {
+      margin: 6px 0px 14px;
+      color: #ff64ff;
+      text-transform: uppercase;
+      font-size: 15px;
+    }
+
+    hr {
+      border: none;
+      height: 2px;
+      width: 120px;
+      background: linear-gradient(to right, #00eaff, transparent);
+      margin: 10px 0 16px;
+    }
+
+    /* -------------------------
+       STATS (list)
+    --------------------------*/
+    p.stats-title {
+      margin-bottom: 6px;
+      color: #7fd8ff;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    ul {
+      margin-top: 0;
+      padding-left: 20px;
+    }
+
+    li {
+      margin: 4px 0;
+      color: #a9c6ff;
+    }
+
+    /* -------------------------
+       BUTTON (allowed!)
+    --------------------------*/
+    button {
+      margin-top: 16px;
+      padding: 10px 20px;
+
+      background: radial-gradient(circle at top, #00eaff, #004e92);
+      border: 2px solid #00eaff;
+      border-radius: 999px;
+
+      color: #021018;
+      font-weight: bold;
+      font-size: 14px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+
+      box-shadow: 0 0 16px rgba(0, 234, 255, 0.8);
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: radial-gradient(circle at top, #00fff0, #0074ff);
+      box-shadow: 0 0 30px rgba(0, 234, 255, 1);
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+  </style>
+</head>
+
+<!-- Essential Tags:
+
+    <html>, <head>, <body>, <title> ✔
+
+    <h1> to <h6> (for headings)  ✔
+
+    <p> (for paragraphs)  ✔
+
+    <a> (for links)  ✔
+
+    <ul>, <ol>, <li> (for lists)
+
+    <img> (for images) ✔
+
+    <br> (for line breaks)  ✔-->  
+
+
+<body>
+
+  <section class="card">
+    <!-- <img class="hero-img" src="ice-agent.png" alt="Hero"> -->
+    <img class="hero-img" src="ice-agent-hacker-2.png" alt="Hero">
+    <!-- ice-agent-hacker-2.png -->
+
+    <section class="right-side">
+
+      <h1 class="hero-name">Kael Arden</h1>
+      <h3 class="hero-role">Shadow Division Operative</h3>
+
+      <hr>
+
+      <p>
+        Silent infiltration specialist from the northern districts.<br>
+        Moves unseen. Strikes without a trace.
+      </p>
+
+      <p class="stats-title">Core Stats:</p>
+
+      <ul>
+        <li>Awareness: 92</li>
+        <li>Stealth: 97</li>
+        <li>Tech Skill: 89</li>
+      </ul>
+
+      <button>Choose This Hero</button>
+
+    </section>
+  </section>
+
+</body>
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Activity 1 — Build Your Own HTML Cards</title>
+
+<style>
+/* ============================================
+   LIGHT–TWILIGHT THEME
+============================================ */
+:root {
+  --bg: linear-gradient(135deg, #f7f3ec, #e9e2ff);
+  --card: #ffffff;
+  --text: #2d2959;
+  --subtle: #5a5a72;
+  --border: #e4def7;
+  --shadow: rgba(0,0,0,0.1);
+  --accent: #5a3cc4;
+  --code-bg: #eef0f7;
+}
+
+/* DARK MODE */
+body.dark {
+  --bg: linear-gradient(135deg, #1e2030, #2c2f45);
+  --card: #2a2d3c;
+  --text: #e5eeff;
+  --subtle: #a7b4d4;
+  --border: #3d4154;
+  --shadow: rgba(0,0,0,0.35);
+  --accent: #8aa4ff;
+  --code-bg: #343849;
+}
+
+/* ============================================
+   GLOBAL RESET
+============================================ */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  transition: background 0.35s, color 0.35s;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+a:hover {
+  color: var(--accent);
+}
+
+.wrapper {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.section-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px var(--shadow);
+}
+
+.preview-img {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  margin-bottom: 15px;
+}
+
+.download-btn {
+  display: inline-block;
+  margin-top: 8px;
+  margin-bottom: 14px;
+  padding: 8px 14px;
+  background: var(--accent);
+  color: white;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.download-btn:hover { opacity: 0.85; }
+
+/* COLLAPSIBLE IFRAME */
+.demo-container {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.6s ease;
+  margin-bottom: 10px;
+}
+.demo-frame {
+  width: 100%;
+  height: 700px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--card);
+}
+
+.demo-toggle {
+  margin-top: 10px;
+  background: var(--accent);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.demo-toggle:hover { opacity: 0.85; }
+
+.back-link {
+  display: inline-block;
+  margin-top: 20px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* DARK MODE BUTTON */
+.toggle-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  z-index: 9999;
+}
+.toggle-btn:hover {
+  background: var(--accent);
+  color: white;
+}
+</style>
+</head>
+
+<body>
+
+<button class="toggle-btn" onclick="toggleMode()" id="modeToggle">🌙</button>
+
+<div class="wrapper">
+
+<h1>Activity 1 — Build Your Own HTML Cards</h1>
+<p>Choose any of the cards below and recreate them using <strong>only HTML</strong>.  
+Then compare your work with the previews!</p>
+
+<!-- =====================================================
+     ACTIVITY 1 — GALACTIC PASSPORT
+====================================================== -->
+<div class="section-card">
+  <h2>1. Galactic Passport</h2>
+
+  <img src="images/passport-lady.jpg" class="preview-img">
+
+  <a class="download-btn" href="images/passport-lady.jpg" download>
+    ⬇ Download Image
+  </a>
+
+  <p><strong>Use these tags:</strong>  
+     &lt;h1&gt;, &lt;p&gt;, &lt;img&gt;, &lt;hr&gt;</p>
+
+  <p>Recreate the “Galactic Passport” card using the person's information and image.</p>
+
+  <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show HTML Version</button>
+  <div class="demo-container">
+    <iframe class="demo-frame" src="activity1-passport-html-only.html"></iframe>
+  </div>
+
+  <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show Styled Version</button>
+  <div class="demo-container">
+    <iframe class="demo-frame" src="activity1-passport-styled.html"></iframe>
+  </div>
+</div>
+
+
+<!-- =====================================================
+     ACTIVITY 2 — AGENT DOSSIER
+====================================================== -->
+<div class="section-card">
+  <h2>2. Agent Dossier — Raven Cross</h2>
+
+  <img src="images/agent-raven.jpg" class="preview-img">
+
+  <a class="download-btn" href="images/agent-raven.jpg" download>
+    ⬇ Download Image
+  </a>
+
+  <p><strong>Use these tags:</strong>  
+     &lt;h1&gt;, &lt;p&gt;, &lt;img&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;hr&gt;</p>
+
+  <p>Build the agent’s profile with name, clearance level, status, and skill list.</p>
+
+  <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show HTML Version</button>
+  <div class="demo-container">
+    <iframe class="demo-frame" src="activity1-agent-html-only.html"></iframe>
+  </div>
+
+  <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show Styled Version</button>
+  <div class="demo-container">
+    <iframe class="demo-frame" src="activity1-agent-styled.html"></iframe>
+  </div>
+</div>
+
+
+<!-- =====================================================
+     ACTIVITY 3 — CRYSTAL WAND
+====================================================== -->
+<div class="section-card">
+  <h2>3. Crystal Wand</h2>
+
+  <img src="images/wand.png" class="preview-img">
+
+  <a class="download-btn" href="images/wand.png" download>
+    ⬇ Download Image
+  </a>
+
+  <p><strong>Use these tags:</strong>  
+     &lt;h2&gt;, &lt;p&gt;, &lt;img&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;button&gt;</p>
+
+  <p>Recreate the magical item card describing abilities and details.</p>
+
+  <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show HTML Version</button>
+  <div class="demo-container">
+    <iframe class="demo-frame" src="activity1-wand-html-only.html"></iframe>
+  </div>
+
+  <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show Styled Version</button>
+  <div class="demo-container">
+    <iframe class="demo-frame" src="activity1-wand-styled.html"></iframe>
+  </div>
+</div>
+
+
+<!-- =====================================================
+     ACTIVITY 4 — VOID SERPENT
+====================================================== -->
+<div class="section-card">
+  <h2>4. Void Serpent</h2>
+
+  <img src="images/serpent.png" class="preview-img">
+
+  <a class="download-btn" href="images/serpent.png" download>
+    ⬇ Download Image
+  </a>
+
+  <p><strong>Use these tags:</strong>  
+     &lt;h2&gt;, &lt;p&gt;, &lt;img&gt;, &lt;ul&gt;, &lt;li&gt;</p>
+
+  <p>Build the creature card with name, description, and traits list.</p>
+
+  <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show HTML Version</button>
+  <div class="demo-container">
+    <iframe class="demo-frame" src="activity1-serpent-html-only.html"></iframe>
+  </div>
+
+  <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show Styled Version</button>
+  <div class="demo-container">
+    <iframe class="demo-frame" src="activity1-serpent-styled.html"></iframe>
+  </div>
+</div>
+
+
+<!-- =====================================================
+     ACTIVITY 5 — INTERSTELLAR TICKET
+====================================================== -->
+<div class="section-card">
+  <h2>5. Interstellar Travel Ticket</h2>
+
+  <img src="images/ticket.png" class="preview-img">
+
+  <a class="download-btn" href="images/ticket.png" download>
+    ⬇ Download Image
+  </a>
+
+  <p><strong>Use these tags:</strong>  
+     &lt;h1&gt;, &lt;h2&gt;, &lt;p&gt;, &lt;img&gt;, &lt;button&gt;</p>
+
+  <p>Create the full interstellar boarding pass using the provided information.</p>
+
+  <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show HTML Version</button>
+  <div class="demo-container">
+    <iframe class="demo-frame" src="activity1-ticket-html-only.html"></iframe>
+  </div>
+
+  <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show Styled Version</button>
+  <div class="demo-container">
+    <iframe class="demo-frame" src="activity1-ticket-styled.html"></iframe>
+  </div>
+</div>
+
+
+<a class="back-link" href="lesson-1.html">← Back to Lesson 1</a>
+
+</div><!-- end wrapper -->
+
+<script>
+function toggleMode() {
+  document.body.classList.toggle("dark");
+  const btn = document.getElementById("modeToggle");
+  btn.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+}
+
+function toggleDemo(btn) {
+  const box = btn.nextElementSibling;
+  const open = box.style.maxHeight !== "0px" && box.style.maxHeight !== "";
+
+  if (open) {
+    box.style.maxHeight = "0";
+    btn.textContent = btn.textContent.replace("▼ Hide", "▶ Show");
+  } else {
+    box.style.maxHeight = "800px";
+    btn.textContent = btn.textContent.replace("▶ Show", "▼ Hide");
+  }
+}
+</script>
+
+</body>
+</html>
