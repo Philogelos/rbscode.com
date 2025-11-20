@@ -14,7 +14,7 @@
   --text: #2d2959;
   --subtle: #5a5a72;
   --border: #e4def7;
-  --shadow: rgba(0,0,0,0.1);
+  --shadow: rgba(0,0,0,0.08);
   --accent: #5a3cc4;
   --code-bg: #eef0f7;
 }
@@ -32,7 +32,7 @@ body.dark {
 }
 
 /* ============================================
-   GLOBAL RESET
+   GLOBAL
 ============================================ */
 body {
   margin: 0;
@@ -44,18 +44,14 @@ body {
   transition: background 0.35s, color 0.35s;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
-a:hover {
-  color: var(--accent);
-}
-
 .wrapper {
   max-width: 900px;
   margin: 40px auto;
   padding: 20px;
+}
+
+h1, h2 {
+  margin-top: 0;
 }
 
 .section-card {
@@ -65,19 +61,34 @@ a:hover {
   margin-bottom: 30px;
   border-radius: 16px;
   box-shadow: 0 6px 16px var(--shadow);
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
 }
 
+.section-content {
+  flex: 1;
+}
+
+/* ============================================
+   SMALL THUMBNAILS (150px)
+============================================ */
 .preview-img {
-  width: 100%;
+  width: 150px;
   border-radius: 12px;
   border: 1px solid var(--border);
-  margin-bottom: 15px;
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+.preview-img:hover {
+  transform: scale(1.05);
 }
 
-.download-btn {
+/* ============================================
+   BUTTONS
+============================================ */
+.download-btn, .demo-toggle, .back-link {
   display: inline-block;
-  margin-top: 8px;
-  margin-bottom: 14px;
   padding: 8px 14px;
   background: var(--accent);
   color: white;
@@ -85,10 +96,22 @@ a:hover {
   font-weight: 600;
   cursor: pointer;
   transition: 0.3s;
+  text-decoration: none;
+  border: none;
 }
-.download-btn:hover { opacity: 0.85; }
+.download-btn:hover, .demo-toggle:hover {
+  opacity: 0.85;
+}
 
-/* COLLAPSIBLE IFRAME */
+.back-link {
+  background: transparent;
+  color: var(--accent);
+  padding: 0;
+}
+
+/* ============================================
+   COLLAPSIBLE IFRAME
+============================================ */
 .demo-container {
   overflow: hidden;
   max-height: 0;
@@ -103,27 +126,9 @@ a:hover {
   background: var(--card);
 }
 
-.demo-toggle {
-  margin-top: 10px;
-  background: var(--accent);
-  color: white;
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.3s;
-}
-.demo-toggle:hover { opacity: 0.85; }
-
-.back-link {
-  display: inline-block;
-  margin-top: 20px;
-  font-weight: 600;
-  color: var(--accent);
-}
-
-/* DARK MODE BUTTON */
+/* ============================================
+   DARK MODE TOGGLE BUTTON
+============================================ */
 .toggle-btn {
   position: fixed;
   top: 20px;
@@ -141,6 +146,25 @@ a:hover {
   background: var(--accent);
   color: white;
 }
+
+/* ============================================
+   MODAL FOR FULLSCREEN IMAGE PREVIEW
+============================================ */
+#imgModal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+#modalImage {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+}
+
 </style>
 </head>
 
@@ -152,161 +176,167 @@ a:hover {
 
 <h1>Activity 1 — Build Your Own HTML Cards</h1>
 <p>Choose any of the cards below and recreate them using <strong>only HTML</strong>.  
-Then compare your work with the previews!</p>
+Click the preview image to enlarge.</p>
+
 
 <!-- =====================================================
-     ACTIVITY 1 — GALACTIC PASSPORT
+     CARD TEMPLATE
+====================================================== -->
+<!-- ***** REPEAT SAME STRUCTURE FOR ALL ***** -->
+
+
+<!-- =====================================================
+     1 — GALACTIC PASSPORT
 ====================================================== -->
 <div class="section-card">
-  <h2>1. Galactic Passport</h2>
 
-  <img width="200px" src="images/passport.png" class="preview-img">
+  <img src="images/passport.png" class="preview-img" alt="Passport preview">
 
-  <a class="download-btn" href="images/passport.png" download="passport.png">
-    ⬇ Download Image
-  </a>
-  <!-- <button onclick="forceDownload('images/passport.png', 'passport.png')">
-  ⬇ Download Image
-</button> -->
+  <div class="section-content">
+    <h2>1. Galactic Passport</h2>
 
+    <a class="download-btn" href="images/passport.png" download>⬇ Download Image</a>
 
-  <p><strong>Use these tags:</strong>  
-     &lt;h1&gt;, &lt;p&gt;, &lt;img&gt;, &lt;hr&gt;</p>
+    <p><strong>Use these tags:</strong>  
+       &lt;h1&gt;, &lt;p&gt;, &lt;img&gt;, &lt;hr&gt;</p>
 
-  <p>Recreate the “Galactic Passport” card using the person's information and image.</p>
+    <p>Recreate the “Galactic Passport” card using the person's information and image.</p>
 
-  <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show HTML Version</button>
-  <div class="demo-container">
-    <iframe class="demo-frame" src="activity1-passport-html-only.html"></iframe>
-  </div>
+    <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show HTML Version</button>
+    <div class="demo-container">
+      <iframe class="demo-frame" src="activity1-passport-html-only.html"></iframe>
+    </div>
 
-  <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show Styled Version</button>
-  <div class="demo-container">
-    <iframe class="demo-frame" src="activity1-passport-styled.html"></iframe>
+    <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show Styled Version</button>
+    <div class="demo-container">
+      <iframe class="demo-frame" src="activity1-passport-styled.html"></iframe>
+    </div>
+
   </div>
 </div>
 
 
+
 <!-- =====================================================
-     ACTIVITY 2 — AGENT DOSSIER
+     2 — AGENT DOSSIER
 ====================================================== -->
 <div class="section-card">
-  <h2>2. Agent Dossier — Raven Cross</h2>
 
-  <img width="200px" src="images/agent-raven.png" class="preview-img">
+  <img src="images/agent-raven.png" class="preview-img" alt="Raven agent card">
 
-  <a class="download-btn" href="images/agent-raven.png" download>
-    ⬇ Download Image
-  </a>
+  <div class="section-content">
+    <h2>2. Agent Dossier — Raven Cross</h2>
 
-  <p><strong>Use these tags:</strong>  
-     &lt;h1&gt;, &lt;p&gt;, &lt;img&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;hr&gt;</p>
+    <a class="download-btn" href="images/agent-raven.png" download>⬇ Download Image</a>
 
-  <p>Build the agent’s profile with name, clearance level, status, and skill list.</p>
+    <p><strong>Tags:</strong> &lt;h1&gt;, &lt;p&gt;, &lt;img&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;hr&gt;</p>
 
-  <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show HTML Version</button>
-  <div class="demo-container">
-    <iframe class="demo-frame" src="activity1-agent-html-only.html"></iframe>
-  </div>
+    <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show HTML Version</button>
+    <div class="demo-container">
+      <iframe class="demo-frame" src="activity1-agent-html-only.html"></iframe>
+    </div>
 
-  <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show Styled Version</button>
-  <div class="demo-container">
-    <iframe class="demo-frame" src="activity1-agent-styled.html"></iframe>
+    <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show Styled Version</button>
+    <div class="demo-container">
+      <iframe class="demo-frame" src="activity1-agent-styled.html"></iframe>
+    </div>
   </div>
 </div>
 
 
+
 <!-- =====================================================
-     ACTIVITY 3 — CRYSTAL WAND
+     3 — CRYSTAL WAND
 ====================================================== -->
 <div class="section-card">
-  <h2>3. Crystal Wand</h2>
 
-  <img width="200px" src="images/wand.png" class="preview-img">
+  <img src="images/wand.png" class="preview-img" alt="Wand">
 
-  <a class="download-btn" href="images/wand.png" download>
-    ⬇ Download Image
-  </a>
+  <div class="section-content">
+    <h2>3. Crystal Wand</h2>
 
-  <p><strong>Use these tags:</strong>  
-     &lt;h2&gt;, &lt;p&gt;, &lt;img&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;button&gt;</p>
+    <a class="download-btn" href="images/wand.png" download>⬇ Download Image</a>
 
-  <p>Recreate the magical item card describing abilities and details.</p>
+    <p><strong>Tags:</strong> &lt;h2&gt;, &lt;p&gt;, &lt;img&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;button&gt;</p>
 
-  <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show HTML Version</button>
-  <div class="demo-container">
-    <iframe class="demo-frame" src="activity1-wand-html-only.html"></iframe>
-  </div>
+    <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show HTML Version</button>
+    <div class="demo-container">
+      <iframe class="demo-frame" src="activity1-wand-html-only.html"></iframe>
+    </div>
 
-  <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show Styled Version</button>
-  <div class="demo-container">
-    <iframe class="demo-frame" src="activity1-wand-styled.html"></iframe>
+    <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show Styled Version</button>
+    <div class="demo-container">
+      <iframe class="demo-frame" src="activity1-wand-styled.html"></iframe>
+    </div>
   </div>
 </div>
 
 
+
 <!-- =====================================================
-     ACTIVITY 4 — VOID SERPENT
+     4 — VOID SERPENT
 ====================================================== -->
 <div class="section-card">
-  <h2>4. Void Serpent</h2>
 
-  <img width="200px" src="images/serpent.png" class="preview-img">
+  <img src="images/serpent.png" class="preview-img" alt="Void Serpent">
 
-  <a class="download-btn" href="images/serpent.png" download>
-    ⬇ Download Image
-  </a>
+  <div class="section-content">
+    <h2>4. Void Serpent</h2>
 
-  <p><strong>Use these tags:</strong>  
-     &lt;h2&gt;, &lt;p&gt;, &lt;img&gt;, &lt;ul&gt;, &lt;li&gt;</p>
+    <a class="download-btn" href="images/serpent.png" download>⬇ Download Image</a>
 
-  <p>Build the creature card with name, description, and traits list.</p>
+    <p><strong>Tags:</strong> &lt;h2&gt;, &lt;p&gt;, &lt;img&gt;, &lt;ul&gt;, &lt;li&gt;</p>
 
-  <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show HTML Version</button>
-  <div class="demo-container">
-    <iframe class="demo-frame" src="activity1-serpent-html-only.html"></iframe>
-  </div>
+    <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show HTML Version</button>
+    <div class="demo-container">
+      <iframe class="demo-frame" src="activity1-serpent-html-only.html"></iframe>
+    </div>
 
-  <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show Styled Version</button>
-  <div class="demo-container">
-    <iframe class="demo-frame" src="activity1-serpent-styled.html"></iframe>
+    <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show Styled Version</button>
+    <div class="demo-container">
+      <iframe class="demo-frame" src="activity1-serpent-styled.html"></iframe>
+    </div>
   </div>
 </div>
 
 
+
 <!-- =====================================================
-     ACTIVITY 5 — INTERSTELLAR TICKET
+     5 — INTERSTELLAR TICKET
 ====================================================== -->
 <div class="section-card">
-  <h2>5. Interstellar Travel Ticket</h2>
 
-  <img width="200px" src="images/ticket.png" class="preview-img">
+  <img src="images/ticket.png" class="preview-img" alt="Interstellar Ticket">
 
-  <a class="download-btn" href="images/ticket.png" download>
-    ⬇ Download Image
-  </a>
+  <div class="section-content">
+    <h2>5. Interstellar Travel Ticket</h2>
 
-  <p><strong>Use these tags:</strong>  
-     &lt;h1&gt;, &lt;h2&gt;, &lt;p&gt;, &lt;img&gt;, &lt;button&gt;</p>
+    <a class="download-btn" href="images/ticket.png" download>⬇ Download Image</a>
 
-  <p>Create the full interstellar boarding pass using the provided information.</p>
+    <p><strong>Tags:</strong> &lt;h1&gt;, &lt;h2&gt;, &lt;p&gt;, &lt;img&gt;, &lt;button&gt;</p>
 
-  <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show HTML Version</button>
-  <div class="demo-container">
-    <iframe class="demo-frame" src="activity1-ticket-html-only.html"></iframe>
-  </div>
+    <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show HTML Version</button>
+    <div class="demo-container">
+      <iframe class="demo-frame" src="activity1-ticket-html-only.html"></iframe>
+    </div>
 
-  <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show Styled Version</button>
-  <div class="demo-container">
-    <iframe class="demo-frame" src="activity1-ticket-styled.html"></iframe>
+    <button class="demo-toggle" onclick="toggleDemo(this)">▶ Show Styled Version</button>
+    <div class="demo-container">
+      <iframe class="demo-frame" src="activity1-ticket-styled.html"></iframe>
+    </div>
   </div>
 </div>
 
 
 <a class="back-link" href="lesson-1.html">← Back to Lesson 1</a>
 
-</div><!-- end wrapper -->
+</div>
 
+
+
+<!-- =====================================================
+     JS — DARK MODE + COLLAPSIBLE + MODAL
+====================================================== -->
 <script>
 function toggleMode() {
   document.body.classList.toggle("dark");
@@ -326,20 +356,29 @@ function toggleDemo(btn) {
     btn.textContent = btn.textContent.replace("▶ Show", "▼ Hide");
   }
 }
-</script>
-<script>
-    function forceDownload(url, filename) {
-    fetch(url)
-        .then(res => res.blob())
-        .then(blob => {
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = filename;
-        link.click();
-        });
-    }
+
+/* FULLSCREEN IMAGE PREVIEW */
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById("imgModal");
+  const modalImg = document.getElementById("modalImage");
+
+  document.querySelectorAll('.preview-img').forEach(img => {
+    img.addEventListener('click', () => {
+      modal.style.display = "flex";
+      modalImg.src = img.src;
+    });
+  });
+
+  modal.addEventListener('click', () => {
+    modal.style.display = "none";
+  });
+});
 </script>
 
+<!-- Modal HTML -->
+<div id="imgModal">
+  <img id="modalImage">
+</div>
 
 </body>
 </html>
