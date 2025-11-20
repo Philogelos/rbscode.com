@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<button onclick="forceDownload('images/passport.png', 'passport.png')">
+  ⬇ Download Image
+</button>
+
+<script>
+function forceDownload(url, filename) {
+  fetch(url)
+    .then(res => {
+      if (!res.ok) throw new Error("File not found!");
+      return res.blob();
+    })
+    .then(blob => {
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      link.click();
+    })
+    .catch(err => alert(err));
+}
+</script>
+
+</body>
+</html>

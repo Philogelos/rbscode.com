@@ -160,11 +160,15 @@ Then compare your work with the previews!</p>
 <div class="section-card">
   <h2>1. Galactic Passport</h2>
 
-  <img width="200px" src="images/passport.jpeg" class="preview-img">
+  <img width="200px" src="images/passport.png" class="preview-img">
 
-  <a class="download-btn" href="images/passport-lady.jpg" download>
+  <a class="download-btn" href="images/passport.png" download="passport.png">
     ⬇ Download Image
   </a>
+  <button onclick="forceDownload('images/passport.png', 'passport.png')">
+  ⬇ Download Image
+</button>
+
 
   <p><strong>Use these tags:</strong>  
      &lt;h1&gt;, &lt;p&gt;, &lt;img&gt;, &lt;hr&gt;</p>
@@ -323,6 +327,19 @@ function toggleDemo(btn) {
   }
 }
 </script>
+<script>
+    function forceDownload(url, filename) {
+    fetch(url)
+        .then(res => res.blob())
+        .then(blob => {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        link.click();
+        });
+    }
+</script>
+
 
 </body>
 </html>

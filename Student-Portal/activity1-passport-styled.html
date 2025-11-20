@@ -1,52 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Passport Exercise</title>
-    <style>
-        .passport {
-  max-width: 350px;
-  margin: auto;
-  padding: 20px;
-  background: #0c0820;
-  color: #e9e9ff;
-  border: 2px solid #6c63ff;
-  box-shadow: 0 0 20px #6c63ff;
-  border-radius: 15px;
-}
+  <meta charset="UTF-8">
+  <title>Galactic Passport – Logan Triton</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-.passport-img {
-  width: 100%;
-  border-radius: 12px;
-  margin-bottom: 10px;
-  border: 2px solid #6c63ff;
-}
+  <style>
+    /* ===== Global Page Background ===== */
+    body {
+      margin: 0;
+      padding: 40px;
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at top, #10163a 0%, #050716 55%, #02030b 100%); 
+      color: #9fc3ff;
+      text-align: center;
+    }
 
-hr {
-  border: none;
-  height: 2px;
-  background: linear-gradient(to right, #6c63ff, transparent);
-  margin: 15px 0;
-}
+    /* ===== Passport Card ===== */
+    .passport {
+      width: 360px;
+      margin: auto;
+      padding: 26px;
+      border-radius: 24px;
 
-    </style>
+      background: rgba(6, 10, 30, 0.75);
+      backdrop-filter: blur(6px);
+
+      border: 3px solid rgba(0, 150, 255, 0.7);
+      box-shadow:
+        0 0 25px rgba(0, 150, 255, 0.8),
+        inset 0 0 18px rgba(0, 80, 170, 0.7);
+    }
+
+    .passport h1 {
+      margin: 0 0 18px;
+      font-size: 28px;
+      letter-spacing: 2px;
+      color: #7fd0ff;
+      text-shadow: 0 0 12px #47a9ff;
+    }
+
+    /* ===== Portrait ===== */
+    .passport-img {
+      width: 100%;
+      border-radius: 16px;
+      border: 3px solid rgba(0, 150, 255, 0.7);
+      box-shadow: 0 0 18px rgba(0, 150, 255, 0.9);
+      margin-bottom: 18px;
+      display: block;
+    }
+
+    /* ===== Text Info ===== */
+    .info {
+      text-align: left;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .info span.label {
+      font-weight: bold;
+      color: #b8ddff;
+    }
+
+    hr {
+      border: none;
+      height: 2px;
+      margin: 18px 0 14px;
+      background: linear-gradient(to right, #4fb3ff, transparent);
+    }
+
+    .footer {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #7fbaff;
+      opacity: 0.9;
+    }
+  </style>
 </head>
 <body>
-    <section class="passport">
-  <h1>Galactic Passport</h1>
 
-  <img src="https://then-magenta-fu6y8bledh.edgeone.app/passport-lady.jpeg" class="passport-img">
+  <section class="passport">
+    <h1>GALACTIC PASSPORT</h1>
 
-  <p><strong>Name:</strong> Lyra Stellaris</p>
-  <p><strong>Homeworld:</strong> Aurelia-9</p>
-  <p><strong>Rank:</strong> Explorer</p>
+    <!-- Replace the src value with the file name or URL of your Logan Triton image -->
+    <img
+      src="images/passport.png"
+      alt="Logan Triton Galactic Passport"
+      class="passport-img"
+    >
 
-  <hr>
+    <div class="info">
+      <p><span class="label">Name:</span> LOGAN TRITON</p>
+      <p><span class="label">Homeworld:</span> TYRIUS-IV</p>
+      <p><span class="label">Rank:</span> NAVIGATOR</p>
+      <p><span class="label">Species:</span> HUMAN</p>
+      <p><span class="label">ID Number:</span> 5948337</p>
 
-  <p>Issued by the Interstellar Alliance.</p>
-</section>
+    </div>
 
-    
+    <hr>
+
+    <p class="footer">Issued by the Interstellar Alliance</p>
+  </section>
+
 </body>
 </html>
