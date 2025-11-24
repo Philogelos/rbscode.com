@@ -169,6 +169,38 @@ pre {
   color: var(--accent);
   font-weight: 600;
 }
+.preview-img {
+  width: 150px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+.preview-img:hover {
+  transform: scale(1.05);
+}
+
+.download-btn {
+  display: inline-block;
+  padding: 8px 14px;
+  background: var(--accent);
+  color: white;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  text-decoration: none;
+  border: none;
+  margin-bottom: 10px;
+}
+.download-btn:hover {
+  opacity: 0.85;
+}
+
+.section-content {
+  flex: 1;
+}
+
 </style>
 </head>
 
@@ -233,12 +265,20 @@ pre {
       <iframe class="demo-frame" src="lesson-1-card-1.html"></iframe>
     </div>
   </div>
+<!-- ============================================
+     SECTION 4 — HTML CODE TO BUILD THIS
+============================================= -->
+<div class="section-card" style="display:flex; gap:20px; align-items:flex-start;">
 
-  <!-- ============================================
-       SECTION 4 — HTML CODE TO BUILD THIS
-  ============================================= -->
-  <div class="section-card">
+  <!-- Small Preview Image -->
+  <img src="images/kael-arden.png" class="preview-img" alt="Kael Arden">
+
+  <div class="section-content">
+
     <h2>Here’s the HTML Code to Build This!</h2>
+
+    <!-- Download Button -->
+    <a class="download-btn" href="images/kael-arden.png" download>⬇ Download Image</a>
 
     <p>Copy this into VSCode or CodePen to create the exact same Hero Card.</p>
 
@@ -268,7 +308,9 @@ pre {
 
     <p>This is clean, simple, beginner-friendly HTML — no styling yet.  
        Next lesson we’ll add colours, layout tricks, and beautiful design!</p>
+
   </div>
+</div>
 
   <!-- ============================================
        ACTIVITY 1 — TRY IT YOURSELF
