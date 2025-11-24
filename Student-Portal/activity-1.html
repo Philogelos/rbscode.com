@@ -402,6 +402,25 @@ function toggleMode() {
   btn.textContent = isDark ? "☀️" : "🌙";
 }
 </script>
+<script>
+// Apply dark mode inside iframes if theme is dark
+document.addEventListener("DOMContentLoaded", () => {
+  const savedMode = localStorage.getItem("techlab-theme");
+
+  if (savedMode === "dark") {
+    document.querySelectorAll("iframe").forEach(frame => {
+      frame.addEventListener("load", () => {
+        try {
+          frame.contentDocument.body.classList.add("dark");
+        } catch (e) {
+          // ignore cross-origin frames
+        }
+      });
+    });
+  }
+});
+</script>
+
 
 
 <!-- Modal HTML -->
