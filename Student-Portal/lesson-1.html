@@ -354,11 +354,11 @@ pre {
 </div> <!-- END WRAPPER -->
 
 <script>
-function toggleMode() {
-  document.body.classList.toggle("dark");
-  const btn = document.getElementById("modeToggle");
-  btn.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
-}
+// function toggleMode() {
+//   document.body.classList.toggle("dark");
+//   const btn = document.getElementById("modeToggle");
+//   btn.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+// }
 
 function toggleDemo(btn) {
   const container = btn.nextElementSibling;
@@ -373,6 +373,35 @@ function toggleDemo(btn) {
   }
 }
 </script>
+<script>
+// ===========================================
+// DARK MODE — REMEMBER USER CHOICE
+// ===========================================
+
+// 1. On page load, apply saved mode
+document.addEventListener("DOMContentLoaded", () => {
+  const savedMode = localStorage.getItem("techlab-theme");
+
+  if (savedMode === "dark") {
+    document.body.classList.add("dark");
+    const btn = document.getElementById("modeToggle");
+    if (btn) btn.textContent = "☀️";
+  }
+});
+
+// 2. Toggle and save mode
+function toggleMode() {
+  const isDark = document.body.classList.toggle("dark");
+
+  // Save preference
+  localStorage.setItem("techlab-theme", isDark ? "dark" : "light");
+
+  // Update button icon
+  const btn = document.getElementById("modeToggle");
+  btn.textContent = isDark ? "☀️" : "🌙";
+}
+</script>
+
 
 </body>
 </html>
