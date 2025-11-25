@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HTML Reference — Lesson 1 (PDF Edition)</title>
+
+<style>
+
+/* ==========================================================
+   PAGE + PRINT LAYOUT
+   (Optimized for A4 or US Letter)
+========================================================== */
+@page {
+  margin: 20mm;
+}
+
+body {
+  font-family: "Inter", Arial, sans-serif;
+  color: #2b2c46;
+  line-height: 1.55;
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+}
+
+.wrapper {
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+/* ==========================================================
+   HEADER WITH LOGO
+========================================================== */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.header img {
+  width: 90px;
+}
+
+.header-title {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================================
+   SECTION CARDS (Soft, Print-Friendly)
+========================================================== */
+.section-card {
+  border: 1px solid #dedbeb;
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-bottom: 28px;
+  background: #faf8ff;
+}
+
+/* Title styles */
+h1, h2, h3 {
+  margin-top: 0;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+/* ==========================================================
+   CODE BLOCKS
+========================================================== */
+pre {
+  background: #eef0f7;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #d6d9e4;
+  white-space: pre-wrap;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+code {
+  font-family: Consolas, monospace;
+}
+
+/* ==========================================================
+   RESULT BOX
+========================================================== */
+.result-box {
+  border: 1px solid #d7d3e9;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+
+.result-box h1, .result-box h3, .result-box p, .result-box ul {
+  margin: 6px 0;
+}
+
+/* ==========================================================
+   QUICK REFERENCE
+========================================================== */
+.quick-ref {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.quick-item {
+  background: #ffffff;
+  border: 1px solid #d7d3e9;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.quick-item code {
+  color: #5a3cc4;
+  font-size: 14px;
+}
+
+/* ==========================================================
+   FOOTER
+========================================================== */
+.footer {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 13px;
+  color: #777;
+  border-top: 1px solid #e3e3e3;
+  padding-top: 15px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+<!-- ================= HEADER ================= -->
+<div class="header">
+  <img src="logo.png" alt="Tech Lab Logo">
+  <div class="header-title">HTML Reference — Lesson 1</div>
+</div>
+
+<p>This reference sheet shows the essential HTML tags taught in Lesson 1.  
+A short quick-reference appears at the end.</p>
+
+<!-- ================= FULL REFERENCE ================= -->
+<div class="section-card">
+  <h2>Heading Tags — &lt;h1&gt; to &lt;h6&gt;</h2>
+  <p>Used for titles and subtitles. &lt;h1&gt; is the largest heading and &lt;h6&gt; is the smallest.</p>
+
+  <pre><code>&lt;h1&gt;Main Title&lt;/h1&gt;
+&lt;h3&gt;Subtitle&lt;/h3&gt;</code></pre>
+
+  <div class="result-box">
+    <h1>Main Title</h1>
+    <h3>Subtitle</h3>
+  </div>
+</div>
+
+<div class="section-card">
+  <h2>&lt;p&gt; — Paragraph</h2>
+  <p>Used for blocks of text.</p>
+
+  <pre><code>&lt;p&gt;This is a paragraph of text.&lt;/p&gt;</code></pre>
+
+  <div class="result-box">
+    <p>This is a paragraph of text.</p>
+  </div>
+</div>
+<!-- A TAG -->
+
+  <div class="section-card">
+    <h3>&lt;a&gt; — Link</h3>
+    <p>Creates a clickable link to another page.</p>
+
+    <pre><code>&lt;a href="https://example.com"&gt;Visit Page&lt;/a&gt;</code></pre>
+
+    <div class="result-box">
+        <a href="#">Visit Page</a>
+    </div>
+  </div>
+
+<br>
+
+<div class="section-card">
+  <h2>&lt;img&gt; — Image</h2>
+  <p>Displays an image. Uses <strong>src</strong>, <strong>alt</strong>, and <strong>width</strong>.</p>
+
+  <pre><code>&lt;img src="hero.png" width="150" alt="Hero"&gt;</code></pre>
+
+  <div class="result-box">
+    <img src="hero.png" width="150" alt="Hero">
+  </div>
+</div>
+
+<div class="section-card">
+  <h2>&lt;button&gt; — Button</h2>
+  <p>A clickable button.</p>
+
+  <pre><code>&lt;button&gt;Click Me&lt;/button&gt;</code></pre>
+
+  <div class="result-box">
+    <button>Click Me</button>
+  </div>
+</div>
+
+<div class="section-card">
+  <h2>Lists — &lt;ul&gt;, &lt;ol&gt;, &lt;li&gt;</h2>
+  <p>
+    <strong>&lt;ul&gt;</strong>: bullet list<br>
+    <strong>&lt;ol&gt;</strong>: numbered list<br>
+    <strong>&lt;li&gt;</strong>: list item
+  </p>
+
+  <pre><code>&lt;ul&gt;
+  &lt;li&gt;Speed: 90&lt;/li&gt;
+  &lt;li&gt;Stealth: 97&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+  <div class="result-box">
+    <ul>
+      <li>Speed: 90</li>
+      <li>Stealth: 97</li>
+    </ul>
+  </div>
+</div>
+
+<div class="section-card">
+  <h2>&lt;br&gt; — Line Break</h2>
+  <p>Moves the next text to a new line.</p>
+
+  <pre><code>Line 1&lt;br&gt;Line 2</code></pre>
+
+  <div class="result-box">
+    Line 1<br>Line 2
+  </div>
+</div>
+
+<div class="section-card">
+  <h2>&lt;hr&gt; — Horizontal Line</h2>
+  <p>Creates a dividing line.</p>
+
+  <pre><code>&lt;hr&gt;</code></pre>
+
+  <div class="result-box">
+    <hr>
+  </div>
+</div>
+
+<!-- ================= QUICK REFERENCE ================= -->
+<!-- <div class="section-card">
+  <h2>Quick Reference (Short)</h2>
+  <p>Use this when you simply need to remember the syntax.</p>
+
+  <div class="quick-ref">
+    <div class="quick-item"><code>&lt;h1&gt;Title&lt;/h1&gt;</code></div>
+    <div class="quick-item"><code>&lt;p&gt;Text&lt;/p&gt;</code></div>
+    <div class="quick-item"><code>&lt;img src="" alt="" width=""&gt;</code></div>
+    <div class="quick-item"><code>&lt;button&gt;Press&lt;/button&gt;</code></div>
+    <div class="quick-item"><code>&lt;ul&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ul&gt;</code></div>
+    <div class="quick-item"><code>&lt;ol&gt;&lt;li&gt;1&lt;/li&gt;&lt;/ol&gt;</code></div>
+    <div class="quick-item"><code>Line 1&lt;br&gt;Line 2</code></div>
+    <div class="quick-item"><code>&lt;hr&gt;</code></div>
+  </div>
+</div> -->
+<!-- ================= QUICK REFERENCE ================= -->
+<div class="section-card">
+  <h2>Quick Reference (Short)</h2>
+  <p>Use this when you simply need to remember the syntax.</p>
+
+  <div class="quick-ref">
+    <div class="quick-item"><code>&lt;h1&gt;Title&lt;/h1&gt;</code></div>
+    <div class="quick-item"><code>&lt;p&gt;Text&lt;/p&gt;</code></div>
+
+    <div class="quick-item"><code>&lt;a href=""&gt;Link&lt;/a&gt;</code></div>
+    <div class="quick-item"><code>&lt;title&gt;Page Name&lt;/title&gt;</code></div>
+
+    <div class="quick-item"><code>&lt;img src="" alt="" width=""&gt;</code></div>
+    <div class="quick-item"><code>&lt;button&gt;Press&lt;/button&gt;</code></div>
+
+    <div class="quick-item"><code>&lt;ul&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ul&gt;</code></div>
+    <div class="quick-item"><code>&lt;ol&gt;&lt;li&gt;1&lt;/li&gt;&lt;/ol&gt;</code></div>
+
+    <div class="quick-item"><code>Line 1&lt;br&gt;Line 2</code></div>
+    <div class="quick-item"><code>&lt;hr&gt;</code></div>
+  </div>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<div class="footer">
+  © <span id="year"></span> The Tech Lab — rbscode.com  
+</div>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HTML Reference — Tech Lab</title>
+
+<style>
+/* ============================================
+   LIGHT–TWILIGHT THEME (MATCHES LESSON 1)
+============================================ */
+:root {
+  --bg: linear-gradient(135deg, #f7f3ec, #e9e2ff);
+  --card: #ffffff;
+  --text: #2d2959;
+  --subtle: #5a5a72;
+  --border: #e4def7;
+  --shadow: rgba(0,0,0,0.1);
+  --accent: #5a3cc4;
+  --code-bg: #eef0f7;
+}
+
+/* DARK MODE */
+body.dark {
+  --bg: linear-gradient(135deg, #1e2030, #2c2f45);
+  --card: #2a2d3c;
+  --text: #e5eeff;
+  --subtle: #a7b4d4;
+  --border: #3d4154;
+  --shadow: rgba(0,0,0,0.35);
+  --accent: #8aa4ff;
+  --code-bg: #343849;
+}
+
+/* ============================================
+   GLOBAL STYLES
+============================================ */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  transition: background 0.35s, color 0.35s;
+}
+
+.wrapper {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+h1, h2, h3 {
+  font-weight: 700;
+}
+
+.anchor {
+  color: var(--accent);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ============================================
+   THEME TOGGLE
+============================================ */
+.toggle-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+  z-index: 9999;
+}
+.toggle-btn:hover {
+  background: var(--accent);
+  color: white;
+}
+
+/* ============================================
+   SECTION CARDS
+============================================ */
+.section-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 20px;
+  margin-bottom: 40px;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px var(--shadow);
+}
+
+/* ============================================
+   CODE BLOCKS
+============================================ */
+pre {
+  background: var(--code-bg);
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  margin-bottom: 12px;
+}
+
+code {
+  font-family: Consolas, monospace;
+  color: var(--text);
+}
+
+/* ============================================
+   RESULT BOX
+============================================ */
+.result-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 16px;
+  border-radius: 12px;
+  margin-top: 8px;
+  color: var(--text);
+}
+
+/* ============================================
+   QUICK REFERENCE TABLE
+============================================ */
+.quick-ref {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.quick-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 14px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+.quick-item code {
+  font-size: 0.95rem;
+  color: var(--accent);
+}
+
+.back-link {
+  color: var(--accent);
+  font-weight: 600;
+  display: inline-block;
+  margin-top: 12px;
+}
+
+</style>
+</head>
+
+<body>
+
+<button class="toggle-btn" onclick="toggleMode()" id="modeToggle">🌙</button>
+
+<div class="wrapper">
+
+<h1>HTML Reference — Lesson 1 Tags</h1>
+<a class="download-btn" href="HTML-Reference-1.pdf" target="_blank" download>
+  ⬇ Download HTML Reference (Printable PDF)
+</a>
+
+<p>This page shows all the essential HTML tags you'll use in your first projects, with examples and results.</p>
+<a href="lesson-1.html" class="back-link">← Back to Lesson 1</a>
+<br><br>
+
+<a href="#quickref" class="anchor">Jump to Quick Reference ↓</a>
+
+<!-- ============================================
+     FULL REFERENCE SECTION
+============================================ -->
+<div class="section-card" id="fullref">
+  <h2>Full Reference</h2>
+
+  <!-- H TAGS -->
+  <div>
+    <h3>&lt;h1&gt; to &lt;h6&gt; — Headings</h3>
+    <p>Used for titles and subtitles. &lt;h1&gt; is largest, &lt;h6&gt; is smallest.</p>
+
+    <pre><code>&lt;h1&gt;Main Title&lt;/h1&gt;
+&lt;h3&gt;Subtitle&lt;/h3&gt;</code></pre>
+
+    <div class="result-box">
+      <h1>Main Title</h1>
+      <h3>Subtitle</h3>
+    </div>
+  </div>
+
+  <br>
+
+  <!-- P TAG -->
+  <div>
+    <h3>&lt;p&gt; — Paragraph</h3>
+    <p>Normal blocks of text.</p>
+
+    <pre><code>&lt;p&gt;This is a paragraph of text.&lt;/p&gt;</code></pre>
+
+    <div class="result-box">
+      <p>This is a paragraph of text.</p>
+    </div>
+  </div>
+
+  <br>
+  <!-- A TAG -->
+
+  <div>
+  <h3>&lt;a&gt; — Link</h3>
+  <p>Creates a clickable link to another page.</p>
+
+  <pre><code>&lt;a href="https://example.com"&gt;Visit Page&lt;/a&gt;</code></pre>
+
+  <div class="result-box">
+    <a href="#">Visit Page</a>
+  </div>
+</div>
+
+<br>
+
+
+  <!-- IMG TAG -->
+  <div>
+    <h3>&lt;img&gt; — Image</h3>
+    <p>Displays an image. Uses <code>src</code>, <code>alt</code>, and <code>width</code>.</p>
+
+    <pre><code>&lt;img src="hero.png" width="150" alt="Hero"&gt;</code></pre>
+
+    <div class="result-box">
+      <img src="hero.png" width="150" alt="Hero">
+    </div>
+  </div>
+
+  <br>
+
+  <!-- BUTTON TAG -->
+  <div>
+    <h3>&lt;button&gt; — Button</h3>
+    <p>A clickable button.</p>
+
+    <pre><code>&lt;button&gt;Click Me&lt;/button&gt;</code></pre>
+
+    <div class="result-box">
+      <button>Click Me</button>
+    </div>
+  </div>
+
+  <br>
+
+  <!-- LIST TAGS -->
+  <div>
+    <h3>&lt;ul&gt;, &lt;ol&gt;, &lt;li&gt; — Lists</h3>
+    <p><strong>&lt;ul&gt;</strong> creates bullet lists.  
+       <strong>&lt;ol&gt;</strong> creates numbered lists.  
+       <strong>&lt;li&gt;</strong> is an item inside a list.</p>
+
+    <pre><code>&lt;ul&gt;
+  &lt;li&gt;Speed: 90&lt;/li&gt;
+  &lt;li&gt;Stealth: 97&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+    <div class="result-box">
+      <ul>
+        <li>Speed: 90</li>
+        <li>Stealth: 97</li>
+      </ul>
+    </div>
+  </div>
+
+  <br>
+
+  <!-- BR TAG -->
+  <div>
+    <h3>&lt;br&gt; — Line Break</h3>
+    <p>Moves the next text to a new line.</p>
+
+    <pre><code>Line 1&lt;br&gt;Line 2</code></pre>
+
+    <div class="result-box">
+      Line 1<br>Line 2
+    </div>
+  </div>
+
+  <br>
+
+  <!-- HR TAG -->
+  <div>
+    <h3>&lt;hr&gt; — Horizontal Line</h3>
+    <p>Creates a dividing line.</p>
+
+    <pre><code>&lt;hr&gt;</code></pre>
+
+    <div class="result-box">
+      <hr>
+    </div>
+  </div>
+</div><!-- ============================================
+     QUICK REFERENCE — CLEAN FINAL VERSION
+============================================ -->
+<div class="section-card" id="quickref">
+  <h2>Quick Reference (Short)</h2>
+  <p>Use this when you already know the basics and just need to remember the syntax.</p>
+
+  <div class="quick-ref">
+
+    <div class="quick-item"><code>&lt;h1&gt;Title&lt;/h1&gt;</code></div>
+    <div class="quick-item"><code>&lt;p&gt;Text&lt;/p&gt;</code></div>
+
+    <div class="quick-item"><code>&lt;a href=""&gt;Link&lt;/a&gt;</code></div>
+    <div class="quick-item"><code>&lt;title&gt;Page Name&lt;/title&gt;</code></div>
+
+    <div class="quick-item"><code>&lt;img src="" alt="" width=""&gt;</code></div>
+    <div class="quick-item"><code>&lt;button&gt;Press&lt;/button&gt;</code></div>
+
+    <div class="quick-item"><code>&lt;ul&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ul&gt;</code></div>
+    <div class="quick-item"><code>&lt;ol&gt;&lt;li&gt;1&lt;/li&gt;&lt;/ol&gt;</code></div>
+
+    <div class="quick-item"><code>Line 1&lt;br&gt;Line 2</code></div>
+    <div class="quick-item"><code>&lt;hr&gt;</code></div>
+
+  </div>
+
+  <!-- Links -->
+  <a href="#fullref" class="back-link">↑ Back to Full Reference</a><br>
+  <a href="lesson-1.html" class="back-link">← Back to Lesson 1</a>
+
+</div>
+
+<script>
+// Dark mode persistence
+document.addEventListener("DOMContentLoaded", () => {
+  const savedMode = localStorage.getItem("techlab-theme");
+  if (savedMode === "dark") {
+    document.body.classList.add("dark");
+    document.getElementById("modeToggle").textContent = "☀️";
+  }
+});
+
+function toggleMode() {
+  const dark = document.body.classList.toggle("dark");
+  localStorage.setItem("techlab-theme", dark ? "dark" : "light");
+  document.getElementById("modeToggle").textContent = dark ? "☀️" : "🌙";
+}
+</script>
+
+</body>
+</html>

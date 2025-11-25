@@ -216,11 +216,47 @@ pre {
 
   <h1>Lesson 1 — HTML Basics</h1>
   <p>Today you'll learn the essential building blocks of every website.</p>
+ <!-- ============================================
+     SECTION 1 — ESSENTIAL TAGS (FINAL VERSION)
+============================================= -->
+
+<div class="section-card">
+  <h2>Essential HTML Tags</h2>
+
+  <p>These are the main tags you’ll use in your first webpages. Each one creates something you can see on the screen.</p>
+
+  <ul>
+    <li><strong>&lt;h1&gt; … &lt;h6&gt;</strong> — titles and headings</li>
+    <li><strong>&lt;p&gt;</strong> — a paragraph of text</li>
+    <li><strong>&lt;img&gt;</strong> — an image (uses <code>src</code>, <code>alt</code>, <code>width</code>)</li>
+    <li><strong>&lt;a&gt;</strong> — a link to another page</li>
+    <li><strong>&lt;button&gt;</strong> — a clickable button</li>
+    <li><strong>&lt;ul&gt;</strong>, <strong>&lt;li&gt;</strong> — bullet list and list items</li>
+    <li><strong>&lt;br&gt;</strong> — line break (new line)</li>
+    <li><strong>&lt;hr&gt;</strong> — horizontal line (divider)</li>
+  </ul>
+
+  <p><strong>Useful attributes</strong> give the browser extra information, like where an image is located or where a link should go.</p>
+
+  <ul>
+    <li><strong>src=""</strong> — image file path</li>
+    <li><strong>alt=""</strong> — text description of an image</li>
+    <li><strong>width=""</strong> — image size (e.g., 200 or 200px)</li>
+    <li><strong>href=""</strong> — link destination</li>
+  </ul>
+
+
+  <p style="margin-top:18px;">
+    Want the full explanation with examples and results?<br>
+    <a class="back-link" href="html-reference.html">→ Open the HTML Reference Page</a>
+  </p>
+</div>
+
 
   <!-- ============================================
        SECTION 1 — ESSENTIAL TAGS
   ============================================= -->
-  <div class="section-card">
+  <!-- <div class="section-card">
     <h2>Essential HTML Tags</h2>
 
     <ul>
@@ -236,7 +272,7 @@ pre {
       <li><strong>&lt;br&gt;</strong> – line break</li>
       <li><strong>&lt;hr&gt;</strong> – horizontal line</li>
     </ul>
-  </div>
+  </div> -->
 
   <!-- ============================================
        SECTION 2 — HTML-ONLY DEMO
@@ -282,7 +318,40 @@ pre {
 
     <p>Copy this into VSCode or CodePen to create the exact same Hero Card.</p>
 
-<pre>
+    <pre>
+      &lt;img width="200" src="kael-arden.png" alt="Hero"&gt;
+
+      &lt;h1&gt;Kael Arden&lt;/h1&gt;
+      &lt;h3&gt;Shadow Division Operative&lt;/h3&gt;
+
+      &lt;hr&gt;
+
+      &lt;p&gt;
+        Silent infiltration specialist from the northern districts.&lt;br&gt;
+        Moves unseen. Strikes without a trace.
+      &lt;/p&gt;
+
+      &lt;p&gt;
+        &lt;a href="https://rbscode.com/Student-Portal/kael-dossier.html"&gt;
+          ➤➤➤ Learn More
+        &lt;/a&gt;
+      &lt;/p&gt;
+
+      &lt;p&gt;Core Stats:&lt;/p&gt;
+
+      &lt;ul&gt;
+        &lt;li&gt;Awareness: 92&lt;/li&gt;
+        &lt;li&gt;Stealth: 97&lt;/li&gt;
+        &lt;li&gt;Tech Skill: 89&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;a href="https://rbscode.com/Student-Portal/choose-kael.html"&gt;
+        &lt;button&gt;Choose This Hero&lt;/button&gt;
+      &lt;/a&gt;
+    </pre>
+
+<!-- old pre section -->
+<!-- <pre>
 &lt;img width="200" src="kael-arden.png" alt="Hero"&gt;
 
 &lt;h1&gt;Kael Arden&lt;/h1&gt;
@@ -304,7 +373,7 @@ pre {
 &lt;/ul&gt;
 
 &lt;button&gt;Choose This Hero&lt;/button&gt;
-</pre>
+</pre> -->
 
     <p>This is clean, simple, beginner-friendly HTML — no styling yet.  
        Next lesson we’ll add colours, layout tricks, and beautiful design!</p>

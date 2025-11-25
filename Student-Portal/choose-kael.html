@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hero Unlocked — Kael Arden</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: radial-gradient(circle at top, #071020, #000510);
+      font-family: Arial, sans-serif;
+      color: #eaffff;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    .container {
+      width: 360px;                  /* Compact and perfect */
+      background: rgba(10, 20, 40, 0.85);
+      border: 2px solid #00eaff;
+      border-radius: 16px;
+      padding: 22px 18px;
+      box-shadow: 0 0 20px rgba(0, 234, 255, 0.6);
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ================================
+       PERFECT SQUARE CROP SYSTEM
+    =================================*/
+    .hero-frame {
+      width: 150px;
+      height: 150px;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 2px solid #00eaff;
+      box-shadow: 0 0 18px rgba(0, 234, 255, 0.8);
+      margin-bottom: 15px;
+    }
+
+    .hero-frame img {
+      width: 100%;
+      height: auto;
+      /* transform: translateY(0%);    */
+      /* Adjust hero’s face */
+    }
+
+    /* ================================
+       TEXT + BADGE
+    =================================*/
+    .badge {
+      background: rgba(0, 234, 255, 0.15);
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid #00eaff;
+      color: #8ae3ff;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 5px 0;
+      font-size: 24px;
+      color: #00eaff;
+      text-shadow: 0 0 8px #00eaff;
+      letter-spacing: 1px;
+    }
+
+    .subtitle {
+      color: #ff64ff;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .celebrate {
+      font-size: 15px;
+      color: #c5ecff;
+      margin: 10px 0 18px;
+      line-height: 1.45;
+      max-width: 300px;
+    }
+
+    /* ================================
+       BUTTON
+    =================================*/
+    a.hero-btn {
+      display: inline-block;
+      padding: 10px 22px;
+      font-size: 16px;
+      font-weight: bold;
+      background: linear-gradient(135deg, #00eaff, #47c8ff);
+      color: #021018;
+      border-radius: 10px;
+      text-decoration: none;
+      box-shadow: 0 0 14px rgba(0, 234, 255, 1);
+      transition: 0.2s;
+    }
+
+    a.hero-btn:hover {
+      background: linear-gradient(135deg, #5af7ff, #7bd9ff);
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(0, 234, 255, 1);
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="badge">Hero Unlocked</div>
+
+    <!-- SQUARE CROP FRAME -->
+    <div class="hero-frame">
+      <img src="ice-agent-hacker-2.png" alt="Kael Arden">
+    </div>
+
+    <h1>Kael Arden</h1>
+    <div class="subtitle">Shadow Division Operative</div>
+
+    <p class="celebrate">
+      You have unlocked <strong>Kael Arden</strong>, a master of stealth and precision.
+      Kael is now officially part of your team.
+    </p>
+
+    <a href="kael-dossier.html" class="hero-btn">→ Open Dossier</a>
+  </div>
+
+</body>
+</html>

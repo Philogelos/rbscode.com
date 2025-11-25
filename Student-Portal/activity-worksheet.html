@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Activity 1: Build Your Own HTML Card</title>
+
+  <style>
+  /* ============================================
+     BASE STYLES
+  ============================================ */
+  body {
+    margin: 0;
+    padding: 30px;
+    font-family: "Inter", sans-serif;
+    background: #f7f3ec;
+    color: #2d2959;
+    line-height: 1.6;
+  }
+
+  .wrapper {
+    max-width: 900px;
+    margin: auto;
+  }
+
+  h1, h2, h3 {
+    margin-top: 0;
+    font-weight: 700;
+  }
+
+  /* HEADER with small logo top-left */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .logo {
+    width: 70px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+  }
+
+  .title-block h1 {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+  }
+
+  .title-block h2 {
+    font-size: 1.1rem;
+    margin: 0;
+    font-weight: 600;
+  }
+
+  /* CARDS */
+  .section-card {
+    background: #ffffff;
+    border: 1px solid #e4def7;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+
+  /* CODE BLOCKS */
+  pre {
+    background: #eef0f7;
+    padding: 14px;
+    border-radius: 8px;
+    border: 1px solid #dcd6f0;
+    white-space: pre-wrap;
+  }
+
+  /* RESULT BOXES */
+  .result-box {
+    background: white;
+    border: 1px solid #e4def7;
+    border-radius: 10px;
+    padding: 16px;
+    margin-top: 8px;
+  }
+
+  .result-box img {
+    width: 180px;
+    border-radius: 10px;
+    border: 1px solid #dcd6f0;
+    margin-bottom: 10px;
+  }
+
+  /* UNSTYLED RESULT FOR CHALLENGE */
+  .raw-result h1, .raw-result h3, .raw-result p, .raw-result ul {
+    all: unset;
+    display: block;
+    font-family: inherit;
+    color: inherit;
+    margin-bottom: 6px;
+  }
+
+  .raw-result ul {
+    margin-left: 20px;
+    list-style: disc;
+  }
+
+  .raw-result img {
+    width: 180px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+  }
+
+  /* INPUT AREAS */
+  .one-line {
+    border: 1px solid #dcd6f0;
+    border-radius: 6px;
+    padding: 6px 8px;
+    margin-bottom: 12px;
+    background: #fafaff;
+    height: 28px;
+  }
+
+  .small-box {
+    border: 1px solid #dcd6f0;
+    border-radius: 6px;
+    padding: 6px 8px;
+    background: #fafaff;
+    height: 70px;
+    margin-bottom: 12px;
+  }
+
+  .html-box {
+    border: 1px solid #dcd6f0;
+    border-radius: 10px;
+    background: #fafaff;
+    min-height: 350px;
+    padding: 10px;
+    white-space: pre-wrap;
+  }
+
+  .small-note {
+    font-size: 0.9rem;
+    color: #555;
+  }
+
+  /* ============================================
+     PRINT LAYOUT
+  ============================================ */
+  @media print {
+    body {
+      background: white !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      padding: 20px;
+    }
+
+    .section-card {
+      box-shadow: none !important;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* Each major card on its own page */
+    .page-1 { page-break-after: always; break-after: page; }
+    .page-2 { page-break-after: always; break-after: page; }
+    .page-3 { page-break-after: always; break-after: page; }
+    .page-4 { page-break-after: always; break-after: page; }
+    .page-5 { page-break-after: always; break-after: page; }
+    /* page-6 is last, no forced break */
+
+    .header {
+      page-break-after: avoid;
+      break-after: avoid;
+    }
+  }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+
+    <!-- ============================================
+         HEADER + INTRO (Page 1 shares with Kael card)
+    ============================================ -->
+    <div class="header">
+      <img class="logo" src="logo.png" alt="Tech Lab Logo">
+      <div class="title-block">
+        <h1>Activity 1: Build Your Own HTML Card</h1>
+        <h2>Fun Offline Practice Pack</h2>
+      </div>
+    </div>
+
+    <p>This pack helps you practise real HTML by looking at examples and then creating your own hero card.</p>
+
+    <!-- ============================================
+         PAGE 1 — KAEL RESULT ONLY
+    ============================================ -->
+    <div class="section-card page-1">
+      <h2>Example 1: Kael Arden Card (Result)</h2>
+      <p>Here is a finished card. This is what we want the browser to show.</p>
+
+      <div class="result-box">
+        <img src="kael-arden.png" alt="Hero">
+        <h1>Kael Arden</h1>
+        <h3>Shadow Division Operative</h3>
+
+        <hr>
+
+        <p>
+          Silent infiltration specialist from the northern districts.<br>
+          Moves unseen. Strikes without a trace.
+        </p>
+
+        <p>Core Stats:</p>
+        <ul>
+          <li>Awareness: 92</li>
+          <li>Stealth: 97</li>
+          <li>Tech Skill: 89</li>
+        </ul>
+
+        <button>Choose This Hero</button>
+      </div>
+    </div>
+
+    <!-- ============================================
+         PAGE 2 — KAEL HTML CODE
+    ============================================ -->
+    <div class="section-card page-2">
+      <h2>Example 1: Kael Arden Card (HTML Code)</h2>
+      <p>This is the HTML that creates the Kael Arden card.</p>
+
+      <pre>
+&lt;img width="200" src="kael-arden.png" alt="Hero"&gt;
+
+&lt;h1&gt;Kael Arden&lt;/h1&gt;
+&lt;h3&gt;Shadow Division Operative&lt;/h3&gt;
+
+&lt;hr&gt;
+
+&lt;p&gt;
+  Silent infiltration specialist from the northern districts.&lt;br&gt;
+  Moves unseen. Strikes without a trace.
+&lt;/p&gt;
+
+&lt;p&gt;Core Stats:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Awareness: 92&lt;/li&gt;
+  &lt;li&gt;Stealth: 97&lt;/li&gt;
+  &lt;li&gt;Tech Skill: 89&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;button&gt;Choose This Hero&lt;/button&gt;
+      </pre>
+    </div>
+
+    <!-- ============================================
+         PAGE 3 — CHALLENGE: HOW WAS THIS BUILT?
+    ============================================ -->
+    <div class="section-card page-3">
+      <h2>Example 2: How Do You Think This Was Built?</h2>
+      <p>Look carefully at this card. Your task is to work out which HTML tags were used and how it was built.</p>
+
+      <div class="result-box raw-result">
+        <img src="images/agent-raven.png" alt="Agent Raven">
+        <h1>AGENT PROFILE</h1>
+        <h3>Raven Cross</h3>
+        <hr>
+        <p>Clearance: Level 7</p>
+        <p>Status: Active</p>
+        <p>Skills:</p>
+        <ul>
+          <li>Infiltration</li>
+          <li>Disguise</li>
+          <li>Close Quarters Combat</li>
+        </ul>
+      </div>
+
+      <h3>Which tags do you think were used?</h3>
+      <div class="one-line"></div>
+
+      <p class="small-note">Hint: think about headings, paragraphs, lists, images, and buttons.</p>
+    </div>
+
+    <!-- ============================================
+         PAGE 4 — YOUR ATTEMPT
+    ============================================ -->
+    <div class="section-card page-4">
+      <h2>Your Attempt</h2>
+      <p>Try to write the HTML for the Raven card here.</p>
+
+      <div class="html-box"></div>
+    </div>
+
+    <!-- ============================================
+         PAGE 5 — CREATE YOUR OWN HERO
+    ============================================ -->
+    <div class="section-card page-5 create-hero">
+      <h2>Create Your Own Hero</h2>
+      <p>Now design your own hero, agent, creature, or item.</p>
+
+      <p><strong>Hero Name:</strong></p>
+      <div class="one-line"></div>
+
+      <p><strong>Role or Title:</strong></p>
+      <div class="one-line"></div>
+
+      <p><strong>Description (one or two short lines):</strong></p>
+      <div class="small-box"></div>
+
+      <p><strong>Image file name (example: hero.png):</strong></p>
+      <div class="one-line"></div>
+
+      <p><strong>Stats (three items):</strong></p>
+      <div class="one-line"></div>
+      <div class="one-line"></div>
+      <div class="one-line"></div>
+    </div>
+
+    <!-- ============================================
+         PAGE 6 — FINAL HTML
+    ============================================ -->
+    <div class="section-card final-html">
+      <h2>Your Final HTML Code</h2>
+      <p>Use the Kael Arden example as a guide for the structure and tags.</p>
+
+      <div class="html-box"></div>
+
+      <p class="small-note">When you finish, you can type this HTML into VS Code or CodePen and test your card.</p>
+    </div>
+
+  </div>
+</body>
+</html>
