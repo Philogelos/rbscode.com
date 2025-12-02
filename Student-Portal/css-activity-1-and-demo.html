@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Button Challenges + Step-by-Step Demo</title>
+
+<style>
+body{
+    font-family: system-ui, Arial, sans-serif;
+    padding:40px;
+    background:white;
+    color:#2b2c46;
+}
+
+/* ---------------- STEP-BY-STEP DEMO ---------------- */
+
+#demoRow{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    margin-top:20px;
+}
+
+#targetBtn{
+    padding:8px 14px;
+    background:#e5e5e5;
+    border-color:#777;
+    border-width:1px;
+    border-style:solid;
+    font-size:14px;
+}
+
+#cssBox{
+    background:#f7f7ff;
+    padding:18px;
+    border-radius:10px;
+    border:1px solid #dcd6f0;
+    margin-top:20px;
+    white-space:pre-wrap;
+}
+
+.nextBtn{
+    padding:10px 20px;
+    font-size:18px;
+    border-radius:8px;
+    border:2px solid black;
+    background:white;
+    cursor:pointer;
+}
+.nextBtn:hover{
+    background:black;
+    color:white;
+}
+
+/* --------------- REAL BUTTONS BELOW ---------------- */
+
+/* Uber */
+.uber-button{
+    background-color:black;
+    color:white;
+    border:none;
+    height:40px;
+    width:110px;
+    cursor:pointer;
+}
+
+/* Amazon Add to Cart */
+.amazon-button{
+    background-color:rgb(255,216,20);
+    border:none;
+    height:30px;
+    width:140px;
+    border-radius:15px;
+    cursor:pointer;
+}
+
+/* GitHub Sign up */
+.github-button{
+    background-color:rgb(46,164,79);
+    color:white;
+    border:none;
+    height:40px;
+    width:90px;
+    font-weight:bold;
+    font-size:15px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+/* Get Started / Download */
+.get-started-button{
+    background-color:rgb(121,82,179);
+    color:white;
+    border:none;
+    height:40px;
+    width:110px;
+    font-weight:bold;
+    border-radius:4px;
+    cursor:pointer;
+    margin-right:6px;
+}
+.download-button{
+    background-color:white;
+    color:rgb(108,117,125);
+    border-width:1px;
+    border-style:solid;
+    border-color:rgb(108,117,125);
+    height:40px;
+    width:100px;
+    font-weight:bold;
+    border-radius:4px;
+    cursor:pointer;
+}
+
+/* Apply / Save */
+.apply-button{
+    background-color:rgb(10,102,194);
+    color:white;
+    border:none;
+    height:40px;
+    width:240px;
+    font-weight:bold;
+    font-size:15px;
+    border-radius:20px;
+    cursor:pointer;
+    margin-right:8px;
+}
+.save-button{
+    background-color:white;
+    color:rgb(10,102,194);
+    border-width:1px;
+    border-style:solid;
+    border-color:rgb(10,102,194);
+    height:40px;
+    width:80px;
+    font-weight:bold;
+    font-size:15px;
+    border-radius:20px;
+    cursor:pointer;
+}
+
+/* Subscribe / Join / Tweet */
+.subscribe-button{
+    background-color:rgb(200,0,0);
+    color:white;
+    border:none;
+    height:36px;
+    width:105px;
+    border-radius:2px;
+    cursor:pointer;
+    margin-right:8px;
+}
+
+.join-button{
+    background-color:white;
+    border-color:rgb(41,118,211);
+    border-style:solid;
+    border-width:1px;
+    color:rgb(41,118,211);
+    height:36px;
+    width:62px;
+    border-radius:2px;
+    cursor:pointer;
+}
+
+.tweet-button{
+    background-color:rgb(2,158,255);
+    color:white;
+    border:none;
+    height:36px;
+    width:74px;
+    border-radius:18px;
+    font-weight:bold;
+    font-size:15px;
+    cursor:pointer;
+    margin-left:8px;
+}
+</style>
+
+</head>
+<body>
+
+<h1>CSS Button Builder + Real Button Challenges</h1>
+
+<!------------------- STEP BY STEP DEMO -------------------->
+
+<h2>Step-by-Step CSS Demo</h2>
+<p>Click “Next” to add one CSS line at a time. Notice how each line changes the button.</p>
+
+<div id="demoRow">
+    <button id="targetBtn">Click Me</button>
+    <button class="nextBtn" onclick="nextStep()">Next ➜</button>
+</div>
+
+<h3>Current CSS:</h3>
+<div id="cssBox">/* no CSS yet */</div>
+
+<script>
+const steps = [
+    `color: white;`,
+    `background-color: black;`,
+    `width: 200px;`,
+    `height: 50px;`,
+    `border-color: red;`,
+    `border-width: 3px;`,
+    `border-style: solid;`,
+    `border-radius: 8px;`,
+    `font-size: x-large;`,
+    `font-weight: bold;`,
+    `font-family: "Courier New", monospace;`
+];
+
+let index = 0;
+
+function nextStep(){
+    const btn = document.getElementById("targetBtn");
+    const box = document.getElementById("cssBox");
+
+    if(index >= steps.length){
+        alert("All steps complete!");
+        return;
+    }
+
+    if(box.textContent === "/* no CSS yet */"){
+        box.textContent = steps[index];
+    } else {
+        box.textContent += "\n" + steps[index];
+    }
+
+    applyCSS(btn, steps[index]);
+    index++;
+}
+
+function applyCSS(element, cssLine){
+    const lines = cssLine.split("\n");
+    lines.forEach(line => {
+        const parts = line.split(":");
+        if(parts.length < 2) return;
+        const prop = parts[0].trim();
+        const value = parts[1].replace(";", "").trim();
+        element.style[prop] = value;
+    });
+}
+</script>
+
+<hr><br>
+
+<!------------------- REAL BUTTON CHALLENGES -------------------->
+
+<h2>Your Challenges</h2>
+<p>Try to recreate each button below using your own CSS!</p>
+
+<h3>1. Uber Button</h3>
+<button class="uber-button">Request now</button>
+<p><strong>Colors used:</strong>  
+background: <code>rgb(0,0,0)</code>, text: <code>rgb(255,255,255)</code></p>
+
+<h3>2. Amazon “Add to Cart”</h3>
+<button class="amazon-button">Add to Cart</button>
+<p><strong>Colors used:</strong>  
+background: <code>rgb(255,216,20)</code></p>
+
+<h3>3. GitHub Sign Up</h3>
+<button class="github-button">Sign up</button>
+<p><strong>Colors used:</strong>  
+background: <code>rgb(46,164,79)</code>, text: <code>rgb(255,255,255)</code></p>
+
+<h3>4. Get Started / Download</h3>
+<button class="get-started-button">Get started</button>
+<button class="download-button">Download</button>
+<p><strong>Colors used:</strong><br>
+Get started: <code>rgb(121,82,179)</code><br>
+Download text/border: <code>rgb(108,117,125)</code></p>
+
+<h3>5. Apply / Save</h3>
+<button class="apply-button">Apply on company website</button>
+<button class="save-button">Save</button>
+<p><strong>Colors used:</strong><br>
+Apply: <code>rgb(10,102,194)</code><br>
+Save border/text: <code>rgb(10,102,194)</code></p>
+
+<h3>6. Subscribe / Join / Tweet</h3>
+<button class="subscribe-button">SUBSCRIBE</button>
+<button class="join-button">JOIN</button>
+<button class="tweet-button">Tweet</button>
+<p><strong>Colors used:</strong><br>
+Subscribe: <code>rgb(200,0,0)</code><br>
+Join border/text: <code>rgb(41,118,211)</code><br>
+Tweet: <code>rgb(2,158,255)</code></p>
+
+</body>
+</html>
