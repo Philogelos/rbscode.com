@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CSS Level 1 - Button Reference</title>
+
+<style>
+body{
+  font-family: system-ui, Arial, sans-serif;
+  padding:40px;
+  background:white;
+  color:#2b2c46;
+  line-height:1.6;
+}
+.wrapper{
+  max-width:780px;
+  margin:auto;
+}
+.logo{
+  font-weight:800;
+  font-size:20px;
+  letter-spacing:0.5px;
+  padding:8px 14px;
+  border-radius:999px;
+  border:1px solid #dcd6f0;
+  display:inline-block;
+  background:#f5f0ff;
+  margin-bottom:24px;
+}
+.card{
+  background:#faf8ff;
+  border:1px solid #dedbeb;
+  border-radius:14px;
+  padding:20px;
+  margin-bottom:24px;
+}
+h1,h2{
+  margin-top:0;
+}
+pre{
+  background:#eef0f7;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #d6d9e4;
+  white-space:pre-wrap;
+}
+.result-box{
+  background:white;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #dcd6f0;
+}
+
+/* Base styling for all demo buttons */
+/* button.demo{
+    padding:10px 16px; 
+    border:2px solid black;
+    font-size:16px; 
+    border-radius:6px; 
+    cursor:pointer; 
+
+    padding: 10px 16px; 
+    cursor: pointer;  
+} */
+  
+  button.demo{cursor: pointer;}
+ 
+/* Minimal hover demo */
+#b2{
+  background-color:white;
+}
+#b2:hover{
+  color:white;
+  background-color:black;
+}
+</style>
+</head>
+
+<body>
+<div class="wrapper">
+
+  <div class="logo">
+    RBS Code - CSS Level 1
+  </div>
+
+  <h1>CSS Level 1 - Button Styling Reference</h1>
+
+  <!-- 0. No styling at all -->
+  <div class="card">
+    <h2>0. Plain button - no CSS</h2>
+    <p>This is the browser default button with absolutely no CSS. We only wrote the HTML:</p>
+<pre><code>&lt;button&gt;Click Me!&lt;/button&gt;</code></pre>
+    <div class="result-box">
+      <button>Click Me!</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>1. Text Color</h2>
+<pre><code>color: red;</code></pre>
+    <div class="result-box">
+      <button class="demo" style="color:red;">Click Me!</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>2. Background Color</h2>
+<pre><code>background-color: black;</code></pre>
+    <div class="result-box">
+      <button class="demo" style="background:black; color:white;">Click Me!</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>3. Width &amp; Height</h2>
+<pre><code>width: 200px;
+height: 50px;</code></pre>
+    <div class="result-box">
+      <button class="demo" style="width:200px; height:50px;">Wide Button</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>4. Border</h2>
+<pre><code>border-color: red;
+border-width: 5px;
+border-style: solid;</code></pre>
+    <div class="result-box">
+      <button class="demo" style="
+        border-color:red;
+        border-width:5px;
+        border-style:solid;
+      ">Border Demo</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>5. Border Radius</h2>
+<pre><code>border-radius: 7px;</code></pre>
+    <div class="result-box">
+      <button class="demo" style="border-radius:7px;">Rounded Corners</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>6. Font Styling</h2>
+
+    <h3>font-size</h3>
+<pre><code>font-size: 24px;</code></pre>
+
+    <h3>font-weight</h3>
+<pre><code>font-weight: 800;</code></pre>
+
+    <h3>font-family</h3>
+<pre><code>font-family: "Courier New", monospace;</code></pre>
+
+    <div class="result-box">
+      <p>Font size:</p>
+      <button class="demo" style="font-size:12px;">Small text</button>
+      <button class="demo" style="font-size:24px;">Big text</button>
+
+      <p style="margin-top:12px;">Font weight:</p>
+      <button class="demo" style="font-weight:300;">Light text</button>
+      <button class="demo" style="font-weight:800;">Bold text</button>
+
+      <p style="margin-top:12px;">Font family:</p>
+      <button class="demo" style="font-family:'Courier New', monospace;">Courier text</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>7. Hover (Bonus)</h2>
+    <p>Minimal hover example: only background and text color change on hover.</p>
+<pre><code>#b2{
+  background-color: white;
+}
+#b2:hover{
+  color: white;
+  background-color: black;
+}</code></pre>
+
+    <div class="result-box">
+      <button id="b2" class="demo">Hover Me</button>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
