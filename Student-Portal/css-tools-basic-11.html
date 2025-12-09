@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CSS Button Builder – Basic 11 + Challenges</title>
+
+  <!-- Fun Google Fonts (for font-family control) -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Schoolbell&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Mystery+Quest&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Happy+Monkey&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Yatra+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Smokum&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg-main: #020617;
+      --bg-panel: #020617;
+      --border-panel: #1f2937;
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --accent: #3b82f6;
+      --accent-soft: #1d4ed8;
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      padding:10px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg-main);
+      color: var(--text-main);
+      display:grid;
+      grid-template-columns: 360px minmax(0,1fr) 360px;
+      gap:10px;
+      min-height:100vh;
+    }
+
+    .panel{
+      background: var(--bg-panel);
+      border-radius:10px;
+      border:1px solid var(--border-panel);
+      padding:10px;
+    }
+
+    #controlsPanel{
+      max-height: calc(100vh - 20px);
+      overflow-y:auto;
+    }
+
+    .sticky{
+      position:sticky;
+      top:10px;
+      align-self:flex-start;
+    }
+
+    h2{
+      margin:0 0 10px;
+      font-size:18px;
+      font-weight:600;
+    }
+
+    h3{
+      margin:10px 0 4px;
+      font-size:14px;
+      font-weight:600;
+    }
+
+    label{
+      display:block;
+      margin-top:8px;
+      font-size:13px;
+      font-weight:600;
+    }
+
+    .small-label{
+      font-size:11px;
+      color:var(--text-muted);
+      margin-top:3px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select{
+      width:100%;
+      padding:6px;
+      margin-top:4px;
+      border-radius:6px;
+      border:1px solid #1f2937;
+      background:#020617;
+      color:var(--text-main);
+      font-size:13px;
+    }
+
+    input[type="color"]{
+      width:34px;
+      height:24px;
+      padding:0;
+      margin-top:4px;
+      border-radius:4px;
+      border:1px solid #1f2937;
+      background:#020617;
+      cursor:pointer;
+    }
+
+    input[type="range"]{
+      width:100%;
+    }
+
+    .row{
+      display:flex;
+      gap:6px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .border-box{
+      border:1px solid #1f2937;
+      border-radius:8px;
+      padding:8px;
+      margin-top:8px;
+    }
+
+    .border-disabled{
+      opacity:0.35;
+      pointer-events:none;
+    }
+
+    .reset-btn{
+      margin-top:14px;
+      width:100%;
+      padding:9px;
+      border-radius:7px;
+      border:none;
+      cursor:pointer;
+      background:var(--accent);
+      color:white;
+      font-weight:600;
+      font-size:14px;
+    }
+
+    .reset-btn:hover{
+      background:var(--accent-soft);
+    }
+
+    /* Font grid */
+    #fontGrid{
+      margin-top:6px;
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap:6px;
+    }
+
+    .font-tile{
+      border-radius:8px;
+      padding:6px;
+      border:1px solid #1f2937;
+      background:#020617;
+      font-size:15px;
+      line-height:1.2;
+      text-align:center;
+      cursor:pointer;
+      overflow:hidden;
+      white-space:nowrap;
+      text-overflow:ellipsis;
+      color:var(--text-main);
+      transition:background 0.15s, border-color 0.15s, transform 0.15s;
+    }
+
+    .font-tile:hover{
+      background:#0b1120;
+      border-color:#334155;
+      transform:translateY(-1px);
+    }
+
+    .font-tile.active{
+      border-color:var(--accent);
+      box-shadow:0 0 0 1px rgba(59,130,246,0.4);
+      background:#0b1120;
+    }
+
+    /* Swatches */
+    .swatch-row{
+      margin-top:4px;
+      display:flex;
+      gap:4px;
+      flex-wrap:wrap;
+    }
+
+    .swatch{
+      width:18px;
+      height:18px;
+      border-radius:4px;
+      border:1px solid #1f2937;
+      cursor:pointer;
+    }
+
+    .swatch:hover{
+      border-color:white;
+    }
+
+    /* Theme swatches */
+    #themeRow{
+      margin-top:8px;
+      display:flex;
+      gap:6px;
+      flex-wrap:wrap;
+    }
+
+    .theme-swatch{
+      width:24px;
+      height:24px;
+      border-radius:6px;
+      border:2px solid transparent;
+      cursor:pointer;
+      transition:transform 0.15s, border-color 0.15s;
+    }
+
+    .theme-swatch:hover{
+      transform:translateY(-1px);
+    }
+
+    .theme-swatch.active{
+      border-color:var(--accent);
+      box-shadow:0 0 0 1px rgba(59,130,246,0.5);
+    }
+
+    /* Preview Panel */
+    #previewPanel{ position:relative; }
+
+    #previewInner{
+      border-radius:10px;
+      padding:10px;
+      background:#020617;
+      border:1px solid #1f2937;
+    }
+
+    #previewHeader{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:6px;
+    }
+
+    #challengeTitle{
+      font-size:12px;
+      color:var(--text-muted);
+    }
+
+    #compareRow{
+      display:flex;
+      gap:20px;
+      align-items:flex-start;
+      margin-top:6px;
+      flex-wrap:wrap;
+    }
+
+    .compare-col{
+      flex:1 1 150px;
+    }
+
+    .preview-label{
+      font-size:12px;
+      color:var(--text-muted);
+      margin-bottom:4px;
+    }
+
+    /* true native look */
+    #targetBtn{
+      all:revert;
+      cursor:default;
+    }
+
+    #previewBtn{
+      all:revert;
+      cursor:pointer;
+    }
+
+    #scoreRow{
+      margin-top:8px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:4px;
+    }
+
+    #scoreText{
+      font-size:12px;
+      color:var(--text-muted);
+    }
+
+    #checkBtn{
+      padding:4px 10px;
+      font-size:11px;
+      border-radius:999px;
+      border:1px solid #1f2937;
+      background:#020617;
+      color:var(--text-main);
+      cursor:pointer;
+    }
+
+    #checkBtn:hover{
+      border-color:var(--accent);
+    }
+
+    /* Challenge gallery */
+    #challengeGallery{
+      margin-top:6px;
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap:6px;
+    }
+
+    .challenge-tile{
+      all:revert;
+      font-family: system-ui, sans-serif;
+      font-size:12px;
+      cursor:pointer;
+      border-radius:6px;
+      outline:none;
+      transition:transform 0.12s, box-shadow 0.12s, border-color 0.12s;
+      text-align:center;
+      padding:6px 4px;
+      border:1px solid #111827;
+    }
+
+    .challenge-active{
+      transform:scale(1.07);
+      box-shadow:0 0 0 2px rgba(59,130,246,0.6);
+      border-color:#60a5fa;
+    }
+
+    /* Code panel */
+    .copy-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:4px;
+    }
+
+    .copy-btn{
+      padding:4px 8px;
+      font-size:11px;
+      border-radius:999px;
+      border:1px solid #1f2937;
+      background:#020617;
+      color:var(--text-muted);
+      cursor:pointer;
+    }
+
+    .copy-btn:hover{
+      border-color:var(--accent);
+      color:var(--text-main);
+    }
+
+    textarea{
+      width:100%;
+      min-height:90px;
+      resize:vertical;
+      border-radius:7px;
+      border:1px solid #1f2937;
+      background:#020617;
+      color:var(--text-main);
+      padding:6px;
+      font-family:Consolas, monospace;
+      font-size:12px;
+      margin-bottom:4px;
+    }
+
+    /* Toast */
+    #toast{
+      position:absolute;
+      right:10px;
+      bottom:10px;
+      background:rgba(15,23,42,0.95);
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:11px;
+      color:#bbf7d0;
+      opacity:0;
+      pointer-events:none;
+      transform:translateY(8px);
+      transition:opacity 0.25s ease, transform 0.25s ease;
+      border:1px solid #15803d;
+      z-index:10;
+    }
+
+    #toast.show{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ========== LEFT: CONTROLS ========== -->
+  <div class="panel" id="controlsPanel">
+    <h2>Button Builder – Basic 11</h2>
+
+    <!-- TEXT -->
+    <h3>1. Text</h3>
+    <label for="btnText">Button Text</label>
+    <input id="btnText" type="text" placeholder="Click Me">
+
+    <!-- Font family tiles -->
+    <label>Font Family</label>
+    <div id="fontGrid">
+      <div class="font-tile" data-font-id="system" style="font-family: system-ui, sans-serif;">System</div>
+      <div class="font-tile" data-font-id="arial" style="font-family: Arial, sans-serif;">Arial</div>
+      <div class="font-tile" data-font-id="courier" style="font-family: 'Courier New', monospace;">Courier</div>
+      <div class="font-tile" data-font-id="comic" style="font-family: 'Comic Sans MS', cursive;">Comic</div>
+      <div class="font-tile" data-font-id="orbitron" style="font-family: 'Orbitron', sans-serif;">Orbitron</div>
+      <div class="font-tile" data-font-id="schoolbell" style="font-family: 'Schoolbell', cursive;">Schoolbell</div>
+      <div class="font-tile" data-font-id="sniglet" style="font-family: 'Sniglet', cursive;">Sniglet</div>
+      <div class="font-tile" data-font-id="mystery" style="font-family: 'Mystery Quest', cursive;">Mystery</div>
+      <div class="font-tile" data-font-id="pressstart" style="font-family: 'Press Start 2P', cursive; font-size:11px;">Press Start</div>
+      <div class="font-tile" data-font-id="happymonkey" style="font-family: 'Happy Monkey', cursive;">Happy Monkey</div>
+      <div class="font-tile" data-font-id="yatra" style="font-family: 'Yatra One', cursive;">Yatra One</div>
+      <div class="font-tile" data-font-id="smokum" style="font-family: 'Smokum', cursive;">Smokum</div>
+    </div>
+    <div class="small-label">These fonts are also added to your HTML as &lt;link&gt; tags.</div>
+
+    <label for="fontSize">Font Size (px)</label>
+    <input id="fontSize" type="number" min="10" max="60" value="16">
+
+    <label for="fontWeight">Font Weight</label>
+    <select id="fontWeight">
+      <option value="">default</option>
+      <option value="100">100 – Thin</option>
+      <option value="200">200 – Extra Light</option>
+      <option value="300">300 – Light</option>
+      <option value="400">400 – Normal</option>
+      <option value="500">500 – Medium</option>
+      <option value="600">600 – Semi-bold</option>
+      <option value="700">700 – Bold</option>
+      <option value="800">800 – Extra Bold</option>
+      <option value="900">900 – Black</option>
+    </select>
+
+    <!-- COLORS -->
+    <h3>2. Colors</h3>
+
+    <!-- Text color -->
+    <label>Text Color (RGBA)</label>
+    <select id="textColorNamed">
+      <option value="">default</option>
+      <option value="black">black</option>
+      <option value="white">white</option>
+      <option value="red">red</option>
+      <option value="blue">blue</option>
+      <option value="green">green</option>
+      <option value="yellow">yellow</option>
+    </select>
+
+    <div class="swatch-row" id="textSwatches">
+      <div class="swatch" data-color="#000000" style="background:#000000;"></div>
+      <div class="swatch" data-color="#ffffff" style="background:#ffffff;"></div>
+      <div class="swatch" data-color="#ff0000" style="background:#ff0000;"></div>
+      <div class="swatch" data-color="#2563eb" style="background:#2563eb;"></div>
+      <div class="swatch" data-color="#16a34a" style="background:#16a34a;"></div>
+      <div class="swatch" data-color="#facc15" style="background:#facc15;"></div>
+      <div class="swatch" data-color="#6b7280" style="background:#6b7280;"></div>
+    </div>
+
+    <div class="row">
+      <div>
+        <div class="small-label">Picker (with eyedropper)</div>
+        <input type="color" id="textColorPicker" value="#000000">
+      </div>
+      <div style="flex:1;">
+        <div class="small-label">Opacity</div>
+        <input type="range" id="textAlpha" min="0" max="1" step="0.05" value="1">
+      </div>
+    </div>
+    <div class="small-label">RGBA value</div>
+    <input type="text" id="textColorRgba" placeholder="rgba(0,0,0,1)">
+
+    <!-- Background color -->
+    <label style="margin-top:12px;">Background Color (RGBA)</label>
+    <select id="bgColorNamed">
+      <option value="">default</option>
+      <option value="black">black</option>
+      <option value="white">white</option>
+      <option value="red">red</option>
+      <option value="blue">blue</option>
+      <option value="green">green</option>
+      <option value="yellow">yellow</option>
+    </select>
+
+    <div class="swatch-row" id="bgSwatches">
+      <div class="swatch" data-color="#000000" style="background:#000000;"></div>
+      <div class="swatch" data-color="#ffffff" style="background:#ffffff;"></div>
+      <div class="swatch" data-color="#f97316" style="background:#f97316;"></div>
+      <div class="swatch" data-color="#2563eb" style="background:#2563eb;"></div>
+      <div class="swatch" data-color="#16a34a" style="background:#16a34a;"></div>
+      <div class="swatch" data-color="#facc15" style="background:#facc15;"></div>
+      <div class="swatch" data-color="#6b7280" style="background:#6b7280;"></div>
+    </div>
+
+    <div class="row">
+      <div>
+        <div class="small-label">Picker (with eyedropper)</div>
+        <input type="color" id="bgColorPicker" value="#ffffff">
+      </div>
+      <div style="flex:1;">
+        <div class="small-label">Opacity</div>
+        <input type="range" id="bgAlpha" min="0" max="1" step="0.05" value="1">
+      </div>
+    </div>
+    <div class="small-label">RGBA value</div>
+    <input type="text" id="bgColorRgba" placeholder="rgba(255,255,255,1)">
+
+    <!-- SIZE -->
+    <h3>3. Size</h3>
+    <label for="width">Width (px)</label>
+    <input id="width" type="number" min="40" max="400">
+
+    <label for="height">Height (px)</label>
+    <input id="height" type="number" min="20" max="150">
+
+    <!-- BORDER -->
+    <h3>4. Border</h3>
+    <div class="border-box">
+      <label>
+        <input type="checkbox" id="borderNone">
+        Border: none
+      </label>
+      <div class="small-label">When ON, border is completely removed.</div>
+
+      <div id="borderControls">
+        <label for="borderStyle">Border Style</label>
+        <select id="borderStyle">
+          <option value="">(no change)</option>
+          <option value="solid">solid</option>
+          <option value="dashed">dashed</option>
+          <option value="dotted">dotted</option>
+        </select>
+
+        <label for="borderWidth">Border Width (px)</label>
+        <input id="borderWidth" type="number" min="0" max="10">
+
+        <label for="borderColor">Border Color</label>
+        <select id="borderColor">
+          <option value="">default</option>
+          <option value="black">black</option>
+          <option value="white">white</option>
+          <option value="red">red</option>
+          <option value="blue">blue</option>
+          <option value="green">green</option>
+        </select>
+      </div>
+    </div>
+
+    <label for="radius">Border Radius (px)</label>
+    <input id="radius" type="number" min="0" max="50">
+
+    <!-- THEME -->
+    <h3>5. Page Background Theme</h3>
+    <div class="small-label">Click a theme to change the page background.</div>
+    <div id="themeRow">
+      <div class="theme-swatch" data-theme="dark" style="background:#020617;"></div>
+      <div class="theme-swatch" data-theme="light" style="background:#f9fafb;"></div>
+      <div class="theme-swatch" data-theme="dusk" style="background:#43335a;"></div>
+      <div class="theme-swatch" data-theme="sand" style="background:#f4e2c5;"></div>
+      <div class="theme-swatch" data-theme="sky" style="background:#dbeafe;"></div>
+      <div class="theme-swatch" data-theme="fun" style="background:linear-gradient(45deg,#4f46e5,#ec4899,#22c55e);"></div>
+    </div>
+
+    <!-- CHALLENGE GALLERY -->
+    <h3>6. Challenge Mode</h3>
+    <div class="small-label">Pick a real-world button to copy (no CSS is pre-filled).</div>
+    <div id="challengeGallery">
+      <!-- Thumbnails are styled with CSS only; no answer in code box -->
+      <button type="button" class="challenge-tile" data-challenge="uber"      style="background:black;color:white;border:none;height:30px;">Request now</button>
+      <button type="button" class="challenge-tile" data-challenge="amazon"    style="background:rgb(255,216,20);color:black;border:none;border-radius:15px;height:28px;">Add to Cart</button>
+      <button type="button" class="challenge-tile" data-challenge="github"    style="background:rgb(46,164,79);color:white;border:none;border-radius:6px;height:28px;">Sign up</button>
+      <button type="button" class="challenge-tile" data-challenge="getstarted"style="background:rgb(121,82,179);color:white;border:none;border-radius:4px;height:28px;">Get started</button>
+      <button type="button" class="challenge-tile" data-challenge="download"  style="background:white;color:rgb(108,117,125);border:1px solid rgb(108,117,125);border-radius:4px;height:28px;">Download</button>
+      <button type="button" class="challenge-tile" data-challenge="apply"     style="background:rgb(10,102,194);color:white;border:none;border-radius:20px;height:30px;font-size:10px;padding:0 4px;">Apply</button>
+      <button type="button" class="challenge-tile" data-challenge="save"      style="background:white;color:rgb(10,102,194);border:1px solid rgb(10,102,194);border-radius:20px;height:28px;">Save</button>
+      <button type="button" class="challenge-tile" data-challenge="subscribe" style="background:rgb(200,0,0);color:white;border:none;border-radius:2px;height:28px;font-size:10px;">SUBSCRIBE</button>
+      <button type="button" class="challenge-tile" data-challenge="join"      style="background:white;color:rgb(41,118,211);border:1px solid rgb(41,118,211);border-radius:2px;height:28px;">JOIN</button>
+      <button type="button" class="challenge-tile" data-challenge="tweet"     style="background:rgb(2,158,255);color:white;border:none;border-radius:18px;height:28px;">Tweet</button>
+    </div>
+
+    <button class="reset-btn" onclick="resetAll()">Reset All</button>
+  </div>
+
+  <!-- ========== MIDDLE: PREVIEW ========== -->
+  <div class="panel sticky" id="previewPanel">
+    <div id="previewHeader">
+      <div>
+        <h2 style="margin-bottom:0;">Preview</h2>
+        <div id="challengeTitle" class="small-label">No challenge selected.</div>
+      </div>
+    </div>
+
+    <div id="previewInner">
+      <div id="compareRow">
+        <div class="compare-col">
+          <div class="preview-label">Target Button</div>
+          <button id="targetBtn">Target</button>
+        </div>
+        <div class="compare-col">
+          <div class="preview-label">Your Button</div>
+          <button id="previewBtn">Click Me!</button>
+        </div>
+      </div>
+
+      <div id="scoreRow">
+        <div id="scoreText">Pick a challenge, style your button, then click “Check”.</div>
+        <button id="checkBtn" type="button">Check My Button</button>
+      </div>
+    </div>
+
+    <div id="toast"></div>
+  </div>
+
+  <!-- ========== RIGHT: CODE OUTPUT ========== -->
+  <div class="panel sticky" id="codePanel">
+    <div class="copy-row">
+      <h2 style="margin-bottom:0;">HTML</h2>
+      <button class="copy-btn" type="button" onclick="copyHTML()">Copy</button>
+    </div>
+    <textarea id="htmlBox" readonly></textarea>
+    <div id="htmlStatus" class="small-label"></div>
+
+    <div class="copy-row" style="margin-top:8px;">
+      <h2 style="margin-bottom:0;">CSS</h2>
+      <button class="copy-btn" type="button" onclick="copyCSS()">Copy</button>
+    </div>
+    <textarea id="cssBox" readonly></textarea>
+    <div id="cssStatus" class="small-label"></div>
+
+    <div class="small-label" style="margin-top:8px;">
+      This tool uses only the 11 core properties:<br>
+      color, background-color, width, height,<br>
+      border-style, border-width, border-color,<br>
+      border-radius, font-family, font-size, font-weight.
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================
+       BASIC STATE
+    ========================================== */
+    var previewBtn = document.getElementById("previewBtn");
+    var targetBtn  = document.getElementById("targetBtn");
+    var htmlBox    = document.getElementById("htmlBox");
+    var cssBox     = document.getElementById("cssBox");
+    var htmlStatus = document.getElementById("htmlStatus");
+    var cssStatus  = document.getElementById("cssStatus");
+    var toastEl    = document.getElementById("toast");
+    var previewInner = document.getElementById("previewInner");
+    var scoreText  = document.getElementById("scoreText");
+    var challengeTitle = document.getElementById("challengeTitle");
+    var checkBtn   = document.getElementById("checkBtn");
+
+    var cssState = {};           // property → value for .myButton
+    var bodyBgColor = "rgba(2,6,23,1)";
+    var currentFontLink = "";
+    var currentFontFamily = "";
+    var currentChallengeId = "";
+
+    var themeColors = {
+      "dark":  "rgba(2,6,23,1)",
+      "light": "rgba(249,250,251,1)",
+      "dusk":  "rgba(67,51,90,1)",
+      "sand":  "rgba(244,226,197,1)",
+      "sky":   "rgba(219,234,254,1)",
+      "fun":   "linear-gradient(45deg,#4f46e5,#ec4899,#22c55e)"
+    };
+
+    // Font configuration
+    var fontConfig = {
+      "system": {
+        label: "System",
+        cssFamily: "system-ui, sans-serif",
+        link: ""
+      },
+      "arial": {
+        label: "Arial",
+        cssFamily: "Arial, sans-serif",
+        link: ""
+      },
+      "courier": {
+        label: "Courier New",
+        cssFamily: "'Courier New', monospace",
+        link: ""
+      },
+      "comic": {
+        label: "Comic Sans MS",
+        cssFamily: "'Comic Sans MS', cursive",
+        link: ""
+      },
+      "orbitron": {
+        label: "Orbitron",
+        cssFamily: "'Orbitron', sans-serif",
+        link: '<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">'
+      },
+      "schoolbell": {
+        label: "Schoolbell",
+        cssFamily: "'Schoolbell', cursive",
+        link: '<link href="https://fonts.googleapis.com/css2?family=Schoolbell&display=swap" rel="stylesheet">'
+      },
+      "sniglet": {
+        label: "Sniglet",
+        cssFamily: "'Sniglet', cursive",
+        link: '<link href="https://fonts.googleapis.com/css2?family=Sniglet:wght@400;800&display=swap" rel="stylesheet">'
+      },
+      "mystery": {
+        label: "Mystery Quest",
+        cssFamily: "'Mystery Quest', cursive",
+        link: '<link href="https://fonts.googleapis.com/css2?family=Mystery+Quest&display=swap" rel="stylesheet">'
+      },
+      "pressstart": {
+        label: "Press Start 2P",
+        cssFamily: "'Press Start 2P', cursive",
+        link: '<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">'
+      },
+      "happymonkey": {
+        label: "Happy Monkey",
+        cssFamily: "'Happy Monkey', cursive",
+        link: '<link href="https://fonts.googleapis.com/css2?family=Happy+Monkey&display=swap" rel="stylesheet">'
+      },
+      "yatra": {
+        label: "Yatra One",
+        cssFamily: "'Yatra One', cursive",
+        link: '<link href="https://fonts.googleapis.com/css2?family=Yatra+One&display=swap" rel="stylesheet">'
+      },
+      "smokum": {
+        label: "Smokum",
+        cssFamily: "'Smokum', cursive",
+        link: '<link href="https://fonts.googleapis.com/css2?family=Smokum&display=swap" rel="stylesheet">'
+      }
+    };
+
+    // Challenge definitions with target CSS for scoring
+    var challenges = {
+      "uber": {
+        label: "Uber Button",
+        text: "Request now",
+        styles: {
+          "background-color": "rgba(0,0,0,1)",
+          "color": "rgba(255,255,255,1)",
+          "border-style": "none",
+          "border-width": "0px",
+          "border-color": "",
+          "width": "110px",
+          "height": "40px",
+          "font-weight": "400",
+          "font-size": "14px",
+          "border-radius": "0px",
+          "font-family": "system-ui"
+        }
+      },
+      "amazon": {
+        label: "Amazon Add to Cart",
+        text: "Add to Cart",
+        styles: {
+          "background-color": "rgba(255,216,20,1)",
+          "color": "rgba(0,0,0,1)",
+          "border-style": "none",
+          "border-width": "0px",
+          "border-color": "",
+          "width": "140px",
+          "height": "30px",
+          "font-weight": "400",
+          "font-size": "14px",
+          "border-radius": "15px",
+          "font-family": "system-ui"
+        }
+      },
+      "github": {
+        label: "GitHub Sign up",
+        text: "Sign up",
+        styles: {
+          "background-color": "rgba(46,164,79,1)",
+          "color": "rgba(255,255,255,1)",
+          "border-style": "none",
+          "border-width": "0px",
+          "border-color": "",
+          "width": "90px",
+          "height": "40px",
+          "font-weight": "700",
+          "font-size": "15px",
+          "border-radius": "6px",
+          "font-family": "system-ui"
+        }
+      },
+      "getstarted": {
+        label: "Get Started",
+        text: "Get started",
+        styles: {
+          "background-color": "rgba(121,82,179,1)",
+          "color": "rgba(255,255,255,1)",
+          "border-style": "none",
+          "border-width": "0px",
+          "border-color": "",
+          "width": "110px",
+          "height": "40px",
+          "font-weight": "700",
+          "font-size": "14px",
+          "border-radius": "4px",
+          "font-family": "system-ui"
+        }
+      },
+      "download": {
+        label: "Download",
+        text: "Download",
+        styles: {
+          "background-color": "rgba(255,255,255,1)",
+          "color": "rgba(108,117,125,1)",
+          "border-style": "solid",
+          "border-width": "1px",
+          "border-color": "rgba(108,117,125,1)",
+          "width": "100px",
+          "height": "40px",
+          "font-weight": "700",
+          "font-size": "14px",
+          "border-radius": "4px",
+          "font-family": "system-ui"
+        }
+      },
+      "apply": {
+        label: "Apply",
+        text: "Apply on company website",
+        styles: {
+          "background-color": "rgba(10,102,194,1)",
+          "color": "rgba(255,255,255,1)",
+          "border-style": "none",
+          "border-width": "0px",
+          "border-color": "",
+          "width": "240px",
+          "height": "40px",
+          "font-weight": "700",
+          "font-size": "15px",
+          "border-radius": "20px",
+          "font-family": "system-ui"
+        }
+      },
+      "save": {
+        label: "Save",
+        text: "Save",
+        styles: {
+          "background-color": "rgba(255,255,255,1)",
+          "color": "rgba(10,102,194,1)",
+          "border-style": "solid",
+          "border-width": "1px",
+          "border-color": "rgba(10,102,194,1)",
+          "width": "80px",
+          "height": "40px",
+          "font-weight": "700",
+          "font-size": "15px",
+          "border-radius": "20px",
+          "font-family": "system-ui"
+        }
+      },
+      "subscribe": {
+        label: "Subscribe",
+        text: "SUBSCRIBE",
+        styles: {
+          "background-color": "rgba(200,0,0,1)",
+          "color": "rgba(255,255,255,1)",
+          "border-style": "none",
+          "border-width": "0px",
+          "border-color": "",
+          "width": "105px",
+          "height": "36px",
+          "font-weight": "400",
+          "font-size": "13px",
+          "border-radius": "2px",
+          "font-family": "system-ui"
+        }
+      },
+      "join": {
+        label: "Join",
+        text: "JOIN",
+        styles: {
+          "background-color": "rgba(255,255,255,1)",
+          "color": "rgba(41,118,211,1)",
+          "border-style": "solid",
+          "border-width": "1px",
+          "border-color": "rgba(41,118,211,1)",
+          "width": "62px",
+          "height": "36px",
+          "font-weight": "400",
+          "font-size": "13px",
+          "border-radius": "2px",
+          "font-family": "system-ui"
+        }
+      },
+      "tweet": {
+        label: "Tweet",
+        text: "Tweet",
+        styles: {
+          "background-color": "rgba(2,158,255,1)",
+          "color": "rgba(255,255,255,1)",
+          "border-style": "none",
+          "border-width": "0px",
+          "border-color": "",
+          "width": "74px",
+          "height": "36px",
+          "font-weight": "700",
+          "font-size": "15px",
+          "border-radius": "18px",
+          "font-family": "system-ui"
+        }
+      }
+    };
+
+    /* ==========================================
+       SMALL HELPERS
+    ========================================== */
+    function showToast(msg){
+      toastEl.textContent = msg;
+      toastEl.classList.add("show");
+      setTimeout(function(){
+        toastEl.classList.remove("show");
+      }, 1600);
+    }
+
+    function namedToHex(name){
+      if(name === "black") return "#000000";
+      if(name === "white") return "#ffffff";
+      if(name === "red")   return "#ff0000";
+      if(name === "blue")  return "#0000ff";
+      if(name === "green") return "#008000";
+      if(name === "yellow")return "#ffff00";
+      return "";
+    }
+
+    function hexToRgbaString(hex, alpha){
+      if(!hex || hex.charAt(0) !== "#" || (hex.length !== 7 && hex.length !== 4)){
+        return "rgba(0,0,0,1)";
+      }
+      var r, g, b;
+      if(hex.length === 4){
+        r = parseInt(hex.charAt(1) + hex.charAt(1), 16);
+        g = parseInt(hex.charAt(2) + hex.charAt(2), 16);
+        b = parseInt(hex.charAt(3) + hex.charAt(3), 16);
+      } else {
+        r = parseInt(hex.substr(1,2), 16);
+        g = parseInt(hex.substr(3,2), 16);
+        b = parseInt(hex.substr(5,2), 16);
+      }
+      var a = (alpha === undefined || alpha === null || alpha === "") ? 1 : parseFloat(alpha);
+      if(isNaN(a)) a = 1;
+      return "rgba(" + r + "," + g + "," + b + "," + a + ")";
+    }
+
+    function parseRgba(str){
+      var res = {r:0,g:0,b:0,a:1};
+      if(!str) return res;
+      str = str.toLowerCase();
+      var s = str.indexOf("(");
+      var e = str.indexOf(")");
+      if(s === -1 || e === -1) return res;
+      var inside = str.substring(s+1, e);
+      var parts = inside.split(",");
+      if(parts.length < 3) return res;
+      res.r = parseInt(parts[0],10) || 0;
+      res.g = parseInt(parts[1],10) || 0;
+      res.b = parseInt(parts[2],10) || 0;
+      if(parts.length > 3){
+        res.a = parseFloat(parts[3]) || 1;
+      }
+      return res;
+    }
+
+    function luminance(r,g,b){
+      return (0.2126*r + 0.7152*g + 0.0722*b) / 255;
+    }
+
+    function needsPx(prop){
+      var p = ["width","height","font-size","border-width","border-radius"];
+      var i;
+      for(i=0;i<p.length;i++){
+        if(p[i] === prop) return true;
+      }
+      return false;
+    }
+
+    function applyProp(prop, value){
+      if(value === null || value === ""){
+        delete cssState[prop];
+        previewBtn.style[prop] = "";
+      } else {
+        if(needsPx(prop) && value.toString().indexOf("px") === -1){
+          value = value + "px";
+        }
+        cssState[prop] = value;
+        previewBtn.style[prop] = value;
+      }
+
+      // Auto background based on button bg color
+      if(prop === "background-color"){
+        var bg = value;
+        if(!bg){
+          bodyBgColor = themeColors["dark"];
+        } else {
+          var c = parseRgba(bg);
+          var lum = luminance(c.r, c.g, c.b);
+          if(lum < 0.4){
+            bodyBgColor = "rgba(249,250,251,1)";
+          } else {
+            bodyBgColor = "rgba(2,6,23,1)";
+          }
+        }
+      }
+
+      renderCSS();
+      renderHTML();
+    }
+
+    /* ==========================================
+       HTML & CSS RENDER
+    ========================================== */
+    function renderHTML(){
+      var txt = previewBtn.textContent || "Click Me!";
+      var html = "<!-- Resources -->\n";
+      if(currentFontLink){
+        html += currentFontLink + "\n\n";
+      }
+      html += "<!-- HTML -->\n";
+      html += '<button class="myButton">' + txt + "</button>";
+      htmlBox.value = html;
+    }
+
+    function renderCSS(){
+      var css = "body {\n  background-color: " + bodyBgColor + ";\n}\n\n";
+      css += ".myButton {\n";
+      var prop;
+      for(prop in cssState){
+        css += "  " + prop + ": " + cssState[prop] + ";\n";
+      }
+      css += "}";
+      cssBox.value = css;
+      previewInner.style.background = bodyBgColor;
+    }
+
+    /* ==========================================
+       TEXT + FONT
+    ========================================== */
+    var btnTextInput = document.getElementById("btnText");
+    btnTextInput.addEventListener("input", function(){
+      var v = this.value;
+      if(v === ""){
+        previewBtn.textContent = "Click Me!";
+      } else {
+        previewBtn.textContent = v;
+      }
+      renderHTML();
+    });
+
+    // Font tiles
+    var fontTiles = document.querySelectorAll(".font-tile");
+    function clearFontActive(){
+      var i;
+      for(i=0;i<fontTiles.length;i++){
+        fontTiles[i].classList.remove("active");
+      }
+    }
+    function selectFont(fontId){
+      var cfg = fontConfig[fontId];
+      if(!cfg) return;
+      clearFontActive();
+      var i;
+      for(i=0;i<fontTiles.length;i++){
+        if(fontTiles[i].getAttribute("data-font-id") === fontId){
+          fontTiles[i].classList.add("active");
+        }
+      }
+      currentFontFamily = cfg.cssFamily;
+      currentFontLink   = cfg.link;
+      applyProp("font-family", currentFontFamily);
+      if(cfg.link){
+        showToast("Font " + cfg.label + " added to HTML and applied.");
+      } else {
+        showToast("Font " + cfg.label + " applied.");
+      }
+    }
+
+    (function(){
+      var i;
+      for(i=0;i<fontTiles.length;i++){
+        fontTiles[i].addEventListener("click", function(){
+          var id = this.getAttribute("data-font-id");
+          selectFont(id);
+        });
+      }
+      // default
+      selectFont("system");
+    })();
+
+    document.getElementById("fontSize").addEventListener("input", function(){
+      applyProp("font-size", this.value);
+    });
+
+    document.getElementById("fontWeight").addEventListener("change", function(){
+      applyProp("font-weight", this.value);
+    });
+
+    /* ==========================================
+       COLORS (RGBA)
+    ========================================== */
+    // Text color controls
+    var textColorNamed  = document.getElementById("textColorNamed");
+    var textColorPicker = document.getElementById("textColorPicker");
+    var textColorRgba   = document.getElementById("textColorRgba");
+    var textAlpha       = document.getElementById("textAlpha");
+
+    // Background color controls
+    var bgColorNamed  = document.getElementById("bgColorNamed");
+    var bgColorPicker = document.getElementById("bgColorPicker");
+    var bgColorRgba   = document.getElementById("bgColorRgba");
+    var bgAlpha       = document.getElementById("bgAlpha");
+
+    function updateTextColor(){
+      var manual = textColorRgba.value.trim();
+      if(manual !== ""){
+        applyProp("color", manual);
+        return;
+      }
+      var alphaVal = parseFloat(textAlpha.value);
+      if(isNaN(alphaVal)) alphaVal = 1;
+
+      var hex = "";
+      if(textColorPicker.value){
+        hex = textColorPicker.value;
+      } else if(textColorNamed.value){
+        hex = namedToHex(textColorNamed.value);
+      }
+
+      if(hex !== ""){
+        var rgbaString = hexToRgbaString(hex, alphaVal);
+        textColorRgba.value = rgbaString;
+        applyProp("color", rgbaString);
+      } else {
+        textColorRgba.value = "";
+        applyProp("color", "");
+      }
+    }
+
+    function updateBgColor(){
+      var manual = bgColorRgba.value.trim();
+      if(manual !== ""){
+        applyProp("background-color", manual);
+        return;
+      }
+      var alphaVal = parseFloat(bgAlpha.value);
+      if(isNaN(alphaVal)) alphaVal = 1;
+
+      var hex = "";
+      if(bgColorPicker.value){
+        hex = bgColorPicker.value;
+      } else if(bgColorNamed.value){
+        hex = namedToHex(bgColorNamed.value);
+      }
+
+      if(hex !== ""){
+        var rgbaString = hexToRgbaString(hex, alphaVal);
+        bgColorRgba.value = rgbaString;
+        applyProp("background-color", rgbaString);
+      } else {
+        bgColorRgba.value = "";
+        applyProp("background-color", "");
+      }
+    }
+
+    // Text events
+    textColorNamed.addEventListener("change", function(){
+      textColorRgba.value = "";
+      if(this.value !== ""){
+        var hex = namedToHex(this.value);
+        if(hex){
+          textColorPicker.value = hex;
+        }
+      }
+      updateTextColor();
+    });
+
+    textColorPicker.addEventListener("input", function(){
+      textColorNamed.value = "";
+      textColorRgba.value = "";
+      updateTextColor();
+    });
+
+    textAlpha.addEventListener("input", function(){
+      textColorRgba.value = "";
+      updateTextColor();
+    });
+
+    textColorRgba.addEventListener("input", function(){
+      updateTextColor();
+    });
+
+    // Background events
+    bgColorNamed.addEventListener("change", function(){
+      bgColorRgba.value = "";
+      if(this.value !== ""){
+        var hex = namedToHex(this.value);
+        if(hex){
+          bgColorPicker.value = hex;
+        }
+      }
+      updateBgColor();
+    });
+
+    bgColorPicker.addEventListener("input", function(){
+      bgColorNamed.value = "";
+      bgColorRgba.value = "";
+      updateBgColor();
+    });
+
+    bgAlpha.addEventListener("input", function(){
+      bgColorRgba.value = "";
+      updateBgColor();
+    });
+
+    bgColorRgba.addEventListener("input", function(){
+      updateBgColor();
+    });
+
+    // Swatch helpers
+    function attachSwatchEvents(containerId, picker, namedSelect, rgbaInput, isText){
+      var container = document.getElementById(containerId);
+      var children = container.getElementsByClassName("swatch");
+      var i;
+      for(i=0;i<children.length;i++){
+        children[i].addEventListener("click", function(){
+          var hex = this.getAttribute("data-color");
+          picker.value = hex;
+          namedSelect.value = "";
+          rgbaInput.value = "";
+          if(isText){
+            updateTextColor();
+          } else {
+            updateBgColor();
+          }
+        });
+      }
+    }
+
+    attachSwatchEvents("textSwatches", textColorPicker, textColorNamed, textColorRgba, true);
+    attachSwatchEvents("bgSwatches", bgColorPicker, bgColorNamed, bgColorRgba, false);
+
+    /* ==========================================
+       SIZE
+    ========================================== */
+    document.getElementById("width").addEventListener("input", function(){
+      applyProp("width", this.value);
+    });
+
+    document.getElementById("height").addEventListener("input", function(){
+      applyProp("height", this.value);
+    });
+
+    /* ==========================================
+       BORDER
+    ========================================== */
+    var borderNone    = document.getElementById("borderNone");
+    var borderStyleEl = document.getElementById("borderStyle");
+    var borderWidthEl = document.getElementById("borderWidth");
+    var borderColorEl = document.getElementById("borderColor");
+    var borderControls = document.getElementById("borderControls");
+
+    function setBorderControlsDisabled(disabled){
+      if(disabled){
+        borderControls.classList.add("border-disabled");
+      } else {
+        borderControls.classList.remove("border-disabled");
+      }
+    }
+
+    borderNone.addEventListener("change", function(){
+      if(this.checked){
+        // Remove specific border props and set border: none
+        delete cssState["border-style"];
+        delete cssState["border-width"];
+        delete cssState["border-color"];
+        previewBtn.style.borderStyle = "";
+        previewBtn.style.borderWidth = "";
+        previewBtn.style.borderColor = "";
+        cssState["border"] = "none";
+        previewBtn.style.border = "none";
+        setBorderControlsDisabled(true);
+        showToast("Border removed.");
+      } else {
+        delete cssState["border"];
+        previewBtn.style.border = "";
+        setBorderControlsDisabled(false);
+        showToast("Border controls enabled.");
+      }
+      renderCSS();
+      renderHTML();
+    });
+
+    borderStyleEl.addEventListener("change", function(){
+      if(borderNone.checked) return;
+      applyProp("border-style", this.value);
+    });
+
+    borderWidthEl.addEventListener("input", function(){
+      if(borderNone.checked) return;
+      applyProp("border-width", this.value);
+    });
+
+    borderColorEl.addEventListener("change", function(){
+      if(borderNone.checked) return;
+      if(this.value === ""){
+        applyProp("border-color", "");
+      } else {
+        applyProp("border-color", this.value);
+      }
+    });
+
+    document.getElementById("radius").addEventListener("input", function(){
+      applyProp("border-radius", this.value);
+    });
+
+    /* ==========================================
+       THEMES
+    ========================================== */
+    var themeSwatches = document.querySelectorAll(".theme-swatch");
+
+    function clearThemeActive(){
+      var i;
+      for(i=0;i<themeSwatches.length;i++){
+        themeSwatches[i].classList.remove("active");
+      }
+    }
+
+    function setTheme(themeId){
+      var color = themeColors[themeId];
+      if(!color) color = themeColors["dark"];
+      // If fun (gradient), keep CSS background-color simple anyway:
+      if(themeId === "fun"){
+        bodyBgColor = "rgba(15,23,42,1)";
+        document.body.style.background = themeColors["fun"];
+        previewInner.style.background = bodyBgColor;
+      } else {
+        bodyBgColor = color;
+        document.body.style.backgroundColor = color;
+        previewInner.style.background = bodyBgColor;
+      }
+      clearThemeActive();
+      var i;
+      for(i=0;i<themeSwatches.length;i++){
+        if(themeSwatches[i].getAttribute("data-theme") === themeId){
+          themeSwatches[i].classList.add("active");
+        }
+      }
+      renderCSS();
+      showToast("Theme changed.");
+    }
+
+    (function(){
+      var i;
+      for(i=0;i<themeSwatches.length;i++){
+        themeSwatches[i].addEventListener("click", function(){
+          var id = this.getAttribute("data-theme");
+          setTheme(id);
+        });
+      }
+      // default theme
+      setTheme("dark");
+    })();
+
+    /* ==========================================
+       CHALLENGE MODE
+    ========================================== */
+    var challengeTiles = document.querySelectorAll(".challenge-tile");
+
+    function clearChallengeActive(){
+      var i;
+      for(i=0;i<challengeTiles.length;i++){
+        challengeTiles[i].classList.remove("challenge-active");
+        challengeTiles[i].style.transform = "scale(1.0)";
+      }
+    }
+
+    function animateChallengeTile(tile){
+      tile.classList.add("challenge-active");
+      tile.style.transform = "scale(1.15)";
+      setTimeout(function(){
+        tile.style.transform = "scale(1.07)";
+      }, 120);
+    }
+
+    function loadChallenge(id){
+      var ch = challenges[id];
+      if(!ch) return;
+      currentChallengeId = id;
+
+      // Set target button
+      targetBtn.textContent = ch.text;
+      targetBtn.removeAttribute("style");
+      var p;
+      for(p in ch.styles){
+        targetBtn.style[p] = ch.styles[p];
+      }
+
+      // Reset preview CSS but keep text
+      cssState = {};
+      previewBtn.removeAttribute("style");
+      previewBtn.textContent = ch.text; // text matches challenge
+      // reset some controls (but keep fonts for now)
+      document.getElementById("width").value = "";
+      document.getElementById("height").value = "";
+      document.getElementById("fontSize").value = "16";
+      document.getElementById("fontWeight").value = "";
+      textColorNamed.value = "";
+      textColorPicker.value = "#000000";
+      textAlpha.value = "1";
+      textColorRgba.value = "";
+      bgColorNamed.value = "";
+      bgColorPicker.value = "#ffffff";
+      bgAlpha.value = "1";
+      bgColorRgba.value = "";
+      borderNone.checked = false;
+      borderStyleEl.value = "";
+      borderWidthEl.value = "";
+      borderColorEl.value = "";
+      setBorderControlsDisabled(false);
+      document.getElementById("radius").value = "";
+
+      challengeTitle.textContent = "Challenge: " + ch.label;
+      scoreText.textContent = "Try to match the target button, then click Check.";
+      showToast("Challenge loaded: " + ch.label);
+
+      clearChallengeActive();
+      var i;
+      for(i=0;i<challengeTiles.length;i++){
+        if(challengeTiles[i].getAttribute("data-challenge") === id){
+          animateChallengeTile(challengeTiles[i]);
+        }
+      }
+
+      renderCSS();
+      renderHTML();
+      previewInner.scrollIntoView({behavior:"smooth", block:"center"});
+    }
+
+    (function(){
+      var i;
+      for(i=0;i<challengeTiles.length;i++){
+        challengeTiles[i].addEventListener("click", function(){
+          var id = this.getAttribute("data-challenge");
+          loadChallenge(id);
+        });
+      }
+    })();
+
+    /* ==========================================
+       SCORING
+    ========================================== */
+    function computeScore(){
+      if(!currentChallengeId){
+        return {score:0, max:0, bad:[]};
+      }
+
+      var ch = challenges[currentChallengeId];
+      var target = ch.styles;
+
+      var props = [
+        "color",
+        "background-color",
+        "width",
+        "height",
+        "border-style",
+        "border-width",
+        "border-color",
+        "border-radius",
+        "font-family",
+        "font-size",
+        "font-weight"
+      ];
+
+      var total = props.length;
+      var good = 0;
+      var bad = [];
+
+      var i;
+      for(i=0;i<props.length;i++){
+        var prop = props[i];
+        var tVal = target[prop] || "";
+        var mVal = cssState[prop] || "";
+
+        if(prop === "color" || prop === "background-color"){
+          if(tVal === "" && mVal === ""){
+            good++;
+          } else if(tVal !== "" && mVal !== ""){
+            var t = parseRgba(tVal);
+            var m = parseRgba(mVal);
+            var dr = Math.abs(t.r - m.r);
+            var dg = Math.abs(t.g - m.g);
+            var db = Math.abs(t.b - m.b);
+            var da = Math.abs(t.a - m.a);
+            if(dr <= 20 && dg <= 20 && db <= 20 && da <= 0.2){
+              good++;
+            } else {
+              bad.push(prop);
+            }
+          } else {
+            bad.push(prop);
+          }
+        }
+        else if(prop === "width" || prop === "height" || prop === "border-width" || prop === "border-radius" || prop === "font-size"){
+          var tNum = parseInt(tVal,10) || 0;
+          var mNum = parseInt(mVal,10) || 0;
+          var diff = Math.abs(tNum - mNum);
+          var limit = (prop === "font-size") ? 2 : 4;
+          if(diff <= limit){
+            good++;
+          } else {
+            bad.push(prop);
+          }
+        }
+        else if(prop === "font-weight"){
+          var tW = parseInt(tVal,10) || 400;
+          var mW = parseInt(mVal,10) || 400;
+          if(Math.abs(tW - mW) <= 100){
+            good++;
+          } else {
+            bad.push(prop);
+          }
+        }
+        else if(prop === "font-family"){
+          if(tVal === ""){
+            good++;
+          } else if(mVal){
+            var tName = tVal.toLowerCase();
+            var mName = mVal.toLowerCase();
+            if(mName.indexOf(tName) !== -1){
+              good++;
+            } else {
+              bad.push(prop);
+            }
+          } else {
+            bad.push(prop);
+          }
+        }
+        else{
+          if(tVal === mVal){
+            good++;
+          } else {
+            bad.push(prop);
+          }
+        }
+      }
+
+      var score = (total === 0) ? 0 : Math.round((good / total) * 100);
+      return {score:score, max:total, bad:bad};
+    }
+
+    function propNiceName(p){
+      if(p === "color") return "text color";
+      if(p === "background-color") return "background color";
+      if(p === "width") return "width";
+      if(p === "height") return "height";
+      if(p === "border-style") return "border style";
+      if(p === "border-width") return "border width";
+      if(p === "border-color") return "border color";
+      if(p === "border-radius") return "border radius";
+      if(p === "font-family") return "font family";
+      if(p === "font-size") return "font size";
+      if(p === "font-weight") return "font weight";
+      return p;
+    }
+
+    checkBtn.addEventListener("click", function(){
+      if(!currentChallengeId){
+        scoreText.textContent = "First choose a challenge button in the left panel.";
+        showToast("Pick a challenge first.");
+        return;
+      }
+      var res = computeScore();
+      var msg;
+      if(res.score === 100){
+        msg = "100% match – amazing job!";
+        showToast("Perfect match!");
+      } else if(res.score >= 80){
+        msg = res.score + "% match – very good! Tiny tweaks needed in: ";
+      } else if(res.score >= 50){
+        msg = res.score + "% match – keep going. Focus on: ";
+      } else {
+        msg = res.score + "% match – still early. Try adjusting: ";
+      }
+
+      if(res.bad.length > 0 && res.score < 100){
+        var limit = res.bad.length;
+        if(limit > 3) limit = 3;
+        var i;
+        for(i=0;i<limit;i++){
+          msg += propNiceName(res.bad[i]);
+          if(i < limit - 1) msg += ", ";
+        }
+        if(res.bad.length > limit){
+          msg += " and more…";
+        }
+      }
+
+      scoreText.textContent = msg;
+    });
+
+    /* ==========================================
+       COPY HELPERS
+    ========================================== */
+    function copyText(text, statusId){
+      if(!text) return;
+      var statusEl = document.getElementById(statusId);
+
+      function done(){
+        if(statusEl){
+          statusEl.textContent = "Code copied!";
+          setTimeout(function(){
+            statusEl.textContent = "";
+          }, 1400);
+        }
+        showToast("Copied to clipboard.");
+      }
+
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(done);
+      } else {
+        var temp = document.createElement("textarea");
+        temp.value = text;
+        document.body.appendChild(temp);
+        temp.select();
+        try{
+          document.execCommand("copy");
+        } catch(e){}
+        document.body.removeChild(temp);
+        done();
+      }
+    }
+
+    function copyHTML(){ copyText(htmlBox.value, "htmlStatus"); }
+    function copyCSS(){ copyText(cssBox.value, "cssStatus"); }
+    window.copyHTML = copyHTML;
+    window.copyCSS  = copyCSS;
+
+    /* ==========================================
+       RESET
+    ========================================== */
+    function resetAll(){
+      cssState = {};
+      previewBtn.removeAttribute("style");
+      previewBtn.textContent = "Click Me!";
+      targetBtn.removeAttribute("style");
+      targetBtn.textContent = "Target";
+
+      // Inputs
+      btnTextInput.value = "";
+      document.getElementById("fontSize").value = "16";
+      document.getElementById("fontWeight").value = "";
+      textColorNamed.value = "";
+      textColorPicker.value = "#000000";
+      textAlpha.value = "1";
+      textColorRgba.value = "";
+      bgColorNamed.value = "";
+      bgColorPicker.value = "#ffffff";
+      bgAlpha.value = "1";
+      bgColorRgba.value = "";
+      document.getElementById("width").value = "";
+      document.getElementById("height").value = "";
+      borderNone.checked = false;
+      borderStyleEl.value = "";
+      borderWidthEl.value = "";
+      borderColorEl.value = "";
+      document.getElementById("radius").value = "";
+      setBorderControlsDisabled(false);
+
+      // Fonts
+      currentFontLink = "";
+      currentFontFamily = "";
+      var i;
+      for(i=0;i<fontTiles.length;i++){
+        fontTiles[i].classList.remove("active");
+      }
+      selectFont("system");
+
+      // Challenge
+      clearChallengeActive();
+      currentChallengeId = "";
+      challengeTitle.textContent = "No challenge selected.";
+      scoreText.textContent = "Pick a challenge, style your button, then click “Check”.";
+
+      htmlStatus.textContent = "";
+      cssStatus.textContent = "";
+
+      // Theme reset
+      setTheme("dark");
+
+      renderCSS();
+      renderHTML();
+      showToast("Reset to default.");
+    }
+    window.resetAll = resetAll;
+
+    /* ==========================================
+       INIT
+    ========================================== */
+    renderCSS();
+    renderHTML();
+  </script>
+</body>
+</html>
