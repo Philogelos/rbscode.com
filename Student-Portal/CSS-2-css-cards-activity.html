@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CSS Cards — Practice Activities</title>
+
+<style>
+body{
+    font-family: system-ui, Arial, sans-serif;
+    padding:40px;
+    background:#ffffff;
+    color:#2b2c46;
+}
+
+h1{
+    margin-bottom:10px;
+}
+h2{
+    margin-top:50px;
+}
+h3{
+    margin-top:15px;
+}
+
+.activity{
+    border:1px solid #ddd;
+    border-radius:14px;
+    padding:24px;
+    margin-bottom:40px;
+    background:#f8f9ff;
+}
+
+.note{
+    background:#eef1ff;
+    padding:12px;
+    border-radius:8px;
+    font-size:14px;
+    margin-bottom:12px;
+}
+
+.focus{
+    background:#fff6e0;
+    padding:10px;
+    border-radius:8px;
+    font-size:14px;
+    margin-bottom:16px;
+}
+
+.demo-area{
+    padding:20px;
+    background:#222;
+    border-radius:12px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>CSS Cards — Practice Activities</h1>
+
+<p>
+Recreate each card using HTML and CSS.  
+Do them in order. Each card adds only a few new ideas.
+</p>
+
+<hr>
+
+<div class="note">
+<strong>You must already know:</strong><br>
+HTML: h1–h6, p, img, button, ul, li, br, hr<br>
+CSS Level 1: color, background-color, width, height, border-color, border-width,
+border-style, border-radius, font-size, font-weight, font-family
+</div>
+
+<!-- ================================================= -->
+<h2>1️⃣ Info Card — Hello CSS</h2>
+<div class="activity">
+
+<div class="note">
+<strong>New prerequisites:</strong> div, padding, border-radius
+</div>
+
+<div class="focus">
+<strong>Focus:</strong> Your first real card box.
+</div>
+
+<div class="demo-area">
+<div style="
+width:280px;
+background:#1e1e21;
+color:white;
+padding:15px;
+border-radius:12px;
+">
+<h1 style="font-size:16px;margin-bottom:5px;">Hello CSS</h1>
+<p style="font-size:13px;color:#9a9a9a;">This is my first card.</p>
+</div>
+</div>
+
+</div>
+
+<!-- ================================================= -->
+<h2>2️⃣ Profile Card</h2>
+<div class="activity">
+
+<div class="note">
+<strong>New prerequisites:</strong> text-align, img, border-radius:50%
+</div>
+
+<div class="focus">
+<strong>Focus:</strong> Centering content and making round images.
+</div>
+
+<div class="demo-area">
+<div style="
+width:280px;
+background:#1e1e21;
+color:white;
+padding:15px;
+border-radius:12px;
+text-align:center;
+">
+<img src="boy.png" style="width:80px;height:80px;border-radius:50%;margin-bottom:10px;">
+<h1 style="font-size:16px;">Coder</h1>
+<p style="font-size:13px;color:#9a9a9a;">Level 1 Student</p>
+</div>
+</div>
+
+</div>
+
+<!-- ================================================= -->
+<h2>3️⃣ Button Card</h2>
+<div class="activity">
+
+<div class="note">
+<strong>New prerequisites:</strong> button, :hover, cursor
+</div>
+
+<div class="focus">
+<strong>Focus:</strong> Buttons that feel interactive.
+</div>
+
+<div class="demo-area">
+<div style="width:280px;background:#1e1e21;color:white;padding:15px;border-radius:12px;">
+<p style="font-size:13px;">Click the button</p>
+<button style="
+width:100%;
+padding:8px;
+background:#3b3a3d;
+color:white;
+border:none;
+border-radius:6px;
+">Start</button>
+</div>
+</div>
+
+</div>
+
+<!-- ================================================= -->
+<h2>4️⃣ Pricing Card</h2>
+<div class="activity">
+
+<div class="note">
+<strong>New prerequisites:</strong> span, margin:auto
+</div>
+
+<div class="focus">
+<strong>Focus:</strong> Text hierarchy.
+</div>
+
+<div class="demo-area" style="background:#eef2ff;">
+<div style="
+width:260px;
+padding:15px;
+margin:40px auto;
+border-radius:12px;
+background:white;
+border:1px solid #ddd;
+">
+<h1 style="font-size:16px;">Free Plan</h1>
+<p style="font-size:13px;">
+<span style="font-size:30px;font-weight:bold;">$0</span> per month
+</p>
+<button style="width:100%;padding:8px;border:none;border-radius:6px;">Start Free</button>
+</div>
+</div>
+
+</div>
+
+<!-- ================================================= -->
+<h2>5️⃣ Feature Card — ⚡ Fast</h2>
+<div class="activity">
+
+<div class="note">
+<strong>New prerequisites:</strong> box-shadow (or border as fallback)
+</div>
+
+<div class="focus">
+<strong>Focus:</strong> Making cards feel “real”.
+</div>
+
+<div class="demo-area" style="background:#e8f4ff;">
+<div style="
+width:260px;
+padding:15px;
+margin:40px auto;
+border-radius:12px;
+background:white;
+color:#003366;
+box-shadow:0 0 3px 3px rgba(0,0,0,0.2);
+">
+<h1 style="font-size:16px;">⚡ Fast</h1>
+<p style="font-size:13px;">Loads instantly everywhere</p>
+</div>
+</div>
+
+</div>
+
+<!-- ================================================= -->
+<h2>6️⃣ Users Stats Card</h2>
+<div class="activity">
+
+<div class="note">
+<strong>New prerequisites:</strong> text-align:center, large numbers
+</div>
+
+<div class="demo-area" style="background:#fff;">
+<div style="
+width:260px;
+padding:15px;
+margin:40px auto;
+border-radius:12px;
+background:#0f766e;
+color:white;
+text-align:center;
+">
+<h1 style="font-size:16px;">Users</h1>
+<span style="font-size:32px;font-weight:bold;">128</span>
+</div>
+</div>
+
+</div>
+
+<!-- ================================================= -->
+<h2>7️⃣ Notification / Warning Card</h2>
+<div class="activity">
+
+<div class="note">
+<strong>New prerequisites:</strong> border-left
+</div>
+
+<div class="demo-area" style="background:#101040;">
+<div style="
+width:260px;
+padding:15px;
+margin:40px auto;
+border-radius:12px;
+background:#fff3cd;
+color:#664d03;
+border-left:6px solid #ffcc00;
+">
+<h1 style="font-size:16px;">⚠ Warning</h1>
+<p style="font-size:13px;">Your session will expire soon</p>
+</div>
+</div>
+
+</div>
+
+<!-- ================================================= -->
+<h2>8️⃣ CTA — Join Now</h2>
+<div class="activity">
+
+<div class="note">
+<strong>New prerequisites:</strong> linear-gradient
+</div>
+
+<div class="demo-area">
+<div style="
+width:260px;
+padding:15px;
+margin:40px auto;
+border-radius:12px;
+background:linear-gradient(135deg,#6366f1,#9333ea);
+color:white;
+">
+<h1 style="font-size:16px;">Join Now</h1>
+<p style="font-size:13px;">Start learning real web skills</p>
+<button style="
+width:100%;
+padding:8px;
+border:none;
+border-radius:6px;
+background:white;
+color:#4f46e5;
+">Get Started</button>
+</div>
+</div>
+
+</div>
+
+<hr>
+
+<p>
+If you can rebuild these cards cleanly,  
+you are building **real frontend skills**.
+</p>
+
+</body>
+</html>

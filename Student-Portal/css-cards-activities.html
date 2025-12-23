@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CSS Cards — Practice Activities</title>
+
+<style>
+body{
+    font-family: system-ui, Arial, sans-serif;
+    padding:40px;
+    background:#0f1117; /* dark page background */
+    color:#e6e6eb;
+}
+
+h1{
+    margin-bottom:10px;
+}
+h2{
+    margin-top:60px;
+    color:#ffffff;
+}
+
+.section{
+    background:#161a23;
+    border:1px solid #2a2f3a;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:50px;
+}
+
+.info{
+    background:#1e2330;
+    padding:14px;
+    border-radius:10px;
+    font-size:14px;
+    margin-bottom:14px;
+}
+
+.focus{
+    background:#252b3a;
+    padding:12px;
+    border-radius:10px;
+    font-size:14px;
+    margin-bottom:18px;
+}
+
+.demo-wrap{
+    background:#0b0d12;
+    padding:30px;
+    border-radius:14px;
+}
+
+.download{
+    display:inline-block;
+    margin-top:8px;
+    padding:6px 12px;
+    background:#4a6cff;
+    color:white;
+    border-radius:6px;
+    font-size:13px;
+    text-decoration:none;
+}
+
+img.preview{
+    width:140px;
+    border-radius:10px;
+    border:1px solid #444;
+    margin-bottom:10px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>CSS Cards — Practice Activities</h1>
+
+<p>
+Rebuild each card using HTML and CSS.  
+Start at Card 1 and move forward.
+</p>
+
+<div class="info">
+<strong>Quick image tip:</strong><br>
+If you don’t have an image yet, you can use:<br>
+<code>https://picsum.photos/200</code><br>
+This gives you a random placeholder image while you work.
+</div>
+
+<hr>
+
+<!-- ========================================================= -->
+<h2>Card 1 — Info Card (Hello CSS)</h2>
+<div class="section">
+
+<div class="info">
+<strong>Prerequisites:</strong> div, padding, border-radius
+</div>
+
+<div class="focus">
+<strong>Colors:</strong><br>
+Body background: <code>#0f1117</code><br>
+Card background: <code>#1e1e21</code><br>
+Text: <code>rgb(255,255,255)</code><br>
+Muted text: <code>#9a9a9a</code>
+</div>
+
+<div class="demo-wrap">
+<div style="
+width:280px;
+background:#1e1e21;
+color:white;
+padding:15px;
+border-radius:12px;
+">
+<h1 style="font-size:16px;margin-bottom:5px;">Hello CSS</h1>
+<p style="font-size:13px;color:#9a9a9a;">This is my first card.</p>
+</div>
+</div>
+
+</div>
+
+<!-- ========================================================= -->
+<h2>Card 2 — Profile Card</h2>
+<div class="section">
+
+<div class="info">
+<strong>Prerequisites:</strong> text-align, img, border-radius:50%
+</div>
+
+<div class="focus">
+<strong>Colors:</strong><br>
+Body: <code>#0f1117</code><br>
+Card: <code>#1e1e21</code><br>
+Text: <code>#ffffff</code>
+</div>
+
+<img src="boy.png" class="preview" alt="">
+<br>
+<a class="download" href="boy.png" download>Download image</a>
+
+<div class="demo-wrap">
+<div style="
+width:280px;
+background:#1e1e21;
+color:white;
+padding:15px;
+border-radius:12px;
+text-align:center;
+">
+<img src="boy.png" style="width:80px;height:80px;border-radius:50%;margin-bottom:10px;">
+<h1 style="font-size:16px;">Coder</h1>
+<p style="font-size:13px;color:#9a9a9a;">Level 1 Student</p>
+</div>
+</div>
+
+</div>
+
+<!-- ========================================================= -->
+<h2>Card 3 — Button Card</h2>
+<div class="section">
+
+<div class="info">
+<strong>Prerequisites:</strong> button, :hover, cursor
+</div>
+
+<div class="focus">
+<strong>Colors:</strong><br>
+Card: <code>#1e1e21</code><br>
+Button: <code>#3b3a3d</code><br>
+Hover: <code>#4a4950</code>
+</div>
+
+<div class="demo-wrap">
+<div style="
+width:280px;
+background:#1e1e21;
+color:white;
+padding:15px;
+border-radius:12px;
+">
+<p style="font-size:13px;">Click the button</p>
+<button style="
+width:100%;
+padding:8px;
+background:#3b3a3d;
+color:white;
+border:none;
+border-radius:6px;
+">Start</button>
+</div>
+</div>
+
+</div>
+
+<!-- ========================================================= -->
+<h2>Card 4 — Pricing Card</h2>
+<div class="section">
+
+<div class="info">
+<strong>Prerequisites:</strong> span, margin:auto
+</div>
+
+<div class="focus">
+<strong>Colors:</strong><br>
+Body: <code>#eef2ff</code><br>
+Card: <code>#ffffff</code><br>
+Border: <code>#dddddd</code>
+</div>
+
+<div class="demo-wrap" style="background:#eef2ff;">
+<div style="
+width:260px;
+padding:15px;
+margin:40px auto;
+border-radius:12px;
+background:white;
+border:1px solid #ddd;
+color:#000;
+">
+<h1 style="font-size:16px;">Free Plan</h1>
+<p style="font-size:13px;">
+<span style="font-size:30px;font-weight:bold;">$0</span> per month
+</p>
+<button style="width:100%;padding:8px;border:none;border-radius:6px;">Start Free</button>
+</div>
+</div>
+
+</div>
+
+<!-- ========================================================= -->
+<h2>Card 5 — Feature Card (⚡ Fast)</h2>
+<div class="section">
+
+<div class="info">
+<strong>Prerequisites:</strong> box-shadow
+</div>
+
+<div class="focus">
+<strong>Colors:</strong><br>
+Background: <code>#ffffff</code><br>
+Text: <code>#003366</code><br>
+Shadow: <code>rgba(0,0,0,0.2)</code>
+</div>
+
+<div class="demo-wrap" style="background:#e8f4ff;">
+<div style="
+width:260px;
+padding:15px;
+margin:40px auto;
+border-radius:12px;
+background:white;
+color:#003366;
+box-shadow:0 0 3px 3px rgba(0,0,0,0.2);
+">
+<h1 style="font-size:16px;">⚡ Fast</h1>
+<p style="font-size:13px;">Loads instantly everywhere</p>
+</div>
+</div>
+
+</div>
+
+<!-- ========================================================= -->
+<h2>Card 6 — Users Stats</h2>
+<div class="section">
+
+<div class="info">
+<strong>Prerequisites:</strong> text-align, large font sizes
+</div>
+
+<div class="focus">
+<strong>Colors:</strong><br>
+Card: <code>#0f766e</code><br>
+Text: <code>#ffffff</code>
+</div>
+
+<div class="demo-wrap">
+<div style="
+width:260px;
+padding:15px;
+margin:40px auto;
+border-radius:12px;
+background:#0f766e;
+color:white;
+text-align:center;
+">
+<h1 style="font-size:16px;">Users</h1>
+<span style="font-size:32px;font-weight:bold;">128</span>
+</div>
+</div>
+
+</div>
+
+<!-- ========================================================= -->
+<h2>Card 7 — Notification / Warning</h2>
+<div class="section">
+
+<div class="info">
+<strong>Prerequisites:</strong> border-left
+</div>
+
+<div class="focus">
+<strong>Colors:</strong><br>
+Background: <code>#fff3cd</code><br>
+Text: <code>#664d03</code><br>
+Border-left: <code>#ffcc00</code>
+</div>
+
+<div class="demo-wrap">
+<div style="
+width:260px;
+padding:15px;
+margin:40px auto;
+border-radius:12px;
+background:#fff3cd;
+color:#664d03;
+border-left:6px solid #ffcc00;
+">
+<h1 style="font-size:16px;">⚠ Warning</h1>
+<p style="font-size:13px;">Your session will expire soon</p>
+</div>
+</div>
+
+</div>
+
+<!-- ========================================================= -->
+<h2>Card 8 — CTA Join Now</h2>
+<div class="section">
+
+<div class="info">
+<strong>Prerequisites:</strong> linear-gradient
+</div>
+
+<div class="focus">
+<strong>Gradient:</strong><br>
+<code>linear-gradient(135deg,#6366f1,#9333ea)</code>
+</div>
+
+<div class="demo-wrap">
+<div style="
+width:260px;
+padding:15px;
+margin:40px auto;
+border-radius:12px;
+background:linear-gradient(135deg,#6366f1,#9333ea);
+color:white;
+">
+<h1 style="font-size:16px;">Join Now</h1>
+<p style="font-size:13px;">Start learning real web skills</p>
+<button style="
+width:100%;
+padding:8px;
+border:none;
+border-radius:6px;
+background:white;
+color:#4f46e5;
+">Get Started</button>
+</div>
+</div>
+
+</div>
+
+<!-- ========================================================= -->
+<h2>Card 9 — Kids Coding Club (Robot)</h2>
+<div class="section">
+
+<div class="info">
+<strong>Prerequisites:</strong> padding, margin:auto, border, box-shadow
+</div>
+
+<div class="focus">
+<strong>Colors:</strong><br>
+Body: <code>#3b2a6f</code><br>
+Card: <code>#ffd84d</code><br>
+Border: <code>#ffb300</code>
+</div>
+
+<img src="robot1.png" class="preview">
+<br>
+<a class="download" href="robot1.png" download>Download image</a>
+
+<div class="demo-wrap">
+<div style="
+width:280px;
+padding:20px;
+margin:40px auto;
+border-radius:20px;
+background:#ffd84d;
+border:3px solid #ffb300;
+box-shadow:0 8px 20px rgba(0,0,0,0.3);
+text-align:center;
+">
+<img src="robot1.png" style="width:100%;border-radius:15px;margin-bottom:15px;">
+<h2 style="color:white;font-size:26px;">Kids Coding Club</h2>
+<p style="color:#333;">Fun and interactive coding lessons for kids.</p>
+<button style="
+width:160px;
+height:45px;
+background:#ff7a18;
+color:white;
+border:none;
+border-radius:25px;
+font-size:16px;
+font-weight:bold;
+">Join Now</button>
+</div>
+</div>
+
+</div>
+
+<!-- ========================================================= -->
+<h2>Card 10 — Space Mission (Advanced)</h2>
+<div class="section">
+
+<div class="info">
+<strong>Prerequisites:</strong> box-shadow, multiple inner divs
+</div>
+
+<div class="focus">
+<strong>Colors:</strong><br>
+Body: <code>#21325a</code><br>
+Card border: <code>#4bb9c9</code><br>
+Button: <code>#f28a2e</code>
+</div>
+
+<img src="rocket.png" class="preview">
+<br>
+<a class="download" href="rocket.png" download>Download image</a>
+
+<div class="demo-wrap">
+<div style="
+width:320px;
+margin:0 auto;
+background:#f7f8fb;
+border:6px solid #4bb9c9;
+border-radius:26px;
+box-shadow:0 10px 25px rgba(0,0,0,0.35);
+text-align:center;
+">
+<div style="padding:18px;background:white;border-radius:18px;margin:14px;">
+<img src="rocket.png" style="width:210px;border-radius:18px;
+box-shadow:0 8px 18px rgba(0,0,0,0.18);">
+</div>
+<h2 style="background:#4bb9c9;color:white;padding:18px 0;font-size:38px;">Space Mission</h2>
+<div style="padding:20px;background:white;border-radius:18px;margin:14px;">
+<p style="font-size:24px;font-weight:bold;color:#6b6f7a;">
+Blast off on an exciting<br>adventure through space!
+</p>
+<button style="
+width:200px;
+height:50px;
+background:#f28a2e;
+color:white;
+border:none;
+border-radius:30px;
+font-size:22px;
+font-weight:bold;
+">Get Started</button>
+</div>
+</div>
+</div>
+
+</div>
+
+<hr>
+
+<p>
+If you can recreate these cards cleanly,  
+you are building real-world frontend skills.
+</p>
+
+</body>
+</html>
