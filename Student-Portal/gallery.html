@@ -153,11 +153,131 @@ button {
     </div>
 
     <!-- Add up to 10 total for now -->
+         <div class="card">
+      <img src="gallery/2.png" onload="fillMeta(this)">
+      <div class="meta">
+        <span><strong>Name:</strong> gallery/2.png</span>
+        <span class="size"></span>
+        <span class="ratio"></span>
+        <span class="desc">City skyline image for cards or headers.</span>
+        <span class="link"></span>
+      </div>
+      <div class="actions">
+        <button class="copy-btn" onclick="copyLink(this)">Copy link</button>
+        <button class="download-btn" onclick="downloadImg(this)">Download</button>
+      </div>
+    </div>
+
+        <div class="card">
+      <img src="gallery/2.png" onload="fillMeta(this)">
+      <div class="meta">
+        <span><strong>Name:</strong> gallery/2.png</span>
+        <span class="size"></span>
+        <span class="ratio"></span>
+        <span class="desc">City skyline image for cards or headers.</span>
+        <span class="link"></span>
+      </div>
+      <div class="actions">
+        <button class="copy-btn" onclick="copyLink(this)">Copy link</button>
+        <button class="download-btn" onclick="downloadImg(this)">Download</button>
+      </div>
+    </div>
+
+        <div class="card">
+      <img src="gallery/2.png" onload="fillMeta(this)">
+      <div class="meta">
+        <span><strong>Name:</strong> gallery/2.png</span>
+        <span class="size"></span>
+        <span class="ratio"></span>
+        <span class="desc">City skyline image for cards or headers.</span>
+        <span class="link"></span>
+      </div>
+      <div class="actions">
+        <button class="copy-btn" onclick="copyLink(this)">Copy link</button>
+        <button class="download-btn" onclick="downloadImg(this)">Download</button>
+      </div>
+    </div>
+
+        <div class="card">
+      <img src="gallery/2.png" onload="fillMeta(this)">
+      <div class="meta">
+        <span><strong>Name:</strong> gallery/2.png</span>
+        <span class="size"></span>
+        <span class="ratio"></span>
+        <span class="desc">City skyline image for cards or headers.</span>
+        <span class="link"></span>
+      </div>
+      <div class="actions">
+        <button class="copy-btn" onclick="copyLink(this)">Copy link</button>
+        <button class="download-btn" onclick="downloadImg(this)">Download</button>
+      </div>
+    </div>
+
+        <div class="card">
+      <img src="gallery/2.png" onload="fillMeta(this)">
+      <div class="meta">
+        <span><strong>Name:</strong> gallery/2.png</span>
+        <span class="size"></span>
+        <span class="ratio"></span>
+        <span class="desc">City skyline image for cards or headers.</span>
+        <span class="link"></span>
+      </div>
+      <div class="actions">
+        <button class="copy-btn" onclick="copyLink(this)">Copy link</button>
+        <button class="download-btn" onclick="downloadImg(this)">Download</button>
+      </div>
+    </div>
+
+        <div class="card">
+      <img src="gallery/2.png" onload="fillMeta(this)">
+      <div class="meta">
+        <span><strong>Name:</strong> gallery/2.png</span>
+        <span class="size"></span>
+        <span class="ratio"></span>
+        <span class="desc">City skyline image for cards or headers.</span>
+        <span class="link"></span>
+      </div>
+      <div class="actions">
+        <button class="copy-btn" onclick="copyLink(this)">Copy link</button>
+        <button class="download-btn" onclick="downloadImg(this)">Download</button>
+      </div>
+    </div>
+
+        <div class="card">
+      <img src="gallery/2.png" onload="fillMeta(this)">
+      <div class="meta">
+        <span><strong>Name:</strong> gallery/2.png</span>
+        <span class="size"></span>
+        <span class="ratio"></span>
+        <span class="desc">City skyline image for cards or headers.</span>
+        <span class="link"></span>
+      </div>
+      <div class="actions">
+        <button class="copy-btn" onclick="copyLink(this)">Copy link</button>
+        <button class="download-btn" onclick="downloadImg(this)">Download</button>
+      </div>
+    </div>
+
+        <div class="card">
+      <img src="gallery/2.png" onload="fillMeta(this)">
+      <div class="meta">
+        <span><strong>Name:</strong> gallery/2.png</span>
+        <span class="size"></span>
+        <span class="ratio"></span>
+        <span class="desc">City skyline image for cards or headers.</span>
+        <span class="link"></span>
+      </div>
+      <div class="actions">
+        <button class="copy-btn" onclick="copyLink(this)">Copy link</button>
+        <button class="download-btn" onclick="downloadImg(this)">Download</button>
+      </div>
+    </div>
 
   </div>
 </div>
 
 <script>
+    const BASE_URL = "https://rbscode.com/Student-Portal";
 function fillMeta(img) {
   const card = img.closest(".card");
   const w = img.naturalWidth;
@@ -169,7 +289,7 @@ function fillMeta(img) {
   card.querySelector(".ratio").textContent =
     `Aspect ratio: ${w}:${h}`;
 
-  const fullUrl = location.origin + img.getAttribute("src");
+  const fullUrl = BASE_URL + img.getAttribute("src");
   card.querySelector(".link").textContent =
     `Link: ${fullUrl}`;
 }
