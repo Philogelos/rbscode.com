@@ -9,7 +9,7 @@
   --bg: linear-gradient(135deg, #f7f3ec, #e9e2ff);
   --card: #ffffff;
   --text: #2d2959;
-  --subtle: #5a5a72;
+  --subtle: #666;
   --border: #e4def7;
   --shadow: rgba(0,0,0,0.12);
   --accent: #5a3cc4;
@@ -17,7 +17,7 @@
 
 body {
   margin: 0;
-  font-family: Inter, sans-serif;
+  font-family: Inter, system-ui, sans-serif;
   background: var(--bg);
   color: var(--text);
 }
@@ -32,17 +32,17 @@ h1 {
   text-align: center;
 }
 
-p.intro {
+p {
   text-align: center;
+  color: var(--subtle);
   max-width: 700px;
   margin: 10px auto 40px;
-  color: var(--subtle);
 }
 
 /* GRID */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 24px;
 }
 
@@ -51,38 +51,39 @@ p.intro {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 16px;
   box-shadow: 0 6px 16px var(--shadow);
+  overflow: hidden;
 }
 
-.card img {
-  width: 100%;
+/* IMAGE PREVIEW */
+.thumb {
   height: 160px;
-  object-fit: contain;
-  background: #fafafa;
-  border-radius: 10px;
+  background: #f3f3f3;
 }
 
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+/* META */
 .meta {
+  padding: 12px;
   font-size: 13px;
-  margin-top: 10px;
   line-height: 1.5;
 }
 
-.meta span {
-  display: block;
+.meta div {
   color: var(--subtle);
 }
 
-.meta strong {
-  color: var(--text);
-}
-
-/* BUTTONS */
+/* ACTIONS */
 .actions {
-  margin-top: 12px;
   display: flex;
-  gap: 10px;
+  gap: 8px;
+  padding: 12px;
 }
 
 button {
@@ -103,212 +104,135 @@ button {
   background: #eee;
 }
 
+/* MODAL */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal img {
+  max-width: 92vw;
+  max-height: 92vh;
+  background: white;
+  border-radius: 10px;
+}
+
+.modal.show {
+  display: flex;
+}
 </style>
 </head>
 
 <body>
 
 <div class="wrapper">
-
   <h1>Image Gallery</h1>
-  <p class="intro">
-    Click an image to copy its link or download it.
-    Use the link directly in your HTML or CSS.
+  <p>
+    Click an image to view it fully.  
+    Use Copy Link or Download for your HTML or CSS projects.
   </p>
 
-  <div class="gallery">
+  <div class="gallery" id="gallery"></div>
+</div>
 
-    <!-- IMAGE CARD TEMPLATE -->
-    <!-- duplicate and change src only -->
-
-    <div class="card">
-      <img src="gallery/1.png" onload="fillMeta(this)">
-      <div class="meta">
-        <span><strong>Name:</strong> gallery/1.png</span>
-        <span class="size"></span>
-        <span class="ratio"></span>
-        <span class="desc">A clean beach background, good for hero sections.</span>
-        <span class="link"></span>
-      </div>
-      <div class="actions">
-        <button class="copy-btn" onclick="copyLink(this)">Copy link</button>
-        <button class="download-btn" onclick="downloadImg(this)">Download</button>
-      </div>
-    </div>
-
-    <!-- Duplicate this card 9 more times -->
-    <div class="card">
-      <img src="gallery/2.png" onload="fillMeta(this)">
-      <div class="meta">
-        <span><strong>Name:</strong> gallery/2.png</span>
-        <span class="size"></span>
-        <span class="ratio"></span>
-        <span class="desc">City skyline image for cards or headers.</span>
-        <span class="link"></span>
-      </div>
-      <div class="actions">
-        <button class="copy-btn" onclick="copyLink(this)">Copy link</button>
-        <button class="download-btn" onclick="downloadImg(this)">Download</button>
-      </div>
-    </div>
-
-    <!-- Add up to 10 total for now -->
-         <div class="card">
-      <img src="gallery/2.png" onload="fillMeta(this)">
-      <div class="meta">
-        <span><strong>Name:</strong> gallery/2.png</span>
-        <span class="size"></span>
-        <span class="ratio"></span>
-        <span class="desc">City skyline image for cards or headers.</span>
-        <span class="link"></span>
-      </div>
-      <div class="actions">
-        <button class="copy-btn" onclick="copyLink(this)">Copy link</button>
-        <button class="download-btn" onclick="downloadImg(this)">Download</button>
-      </div>
-    </div>
-
-        <div class="card">
-      <img src="gallery/2.png" onload="fillMeta(this)">
-      <div class="meta">
-        <span><strong>Name:</strong> gallery/2.png</span>
-        <span class="size"></span>
-        <span class="ratio"></span>
-        <span class="desc">City skyline image for cards or headers.</span>
-        <span class="link"></span>
-      </div>
-      <div class="actions">
-        <button class="copy-btn" onclick="copyLink(this)">Copy link</button>
-        <button class="download-btn" onclick="downloadImg(this)">Download</button>
-      </div>
-    </div>
-
-        <div class="card">
-      <img src="gallery/2.png" onload="fillMeta(this)">
-      <div class="meta">
-        <span><strong>Name:</strong> gallery/2.png</span>
-        <span class="size"></span>
-        <span class="ratio"></span>
-        <span class="desc">City skyline image for cards or headers.</span>
-        <span class="link"></span>
-      </div>
-      <div class="actions">
-        <button class="copy-btn" onclick="copyLink(this)">Copy link</button>
-        <button class="download-btn" onclick="downloadImg(this)">Download</button>
-      </div>
-    </div>
-
-        <div class="card">
-      <img src="gallery/2.png" onload="fillMeta(this)">
-      <div class="meta">
-        <span><strong>Name:</strong> gallery/2.png</span>
-        <span class="size"></span>
-        <span class="ratio"></span>
-        <span class="desc">City skyline image for cards or headers.</span>
-        <span class="link"></span>
-      </div>
-      <div class="actions">
-        <button class="copy-btn" onclick="copyLink(this)">Copy link</button>
-        <button class="download-btn" onclick="downloadImg(this)">Download</button>
-      </div>
-    </div>
-
-        <div class="card">
-      <img src="gallery/2.png" onload="fillMeta(this)">
-      <div class="meta">
-        <span><strong>Name:</strong> gallery/2.png</span>
-        <span class="size"></span>
-        <span class="ratio"></span>
-        <span class="desc">City skyline image for cards or headers.</span>
-        <span class="link"></span>
-      </div>
-      <div class="actions">
-        <button class="copy-btn" onclick="copyLink(this)">Copy link</button>
-        <button class="download-btn" onclick="downloadImg(this)">Download</button>
-      </div>
-    </div>
-
-        <div class="card">
-      <img src="gallery/2.png" onload="fillMeta(this)">
-      <div class="meta">
-        <span><strong>Name:</strong> gallery/2.png</span>
-        <span class="size"></span>
-        <span class="ratio"></span>
-        <span class="desc">City skyline image for cards or headers.</span>
-        <span class="link"></span>
-      </div>
-      <div class="actions">
-        <button class="copy-btn" onclick="copyLink(this)">Copy link</button>
-        <button class="download-btn" onclick="downloadImg(this)">Download</button>
-      </div>
-    </div>
-
-        <div class="card">
-      <img src="gallery/2.png" onload="fillMeta(this)">
-      <div class="meta">
-        <span><strong>Name:</strong> gallery/2.png</span>
-        <span class="size"></span>
-        <span class="ratio"></span>
-        <span class="desc">City skyline image for cards or headers.</span>
-        <span class="link"></span>
-      </div>
-      <div class="actions">
-        <button class="copy-btn" onclick="copyLink(this)">Copy link</button>
-        <button class="download-btn" onclick="downloadImg(this)">Download</button>
-      </div>
-    </div>
-
-        <div class="card">
-      <img src="gallery/2.png" onload="fillMeta(this)">
-      <div class="meta">
-        <span><strong>Name:</strong> gallery/2.png</span>
-        <span class="size"></span>
-        <span class="ratio"></span>
-        <span class="desc">City skyline image for cards or headers.</span>
-        <span class="link"></span>
-      </div>
-      <div class="actions">
-        <button class="copy-btn" onclick="copyLink(this)">Copy link</button>
-        <button class="download-btn" onclick="downloadImg(this)">Download</button>
-      </div>
-    </div>
-
-  </div>
+<div class="modal" id="modal">
+  <img id="modalImg">
 </div>
 
 <script>
-    const BASE_URL = "https://rbscode.com/Student-Portal/";
-function fillMeta(img) {
-  const card = img.closest(".card");
-  const w = img.naturalWidth;
-  const h = img.naturalHeight;
+/* ===== CONFIG ===== */
+const BASE_URL = "https://rbscode.com/Student-Portal/images/";
+const NUM_IMAGES = 101; // change this only
 
-  card.querySelector(".size").textContent =
-    `Size: ${w}px × ${h}px`;
+const gallery = document.getElementById("gallery");
+const modal = document.getElementById("modal");
+const modalImg = document.getElementById("modalImg");
 
-  card.querySelector(".ratio").textContent =
-    `Aspect ratio: ${w}:${h}`;
+/* ===== BUILD GALLERY ===== */
+for (let i = 1; i <= NUM_IMAGES; i++) {
+  const src = `images/${i}.png`;
+  const fullUrl = BASE_URL + `${i}.png`;
 
-  const fullUrl = BASE_URL + img.getAttribute("src");
-  card.querySelector(".link").textContent =
-    `Link: ${fullUrl}`;
+  const card = document.createElement("div");
+  card.className = "card";
+
+  const thumb = document.createElement("div");
+  thumb.className = "thumb";
+
+  const img = document.createElement("img");
+  img.src = src;
+
+  img.onload = () => {
+    const w = img.naturalWidth;
+    const h = img.naturalHeight;
+    meta.innerHTML += `
+      <div>Size: ${w} × ${h}</div>
+      <div>Ratio: ${getRatio(w, h)}</div>
+    `;
+  };
+
+  img.onclick = () => {
+    modalImg.src = src;
+    modal.classList.add("show");
+  };
+
+  thumb.appendChild(img);
+
+  const meta = document.createElement("div");
+  meta.className = "meta";
+  meta.innerHTML = `<div>images/${i}.png</div>`;
+
+  const actions = document.createElement("div");
+  actions.className = "actions";
+
+  const copyBtn = document.createElement("button");
+  copyBtn.className = "copy-btn";
+  copyBtn.textContent = "Copy link";
+  copyBtn.onclick = () => copyText(fullUrl, copyBtn);
+
+  const downloadBtn = document.createElement("button");
+  downloadBtn.className = "download-btn";
+  downloadBtn.textContent = "Download";
+  downloadBtn.onclick = () => download(src);
+
+  actions.appendChild(copyBtn);
+  actions.appendChild(downloadBtn);
+
+  card.appendChild(thumb);
+  card.appendChild(meta);
+  card.appendChild(actions);
+  gallery.appendChild(card);
 }
 
-function copyLink(btn) {
-  const card = btn.closest(".card");
-  const linkText = card.querySelector(".link").textContent.replace("Link: ", "");
-  navigator.clipboard.writeText(linkText);
+/* ===== HELPERS ===== */
+function copyText(text, btn) {
+  navigator.clipboard.writeText(text);
   btn.textContent = "Copied!";
   setTimeout(() => btn.textContent = "Copy link", 1200);
 }
 
-function downloadImg(btn) {
-  const img = btn.closest(".card").querySelector("img");
+function download(src) {
   const a = document.createElement("a");
-  a.href = img.src;
-  a.download = img.src.split("/").pop();
+  a.href = src;
+  a.download = src.split("/").pop();
   a.click();
 }
+
+function getRatio(w, h) {
+  function gcd(a, b) {
+    return b === 0 ? a : gcd(b, a % b);
+  }
+  const d = gcd(w, h);
+  return `${w / d}:${h / d}`;
+}
+
+/* MODAL CLOSE */
+modal.onclick = () => modal.classList.remove("show");
 </script>
 
 </body>
