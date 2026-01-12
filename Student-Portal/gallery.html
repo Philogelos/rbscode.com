@@ -172,7 +172,7 @@ for (let i = 1; i <= NUM_IMAGES; i++) {
     const h = img.naturalHeight;
     meta.innerHTML += `
       <div>Size: ${w} × ${h}</div>
-      <div>Ratio: ${getRatio(w, h)}</div>
+      <div>Aspect ratio: ${getRatio(w, h)}</div>
     `;
   };
 
@@ -223,13 +223,45 @@ function download(src) {
   a.click();
 }
 
+// function getRatio(w, h) {
+//   function gcd(a, b) {
+//     return b === 0 ? a : gcd(b, a % b);
+//   }
+//   const d = gcd(w, h);
+//   return `${w / d}:${h / d}`;
+// }
+
 function getRatio(w, h) {
+  const r = w / h;
+
+  const standards = [
+    { label: "1:1", value: 1 / 1 },
+    { label: "16:9", value: 16 / 9 },
+    { label: "15:8", value: 15 / 8 },
+    { label: "3:2", value: 3 / 2 },
+    { label: "4:3", value: 4 / 3 },
+    { label: "3:4", value: 3 / 4 },
+    { label: "2:3", value: 2 / 3 },
+    { label: "9:16", value: 9 / 16 },
+  ];
+
+  const TOL = 0.03; // 3% tolerance
+
+  for (let s of standards) {
+    if (Math.abs(r - s.value) < TOL) {
+      return s.label;
+    }
+  }
+
+  // fallback: exact reduced ratio
   function gcd(a, b) {
     return b === 0 ? a : gcd(b, a % b);
   }
+
   const d = gcd(w, h);
   return `${w / d}:${h / d}`;
 }
+
 
 /* MODAL CLOSE */
 modal.onclick = () => modal.classList.remove("show");
