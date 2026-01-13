@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Coin Rush</title>
+  <style>
+    body{
+      margin:0;
+      font-family: system-ui, Arial, sans-serif;
+      background:#111;
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      height:100vh;
+    }
+    #wrap{
+      width:min(900px, 95vw);
+      text-align:center;
+    }
+    canvas{
+      background:#1b1b1b;
+      border:2px solid #333;
+      border-radius:14px;
+      display:block;
+      margin:0 auto;
+    }
+    .hint{
+      margin-top:10px;
+      opacity:0.9;
+      font-size:14px;
+    }
+    kbd{
+      background:#222;
+      border:1px solid #444;
+      padding:2px 6px;
+      border-radius:6px;
+    }
+  </style>
+</head>
+<body>
+  <div id="wrap">
+    <canvas id="canvas" width="900" height="520"></canvas>
+    <div class="hint">
+      Click coins fast. Press <kbd>Space</kbd> to start/skip intro. Press <kbd>R</kbd> to restart.
+    </div>
+  </div>
+
+<script>
+/** @type {HTMLCanvasElement} */
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+// ============================================================
+// Small helper: mouse position relative to canvas
+// ============================================================
+function getMousePos(canvas, evt) {
+  const rect = canvas.getBoundingClientRect();
+  return {
+    x: evt.clientX - rect.left,
+    y: evt.clientY - rect.top
+  };
+}
+
+// ============================================================
+// Circle click detection (real hit test)
+// ============================================================
+function isPointInCircle(px, py, cx, cy, r) {
+  const dx = px - cx;
+  const dy = py - cy;
+  return dx * dx + dy * dy <= r * r;
+}
+
+// ============================================================
+// Drawing helpers
+// ============================================================
+function fillCircle(x, y, r, color) {
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.fillStyle = color;
+  ctx.fill();
+}
+
+function strokeCircle(x, y, r, color, lineWidth) {
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.strokeStyle = color;
+  ctx.lineWidth = lineWidth;
+  ctx.stroke();
+}
+
+function drawCoin(coin) {
+  // Base coin
+  fillCircle(coin.x, coin.y, coin.r, "#d4af37");      // gold
+  strokeCircle(coin.x, coin.y, coin.r, "#b88900", 3); // edge
+
+  // Small shine
+  fillCircle(coin.x - coin.r*0.25, coin.y - coin.r*0.25, coin.r*0.25, "rgba(255,255,255,0.25)");
+
+  // Value text
+  ctx.font = "16px Arial";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillStyle = "#2b1a00";
+  ctx.fillText("₪" + coin.value, coin.x, coin.y + 1);
+}
+
+// ============================================================
+// Game data
+// ============================================================
+let gameState = "intro"; // "intro" | "play" | "gameover"
+
+let score = 0;
+let missed = 0;
+let maxMissed = 8;
+
+let timeLeft = 45; // seconds
+let lastTimeMs = performance.now();
+
+let coins = []; // each coin: {x,y,r,value,life,maxLife,id}
+let nextCoinId = 1;
+
+// Coin spawn control
+let spawnTimer = 0;
+let spawnEvery = 0.75; // seconds (will speed up a bit)
+
+// ============================================================
+// Intro scroll (narrative)
+// ============================================================
+const storyLines = [
+  "COIN RUSH",
+  "",
+  "You are walking through a busy market street.",
+  "People bump past, carts roll by, and coins keep slipping out of pockets.",
+  "",
+  "Your mission:",
+  "Click coins fast before someone else picks them up.",
+  "",
+  "Rules:",
+  "• Coins disappear if you wait too long.",
+  "• Missing too many coins ends the run.",
+  "• Bigger coins are worth more, but vanish faster.",
+  "",
+  "Press SPACE to start.",
+];
+
+let storyY = canvas.height + 20; // start below the screen
+let storySpeed = 40; // pixels per second
+
+function resetIntro() {
+  storyY = canvas.height + 20;
+}
+
+// ============================================================
+// Spawning coins (real-world explanation: people drop them)
+// ============================================================
+function spawnCoin() {
+  // Random position (keep inside canvas edges)
+  const r = randInt(18, 30);
+
+  const x = randInt(r + 10, canvas.width - r - 10);
+  const y = randInt(r + 90, canvas.height - r - 30); // leave top space for UI
+
+  // Value + lifetime feel "real":
+  // - small coins last longer
+  // - big/value coins are noticed faster (disappear sooner)
+  const valueOptions = [1, 2, 5, 10];
+  const value = valueOptions[randInt(0, valueOptions.length - 1)];
+
+  // lifetime in seconds (bigger value tends to vanish sooner)
+  const maxLife = value === 10 ? 1.2 : value === 5 ? 1.6 : value === 2 ? 2.0 : 2.4;
+
+  coins.push({
+    id: nextCoinId++,
+    x, y,
+    r,
+    value,
+    life: 0,
+    maxLife
+  });
+}
+
+function randInt(a, b) {
+  return Math.floor(Math.random() * (b - a + 1)) + a;
+}
+
+// ============================================================
+// Input
+// ============================================================
+canvas.addEventListener("click", (e) => {
+  if (gameState !== "play") return;
+
+  const mouse = getMousePos(canvas, e);
+
+  // Find topmost coin clicked (last drawn = last in list)
+  for (let i = coins.length - 1; i >= 0; i--) {
+    const c = coins[i];
+    if (isPointInCircle(mouse.x, mouse.y, c.x, c.y, c.r)) {
+      // Collect!
+      score += c.value;
+      coins.splice(i, 1);
+      return;
+    }
+  }
+});
+
+window.addEventListener("keydown", (e) => {
+  if (e.code === "Space") {
+    if (gameState === "intro") startGame();
+    else if (gameState === "gameover") startGame();
+  }
+  if (e.key.toLowerCase() === "r") {
+    startGame();
+  }
+});
+
+// ============================================================
+// Start / Reset
+// ============================================================
+function startGame() {
+  gameState = "play";
+  score = 0;
+  missed = 0;
+  timeLeft = 45;
+  coins = [];
+  spawnTimer = 0;
+  spawnEvery = 0.75;
+  lastTimeMs = performance.now();
+}
+
+// ============================================================
+// Update
+// ============================================================
+function update(dt) {
+  if (gameState === "intro") {
+    storyY -= storySpeed * dt;
+
+    // When story scrolls past top, loop it gently
+    const totalHeight = storyLines.length * 26;
+    if (storyY < -totalHeight - 40) {
+      resetIntro();
+    }
+    return;
+  }
+
+  if (gameState === "play") {
+    // Timer
+    timeLeft -= dt;
+    if (timeLeft <= 0) {
+      timeLeft = 0;
+      gameState = "gameover";
+    }
+
+    // Spawn coins
+    spawnTimer += dt;
+    if (spawnTimer >= spawnEvery) {
+      spawnTimer = 0;
+      spawnCoin();
+
+      // Slowly make it more intense
+      spawnEvery = Math.max(0.35, spawnEvery - 0.01);
+    }
+
+    // Update coin lifetimes + remove expired ones
+    for (let i = coins.length - 1; i >= 0; i--) {
+      const c = coins[i];
+      c.life += dt;
+
+      if (c.life >= c.maxLife) {
+        coins.splice(i, 1);
+        missed++;
+
+        if (missed >= maxMissed) {
+          gameState = "gameover";
+        }
+      }
+    }
+  }
+}
+
+// ============================================================
+// Draw
+// ============================================================
+function draw() {
+  // Background
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawMarketBackground();
+
+  if (gameState === "intro") {
+    drawIntroOverlay();
+    return;
+  }
+
+  // Coins
+  for (let i = 0; i < coins.length; i++) {
+    drawCoin(coins[i]);
+
+    // Small “urgency ring” showing time left for that coin
+    const c = coins[i];
+    const t = 1 - (c.life / c.maxLife); // 1..0
+    ctx.globalAlpha = 0.35;
+    strokeCircle(c.x, c.y, c.r + 10, "white", 2);
+    ctx.globalAlpha = 1;
+
+    // A simple shrinking ring (visual timer)
+    ctx.globalAlpha = 0.7;
+    strokeCircle(c.x, c.y, (c.r + 10) * t, "white", 3);
+    ctx.globalAlpha = 1;
+  }
+
+  // UI bar
+  drawHUD();
+
+  if (gameState === "gameover") {
+    drawGameOver();
+  }
+}
+
+function drawMarketBackground() {
+  // Simple “street” feel
+  ctx.fillStyle = "#1b1b1b";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // subtle floor tiles
+  ctx.globalAlpha = 0.25;
+  ctx.strokeStyle = "#2a2a2a";
+  ctx.lineWidth = 1;
+  for (let y = 80; y < canvas.height; y += 40) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(canvas.width, y);
+    ctx.stroke();
+  }
+  for (let x = 0; x < canvas.width; x += 60) {
+    ctx.beginPath();
+    ctx.moveTo(x, 80);
+    ctx.lineTo(x, canvas.height);
+    ctx.stroke();
+  }
+  ctx.globalAlpha = 1;
+
+  // Top area (UI/header space)
+  ctx.fillStyle = "#141414";
+  ctx.fillRect(0, 0, canvas.width, 70);
+  ctx.strokeStyle = "#2c2c2c";
+  ctx.beginPath();
+  ctx.moveTo(0, 70);
+  ctx.lineTo(canvas.width, 70);
+  ctx.stroke();
+}
+
+function drawHUD() {
+  ctx.font = "18px Arial";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "middle";
+
+  ctx.fillStyle = "white";
+  ctx.fillText("Score: " + score, 18, 35);
+
+  ctx.fillStyle = "white";
+  ctx.fillText("Missed: " + missed + " / " + maxMissed, 160, 35);
+
+  ctx.textAlign = "right";
+  ctx.fillStyle = "white";
+  ctx.fillText("Time: " + Math.ceil(timeLeft) + "s", canvas.width - 18, 35);
+}
+
+function drawIntroOverlay() {
+  // Dark overlay
+  ctx.globalAlpha = 0.75;
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.globalAlpha = 1;
+
+  // Title / scroll text
+  ctx.textAlign = "center";
+  ctx.textBaseline = "top";
+
+  let y = storyY;
+  for (let i = 0; i < storyLines.length; i++) {
+    const line = storyLines[i];
+
+    // Style for title line
+    if (i === 0) {
+      ctx.font = "48px Arial";
+      ctx.fillStyle = "#ffd86a";
+    } else {
+      ctx.font = "20px Arial";
+      ctx.fillStyle = "white";
+    }
+
+    ctx.fillText(line, canvas.width / 2, y);
+    y += 26;
+  }
+
+  // Bottom hint
+  ctx.font = "16px Arial";
+  ctx.fillStyle = "rgba(255,255,255,0.85)";
+  ctx.fillText("Press SPACE to start", canvas.width / 2, canvas.height - 44);
+}
+
+function drawGameOver() {
+  ctx.globalAlpha = 0.82;
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.globalAlpha = 1;
+
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  ctx.font = "44px Arial";
+  ctx.fillStyle = "#ffd86a";
+  ctx.fillText("Run Complete", canvas.width / 2, canvas.height / 2 - 70);
+
+  ctx.font = "22px Arial";
+  ctx.fillStyle = "white";
+  ctx.fillText("Final Score: " + score, canvas.width / 2, canvas.height / 2 - 18);
+  ctx.fillText("Missed: " + missed + " / " + maxMissed, canvas.width / 2, canvas.height / 2 + 18);
+
+  ctx.font = "18px Arial";
+  ctx.fillStyle = "rgba(255,255,255,0.9)";
+  ctx.fillText("Press SPACE to play again  •  Press R to restart", canvas.width / 2, canvas.height / 2 + 70);
+}
+
+// ============================================================
+// Main loop
+// ============================================================
+function gameLoop(nowMs) {
+  const dt = Math.min(0.05, (nowMs - lastTimeMs) / 1000); // clamp dt
+  lastTimeMs = nowMs;
+
+  update(dt);
+  draw();
+
+  requestAnimationFrame(gameLoop);
+}
+
+// Start with intro scroll
+resetIntro();
+requestAnimationFrame(gameLoop);
+</script>
+</body>
+</html>
