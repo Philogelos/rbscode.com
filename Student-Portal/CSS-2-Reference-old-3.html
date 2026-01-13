@@ -56,15 +56,7 @@ table {
   border-collapse: collapse;
   background: var(--card);
   margin-top: 16px;
-
-  /* column width auto according to content */
-  table-layout: auto;
-
 }
-/* 
-table {
-  table-layout: auto;
-} */
 
 th, td {
   border: 1px solid var(--border);
@@ -76,21 +68,12 @@ th {
   background: #eef1f7;
 }
 
-/* code {
+code {
   background: #f0f0f0;
   padding: 2px 6px;
   border-radius: 4px;
   font-family: "Courier New", monospace;
-} */
-
-code {
-  background-color: #f0f0f0;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-family: "Courier New", monospace;
-  white-space: nowrap; /* ← ADD THIS */
 }
-
 
 .student-note {
   background: var(--note-bg);
@@ -176,23 +159,8 @@ If you can build cards using only these, your foundation is strong.
 <tr><td>text-align</td><td><code>text-align: center;</code></td><td>Align text</td></tr>
 <tr><td>width: 100%</td><td><code>width: 100%;</code></td><td>Fill parent</td></tr>
 <tr><td>border</td><td><code>border: 2px solid black;</code></td><td>Border shorthand</td></tr>
-
-
-<!-- <tr><td>linear-gradient</td><td><code>background: linear-gradient(...)</code></td><td>Color blend</td></tr>
-<tr><td>box-shadow</td><td><code>box-shadow: ...</code></td><td>Depth</td></tr> -->
-<tr>
-  <td>linear-gradient</td>
-  <td><code>background: linear-gradient(to bottom, #1F214D, #BF3475, #FFCE61);</code></td>
-  <td>Blends multiple colors smoothly</td>
-</tr>
-
-<tr>
-  <td>box-shadow</td>
-  <td><code>box-shadow: 0 8px 18px rgba(0,0,0,0.25);</code></td>
-  <td>Adds depth under a card</td>
-</tr>
-
-
+<tr><td>linear-gradient</td><td><code>background: linear-gradient(...)</code></td><td>Color blend</td></tr>
+<tr><td>box-shadow</td><td><code>box-shadow: ...</code></td><td>Depth</td></tr>
 <tr><td>aspect-ratio</td><td><code>aspect-ratio: 3 / 4;</code></td><td>Card shape</td></tr>
 </table>
 
@@ -244,7 +212,7 @@ Cards stay boxes and sit in a row.
 
 <h2>Expanded Explanations</h2>
 
-<h3>Colors (rgb, rgba, hex)</h3>
+<h3>0. Colors (rgb, rgba, hex)</h3>
 
 <div class="example-box">
 <code>
@@ -273,7 +241,7 @@ Gradients blend colors smoothly.
 2–3 colors is usually enough.
 </p>
 
-<!-- <h3>2. Padding and Margin</h3>
+<h3>2. Padding and Margin</h3>
 
 <div class="example-box">
 <code>
@@ -285,109 +253,14 @@ margin: 10px 30px;<br>
 margin: 10px 0 30px 20px;<br>
 margin: auto;
 </code>
-</div> -->
-
-<h3>2. Padding and Margin (Spacing)</h3>
-
-<p>
-<strong>Padding</strong> = space inside the box (content moves inward)<br>
-<strong>Margin</strong> = space outside the box (the box moves away from other things)
-</p>
-
-<div class="example-box">
-<code>
-/* ONE number – all sides */<br>
-padding: 10px;
-</code>
-<p>
-Adds <strong>10px of space on all four sides</strong> inside the box.
-The content moves inward evenly.
-</p>
-
-<hr>
-
-<code>
-/* TWO numbers – vertical, horizontal */<br>
-padding: 10px 20px;
-</code>
-<p>
-<strong>10px</strong> on top and bottom<br>
-<strong>20px</strong> on left and right<br>
-This is very common for buttons and cards.
-</p>
-
-<hr>
-
-<code>
-/* FOUR numbers – top, right, bottom, left */<br>
-padding: 10px 0 30px 20px;
-</code>
-<p>
-This follows the <strong>clock rule</strong>:<br>
-Top = 10px<br>
-Right = 0px<br>
-Bottom = 30px<br>
-Left = 20px
-</p>
-
-<hr>
-
-<code>
-margin: 20px;
-</code>
-<p>
-Adds <strong>20px of space outside the box</strong> on all sides.
-The box moves away from other elements.
-</p>
-
-<hr>
-
-<code>
-margin: 10px 30px;
-</code>
-<p>
-<strong>10px</strong> top and bottom<br>
-<strong>30px</strong> left and right<br>
-Useful when spacing cards horizontally.
-</p>
-
-<hr>
-
-<code>
-margin: 10px 0 30px 20px;
-</code>
-<p>
-Top = 10px<br>
-Right = 0px<br>
-Bottom = 30px<br>
-Left = 20px
-</p>
-
-<hr>
-
-<code>
-margin: auto;
-</code>
-<p>
-Tells the browser to <strong>automatically center the box</strong> horizontally.<br>
-Works only when the element has a width.
-</p>
 </div>
-
-<p>
-<strong>Memory tip:</strong><br>
-4 numbers always go like a clock:<br>
-<strong>top → right → bottom → left</strong><br>
-(12 → 3 → 6 → 9)
-</p>
-
 
 <p>
 Order is like a clock:
 <strong>top → right → bottom → left</strong>
 </p>
 
-<!-- <h3>3. Box Shadow</h3>
+<h3>3. Box Shadow</h3>
 
 <div class="example-box">
 <code>
@@ -398,80 +271,6 @@ box-shadow: 0 8px 18px rgba(0,0,0,0.18);
 <p>
 X offset, Y offset, blur, color.
 Small X, medium Y, soft blur works best.
-</p> -->
-
-<h3>3. Box Shadow (Depth)</h3>
-
-<p>
-A shadow makes a card feel lifted off the page.
-</p>
-
-<h4>Shadow part 1: Left / Right</h4>
-
-<div class="example-box">
-<code>
-box-shadow: 7px 0 0 black;
-</code>
-
-<div class="demo-card" style="box-shadow:7px 0 0 black;">
-Shadow →
-</div>
-
-<p>
-<strong>7px</strong> moves the shadow to the right.<br>
-Negative numbers move it left.
-</p>
-</div>
-
-<h4>Shadow part 2: Up / Down</h4>
-
-<div class="example-box">
-<code>
-box-shadow: 0 7px 0 black;
-</code>
-
-<div class="demo-card" style="box-shadow:0 7px 0 black;">
-Shadow ↓
-</div>
-
-<p>
-<strong>7px</strong> moves the shadow downward.<br>
-Negative numbers move it upward.
-</p>
-</div>
-
-<h4>Shadow part 3: Blur and Transparency (Real shadows)</h4>
-
-<div class="example-box">
-<code>
-box-shadow: 0 8px 18px rgba(0,0,0,0.25);
-</code>
-
-<div class="demo-card" style="box-shadow:0 8px 18px rgba(0,0,0,0.25);">
-Soft shadow
-</div>
-
-<p>
-Explanation of each part:
-</p>
-
-<ul>
-  <li><strong>0</strong> – no left/right movement</li>
-  <li><strong>8px</strong> – shadow goes down</li>
-  <li><strong>18px</strong> – blur amount (bigger = softer)</li>
-  <li><strong>rgba(0,0,0,0.25)</strong> – black with transparency</li>
-</ul>
-
-<p>
-<strong>Why use rgba for shadows?</strong><br>
-Real shadows are not solid black.<br>
-Transparency makes them look soft and natural.
-</p>
-</div>
-
-<p>
-<strong>Good rule of thumb:</strong><br>
-Small X, medium Y, soft blur, transparent black.
 </p>
 
 <h3>4. Aspect Ratio</h3>

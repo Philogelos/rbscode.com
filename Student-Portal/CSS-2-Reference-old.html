@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CSS Reference Sheet – Cards</title>
+
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #f4f5f7;
+        padding: 40px;
+        color: #222;
+    }
+
+    h1 {
+        margin-bottom: 10px;
+    }
+
+    h2 {
+        margin-top: 40px;
+        margin-bottom: 10px;
+    }
+
+    h3 {
+        margin-top: 30px;
+        margin-bottom: 8px;
+    }
+
+    p {
+        max-width: 900px;
+        line-height: 1.6;
+    }
+
+    table {
+        width: 100%;
+        max-width: 1000px;
+        border-collapse: collapse;
+        background-color: white;
+        margin-top: 15px;
+    }
+
+    th, td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        vertical-align: top;
+        text-align: left;
+    }
+
+    th {
+        background-color: #e9ecf1;
+        font-weight: bold;
+    }
+
+    code {
+        background-color: #f0f0f0;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: "Courier New", monospace;
+    }
+
+    .student-note {
+        background-color: #eef6ff;
+        border: 1px solid #b7d7ff;
+        padding: 14px;
+        max-width: 900px;
+        margin-top: 15px;
+    }
+
+    .example-box {
+        background-color: #ffffff;
+        border: 1px dashed #aaa;
+        padding: 15px;
+        margin-top: 10px;
+        max-width: 900px;
+    }
+
+    ul {
+        max-width: 900px;
+        line-height: 1.6;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>CSS Level 2 Reference Sheet – Cards</h1>
+
+<a href="css-cards-activities.html"
+   style="
+     display:inline-block;
+     margin-top:12px;
+     padding:10px 18px;
+     background:#4a6cff;
+     color:white;
+     border-radius:8px;
+     font-weight:600;
+     text-decoration:none;
+   ">
+   Practice: Build CSS Cards →
+</a>
+
+<!-- <p>
+This page shows the CSS tools you will use to build cards that look like real websites.
+We learn things step by step, so nothing feels overwhelming.
+</p> -->
+<br><br>
+<hr>
+
+<h2>CSS Level 1 — Essential Properties (Already Known)</h2>
+
+<p>
+These are the <strong>11 essential CSS properties</strong> you should already know.
+You can build good-looking buttons and simple cards using only these.
+</p>
+
+<table>
+    <tr>
+        <th>Property</th>
+        <th>Example</th>
+        <th>What it does</th>
+    </tr>
+
+    <tr><td>color</td><td><code>color: white;</code></td><td>Changes the text color</td></tr>
+    <tr><td>background-color</td><td><code>background-color: black;</code></td><td>Sets the background color</td></tr>
+    <tr><td>width</td><td><code>width: 200px;</code></td><td>How wide the element is</td></tr>
+    <tr><td>height</td><td><code>height: 50px;</code></td><td>How tall the element is</td></tr>
+    <tr><td>border-color</td><td><code>border-color: red;</code></td><td>Color of the border</td></tr>
+    <tr><td>border-width</td><td><code>border-width: 3px;</code></td><td>Thickness of the border</td></tr>
+    <tr><td>border-style</td><td><code>border-style: solid;</code></td><td>Makes the border visible</td></tr>
+    <tr><td>border-radius</td><td><code>border-radius: 8px;</code></td><td>Rounds the corners</td></tr>
+    <tr><td>font-size</td><td><code>font-size: x-large;</code></td><td>Size of the text</td></tr>
+    <tr><td>font-weight</td><td><code>font-weight: bold;</code></td><td>Makes text thicker</td></tr>
+    <tr><td>font-family</td><td><code>font-family: "Courier New", monospace;</code></td><td>Changes the font style</td></tr>
+</table>
+
+<div class="student-note">
+<strong>Student note:</strong><br>
+If you can build a clean button or card using only these 11 properties,
+you are doing <strong>very well</strong>.  
+That means your foundation is strong.
+</div>
+
+<hr>
+
+<h2>CSS Level 2 — New Concepts (Learned Gradually)</h2>
+
+<p>
+These tools are added slowly, usually one or two at a time,
+and always connected to a real card you are building.
+</p>
+
+<table>
+    <tr>
+        <th>Concept</th>
+        <th>Example</th>
+        <th>What it does</th>
+    </tr>
+
+    <tr><td>div</td><td><code>&lt;div class="card"&gt;</code></td><td>A box that holds content</td></tr>
+    <tr><td>span</td><td><code>&lt;span&gt;</code></td><td>Styles part of a line of text</td></tr>
+    <tr><td>class</td><td><code>.card { }</code></td><td>Styles many elements</td></tr>
+    <tr><td>id</td><td><code>#mainCard { }</code></td><td>Styles one element only</td></tr>
+    <tr><td>rgb()</td><td><code>rgb(30, 30, 60)</code></td><td>A color made from red, green, blue numbers</td></tr>
+    <tr><td>rgba()</td><td><code>rgba(0,0,0,0.3)</code></td><td>A color with transparency (see-through)</td></tr>
+    <tr><td>Hex colors</td><td><code>#1F214D</code></td><td>A short code that represents a color</td></tr>
+    <tr><td>padding</td><td><code>padding: 15px;</code></td><td>Space inside the card</td></tr>
+    <tr><td>margin</td><td><code>margin: 20px;</code></td><td>Space outside the card</td></tr>
+    <tr><td>text-align</td><td><code>text-align: center;</code></td><td>Aligns text</td></tr>
+    <tr><td>width: 100%</td><td><code>width: 100%;</code></td><td>Fills the parent</td></tr>
+    <tr><td>border (shorthand)</td><td><code>border: 2px solid black;</code></td><td>Border in one line (width, style, color)</td></tr>
+    <tr><td>border-radius (advanced)</td><td><code>border-radius: 4px 4px 0 0;</code></td><td>Rounds only some corners</td></tr>
+    <tr><td>linear-gradient</td><td><code>background: linear-gradient(...)</code></td><td>Background with blended colors</td></tr>
+    <tr><td>box-shadow</td><td><code>box-shadow: 0 8px 18px rgba(...);</code></td><td>Shadow under the card</td></tr>
+    <tr><td>aspect-ratio (bonus)</td><td><code>aspect-ratio: 3 / 4;</code></td><td>Keeps a card shape consistent</td></tr>
+</table>
+
+<hr>
+<br><br><br>
+<h2>Expanded Examples (Read This Slowly)</h2>
+
+<h3>0. Colors (rgb, rgba, hex)</h3>
+
+<p>
+CSS can understand colors in a few different ways.
+All of these are valid, and you can choose whichever feels easiest.
+</p>
+
+<div class="example-box">
+<code>
+/* 1) Hex (short color code) */<br>
+color: #1F214D;<br><br>
+
+/* 2) rgb(red, green, blue) - numbers from 0 to 255 */<br>
+background-color: rgb(30, 30, 60);<br><br>
+
+/* 3) rgba(red, green, blue, alpha) - alpha is transparency */<br>
+box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+</code>
+</div>
+
+<p>
+<b>rgb()</b> uses 3 numbers (0–255):<br>
+<b>rgb(255, 0, 0)</b> is bright red, and <b>rgb(0, 0, 0)</b> is black.
+</p>
+
+<p>
+<b>rgba()</b> is the same as rgb, but with a 4th number called <b>alpha</b> (see-through):<br>
+<b>rgba(0,0,0,1)</b> = fully solid<br>
+<b>rgba(0,0,0,0.2)</b> = very transparent
+</p>
+
+<p>
+<b>Hex</b> is a short code that starts with <b>#</b>.<br>
+It’s just another way to write colors, like a color nickname.
+</p>
+
+<h3>1. Gradients (Backgrounds with Multiple Colors)</h3>
+
+<p>
+A gradient blends colors smoothly.
+The simplest version looks like this:
+</p>
+
+<div class="example-box">
+<code>
+background: linear-gradient(to bottom, #1F214D, #BF3475, #FFCE61);
+</code>
+</div>
+
+<p>
+Common directions you can use:
+</p>
+
+<ul>
+    <li><code>to bottom</code></li>
+    <li><code>to top</code></li>
+    <li><code>to right</code></li>
+    <li><code>to left</code></li>
+    <li><code>to top right</code></li>
+    <li><code>to bottom right</code></li>
+</ul>
+
+<p>
+You can use 2 colors or 3 colors.
+More than that is usually unnecessary.
+</p>
+
+<h3>2. Padding and Margin (Spacing)</h3>
+
+<p>
+<strong>Padding</strong> = space inside the box (content moves inward)<br>
+<strong>Margin</strong> = space outside the box (the box moves away from other things)
+</p>
+
+<div class="example-box">
+<code>
+/* ONE number = all sides */<br>
+padding: 10px;<br><br>
+
+<!-- -->
+/* TWO numbers = vertical, horizontal */<br>
+/* first = top+bottom, second = left+right */<br>
+padding: 10px 20px;<br><br>
+
+<!-- -->
+/* FOUR numbers = top, right, bottom, left */<br>
+padding: 10px 0 30px 20px;<br><br>
+
+<!-- -->
+/* You can also control one side */<br>
+padding-left: 5px;<br><br>
+
+margin: 20px;<br>
+margin: 10px 30px;<br>
+margin: 10px 0 30px 20px;
+</code>
+</div>
+
+<p>
+Remember the 4-number order like a clock:
+<strong>top → right → bottom → left</strong>
+(12 o’clock → 3 o’clock → 6 o’clock → 9 o’clock)
+</p>
+
+<h3>3. Box Shadow (Depth)</h3>
+
+<p>
+A shadow makes a card feel lifted off the page.
+</p>
+
+<div class="example-box">
+<code>
+box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+</code>
+</div>
+
+<p>
+What each part means:
+</p>
+
+<ul>
+    <li><strong>0</strong> = move the shadow left or right (negative goes left, positive goes right)</li>
+    <li><strong>8px</strong> = move the shadow up or down (negative goes up, positive goes down)</li>
+    <li><strong>18px</strong> = blur amount (bigger number = softer shadow)</li>
+    <li><strong>color</strong> = shadow color (often black with transparency)</li>
+</ul>
+
+<p>
+Tip: Most of the time you want a small x, a medium y, and a soft blur.
+</p>
+
+<h3>4. Aspect Ratio (Card Shape)</h3>
+
+<p>
+Aspect ratio locks the shape of a card.
+This is useful when you want all cards to be the same shape.
+</p>
+
+<div class="example-box">
+<code>
+aspect-ratio: 3 / 4;
+</code>
+</div>
+
+<p>
+This means:
+for every 3 units wide, the card is 4 units tall.
+</p>
+
+<p>
+Extra important rule:
+you only need to set <strong>width OR height</strong> (not both).
+The browser will choose the other size automatically to keep the ratio.
+</p>
+
+<hr>
+
+<p>
+You do not need to memorize everything at once.
+This page is a reference you can return to while building cards.
+</p>
+
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CSS Reference Sheet – Cards</title>
+
+<style>
+:root {
+  --bg: #f4f6fb;
+  --card: #ffffff;
+  --text: #222;
+  --muted: #555;
+  --border: #d6d9e0;
+  --accent: #4a6cff;
+  --note-bg: #eef6ff;
+  --note-border: #b7d7ff;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  padding: 40px;
+}
+
+h1 {
+  margin-bottom: 6px;
+}
+
+h2 {
+  margin-top: 48px;
+  margin-bottom: 10px;
+}
+
+h3 {
+  margin-top: 32px;
+  margin-bottom: 8px;
+}
+
+p {
+  max-width: 920px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+hr {
+  margin: 40px 0;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+a.cta {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 10px 18px;
+  background: var(--accent);
+  color: white;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+table {
+  width: 100%;
+  max-width: 1000px;
+  border-collapse: collapse;
+  background: var(--card);
+  margin-top: 16px;
+}
+
+th, td {
+  border: 1px solid var(--border);
+  padding: 10px;
+  vertical-align: top;
+  text-align: left;
+}
+
+th {
+  background: #eef1f7;
+  font-weight: bold;
+}
+
+code {
+  background: #f0f0f0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Courier New", monospace;
+}
+
+.student-note {
+  background: var(--note-bg);
+  border: 1px solid var(--note-border);
+  padding: 14px;
+  max-width: 920px;
+  margin-top: 16px;
+}
+
+.example-box {
+  background: var(--card);
+  border: 1px dashed #aaa;
+  padding: 16px;
+  margin-top: 12px;
+  max-width: 920px;
+}
+
+.demo-row {
+  margin-top: 10px;
+}
+
+.demo-card {
+  background: #ffdede;
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 12px;
+  width: 160px;
+  text-align: center;
+  margin: 6px;
+}
+
+ul {
+  max-width: 920px;
+  line-height: 1.6;
+}
+</style>
+</head>
+
+<body>
+
+<h1>CSS Reference Sheet – Cards</h1>
+
+<a class="cta" href="css-cards-activities.html">
+  Practice: Build CSS Cards →
+</a>
+
+<p>
+This page shows the CSS tools you use to build cards and simple webpages.
+We learn things step by step, so nothing feels overwhelming.
+</p>
+
+<hr>
+
+<h2>CSS Level 1 — Essential Properties (Already Known)</h2>
+
+<p>
+These are the <strong>11 essential CSS properties</strong>.
+You can build good-looking buttons and simple cards using only these.
+</p>
+
+<table>
+<tr><th>Property</th><th>Example</th><th>What it does</th></tr>
+<tr><td>color</td><td><code>color: white;</code></td><td>Changes the text color</td></tr>
+<tr><td>background-color</td><td><code>background-color: black;</code></td><td>Sets the background color</td></tr>
+<tr><td>width</td><td><code>width: 200px;</code></td><td>How wide the element is</td></tr>
+<tr><td>height</td><td><code>height: 50px;</code></td><td>How tall the element is</td></tr>
+<tr><td>border-color</td><td><code>border-color: red;</code></td><td>Color of the border</td></tr>
+<tr><td>border-width</td><td><code>border-width: 3px;</code></td><td>Thickness of the border</td></tr>
+<tr><td>border-style</td><td><code>border-style: solid;</code></td><td>Makes the border visible</td></tr>
+<tr><td>border-radius</td><td><code>border-radius: 8px;</code></td><td>Rounds the corners</td></tr>
+<tr><td>font-size</td><td><code>font-size: x-large;</code></td><td>Size of the text</td></tr>
+<tr><td>font-weight</td><td><code>font-weight: bold;</code></td><td>Makes text thicker</td></tr>
+<tr><td>font-family</td><td><code>font-family: Arial, sans-serif;</code></td><td>Changes the font style</td></tr>
+</table>
+
+<div class="student-note">
+<strong>Student note:</strong><br>
+If you can build a clean button or card using only these 11 properties,
+your foundation is strong.
+</div>
+
+<hr>
+
+<h2>CSS Level 2 — Card & Page Building Tools</h2>
+
+<p>
+These tools are added slowly and always used in real projects.
+</p>
+
+<table>
+<tr><th>Concept</th><th>Example</th><th>What it does</th></tr>
+<tr><td>div</td><td><code>&lt;div&gt;</code></td><td>A box that holds content</td></tr>
+<tr><td>span</td><td><code>&lt;span&gt;</code></td><td>Styles part of a line of text</td></tr>
+<tr><td>class</td><td><code>.card { }</code></td><td>Styles many elements</td></tr>
+<tr><td>id</td><td><code>#mainCard { }</code></td><td>Styles one element only</td></tr>
+<tr><td>padding</td><td><code>padding: 15px;</code></td><td>Space inside the box</td></tr>
+<tr><td>margin</td><td><code>margin: 20px;</code></td><td>Space outside the box</td></tr>
+<tr><td>text-align</td><td><code>text-align: center;</code></td><td>Aligns text</td></tr>
+<tr><td>width: 100%</td><td><code>width: 100%;</code></td><td>Fills the parent</td></tr>
+<tr><td>border (shorthand)</td><td><code>border: 2px solid black;</code></td><td>Border in one line</td></tr>
+<tr><td>linear-gradient</td><td><code>background: linear-gradient(...)</code></td><td>Blended colors</td></tr>
+<tr><td>box-shadow</td><td><code>box-shadow: 0 8px 18px rgba(...)</code></td><td>Depth</td></tr>
+<tr><td>aspect-ratio (bonus)</td><td><code>aspect-ratio: 3 / 4;</code></td><td>Keeps card shape</td></tr>
+</table>
+
+<hr>
+
+<h2>Special Topic — display</h2>
+
+<p>
+The <code>display</code> property decides <strong>how a box behaves</strong>:
+does it sit on its own line, act like text, or behave like a card in a row?
+</p>
+
+<table>
+<tr><th>Value</th><th>What it means</th></tr>
+<tr><td><code>block</code></td><td>A box on its own line (default for div)</td></tr>
+<tr><td><code>inline</code></td><td>Acts like text (no width / height)</td></tr>
+<tr><td><code>inline-block</code></td><td>A box that sits in a line (perfect for cards)</td></tr>
+</table>
+
+<div class="example-box">
+<strong>Example: Cards in a row</strong><br><br>
+<code>
+.card { display: inline-block; }
+</code>
+
+<div class="demo-row">
+  <div class="demo-card" style="display:inline-block;">Card 1</div>
+  <div class="demo-card" style="display:inline-block;">Card 2</div>
+  <div class="demo-card" style="display:inline-block;">Card 3</div>
+</div>
+</div>
+
+<p>
+<strong>Key idea:</strong><br>
+Inline elements act like text.<br>
+Block elements act like big boxes.<br>
+Inline-block elements are boxes that can sit next to each other.
+</p>
+
+<hr>
+
+<h2>Appendix A — Margin (Spacing Outside)</h2>
+
+<div class="example-box">
+<code>
+margin: 20px;<br><br>
+
+margin: 10px 30px;<br><br>
+
+margin: 10px 0 30px 20px;<br><br>
+
+margin-left: 15px;<br><br>
+
+margin: auto; /* centers a block */
+</code>
+</div>
+
+<p>
+Order reminder: <strong>top → right → bottom → left</strong>
+</p>
+
+<hr>
+
+<h2>Appendix B — Padding (Spacing Inside)</h2>
+
+<div class="example-box">
+<code>
+padding: 10px;<br><br>
+
+padding: 10px 20px;<br><br>
+
+padding: 10px 0 30px 20px;<br><br>
+
+padding-left: 8px;
+</code>
+</div>
+
+<hr>
+
+<p>
+You do not need to memorize everything.
+Use this page while building.
+</p>
+
+</body>
+</html>
