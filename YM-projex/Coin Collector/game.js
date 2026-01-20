@@ -27,7 +27,7 @@ function drawCoin(x, y, value){
     ctx.fillText("$"+value, x, y)
 }
 
-let x = 100
+let x = canvas.width/2 -25
 let y = 100
 let score = 0 
 function gameLoop(){
@@ -37,6 +37,14 @@ function gameLoop(){
     ctx.font = "16px Arial";
     ctx.fillStyle = "red"
     ctx.fillText("$"+score, 25, 25)
+
+
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    ctx.font = "55px Arial";
+    ctx.fillStyle = "red"
+    if(score < 20)ctx.fillText("Coin collector", canvas.width/2, canvas.height/2)
 
     requestAnimationFrame(gameLoop)
 }
