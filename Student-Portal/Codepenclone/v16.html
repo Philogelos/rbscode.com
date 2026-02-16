@@ -161,32 +161,40 @@ ${js}
   }
 
   // SIMPLE EMULATION OF "p → <p></p>"
-  monaco.languages.registerCompletionItemProvider("html", {
-    triggerCharacters: "abcdefghijklmnopqrstuvwxyz".split(""),
-    provideCompletionItems: function(model, position){
-      const word = model.getWordUntilPosition(position).word;
-      if(!word) return {suggestions:[]};
+monaco.languages.registerCompletionItemProvider("html", {
+  triggerCharacters: "abcdefghijklmnopqrstuvwxyz".split(""),
 
-      const tags = ["p","div","span","h1","h2","button","ul","li","section"];
+  provideCompletionItems: function(model, position) {
 
-      if(!tags.includes(word)) return {suggestions:[]};
+    const wordInfo = model.getWordUntilPosition(position);
+    const word = wordInfo.word;
 
-      return {
-        suggestions: [{
-          label: word,
+    const tags = ["p","div","span","h1","h2","button","ul","li","section"];
+
+    if (!tags.includes(word)) {
+      return { suggestions: [] };
+    }
+
+    return {
+      suggestions: [
+        {
+          label: word + " tag",
           kind: monaco.languages.CompletionItemKind.Snippet,
           insertText: `<${word}>$0</${word}>`,
           insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-          range: new monaco.Range(
-            position.lineNumber,
-            position.column - word.length,
-            position.lineNumber,
-            position.column
-          )
-        }]
-      };
-    }
-  });
+          range: {
+            startLineNumber: position.lineNumber,
+            endLineNumber: position.lineNumber,
+            startColumn: wordInfo.startColumn,
+            endColumn: wordInfo.endColumn
+          },
+          documentation: `Create a <${word}></${word}> tag`
+        }
+      ]
+    };
+  }
+});
+
 
 });
 </script>
