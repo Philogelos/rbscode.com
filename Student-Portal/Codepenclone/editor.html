@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>RBS Code Studio</title>
+
+<style>
+:root{
+  --bg0:#070716;
+  --bg1:#0b1026;
+  --border:rgba(255,255,255,0.10);
+  --text:rgba(255,255,255,0.92);
+  --muted:rgba(255,255,255,0.64);
+  --a1:#7c3aed;
+  --a2:#22d3ee;
+  --shadow:0 20px 60px rgba(0,0,0,0.55);
+  --radius:16px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  color:var(--text);
+  font-family:system-ui;
+  background:
+    radial-gradient(1000px 600px at 15% 15%, rgba(124,58,237,0.35), transparent),
+    radial-gradient(900px 600px at 85% 20%, rgba(34,211,238,0.2), transparent),
+    linear-gradient(180deg,var(--bg0),var(--bg1));
+  overflow:hidden;
+}
+
+.wrap{height:100%;display:flex;flex-direction:column;padding:14px;gap:12px}
+
+.topbar{
+  display:flex;align-items:center;gap:12px;
+  padding:12px;border:1px solid var(--border);
+  background:rgba(255,255,255,0.06);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+
+.brand{
+  font-weight:800;
+  padding:8px 12px;
+  border-radius:12px;
+  background:linear-gradient(135deg,var(--a1),var(--a2));
+}
+
+.spacer{flex:1}
+
+button{
+  border:none;
+  padding:9px 12px;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:800;
+  background:rgba(255,255,255,0.08);
+  color:white;
+}
+button.primary{
+  background:linear-gradient(135deg,var(--a1),var(--a2));
+}
+button:hover{filter:brightness(1.1)}
+
+.main{
+  flex:1;
+  display:grid;
+  grid-template-columns:1.2fr 0.8fr;
+  gap:12px;
+  min-height:0;
+}
+
+.card{
+  display:flex;
+  flex-direction:column;
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+  background:rgba(255,255,255,0.05);
+  overflow:hidden;
+  min-height:0;
+}
+
+.cardHead{
+  display:flex;
+  justify-content:space-between;
+  padding:10px;
+  border-bottom:1px solid var(--border);
+}
+
+.tabs{display:flex;gap:8px}
+.tab{
+  padding:8px 14px;
+  border-radius:12px;
+  font-weight:900;
+  cursor:pointer;
+  background:rgba(255,255,255,0.05);
+  color:var(--muted);
+}
+.tab.active{
+  color:white;
+  background:linear-gradient(135deg,var(--a1),var(--a2));
+  box-shadow:0 0 20px rgba(124,58,237,0.4);
+}
+
+.editorArea{flex:1;min-height:0}
+#editor{height:100%}
+
+.previewArea{flex:1;min-height:0}
+iframe{width:100%;height:100%;border:none;background:white}
+
+.console{
+  height:120px;
+  overflow:auto;
+  font-size:12px;
+  padding:10px;
+  background:black;
+  color:#22d3ee;
+}
+
+.overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,0.75);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
+.overlay.show{display:flex}
+.overlayCard{
+  width:min(1100px,95%);
+  height:min(750px,95%);
+  background:white;
+  border-radius:20px;
+  overflow:hidden;
+}
+.overlay iframe{width:100%;height:100%}
+
+@media(max-width:900px){
+  .main{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+<div class="topbar">
+  <div class="brand">RBS Code</div>
+  <div class="spacer"></div>
+  <button id="btnRun" class="primary">Run</button>
+  <button id="btnFull">Full Preview</button>
+  <button id="btnDownloadHtml">Download HTML</button>
+  <button id="btnDownloadZip">Download ZIP</button>
+</div>
+
+<div class="main">
+  <div class="card">
+    <div class="cardHead">
+      <div class="tabs">
+        <div class="tab active" data-lang="html">HTML</div>
+        <div class="tab" data-lang="css">CSS</div>
+        <div class="tab" data-lang="javascript">JS</div>
+      </div>
+    </div>
+    <div class="editorArea"><div id="editor"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="cardHead">Preview</div>
+    <div class="previewArea">
+      <iframe id="preview" sandbox="allow-scripts"></iframe>
+    </div>
+    <!-- <div id="console" class="console">Console ready.</div> -->
+  </div>
+</div>
+
+</div>
+
+<div id="overlay" class="overlay">
+  <div class="overlayCard">
+    <iframe id="overlayFrame" sandbox="allow-scripts"></iframe>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+<script>
+(function(){
+const base="https://cdn.jsdelivr.net/npm/monaco-editor@0.47.0/min/";
+window.MonacoEnvironment={
+getWorkerUrl:function(){
+const workerMain=base+"vs/base/worker/workerMain.js";
+const code=`self.MonacoEnvironment={baseUrl:"${base}"};importScripts("${workerMain}");`;
+return URL.createObjectURL(new Blob([code],{type:"text/javascript"}));
+}};
+const req=document.createElement("script");
+req.src=base+"vs/loader.js";
+req.onload=()=>{
+require.config({paths:{vs:base+"vs"}});
+require(["vs/editor/editor.main"],initStudio);
+};
+document.head.appendChild(req);
+})();
+</script>
+
+<script>
+// const DEFAULT={
+// html:`<!doctype html>
+// <html>
+// <head>
+// <title>My Project</title>
+// </head>
+// <body>
+// <h1>Hello RBS Code</h1>
+// </body>
+// </html>`,
+// css:`body{font-family:Arial}`,
+// javascript:`console.log("Ready");`
+// };
+
+const DEFAULT={
+    html:`<h1 id="hello">Hello RBS Code</h1>`,
+    css:`body{\n  font-family: Arial\n}`,
+    javascript:`console.log("Ready");`
+};
+
+let editor,models={},activeLang="html";
+
+function initStudio(){
+
+models.html=monaco.editor.createModel(DEFAULT.html,"html");
+models.css=monaco.editor.createModel(DEFAULT.css,"css");
+models.javascript=monaco.editor.createModel(DEFAULT.javascript,"javascript");
+
+editor=monaco.editor.create(document.getElementById("editor"),{
+model:models.html,
+theme:"vs-dark",
+fontSize:14,
+minimap:{enabled:false},
+automaticLayout:true,
+wordWrap:"on",
+snippetSuggestions:"top",
+wordBasedSuggestions:false
+});
+
+document.querySelectorAll(".tab").forEach(t=>{
+t.onclick=()=>{
+document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+t.classList.add("active");
+activeLang=t.dataset.lang;
+editor.setModel(models[activeLang]);
+};
+});
+
+registerHtmlSnippets();
+
+document.getElementById("btnRun").onclick=runCode;
+document.getElementById("btnFull").onclick=openOverlay;
+document.getElementById("btnDownloadHtml").onclick=downloadHtml;
+document.getElementById("btnDownloadZip").onclick=downloadZip;
+
+window.addEventListener("keydown",e=>{
+if(e.key==="Escape") closeOverlay();
+});
+}
+
+function registerHtmlSnippets(){
+const tags=[
+"html","head","body","title","meta",
+"h1","h2","h3","p","div","span",
+"a","img","button","ul","ol","li",
+"section","header","footer","nav","main",
+"form","label","input","textarea","br","hr"
+];
+
+monaco.languages.registerCompletionItemProvider("html",{
+provideCompletionItems:()=>({
+suggestions:tags.map(tag=>({
+label:tag,
+kind:monaco.languages.CompletionItemKind.Snippet,
+insertText:snippetFor(tag),
+insertTextRules:monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
+}))
+})
+});
+}
+
+function snippetFor(tag){
+if(tag==="meta") return `<meta charset="utf-8">`;
+if(tag==="img") return `<img src="$1" alt="$2">`;
+if(tag==="input") return `<input type="$1">`;
+if(tag==="br"||tag==="hr") return `<${tag}>`;
+return `<${tag}>$0</${tag}>`;
+}
+
+function buildHtml(){
+return `<!doctype html>
+<html>
+<head>
+<style>${models.css.getValue()}</style>
+</head>
+<body>
+${models.html.getValue()}
+<script>
+try{
+${models.javascript.getValue()}
+}catch(e){
+document.body.innerHTML+="<pre style='color:red'>"+e.message+"</pre>"
+}
+<\/script>
+</body>
+</html>`;
+}
+
+function runCode(){
+document.getElementById("preview").srcdoc=buildHtml();
+}
+
+function openOverlay(){
+const overlay=document.getElementById("overlay");
+overlay.classList.add("show");
+document.getElementById("overlayFrame").srcdoc=buildHtml();
+}
+function closeOverlay(){
+document.getElementById("overlay").classList.remove("show");
+}
+
+function downloadHtml(){
+const blob=new Blob([buildHtml()],{type:"text/html"});
+download(blob,"project.html");
+}
+
+async function downloadZip(){
+const zip=new JSZip();
+zip.file("index.html",buildHtml());
+zip.file("style.css",models.css.getValue());
+zip.file("script.js",models.javascript.getValue());
+const blob=await zip.generateAsync({type:"blob"});
+download(blob,"project.zip");
+}
+
+function download(blob,name){
+const a=document.createElement("a");
+const url=URL.createObjectURL(blob);
+a.href=url;
+a.download=name;
+a.click();
+URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
