@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>RBS Code Studio</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#0b1026;
+  color:white;
+  display:flex;
+  flex-direction:column;
+  height:100vh;
+}
+.topbar{
+  display:flex;
+  gap:10px;
+  padding:10px;
+  background:#11163a;
+}
+button{
+  padding:6px 12px;
+  cursor:pointer;
+}
+.main{
+  flex:1;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+}
+#editor{height:100%;}
+iframe{width:100%;height:100%;border:none;background:white;}
+.fullpreview{
+  position:fixed;
+  inset:0;
+  background:white;
+  z-index:999;
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <button onclick="runCode()">Run</button>
+  <button onclick="downloadZip()">Download Folder</button>
+  <button onclick="togglePreview()">Toggle Full Preview</button>
+</div>
+
+<div class="main">
+  <div id="editor"></div>
+  <iframe id="preview"></iframe>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.47.0/min/vs/loader.js"></script>
+<script>
+require.config({ paths:{ vs:'https://cdn.jsdelivr.net/npm/monaco-editor@0.47.0/min/vs' }});
+
+require(['vs/editor/editor.main'], function(){
+
+  const editor = monaco.editor.create(document.getElementById('editor'),{
+    value:`<h1>Hello RBS Code</h1>\n<p>Start typing...</p>`,
+    language:'html',
+    theme:'vs-dark',
+    automaticLayout:true,
+    minimap:{enabled:false}
+  });
+
+  // -----------------------
+  // EMULATION OF EMmet p→<p></p>
+  // -----------------------
+
+  const htmlTags = ["p","div","span","h1","h2","h3","button","ul","li","a"];
+
+  monaco.languages.registerCompletionItemProvider("html",{
+    provideCompletionItems:function(model,position){
+
+      const word = model.getWordUntilPosition(position);
+
+      if(!htmlTags.includes(word.word)) return;
+
+      return {
+        suggestions:[
+          {
+            label:word.word,
+            kind:monaco.languages.CompletionItemKind.Snippet,
+            insertText:`<${word.word}>$1</${word.word}>`,
+            insertTextRules:
+            monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+            range:{
+              startLineNumber:position.lineNumber,
+              endLineNumber:position.lineNumber,
+              startColumn:word.startColumn,
+              endColumn:word.endColumn
+            }
+          }
+        ]
+      };
+    }
+  });
+
+  window.runCode=function(){
+
+    const code = editor.getValue();
+
+    const doc = `
+<!doctype html>
+<html>
+<body>
+${code}
+<script>
+window.onerror=function(msg,line,col,error){
+document.body.innerHTML += "<pre style='color:red'>"+msg+"</pre>";
+};
+<\/script>
+</body>
+</html>`;
+
+    document.getElementById("preview").srcdoc = doc;
+  };
+
+  window.togglePreview=function(){
+    const iframe = document.getElementById("preview");
+    iframe.classList.toggle("fullpreview");
+  };
+
+  window.downloadZip=function(){
+
+    const htmlContent = editor.getValue();
+
+    const zip = new JSZip();
+    zip.file("index.html", htmlContent);
+
+    zip.generateAsync({type:"blob"}).then(function(content){
+      const a=document.createElement("a");
+      a.href=URL.createObjectURL(content);
+      a.download="project.zip";
+      a.click();
+    });
+  };
+
+  runCode();
+
+});
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+</body>
+</html>
