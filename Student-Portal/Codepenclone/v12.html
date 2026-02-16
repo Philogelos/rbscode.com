@@ -1,0 +1,774 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>RBS Code Studio</title>
+
+  <style>
+    :root{
+      --bg0:#070716;
+      --bg1:#0b1026;
+      --panel: rgba(255,255,255,0.06);
+      --panel2: rgba(255,255,255,0.085);
+      --border: rgba(255,255,255,0.10);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.64);
+
+      --a1:#7c3aed; /* violet */
+      --a2:#22d3ee; /* cyan */
+      --ok:#22c55e;
+      --warn:#f59e0b;
+      --bad:#ef4444;
+
+      --shadow: 0 20px 60px rgba(0,0,0,0.55);
+      --radius: 16px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+
+    body{
+      margin:0;
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      background:
+        radial-gradient(1100px 700px at 15% 15%, rgba(124,58,237,0.35), transparent 55%),
+        radial-gradient(900px 650px at 85% 20%, rgba(34,211,238,0.18), transparent 55%),
+        radial-gradient(900px 650px at 60% 95%, rgba(124,58,237,0.14), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow:hidden;
+    }
+
+    .wrap{
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      padding:14px;
+      gap:12px;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:12px 12px;
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      min-height: 56px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:6px 10px;
+      border-radius: 12px;
+      background: rgba(0,0,0,0.18);
+      border:1px solid rgba(255,255,255,0.08);
+    }
+
+    .logo{
+      width:26px; height:26px; border-radius:10px;
+      background:
+        radial-gradient(10px 10px at 30% 30%, rgba(34,211,238,0.95), rgba(34,211,238,0) 60%),
+        radial-gradient(16px 16px at 70% 70%, rgba(124,58,237,0.95), rgba(124,58,237,0) 60%),
+        linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02));
+      border:1px solid rgba(255,255,255,0.18);
+      box-shadow: 0 0 0 1px rgba(124,58,237,0.15), 0 0 30px rgba(124,58,237,0.10);
+    }
+
+    .brand h1{
+      margin:0;
+      font-size:14px;
+      letter-spacing:0.6px;
+      font-weight:800;
+      line-height:1.1;
+    }
+    .brand .sub{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:2px;
+    }
+
+    .spacer{ flex:1; }
+
+    .field{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.16);
+      min-width: 220px;
+    }
+    .field label{
+      font-size:12px;
+      color:var(--muted);
+      white-space:nowrap;
+    }
+    .field input{
+      width:100%;
+      background: transparent;
+      border:none;
+      outline:none;
+      color: var(--text);
+      font-size:13px;
+    }
+
+    .btns{ display:flex; align-items:center; gap:8px; }
+
+    button{
+      border:none;
+      color:var(--text);
+      background: rgba(255,255,255,0.07);
+      border:1px solid rgba(255,255,255,0.10);
+      padding:9px 12px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight:800;
+      font-size:12px;
+      letter-spacing:0.3px;
+      transition: transform 0.08s ease, background 0.2s ease, border-color 0.2s ease, filter 0.2s ease;
+      user-select:none;
+    }
+    button:hover{
+      background: rgba(255,255,255,0.10);
+      border-color: rgba(255,255,255,0.16);
+    }
+    button:active{ transform: translateY(1px); }
+
+    .primary{
+      background: linear-gradient(135deg, rgba(124,58,237,0.95), rgba(34,211,238,0.65));
+      border:1px solid rgba(255,255,255,0.18);
+      box-shadow: 0 0 0 1px rgba(124,58,237,0.10), 0 10px 30px rgba(124,58,237,0.20);
+    }
+    .primary:hover{ filter: brightness(1.06); }
+
+    .chip{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:12px;
+      padding:8px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.16);
+      color: var(--muted);
+      min-width: 190px;
+      justify-content:center;
+      white-space:nowrap;
+    }
+    .dot{
+      width:8px; height:8px; border-radius:999px;
+      background: rgba(255,255,255,0.30);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.2) inset;
+    }
+    .dot.saved{ background: rgba(34,197,94,0.92); }
+    .dot.dirty{ background: rgba(245,158,11,0.92); }
+
+    .main{
+      flex:1;
+      display:grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap:12px;
+      min-height:0;
+    }
+
+    .card{
+      border-radius: var(--radius);
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      min-height:0;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .cardHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:10px 10px;
+      border-bottom:1px solid rgba(255,255,255,0.10);
+      background:
+        radial-gradient(400px 120px at 20% 0%, rgba(124,58,237,0.25), transparent 60%),
+        radial-gradient(380px 120px at 80% 0%, rgba(34,211,238,0.18), transparent 60%),
+        rgba(0,0,0,0.18);
+    }
+
+    .tabs{ display:flex; gap:8px; align-items:center; }
+    .tab{
+      padding:8px 10px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.05);
+      font-size:12px;
+      font-weight:900;
+      cursor:pointer;
+      color: var(--muted);
+      transition: all 0.2s ease;
+    }
+    .tab.active{
+      color: var(--text);
+      border-color: rgba(124,58,237,0.35);
+      box-shadow: 0 0 0 1px rgba(124,58,237,0.10), 0 0 22px rgba(124,58,237,0.18);
+      background: rgba(124,58,237,0.12);
+    }
+
+    .hint{
+      font-size:12px;
+      color: var(--muted);
+      padding-right:6px;
+      white-space:nowrap;
+    }
+
+    .editorArea{
+      flex:1;
+      min-height:0;
+    }
+    #editor{ height:100%; width:100%; }
+
+    .previewArea{
+      flex:1;
+      min-height:0;
+      background: rgba(0,0,0,0.15);
+    }
+    iframe{
+      width:100%;
+      height:100%;
+      border:none;
+      background:white;
+    }
+
+    .footerNote{
+      padding:10px 12px;
+      font-size:12px;
+      color: var(--muted);
+      text-align:center;
+      opacity:0.9;
+    }
+
+    /* Full preview overlay */
+    .overlay{
+      position:fixed;
+      inset:0;
+      display:none;
+      z-index:9999;
+      background: #0b1026;
+      padding:14px;
+      gap:12px;
+    }
+    .overlay.on{ display:flex; flex-direction:column; }
+
+    .overlayTop{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius: var(--radius);
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+    .overlayTop .hint2{
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .overlayFrameWrap{
+      flex:1;
+      min-height:0;
+      border-radius: var(--radius);
+      overflow:hidden;
+      border:1px solid var(--border);
+      background: rgba(0,0,0,0.12);
+      box-shadow: var(--shadow);
+    }
+
+    @media (max-width: 980px){
+      body{ overflow:auto; }
+      .main{ grid-template-columns: 1fr; }
+      .wrap{ height:auto; }
+      .editorArea, .previewArea{ height: 520px; }
+      .field{ min-width: 160px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <div class="topbar">
+      <div class="brand" title="RBS Code Studio">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>RBS Code Studio</h1>
+          <div class="sub">Browser IDE</div>
+        </div>
+      </div>
+
+      <div class="field" title="Project name (used for autosave key)">
+        <label>Project</label>
+        <input id="projectName" value="clicker-game-1" />
+      </div>
+
+      <div class="chip" id="statusChip">
+        <span class="dot saved" id="saveDot"></span>
+        <span id="statusText">Ready</span>
+      </div>
+
+      <div class="spacer"></div>
+
+      <div class="btns">
+        <button id="btnRun" class="primary" title="Ctrl+Enter">Run</button>
+        <button id="btnSave" title="Ctrl+S">Save</button>
+        <button id="btnDownload" title="Download ZIP folder">Download Folder</button>
+        <button id="btnFull" title="Full preview (Esc to exit)">Full Preview</button>
+        <button id="btnReset">Reset</button>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="card">
+        <div class="cardHead">
+          <div class="tabs">
+            <div class="tab active" data-lang="html">HTML</div>
+            <div class="tab" data-lang="css">CSS</div>
+            <div class="tab" data-lang="javascript">JS</div>
+          </div>
+          <div class="hint">Emmet: type <b>p</b> then Enter (or Tab)</div>
+        </div>
+        <div class="editorArea">
+          <div id="editor"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="cardHead">
+          <div class="tabs">
+            <div class="tab active" style="cursor:default;">Preview</div>
+          </div>
+          <div class="hint">Run to update (Ctrl+Enter)</div>
+        </div>
+        <div class="previewArea">
+          <iframe id="preview" sandbox="allow-scripts"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <div class="footerNote">
+      Saves to your browser on this device. Download a ZIP to move projects to another computer.
+    </div>
+  </div>
+
+  <!-- Full preview overlay -->
+  <div class="overlay" id="overlay">
+    <div class="overlayTop">
+      <button id="btnExitFull">Exit Preview</button>
+      <div class="hint2">Tip: Press Esc to exit</div>
+      <div class="spacer"></div>
+      <button id="btnRun2" class="primary">Run</button>
+    </div>
+    <div class="overlayFrameWrap">
+      <iframe id="previewFull" sandbox="allow-scripts" style="width:100%;height:100%;border:0;background:white;"></iframe>
+    </div>
+  </div>
+
+  <!-- JSZip first (so it definitely exists when we click download) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  <!-- Monaco loader (single-file friendly worker setup) -->
+  <script>
+    (function () {
+      const base = "https://cdn.jsdelivr.net/npm/monaco-editor@0.47.0/min/";
+
+      window.MonacoEnvironment = {
+        getWorkerUrl: function () {
+          const workerMain = base + "vs/base/worker/workerMain.js";
+          const code = `
+            self.MonacoEnvironment = { baseUrl: "${base}" };
+            importScripts("${workerMain}");
+          `;
+          return URL.createObjectURL(new Blob([code], { type: "text/javascript" }));
+        }
+      };
+
+      const req = document.createElement("script");
+      req.src = base + "vs/loader.js";
+      req.onload = () => {
+        window.require.config({ paths: { vs: base + "vs" } });
+        window.require(["vs/editor/editor.main"], initStudio);
+      };
+      document.head.appendChild(req);
+    })();
+  </script>
+
+  <script>
+    const DEFAULT = {
+      html:
+`<h1 id="title">Hello RBS Code</h1>
+<button id="btn">Click me</button>
+<p>Clicks: <span id="count">0</span></p>`,
+      css:
+`body{
+  font-family: Arial, sans-serif;
+  text-align:center;
+  padding:30px;
+}
+#btn{
+  padding:12px 18px;
+  border-radius:12px;
+  border:none;
+  cursor:pointer;
+}
+#title{ margin-bottom:16px; }`,
+      javascript:
+`let count = 0;
+
+const btn = document.getElementById("btn");
+const countSpan = document.getElementById("count");
+
+btn.addEventListener("click", function(){
+  count++;
+  countSpan.innerText = count;
+});`
+    };
+
+    let editor = null;
+    let models = {};
+    let activeLang = "html";
+    let dirty = false;
+
+    const preview = document.getElementById("preview");
+    const previewFull = document.getElementById("previewFull");
+    const overlay = document.getElementById("overlay");
+
+    const projectNameInput = document.getElementById("projectName");
+    const statusText = document.getElementById("statusText");
+    const saveDot = document.getElementById("saveDot");
+
+    const btnRun = document.getElementById("btnRun");
+    const btnSave = document.getElementById("btnSave");
+    const btnDownload = document.getElementById("btnDownload");
+    const btnReset = document.getElementById("btnReset");
+    const btnFull = document.getElementById("btnFull");
+
+    const btnExitFull = document.getElementById("btnExitFull");
+    const btnRun2 = document.getElementById("btnRun2");
+
+    function keyPrefix(){
+      const name = (projectNameInput.value || "project").trim();
+      return "rbsstudio:" + name + ":";
+    }
+
+    function setDirty(isDirty){
+      dirty = isDirty;
+      saveDot.classList.toggle("dirty", dirty);
+      saveDot.classList.toggle("saved", !dirty);
+      if(dirty){
+        statusText.textContent = "Unsaved";
+      }else{
+        statusText.textContent = "Saved";
+      }
+    }
+
+    function setStatus(msg){
+      // keep it simple + non-annoying
+      statusText.textContent = msg;
+      // dot color handled by setDirty
+    }
+
+    function safeGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+    function safeSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+
+    function loadProject(){
+      const p = keyPrefix();
+      const html = safeGet(p+"html") ?? DEFAULT.html;
+      const css  = safeGet(p+"css")  ?? DEFAULT.css;
+      const js   = safeGet(p+"js")   ?? DEFAULT.javascript;
+
+      models.html.setValue(html);
+      models.css.setValue(css);
+      models.javascript.setValue(js);
+
+      setDirty(false);
+      setStatus("Loaded");
+    }
+
+    function saveProject(){
+      const p = keyPrefix();
+      safeSet(p+"html", models.html.getValue());
+      safeSet(p+"css",  models.css.getValue());
+      safeSet(p+"js",   models.javascript.getValue());
+      setDirty(false);
+      setStatus("Saved");
+    }
+
+    function resetProject(){
+      models.html.setValue(DEFAULT.html);
+      models.css.setValue(DEFAULT.css);
+      models.javascript.setValue(DEFAULT.javascript);
+      setDirty(true);
+      setStatus("Reset");
+    }
+
+    function buildFiles(){
+      const html = models.html.getValue();
+      const css = models.css.getValue();
+      const js = models.javascript.getValue();
+
+      const indexHtml =
+`<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>${escapeHtml(projectNameInput.value || "RBS Project")}</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+${html}
+
+<script src="script.js"></script>
+</body>
+</html>`;
+
+      return { indexHtml, css, js };
+    }
+
+    function buildSrcDoc(showErrors){
+      const html = models.html.getValue();
+      const css = models.css.getValue();
+      const js = models.javascript.getValue();
+
+      // No "try{...}" printed into the page.
+      // Errors show in a small overlay box only if showErrors is true.
+      return `<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<style>${css}</style>
+</head>
+<body>
+${html}
+<div id="__err" style="
+  display:none;
+  position:fixed;
+  left:12px; right:12px; bottom:12px;
+  padding:10px 12px;
+  background:rgba(10,10,20,0.92);
+  border:1px solid rgba(255,255,255,0.18);
+  border-radius:12px;
+  color:#ff6b6b;
+  font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+  font-size:12px;
+  white-space:pre-wrap;
+  z-index:999999;
+"></div>
+<script>
+(function(){
+  const SHOW = ${showErrors ? "true" : "false"};
+  function show(msg){
+    if(!SHOW) return;
+    const box = document.getElementById("__err");
+    box.style.display = "block";
+    box.textContent = msg;
+  }
+  window.addEventListener("error", function(ev){
+    show("JS Error: " + (ev.message || "Unknown error"));
+  });
+  window.addEventListener("unhandledrejection", function(ev){
+    show("Promise Error: " + (ev.reason && ev.reason.message ? ev.reason.message : String(ev.reason)));
+  });
+
+  try{
+${js.replace(/<\/script>/gi, "<\\/script>")}
+  }catch(e){
+    show("JS Error: " + e.message);
+  }
+})();
+<\/script>
+</body>
+</html>`;
+    }
+
+    function runCode(){
+      const doc = buildSrcDoc(true);
+      preview.srcdoc = doc;
+      previewFull.srcdoc = doc;
+      setStatus("Ran");
+    }
+
+    function downloadFolderZip(){
+      if(!window.JSZip){
+        alert("JSZip failed to load. Check your internet connection.");
+        return;
+      }
+
+      const { indexHtml, css, js } = buildFiles();
+      const zip = new JSZip();
+      zip.file("index.html", indexHtml);
+      zip.file("styles.css", css);
+      zip.file("script.js", js);
+
+      const name = (projectNameInput.value || "rbs-project")
+        .trim()
+        .replace(/[^a-z0-9\-_]+/gi,"-");
+
+      zip.generateAsync({type:"blob"}).then(function(content){
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(content);
+        a.download = name + ".zip";
+        a.click();
+        setTimeout(()=> URL.revokeObjectURL(a.href), 500);
+      });
+    }
+
+    function setActiveTab(lang){
+      activeLang = lang;
+      document.querySelectorAll(".tab[data-lang]").forEach(t=>{
+        t.classList.toggle("active", t.dataset.lang === lang);
+      });
+      editor.setModel(models[lang]);
+      editor.focus();
+      setStatus("Editing " + (lang==="javascript" ? "JS" : lang.toUpperCase()));
+    }
+
+    function toggleFullPreview(on){
+      if(on){
+        overlay.classList.add("on");
+        // keep in sync, but don’t run automatically
+        previewFull.srcdoc = preview.srcdoc || buildSrcDoc(false);
+      }else{
+        overlay.classList.remove("on");
+      }
+    }
+
+    function escapeHtml(s){
+      return String(s)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    // ---- Emmet-like tag completion: "p" -> "<p></p>" on Enter/Tab
+    function installHtmlEmmetLike(){
+      const tags = ["p","div","span","h1","h2","h3","h4","h5","h6","button","ul","ol","li","a","img","input","section","header","footer","nav","main"];
+
+      monaco.languages.registerCompletionItemProvider("html",{
+        provideCompletionItems: function(model, position){
+
+          const word = model.getWordUntilPosition(position);
+          const w = (word.word || "").trim();
+
+          // only when the word itself is exactly a known tag
+          if(!tags.includes(w)) return;
+
+          // prefer <img ...> and <input ...> single tag insert
+          const isVoid = (w === "img" || w === "input");
+          const insert = isVoid
+            ? (w === "img" ? `<img src="$1" alt="$2">` : `<input type="$1">`)
+            : `<${w}>$1</${w}>`;
+
+          return {
+            suggestions: [{
+              label: w,
+              kind: monaco.languages.CompletionItemKind.Snippet,
+              insertText: insert,
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              range: {
+                startLineNumber: position.lineNumber,
+                endLineNumber: position.lineNumber,
+                startColumn: word.startColumn,
+                endColumn: word.endColumn
+              }
+            }]
+          };
+        }
+      });
+    }
+
+    function initStudio(){
+      // Create models
+      models.html = monaco.editor.createModel(DEFAULT.html, "html");
+      models.css  = monaco.editor.createModel(DEFAULT.css, "css");
+      models.javascript = monaco.editor.createModel(DEFAULT.javascript, "javascript");
+
+      editor = monaco.editor.create(document.getElementById("editor"), {
+        model: models.html,
+        theme: "vs-dark",
+        fontSize: 14,
+        minimap: { enabled: false },
+        automaticLayout: true,
+        scrollBeyondLastLine: false,
+        tabSize: 2,
+        wordWrap: "on"
+      });
+
+      // Install the Emmet-like completion for HTML (p -> <p></p>)
+      installHtmlEmmetLike();
+
+      // Tabs
+      document.querySelectorAll(".tab[data-lang]").forEach(t=>{
+        t.addEventListener("click", ()=> setActiveTab(t.dataset.lang));
+      });
+
+      // Buttons
+      btnRun.addEventListener("click", runCode);
+      btnSave.addEventListener("click", saveProject);
+      btnDownload.addEventListener("click", downloadFolderZip);
+      btnReset.addEventListener("click", resetProject);
+      btnFull.addEventListener("click", ()=> toggleFullPreview(true));
+
+      btnExitFull.addEventListener("click", ()=> toggleFullPreview(false));
+      btnRun2.addEventListener("click", runCode);
+
+      // Project change => load that project
+      projectNameInput.addEventListener("change", loadProject);
+
+      // Dirty tracking
+      editor.onDidChangeModelContent(()=>{
+        setDirty(true);
+      });
+
+      // Keyboard shortcuts
+      window.addEventListener("keydown", function(e){
+        const isMac = navigator.platform.toLowerCase().includes("mac");
+        const ctrl = isMac ? e.metaKey : e.ctrlKey;
+
+        if(ctrl && e.key.toLowerCase() === "s"){
+          e.preventDefault();
+          saveProject();
+          return;
+        }
+        if(ctrl && e.key === "Enter"){
+          e.preventDefault();
+          runCode();
+          return;
+        }
+        if(e.key === "Escape"){
+          if(overlay.classList.contains("on")){
+            toggleFullPreview(false);
+          }
+        }
+      });
+
+      // Initial load + first preview (silent, no errors box)
+      loadProject();
+      preview.srcdoc = buildSrcDoc(false);
+      previewFull.srcdoc = preview.srcdoc;
+      setDirty(false);
+      setStatus("Ready");
+    }
+  </script>
+</body>
+</html>
