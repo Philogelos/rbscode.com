@@ -1,0 +1,807 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>RBS Code Studio</title>
+
+  <style>
+    :root{
+      --bg0:#070716;
+      --bg1:#0b1026;
+      --border: rgba(255,255,255,0.10);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.64);
+      --a1:#7c3aed;
+      --a2:#22d3ee;
+      --shadow: 0 20px 60px rgba(0,0,0,0.55);
+      --radius: 16px;
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      background:
+        radial-gradient(1100px 700px at 15% 15%, rgba(124,58,237,0.35), transparent 55%),
+        radial-gradient(900px 650px at 85% 20%, rgba(34,211,238,0.18), transparent 55%),
+        radial-gradient(900px 650px at 60% 95%, rgba(124,58,237,0.14), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow:hidden;
+    }
+
+    .wrap{
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      padding:14px;
+      gap:12px;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:12px 12px;
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      min-height: 58px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:6px 10px;
+      border-radius: 12px;
+      background: rgba(0,0,0,0.18);
+      border:1px solid rgba(255,255,255,0.08);
+    }
+    .logo{
+      width:26px; height:26px; border-radius:10px;
+      background:
+        radial-gradient(10px 10px at 30% 30%, rgba(34,211,238,0.95), rgba(34,211,238,0) 60%),
+        radial-gradient(16px 16px at 70% 70%, rgba(124,58,237,0.95), rgba(124,58,237,0) 60%),
+        linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02));
+      border:1px solid rgba(255,255,255,0.18);
+      box-shadow: 0 0 0 1px rgba(124,58,237,0.15), 0 0 30px rgba(124,58,237,0.10);
+    }
+    .brand h1{
+      margin:0;
+      font-size:14px;
+      letter-spacing:0.6px;
+      font-weight:800;
+      line-height:1.1;
+    }
+    .brand .sub{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:2px;
+    }
+
+    .spacer{ flex:1; }
+
+    .field{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.16);
+      min-width: 240px;
+    }
+    .field label{ font-size:12px; color:var(--muted); white-space:nowrap; }
+    .field input{
+      width:100%;
+      background: transparent;
+      border:none;
+      outline:none;
+      color: var(--text);
+      font-size:13px;
+    }
+
+    .status{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:8px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.16);
+      min-width: 190px;
+      justify-content:center;
+      color: var(--muted);
+      font-size:12px;
+      user-select:none;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: rgba(34,197,94,0.95);
+      box-shadow: 0 0 0 1px rgba(34,197,94,0.25), 0 0 18px rgba(34,197,94,0.18);
+    }
+    .dot.unsaved{
+      background: rgba(245,158,11,0.95);
+      box-shadow: 0 0 0 1px rgba(245,158,11,0.25), 0 0 18px rgba(245,158,11,0.14);
+    }
+
+    .btns{ display:flex; align-items:center; gap:8px; }
+    button{
+      border:none;
+      color:var(--text);
+      background: rgba(255,255,255,0.07);
+      border:1px solid rgba(255,255,255,0.10);
+      padding:9px 12px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight:800;
+      font-size:12px;
+      letter-spacing:0.3px;
+      transition: transform 0.08s ease, background 0.2s ease, border-color 0.2s ease, filter 0.2s ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    button:hover{ background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.16); }
+    button:active{ transform: translateY(1px); }
+
+    .primary{
+      background: linear-gradient(135deg, rgba(124,58,237,0.95), rgba(34,211,238,0.65));
+      border:1px solid rgba(255,255,255,0.18);
+      box-shadow: 0 0 0 1px rgba(124,58,237,0.10), 0 10px 30px rgba(124,58,237,0.20);
+    }
+    .primary:hover{ filter: brightness(1.06); }
+
+    .ghost{
+      background: rgba(0,0,0,0.18);
+      border-color: rgba(255,255,255,0.10);
+    }
+
+    .main{
+      flex:1;
+      display:grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap:12px;
+      min-height:0;
+    }
+
+    .card{
+      border-radius: var(--radius);
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      min-height:0;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .cardHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:10px 10px;
+      border-bottom:1px solid rgba(255,255,255,0.10);
+      background:
+        radial-gradient(400px 120px at 20% 0%, rgba(124,58,237,0.25), transparent 60%),
+        radial-gradient(380px 120px at 80% 0%, rgba(34,211,238,0.18), transparent 60%),
+        rgba(0,0,0,0.18);
+      min-height: 48px;
+    }
+
+    .tabs{ display:flex; gap:8px; align-items:center; }
+    .tab{
+      padding:8px 10px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.05);
+      font-size:12px;
+      font-weight:900;
+      cursor:pointer;
+      color: var(--muted);
+      transition: all 0.2s ease;
+      user-select:none;
+    }
+    .tab.active{
+      color: var(--text);
+      border-color: rgba(124,58,237,0.35);
+      box-shadow: 0 0 0 1px rgba(124,58,237,0.10), 0 0 22px rgba(124,58,237,0.18);
+      background: rgba(124,58,237,0.12);
+    }
+    .hint{
+      font-size:12px;
+      color: var(--muted);
+      padding-right:6px;
+      white-space:nowrap;
+      user-select:none;
+    }
+
+    .editorArea{ flex:1; min-height:0; }
+    #editor{
+      height:100%;
+      width:100%;
+    }
+
+    .previewArea{
+      flex:1;
+      min-height:0;
+      background: rgba(0,0,0,0.15);
+      position:relative;
+    }
+    iframe{
+      width:100%;
+      height:100%;
+      border:none;
+      background:white;
+    }
+
+    .console{
+      height: 120px;
+      border-top:1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.20);
+      padding:10px 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:12px;
+      overflow:auto;
+    }
+    .log{ color: rgba(34,211,238,0.95); }
+    .err{ color: rgba(239,68,68,0.95); }
+    .dim{ color: rgba(255,255,255,0.55); }
+
+    .fatal{
+      display:none;
+      border:1px solid rgba(239,68,68,0.35);
+      background: rgba(239,68,68,0.12);
+      border-radius: 14px;
+      padding:12px;
+      margin-top:12px;
+      font-size:12px;
+      color: rgba(255,255,255,0.9);
+      white-space: pre-wrap;
+    }
+    .fatal.show{ display:block; }
+
+    .overlay{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,0.75);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index: 9999;
+      padding: 18px;
+    }
+    .overlay.show{ display:flex; }
+    .overlayCard{
+      width:min(1100px, 100%);
+      height:min(720px, 100%);
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,0.12);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      box-shadow: 0 30px 90px rgba(0,0,0,0.65);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+    }
+    .overlayTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:10px 12px;
+      border-bottom:1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.22);
+      min-height: 48px;
+    }
+    .pill{
+      padding:6px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      font-size:12px;
+      color: rgba(255,255,255,0.80);
+      user-select:none;
+    }
+    .overlayFrame{ flex:1; min-height:0; background: rgba(0,0,0,0.16); }
+    .overlayFrame iframe{ width:100%; height:100%; }
+
+    @media (max-width: 980px){
+      body{ overflow:auto; }
+      .main{ grid-template-columns: 1fr; }
+      .wrap{ height:auto; }
+      .field{ min-width: 160px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>RBS Code Studio</h1>
+          <div class="sub">Browser Editor</div>
+        </div>
+      </div>
+
+      <div class="field" title="Project name (used for local save key)">
+        <label>Project</label>
+        <input id="projectName" value="clicker-game-1" />
+      </div>
+
+      <div class="status" title="Save status">
+        <div id="saveDot" class="dot"></div>
+        <div id="saveText">Saved</div>
+      </div>
+
+      <div class="spacer"></div>
+
+      <div class="btns">
+        <button id="btnRun" class="primary" title="Run (Ctrl+Enter)">Run</button>
+        <button id="btnSave" title="Save (Ctrl+S)">Save</button>
+        <button id="btnFull" class="ghost" title="Full Preview (Ctrl+Shift+P)">Full Preview</button>
+        <button id="btnDownloadHtml" title="Download single HTML">Download HTML</button>
+        <button id="btnDownloadZip" title="Download folder (ZIP)">Download ZIP</button>
+        <button id="btnReset" title="Reset to default">Reset</button>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="card">
+        <div class="cardHead">
+          <div class="tabs">
+            <div class="tab active" data-lang="html">HTML</div>
+            <div class="tab" data-lang="css">CSS</div>
+            <div class="tab" data-lang="javascript">JS</div>
+          </div>
+          <div class="hint">HTML: type <b>p</b> then Tab or Enter</div>
+        </div>
+        <div class="editorArea">
+          <div id="editor"></div>
+        </div>
+        <div id="fatal" class="fatal"></div>
+      </div>
+
+      <div class="card">
+        <div class="cardHead">
+          <div class="tabs">
+            <div class="tab active" style="cursor:default;">Preview</div>
+          </div>
+          <div class="hint">Preview updates only when you press Run</div>
+        </div>
+        <div class="previewArea">
+          <iframe id="preview" sandbox="allow-scripts"></iframe>
+        </div>
+        <div id="console" class="console">
+          <div class="dim">Console: press Run to see logs/errors.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="overlay" class="overlay" aria-hidden="true">
+    <div class="overlayCard">
+      <div class="overlayTop">
+        <div style="display:flex; gap:10px; align-items:center;">
+          <span class="pill">Full Preview</span>
+          <span class="pill">Esc to close</span>
+        </div>
+        <div class="btns">
+          <button id="btnCloseOverlay" class="ghost">Close</button>
+        </div>
+      </div>
+      <div class="overlayFrame">
+        <iframe id="overlayFrame" sandbox="allow-scripts"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- JSZip for ZIP download -->
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+  <!-- Monaco loader (same style as your v2) -->
+  <script>
+    (function () {
+      const base = "https://cdn.jsdelivr.net/npm/monaco-editor@0.47.0/min/";
+      window.MonacoEnvironment = {
+        getWorkerUrl: function () {
+          const workerMain = base + "vs/base/worker/workerMain.js";
+          const code = `
+            self.MonacoEnvironment = { baseUrl: "${base}" };
+            importScripts("${workerMain}");
+          `;
+          return URL.createObjectURL(new Blob([code], { type: "text/javascript" }));
+        }
+      };
+
+      const req = document.createElement("script");
+      req.src = base + "vs/loader.js";
+      req.onload = () => {
+        window.require.config({ paths: { vs: base + "vs" } });
+        window.require(["vs/editor/editor.main"], initStudio);
+      };
+      document.head.appendChild(req);
+    })();
+  </script>
+
+  <script>
+    const DEFAULT = {
+      html: `<h1 id="title">Hello RBS Code</h1>
+<button id="btn">Click me</button>
+<p>Clicks: <span id="count">0</span></p>`,
+      css: `body{
+  font-family: Arial, sans-serif;
+  text-align:center;
+  padding:30px;
+}
+#btn{
+  padding:12px 18px;
+  border-radius:12px;
+  border:none;
+  cursor:pointer;
+}
+#title{ margin-bottom:16px; }`,
+      javascript: `let count = 0;
+
+const btn = document.getElementById("btn");
+const countSpan = document.getElementById("count");
+
+btn.addEventListener("click", function(){
+  count++;
+  countSpan.innerText = count;
+  console.log("Clicks:", count);
+});`
+    };
+
+    const preview = document.getElementById("preview");
+    const projectNameInput = document.getElementById("projectName");
+
+    const btnRun = document.getElementById("btnRun");
+    const btnSave = document.getElementById("btnSave");
+    const btnReset = document.getElementById("btnReset");
+    const btnFull = document.getElementById("btnFull");
+    const btnDownloadHtml = document.getElementById("btnDownloadHtml");
+    const btnDownloadZip = document.getElementById("btnDownloadZip");
+
+    const consoleEl = document.getElementById("console");
+
+    const overlay = document.getElementById("overlay");
+    const overlayFrame = document.getElementById("overlayFrame");
+    const btnCloseOverlay = document.getElementById("btnCloseOverlay");
+
+    const saveDot = document.getElementById("saveDot");
+    const saveText = document.getElementById("saveText");
+
+    const fatal = document.getElementById("fatal");
+
+    let editor = null;
+    let models = {};
+    let activeLang = "html";
+    let isDirty = false;
+
+    function showFatal(msg){
+      fatal.classList.add("show");
+      fatal.textContent = "Monaco failed to start:\n\n" + msg;
+    }
+
+    function setDirty(dirty){
+      isDirty = !!dirty;
+      if(isDirty){
+        saveDot.classList.add("unsaved");
+        saveText.textContent = "Unsaved";
+      }else{
+        saveDot.classList.remove("unsaved");
+        saveText.textContent = "Saved";
+      }
+    }
+
+    function keyPrefix(){
+      const name = (projectNameInput.value || "project").trim();
+      return "rbsstudio:" + name + ":";
+    }
+    function safeGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+    function safeSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+
+    function loadProject(){
+      const p = keyPrefix();
+      models.html.setValue(safeGet(p+"html") ?? DEFAULT.html);
+      models.css.setValue(safeGet(p+"css") ?? DEFAULT.css);
+      models.javascript.setValue(safeGet(p+"js") ?? DEFAULT.javascript);
+      clearConsole();
+      setDirty(false);
+    }
+
+    function saveProject(){
+      const p = keyPrefix();
+      safeSet(p+"html", models.html.getValue());
+      safeSet(p+"css", models.css.getValue());
+      safeSet(p+"js", models.javascript.getValue());
+      setDirty(false);
+      logConsole("Saved.");
+    }
+
+    function resetProject(){
+      models.html.setValue(DEFAULT.html);
+      models.css.setValue(DEFAULT.css);
+      models.javascript.setValue(DEFAULT.javascript);
+      clearConsole();
+      setDirty(true);
+      logConsole("Reset to defaults. (Remember to Save)");
+    }
+
+    function escapeHtml(s){
+      return s.replace(/[&<>"']/g, ch => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+      }[ch]));
+    }
+
+    function clearConsole(){
+      consoleEl.innerHTML = `<div class="dim">Console: press Run to see logs/errors.</div>`;
+    }
+    function logConsole(msg){
+      consoleEl.innerHTML += `<div class="log">▶ ${escapeHtml(String(msg))}</div>`;
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+    }
+    function errorConsole(msg){
+      consoleEl.innerHTML += `<div class="err">❌ ${escapeHtml(String(msg))}</div>`;
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+    }
+
+    function buildIndexHtml(){
+      const html = models.html.getValue();
+      const css = models.css.getValue();
+      const js = models.javascript.getValue().replace(/<\/script>/gi, "<\\/script>");
+
+      const title = (projectNameInput.value || "RBS Project").trim();
+
+      return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>${escapeHtml(title)}</title>
+<style>
+${css}
+</style>
+</head>
+<body>
+${html}
+<script>
+(function(){
+  const send = (type, payload) => {
+    try { parent.postMessage({ type, payload }, "*"); } catch(e){}
+  };
+  const oldLog = console.log;
+  console.log = function(){
+    oldLog.apply(console, arguments);
+    send("log", Array.from(arguments).join(" "));
+  };
+  window.addEventListener("error", function(e){
+    send("error", (e && e.message) ? e.message : "Unknown error");
+  });
+  try{
+${js}
+  }catch(e){
+    send("error", e && e.message ? e.message : "Unknown error");
+  }
+})();
+<\/script>
+</body>
+</html>`;
+    }
+
+    function runCode(){
+      clearConsole();
+      preview.srcdoc = buildIndexHtml();
+      logConsole("Ran.");
+      if(overlay.classList.contains("show")){
+        overlayFrame.srcdoc = preview.srcdoc;
+      }
+    }
+
+    window.addEventListener("message", (event) => {
+      if(!event.data || !event.data.type) return;
+      if(event.data.type === "log") logConsole(event.data.payload);
+      if(event.data.type === "error") errorConsole(event.data.payload);
+    });
+
+    function downloadBlob(blob, filename){
+      const a = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function safeFileBase(){
+      return (projectNameInput.value || "rbs-project")
+        .trim()
+        .replace(/[^a-z0-9\-_]+/gi,"-")
+        .replace(/^-+|-+$/g,"")
+        .toLowerCase() || "rbs-project";
+    }
+
+    function downloadSingleHtml(){
+      downloadBlob(new Blob([buildIndexHtml()], {type:"text/html"}), safeFileBase() + ".html");
+    }
+
+    async function downloadZipFolder(){
+      if(!window.JSZip){
+        errorConsole("JSZip failed to load. Try refreshing.");
+        return;
+      }
+      const zip = new JSZip();
+      zip.file("index.html", buildIndexHtml());
+      zip.file("style.css", models.css.getValue());
+      zip.file("script.js", models.javascript.getValue());
+      const blob = await zip.generateAsync({ type: "blob" });
+      downloadBlob(blob, safeFileBase() + ".zip");
+    }
+
+    function openOverlay(){
+      overlay.classList.add("show");
+      overlayFrame.srcdoc = preview.srcdoc || buildIndexHtml();
+      overlay.setAttribute("aria-hidden","false");
+    }
+    function closeOverlay(){
+      overlay.classList.remove("show");
+      overlay.setAttribute("aria-hidden","true");
+    }
+
+    // ---- p -> <p></p> helpers (HTML only) ----
+    const HTML_TAGS = ["p","div","span","h1","h2","h3","button","a","img","ul","li","ol","section","header","footer","main","nav","article","aside","input","label","form","textarea"];
+
+    function tagSnippet(tag){
+      if(tag === "img") return `<img src="$1" alt="$2">`;
+      if(tag === "input") return `<input type="$1">`;
+      return `<${tag}>$0</${tag}>`;
+    }
+
+    function registerHtmlAbbrevProvider(){
+      // Completion (Enter)
+      monaco.languages.registerCompletionItemProvider("html", {
+        triggerCharacters: "abcdefghijklmnopqrstuvwxyz".split(""),
+        provideCompletionItems: function(model, position) {
+          const info = model.getWordUntilPosition(position);
+          const word = (info.word || "").toLowerCase();
+          if(!word || !HTML_TAGS.includes(word)) return { suggestions: [] };
+
+          const range = new monaco.Range(
+            position.lineNumber, info.startColumn,
+            position.lineNumber, info.endColumn
+          );
+
+          return {
+            suggestions: [{
+              label: word,
+              kind: monaco.languages.CompletionItemKind.Snippet,
+              insertText: tagSnippet(word),
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              range,
+              sortText: "0000" + word,
+              filterText: word,
+              preselect: true,
+              documentation: `Insert <${word}>…</${word}>`
+            }]
+          };
+        }
+      });
+
+      // Tab expander
+      editor.addCommand(monaco.KeyCode.Tab, function(){
+        const model = editor.getModel();
+        if(!model) return;
+
+        // only in HTML buffer
+        if(activeLang !== "html"){
+          editor.trigger("keyboard","tab",{});
+          return;
+        }
+
+        const pos = editor.getPosition();
+        const info = model.getWordUntilPosition(pos);
+        const word = (info.word || "").toLowerCase();
+
+        if(HTML_TAGS.includes(word)){
+          const range = new monaco.Range(pos.lineNumber, info.startColumn, pos.lineNumber, info.endColumn);
+          editor.executeEdits("abbrev", [{ range, text: tagSnippet(word), forceMoveMarkers: true }]);
+
+          // best-effort cursor placement between tags for normal tags
+          if(word !== "img" && word !== "input"){
+            const col = info.startColumn + (`<${word}>`).length;
+            editor.setPosition({ lineNumber: pos.lineNumber, column: col });
+          }
+          return;
+        }
+
+        editor.trigger("keyboard","tab",{});
+      });
+    }
+
+    function initStudio(){
+      try{
+        // Models
+        models.html = monaco.editor.createModel(DEFAULT.html, "html");
+        models.css = monaco.editor.createModel(DEFAULT.css, "css");
+        models.javascript = monaco.editor.createModel(DEFAULT.javascript, "javascript");
+
+        // Editor (SAFE options only)
+        editor = monaco.editor.create(document.getElementById("editor"), {
+          model: models.html,
+          theme: "vs-dark",
+          fontSize: 14,
+          minimap: { enabled: false },
+          automaticLayout: true,
+          scrollBeyondLastLine: false,
+          wordWrap: "on",
+          // IMPORTANT: boolean, not "off"
+          wordBasedSuggestions: false,
+          quickSuggestions: { other: true, comments: false, strings: false },
+          suggestOnTriggerCharacters: true,
+          acceptSuggestionOnEnter: "on"
+        });
+
+        // Tabs
+        document.querySelectorAll(".tab[data-lang]").forEach(t=>{
+          t.addEventListener("click", ()=>{
+            activeLang = t.dataset.lang;
+            document.querySelectorAll(".tab[data-lang]").forEach(x=>x.classList.toggle("active", x === t));
+            editor.setModel(models[activeLang]);
+            editor.focus();
+          });
+        });
+
+        // Dirty tracking
+        editor.onDidChangeModelContent(() => setDirty(true));
+
+        // Project switch
+        projectNameInput.addEventListener("change", loadProject);
+
+        // Buttons
+        btnRun.addEventListener("click", runCode);
+        btnSave.addEventListener("click", saveProject);
+        btnReset.addEventListener("click", resetProject);
+        btnFull.addEventListener("click", ()=>{
+          if(!preview.srcdoc) preview.srcdoc = buildIndexHtml();
+          openOverlay();
+        });
+        btnDownloadHtml.addEventListener("click", downloadSingleHtml);
+        btnDownloadZip.addEventListener("click", downloadZipFolder);
+
+        btnCloseOverlay.addEventListener("click", closeOverlay);
+        overlay.addEventListener("click", (e)=>{ if(e.target === overlay) closeOverlay(); });
+        window.addEventListener("keydown", (e)=>{ if(e.key === "Escape") closeOverlay(); });
+
+        // Shortcuts
+        window.addEventListener("keydown", (e)=>{
+          const key = e.key.toLowerCase();
+          const ctrl = e.ctrlKey || e.metaKey;
+
+          if(ctrl && key === "s"){ e.preventDefault(); saveProject(); }
+          if(ctrl && e.key === "Enter"){ e.preventDefault(); runCode(); }
+          if(ctrl && e.shiftKey && key === "p"){ e.preventDefault(); openOverlay(); }
+        });
+
+        // Abbrev feature (p -> <p></p>)
+        registerHtmlAbbrevProvider();
+
+        // Load saved
+        loadProject();
+
+        // Start preview placeholder
+        preview.srcdoc = `<!doctype html><html><body style="font-family:Arial;padding:16px;">
+          <h3>Press Run</h3>
+          <p>This preview updates only when you press Run.</p>
+        </body></html>`;
+
+      }catch(err){
+        showFatal(err && err.stack ? err.stack : String(err));
+      }
+    }
+  </script>
+</body>
+</html>
