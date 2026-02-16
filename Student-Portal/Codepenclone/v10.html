@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>RBS Code Studio</title>
+
+<style>
+:root{
+  --bg:#0b1026;
+  --panel:rgba(255,255,255,0.06);
+  --border:rgba(255,255,255,0.12);
+  --text:rgba(255,255,255,0.92);
+  --muted:rgba(255,255,255,0.6);
+  --accent:#7c3aed;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:system-ui;background:var(--bg);color:var(--text);overflow:hidden}
+
+.wrap{height:100%;display:flex;flex-direction:column;padding:14px;gap:12px}
+
+.topbar{
+  display:flex;align-items:center;gap:10px;
+  padding:10px;border-radius:12px;
+  background:var(--panel);border:1px solid var(--border)
+}
+
+.brand{font-weight:700}
+
+.spacer{flex:1}
+
+button{
+  background:var(--panel);
+  border:1px solid var(--border);
+  color:var(--text);
+  padding:8px 12px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:600;
+}
+button:hover{background:rgba(255,255,255,0.12)}
+.primary{background:var(--accent)}
+
+.main{
+  flex:1;
+  display:grid;
+  grid-template-columns:1.2fr 0.8fr;
+  gap:12px;
+  min-height:0;
+}
+
+.card{
+  display:flex;flex-direction:column;
+  border-radius:12px;
+  overflow:hidden;
+  background:var(--panel);
+  border:1px solid var(--border);
+  min-height:0;
+}
+
+.cardHead{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 10px;border-bottom:1px solid var(--border)
+}
+
+.tabs{display:flex;gap:6px}
+.tab{
+  padding:6px 10px;
+  border-radius:8px;
+  background:rgba(255,255,255,0.05);
+  cursor:pointer;font-size:13px
+}
+.tab.active{background:var(--accent)}
+
+.editorArea{flex:1;min-height:0}
+#editor{height:100%}
+
+.previewArea{flex:1;background:white}
+iframe{width:100%;height:100%;border:none}
+
+.hiddenEditor .main{grid-template-columns:1fr}
+.hiddenEditor .editorCard{display:none}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">RBS Code Studio</div>
+    <div class="spacer"></div>
+    <button id="btnRun" class="primary">Run</button>
+    <button id="btnSave">Save</button>
+    <button id="btnDownloadHTML">Download HTML</button>
+    <button id="btnDownloadZIP">Download ZIP</button>
+    <button id="btnToggle">Full Preview</button>
+  </div>
+
+  <div class="main">
+
+    <div class="card editorCard">
+      <div class="cardHead">
+        <div class="tabs">
+          <div class="tab active" data-lang="html">HTML</div>
+          <div class="tab" data-lang="css">CSS</div>
+          <div class="tab" data-lang="javascript">JS</div>
+        </div>
+      </div>
+      <div class="editorArea">
+        <div id="editor"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="cardHead">Preview</div>
+      <div class="previewArea">
+        <iframe id="preview"></iframe>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MONACO LOADER -->
+<script>
+(function(){
+  const base="https://cdn.jsdelivr.net/npm/monaco-editor@0.47.0/min/";
+  window.require={paths:{vs:base+"vs"}};
+  const s=document.createElement("script");
+  s.src=base+"vs/loader.js";
+  s.onload=function(){
+    require.config({paths:{vs:base+"vs"}});
+    require(["vs/editor/editor.main"],init);
+  };
+  document.head.appendChild(s);
+})();
+</script>
+
+<script>
+let editor,models={},activeLang="html";
+
+const DEFAULT={
+html:`<h1>Hello RBS Code</h1>
+<p>Start building your project.</p>`,
+css:`body{
+  font-family:Arial;
+  text-align:center;
+  padding:40px;
+}`,
+javascript:`console.log("Ready");`
+};
+
+function init(){
+
+models.html=monaco.editor.createModel(DEFAULT.html,"html");
+models.css=monaco.editor.createModel(DEFAULT.css,"css");
+models.javascript=monaco.editor.createModel(DEFAULT.javascript,"javascript");
+
+editor=monaco.editor.create(document.getElementById("editor"),{
+  model:models.html,
+  theme:"vs-dark",
+  automaticLayout:true,
+  minimap:{enabled:false},
+  fontSize:14
+});
+
+/* Enable HTML auto complete properly */
+monaco.languages.html.htmlDefaults.setOptions({
+  suggest:{html5:true}
+});
+
+/* Tab switching */
+document.querySelectorAll(".tab").forEach(tab=>{
+  tab.onclick=()=>{
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+    tab.classList.add("active");
+    activeLang=tab.dataset.lang;
+    editor.setModel(models[activeLang]);
+  };
+});
+
+runCode();
+}
+
+/* Build preview safely */
+function buildHTML(){
+const html=models.html.getValue();
+const css=models.css.getValue();
+const js=models.javascript.getValue();
+
+return `
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>${css}</style>
+</head>
+<body>
+${html}
+<script>
+try{
+${js.replace(/<\/script>/gi,"<\\/script>")}
+}catch(e){
+  const pre=document.createElement("pre");
+  pre.style.color="crimson";
+  pre.textContent="JS Error: "+e.message;
+  document.body.appendChild(pre);
+}
+<\/script>
+</body>
+</html>`;
+}
+
+function runCode(){
+document.getElementById("preview").srcdoc=buildHTML();
+}
+
+/* Buttons */
+btnRun.onclick=runCode;
+
+btnSave.onclick=()=>{
+localStorage.setItem("rbs_html",models.html.getValue());
+localStorage.setItem("rbs_css",models.css.getValue());
+localStorage.setItem("rbs_js",models.javascript.getValue());
+};
+
+btnDownloadHTML.onclick=()=>{
+const blob=new Blob([buildHTML()],{type:"text/html"});
+const a=document.createElement("a");
+a.href=URL.createObjectURL(blob);
+a.download="index.html";
+a.click();
+};
+
+btnDownloadZIP.onclick=async()=>{
+const zip=new JSZip();
+zip.file("index.html",buildHTML());
+zip.file("style.css",models.css.getValue());
+zip.file("script.js",models.javascript.getValue());
+const blob=await zip.generateAsync({type:"blob"});
+const a=document.createElement("a");
+a.href=URL.createObjectURL(blob);
+a.download="project.zip";
+a.click();
+};
+
+btnToggle.onclick=()=>{
+document.body.classList.toggle("hiddenEditor");
+};
+
+/* Load saved */
+window.onload=()=>{
+if(localStorage.getItem("rbs_html")){
+models.html.setValue(localStorage.getItem("rbs_html"));
+models.css.setValue(localStorage.getItem("rbs_css"));
+models.javascript.setValue(localStorage.getItem("rbs_js"));
+}
+};
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+</body>
+</html>
