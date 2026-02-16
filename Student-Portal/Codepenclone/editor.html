@@ -139,6 +139,46 @@ iframe{width:100%;height:100%;border:none;background:white}
 @media(max-width:900px){
   .main{grid-template-columns:1fr}
 }
+
+.overlayTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 16px;
+  background:linear-gradient(135deg, var(--a1), var(--a2));
+  color:white;
+  font-weight:800;
+}
+
+.overlayTitle{
+  display:flex;
+  flex-direction:column;
+  font-size:14px;
+}
+
+.overlayHint{
+  font-size:11px;
+  opacity:0.85;
+  font-weight:500;
+  margin-top:2px;
+}
+
+.overlayClose{
+  background:rgba(255,255,255,0.15);
+  border:none;
+  color:white;
+  font-size:16px;
+  font-weight:900;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  cursor:pointer;
+}
+
+.overlayClose:hover{
+  background:rgba(255,255,255,0.25);
+}
+
 </style>
 </head>
 
@@ -177,11 +217,27 @@ iframe{width:100%;height:100%;border:none;background:white}
 
 </div>
 
-<div id="overlay" class="overlay">
+<!-- <div id="overlay" class="overlay">
   <div class="overlayCard">
     <iframe id="overlayFrame" sandbox="allow-scripts"></iframe>
   </div>
+</div> -->
+<div id="overlay" class="overlay">
+  <div class="overlayCard">
+
+    <div class="overlayTop">
+      <div class="overlayTitle">
+        Full Preview
+        <span class="overlayHint">Press Esc to close</span>
+      </div>
+      <button id="btnCloseOverlay" class="overlayClose">✕</button>
+    </div>
+
+    <iframe id="overlayFrame" sandbox="allow-scripts"></iframe>
+
+  </div>
 </div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 
@@ -316,12 +372,48 @@ document.body.innerHTML+="<pre style='color:red'>"+e.message+"</pre>"
 function runCode(){
 document.getElementById("preview").srcdoc=buildHtml();
 }
+// function runCode(){
+//   const html = buildIndexHtml();
 
+//   preview.srcdoc = html;
+
+//   // ALWAYS keep overlay preview synced
+//   overlayFrame.srcdoc = html;
+// }
+// function runCode(){
+//   const html = buildIndexHtml();
+
+//   preview.srcdoc = html;
+
+//   if (typeof overlayFrame !== "undefined" && overlayFrame) {
+//     overlayFrame.srcdoc = html;
+//   }
+// }
+
+
+// function openOverlay(){
+// const overlay=document.getElementById("overlay");
+// overlay.classList.add("show");
+// document.getElementById("overlayFrame").srcdoc=buildHtml();
+// }
+// function openOverlay(){
+//   overlay.classList.add("show");
+//   overlayFrame.srcdoc = preview.srcdoc || buildIndexHtml();
+// }
 function openOverlay(){
-const overlay=document.getElementById("overlay");
-overlay.classList.add("show");
-document.getElementById("overlayFrame").srcdoc=buildHtml();
+  overlay.classList.add("show");
+
+  // Make sure preview has content
+  if(!preview.srcdoc){
+    const html = buildIndexHtml();
+    preview.srcdoc = html;
+    overlayFrame.srcdoc = html;
+  } else {
+    overlayFrame.srcdoc = preview.srcdoc;
+  }
 }
+
+
 function closeOverlay(){
 document.getElementById("overlay").classList.remove("show");
 }
@@ -348,6 +440,9 @@ a.download=name;
 a.click();
 URL.revokeObjectURL(url);
 }
+
+document.getElementById("btnCloseOverlay").onclick = closeOverlay;
+
 </script>
 </body>
 </html>
