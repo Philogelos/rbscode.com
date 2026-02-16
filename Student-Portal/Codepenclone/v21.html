@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>RBS Code Studio</title>
+
+<style>
+:root{
+  --bg1:#0a0f1f;
+  --bg2:#0f162f;
+  --card:#111a33;
+  --accent1:#7c3aed;
+  --accent2:#22d3ee;
+  --text:#e5e7eb;
+  --muted:#94a3b8;
+}
+
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0;
+  font-family:system-ui;
+  color:var(--text);
+  background:
+    radial-gradient(900px 600px at 20% 10%, rgba(124,58,237,0.25), transparent),
+    radial-gradient(800px 600px at 80% 90%, rgba(34,211,238,0.18), transparent),
+    linear-gradient(180deg,var(--bg1),var(--bg2));
+  overflow:hidden;
+}
+
+.wrap{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  padding:14px;
+}
+
+.topbar{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:12px 16px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:14px;
+  backdrop-filter:blur(10px);
+}
+
+.brand{
+  font-weight:900;
+  letter-spacing:0.6px;
+  font-size:14px;
+  padding:8px 12px;
+  border-radius:10px;
+  background:linear-gradient(135deg,var(--accent1),var(--accent2));
+}
+
+.field{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 10px;
+  border-radius:10px;
+  background:rgba(0,0,0,0.3);
+}
+.field input{
+  background:transparent;
+  border:none;
+  color:white;
+  outline:none;
+}
+
+.status{
+  margin-left:auto;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.btns button{
+  padding:8px 14px;
+  border-radius:10px;
+  border:none;
+  font-weight:700;
+  cursor:pointer;
+  color:white;
+  background:rgba(255,255,255,0.08);
+}
+.btns button.primary{
+  background:linear-gradient(135deg,var(--accent1),var(--accent2));
+}
+.btns button:hover{
+  filter:brightness(1.15);
+}
+
+.main{
+  flex:1;
+  display:grid;
+  grid-template-columns:1.2fr 0.8fr;
+  gap:12px;
+  min-height:0;
+}
+
+.card{
+  background:var(--card);
+  border-radius:16px;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,0.08);
+}
+
+.cardHead{
+  display:flex;
+  justify-content:space-between;
+  padding:10px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.tabs{
+  display:flex;
+  gap:10px;
+}
+
+.tab{
+  padding:8px 14px;
+  border-radius:12px;
+  font-weight:900;
+  cursor:pointer;
+  background:rgba(255,255,255,0.05);
+  color:var(--muted);
+  transition:all .2s;
+}
+
+.tab.active{
+  color:white;
+  background:linear-gradient(135deg,var(--accent1),var(--accent2));
+  box-shadow:0 0 20px rgba(124,58,237,0.5);
+}
+
+.editorArea{flex:1;}
+#editor{height:100%;}
+
+.previewArea{flex:1;}
+iframe{width:100%;height:100%;border:none;background:white;}
+
+.console{
+  height:120px;
+  background:black;
+  color:#22d3ee;
+  font-size:12px;
+  overflow:auto;
+  padding:8px;
+}
+
+@media(max-width:900px){
+  .main{grid-template-columns:1fr;}
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+<div class="topbar">
+  <div class="brand">RBS CODE</div>
+
+  <div class="field">
+    <input id="projectName" value="Project-1"/>
+  </div>
+
+  <div class="btns">
+    <button id="btnRun" class="primary">Run</button>
+    <button id="btnSave">Save</button>
+    <button id="btnDownloadHtml">Download HTML</button>
+    <button id="btnDownloadZip">Download ZIP</button>
+  </div>
+</div>
+
+<div class="main">
+
+<div class="card">
+  <div class="cardHead">
+    <div class="tabs">
+      <div class="tab active" data-lang="html">HTML</div>
+      <div class="tab" data-lang="css">CSS</div>
+      <div class="tab" data-lang="javascript">JS</div>
+    </div>
+  </div>
+  <div class="editorArea">
+    <div id="editor"></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="cardHead">Preview</div>
+  <div class="previewArea">
+    <iframe id="preview"></iframe>
+  </div>
+  <div id="console" class="console">Console ready.</div>
+</div>
+
+</div>
+</div>
+
+<!-- JSZip -->
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+<!-- Monaco loader -->
+<script>
+(function(){
+const base="https://cdn.jsdelivr.net/npm/monaco-editor@0.47.0/min/";
+window.MonacoEnvironment={
+getWorkerUrl:function(){
+const workerMain=base+"vs/base/worker/workerMain.js";
+const code=`self.MonacoEnvironment={baseUrl:"${base}"};importScripts("${workerMain}");`;
+return URL.createObjectURL(new Blob([code],{type:"text/javascript"}));
+}};
+const req=document.createElement("script");
+req.src=base+"vs/loader.js";
+req.onload=()=>{
+require.config({paths:{vs:base+"vs"}});
+require(["vs/editor/editor.main"],initStudio);
+};
+document.head.appendChild(req);
+})();
+</script>
+
+<script>
+const DEFAULT={
+html:`<h1>Hello RBS Code</h1>`,
+css:`body{font-family:Arial;text-align:center;padding:30px;}`,
+javascript:`console.log("Ready");`
+};
+
+let editor,models={},activeLang="html";
+
+function initStudio(){
+
+models.html=monaco.editor.createModel(DEFAULT.html,"html");
+models.css=monaco.editor.createModel(DEFAULT.css,"css");
+models.javascript=monaco.editor.createModel(DEFAULT.javascript,"javascript");
+
+editor=monaco.editor.create(document.getElementById("editor"),{
+model:models.html,
+theme:"vs-dark",
+fontSize:14,
+minimap:{enabled:false},
+automaticLayout:true,
+wordWrap:"on",
+quickSuggestions:true,
+snippetSuggestions:"top",
+suggestOnTriggerCharacters:true
+});
+
+document.querySelectorAll(".tab").forEach(t=>{
+t.onclick=()=>{
+document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+t.classList.add("active");
+activeLang=t.dataset.lang;
+editor.setModel(models[activeLang]);
+};
+});
+
+monaco.languages.registerCompletionItemProvider("html",{
+provideCompletionItems:()=>({
+suggestions:[
+snippet("div","<div>$0</div>"),
+snippet("p","<p>$0</p>"),
+snippet("h1","<h1>$0</h1>"),
+snippet("h2","<h2>$0</h2>"),
+snippet("button","<button>$0</button>"),
+snippet("a",'<a href="">$0</a>'),
+snippet("img",'<img src="" alt="" width="">'),
+snippet("ul","<ul>\n\t<li>$0</li>\n</ul>"),
+snippet("ol","<ol>\n\t<li>$0</li>\n</ol>"),
+snippet("br","<br>"),
+snippet("hr","<hr>"),
+snippet("title","<title>$0</title>")
+]}),
+});
+
+function snippet(label,body){
+return{
+label,
+kind:monaco.languages.CompletionItemKind.Snippet,
+insertText:body,
+insertTextRules:monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
+};
+}
+
+document.getElementById("btnRun").onclick=runCode;
+document.getElementById("btnDownloadHtml").onclick=()=>{
+const blob=new Blob([buildHtml()],{type:"text/html"});
+download(blob,"project.html");
+};
+document.getElementById("btnDownloadZip").onclick=async()=>{
+const zip=new JSZip();
+zip.file("index.html",buildHtml());
+zip.file("style.css",models.css.getValue());
+zip.file("script.js",models.javascript.getValue());
+const blob=await zip.generateAsync({type:"blob"});
+download(blob,"project.zip");
+};
+}
+
+function buildHtml(){
+return`<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<style>${models.css.getValue()}</style>
+</head>
+<body>
+${models.html.getValue()}
+<script>
+try{
+${models.javascript.getValue()}
+}catch(e){document.body.innerHTML+="<pre style='color:red'>"+e.message+"</pre>"}
+<\/script>
+</body>
+</html>`;
+}
+
+function runCode(){
+document.getElementById("preview").srcdoc=buildHtml();
+}
+
+function download(blob,name){
+const a=document.createElement("a");
+const url=URL.createObjectURL(blob);
+a.href=url;
+a.download=name;
+a.click();
+URL.revokeObjectURL(url);
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>RBS Code Studio</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#0f1220;
+  color:white;
+  display:flex;
+  flex-direction:column;
+  height:100vh;
+}
+.topbar{
+  display:flex;
+  align-items:center;
+  padding:10px;
+  gap:10px;
+  background:#161a2e;
+  border-bottom:1px solid #222;
+}
+button{
+  background:#262c48;
+  border:none;
+  color:white;
+  padding:8px 12px;
+  border-radius:6px;
+  cursor:pointer;
+}
+button:hover{ background:#343b65; }
+.tabs{
+  display:flex;
+  gap:6px;
+}
+.tab{
+  padding:6px 12px;
+  background:#22263f;
+  border-radius:6px;
+  cursor:pointer;
+}
+.tab.active{
+  background:#6b5cff;
+}
+.main{
+  flex:1;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+}
+#editor{ height:100%; }
+iframe{
+  width:100%;
+  height:100%;
+  border:none;
+  background:white;
+}
+.console{
+  height:120px;
+  overflow:auto;
+  background:#111;
+  padding:8px;
+  font-size:12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <div class="tabs">
+    <div class="tab active" data-lang="html">HTML</div>
+    <div class="tab" data-lang="css">CSS</div>
+    <div class="tab" data-lang="javascript">JS</div>
+  </div>
+  <button id="runBtn">Run</button>
+  <button id="saveBtn">Save</button>
+  <button id="downloadBtn">Download HTML</button>
+</div>
+
+<div class="main">
+  <div id="editor"></div>
+  <iframe id="preview" sandbox="allow-scripts"></iframe>
+</div>
+
+<div class="console" id="console">
+Console: press Run.
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+<script>
+(function(){
+  const base="https://cdn.jsdelivr.net/npm/monaco-editor@0.47.0/min/";
+  window.MonacoEnvironment={
+    getWorkerUrl:function(){
+      const code=`
+        self.MonacoEnvironment={baseUrl:"${base}"};
+        importScripts("${base}vs/base/worker/workerMain.js");
+      `;
+      return URL.createObjectURL(new Blob([code],{type:"text/javascript"}));
+    }
+  };
+  const s=document.createElement("script");
+  s.src=base+"vs/loader.js";
+  s.onload=function(){
+    require.config({paths:{vs:base+"vs"}});
+    require(["vs/editor/editor.main"], initStudio);
+  };
+  document.head.appendChild(s);
+})();
+</script>
+
+<script>
+let editor;
+let models={};
+let activeLang="html";
+
+const preview=document.getElementById("preview");
+const consoleEl=document.getElementById("console");
+
+function log(msg){
+  consoleEl.innerHTML+="<div>"+msg+"</div>";
+  consoleEl.scrollTop=consoleEl.scrollHeight;
+}
+
+function clearConsole(){
+  consoleEl.innerHTML="Console: press Run.";
+}
+
+function buildHtml(){
+  const html=models.html.getValue();
+  const css=models.css.getValue();
+  const js=models.javascript.getValue().replace(/<\/script>/gi,"<\\/script>");
+  return `
+<!doctype html>
+<html>
+<head>
+<style>${css}</style>
+</head>
+<body>
+${html}
+<script>
+try{
+${js}
+}catch(e){
+  document.body.innerHTML+="<pre style='color:red'>"+e.message+"</pre>";
+}
+<\/script>
+</body>
+</html>
+`;
+}
+
+function initStudio(){
+
+  models.html=monaco.editor.createModel(
+`<h1>Hello RBS Code</h1>
+<p>Start typing...</p>`,
+  "html");
+
+  models.css=monaco.editor.createModel(
+`body{
+  font-family:Arial;
+  padding:20px;
+}`, "css");
+
+  models.javascript=monaco.editor.createModel(
+`console.log("Ready");`, "javascript");
+
+  editor=monaco.editor.create(document.getElementById("editor"),{
+    model:models.html,
+    theme:"vs-dark",
+    fontSize:14,
+    minimap:{enabled:false},
+    automaticLayout:true,
+    wordBasedSuggestions:false,
+    snippetSuggestions:"top"
+  });
+
+  // tab switching
+  document.querySelectorAll(".tab").forEach(tab=>{
+    tab.onclick=function(){
+      document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+      tab.classList.add("active");
+      activeLang=tab.dataset.lang;
+      editor.setModel(models[activeLang]);
+    };
+  });
+
+  // run
+  document.getElementById("runBtn").onclick=function(){
+    clearConsole();
+    preview.srcdoc=buildHtml();
+    log("Ran.");
+  };
+
+  // save
+  document.getElementById("saveBtn").onclick=function(){
+    localStorage.setItem("html",models.html.getValue());
+    localStorage.setItem("css",models.css.getValue());
+    localStorage.setItem("js",models.javascript.getValue());
+    log("Saved.");
+  };
+
+  // download
+  document.getElementById("downloadBtn").onclick=function(){
+    const blob=new Blob([buildHtml()],{type:"text/html"});
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download="project.html";
+    a.click();
+  };
+
+  registerHtmlSnippets();
+}
+
+function snippet(label,body){
+  return{
+    label:label,
+    kind:monaco.languages.CompletionItemKind.Snippet,
+    insertText:body,
+    insertTextRules:
+      monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
+  };
+}
+
+function registerHtmlSnippets(){
+
+  monaco.languages.registerCompletionItemProvider("html",{
+    provideCompletionItems:function(){
+      return{
+        suggestions:[
+
+          // Core structure
+          snippet("html","<html>\n\t<head>\n\t\t<title>$1</title>\n\t</head>\n\t<body>\n\t\t$0\n\t</body>\n</html>"),
+          snippet("head","<head>\n\t<title>$1</title>\n</head>"),
+          snippet("body","<body>\n\t$0\n</body>"),
+          snippet("title","<title>$0</title>"),
+
+          // Text
+          snippet("h1","<h1>$0</h1>"),
+          snippet("h2","<h2>$0</h2>"),
+          snippet("h3","<h3>$0</h3>"),
+          snippet("p","<p>$0</p>"),
+          snippet("span","<span>$0</span>"),
+          snippet("strong","<strong>$0</strong>"),
+          snippet("em","<em>$0</em>"),
+          snippet("br","<br>"),
+          snippet("hr","<hr>"),
+
+          // Links & media
+          snippet("a",'<a href="$1">$0</a>'),
+          snippet("img",'<img src="$1" alt="$2">'),
+
+          // Lists
+          snippet("ul","<ul>\n\t<li>$0</li>\n</ul>"),
+          snippet("ol","<ol>\n\t<li>$0</li>\n</ol>"),
+          snippet("li","<li>$0</li>"),
+
+          // Layout
+          snippet("div","<div>\n\t$0\n</div>"),
+          snippet("section","<section>\n\t$0\n</section>"),
+          snippet("header","<header>\n\t$0\n</header>"),
+          snippet("footer","<footer>\n\t$0\n</footer>"),
+          snippet("main","<main>\n\t$0\n</main>"),
+          snippet("nav","<nav>\n\t$0\n</nav>"),
+          snippet("article","<article>\n\t$0\n</article>"),
+          snippet("aside","<aside>\n\t$0\n</aside>"),
+
+          // Forms
+          snippet("form","<form>\n\t$0\n</form>"),
+          snippet("input",'<input type="$1">'),
+          snippet("textarea","<textarea>$0</textarea>"),
+          snippet("label","<label>$0</label>"),
+          snippet("button","<button>$0</button>")
+
+        ]
+      };
+    }
+  });
+}
+</script>
+
+</body>
+</html>

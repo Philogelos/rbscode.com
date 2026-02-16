@@ -193,7 +193,7 @@
     }
 
     .tabs{ display:flex; gap:8px; align-items:center; }
-    .tab{
+    /* .tab{
       padding:8px 10px;
       border-radius: 12px;
       border:1px solid rgba(255,255,255,0.10);
@@ -210,7 +210,31 @@
       border-color: rgba(124,58,237,0.35);
       box-shadow: 0 0 0 1px rgba(124,58,237,0.10), 0 0 22px rgba(124,58,237,0.18);
       background: rgba(124,58,237,0.12);
+    } */
+    .tab{
+        padding:10px 14px;
+        border-radius: 12px;
+        border:1px solid rgba(255,255,255,0.10);
+        background: rgba(255,255,255,0.05);
+        font-size:13px;
+        font-weight:900;
+        cursor:pointer;
+        color: var(--muted);
+        transition: all 0.2s ease;
+        user-select:none;
+        letter-spacing:0.4px;
     }
+
+    .tab.active{
+        color: #ffffff;
+        background: linear-gradient(135deg, rgba(124,58,237,0.95), rgba(34,211,238,0.85));
+        border-color: rgba(255,255,255,0.25);
+        box-shadow:
+            0 0 0 2px rgba(255,255,255,0.08),
+            0 8px 28px rgba(124,58,237,0.35);
+        transform: translateY(-1px);
+    }
+
     .hint{
       font-size:12px;
       color: var(--muted);
@@ -327,10 +351,15 @@
         </div>
       </div>
 
-      <div class="field" title="Project name (used for local save key)">
+      <!-- <div class="field" title="Project name (used for local save key)">
         <label>Project</label>
         <input id="projectName" value="clicker-game-1" />
+      </div> -->
+      <div class="field">
+        <label for="projectName">Project</label>
+        <input id="projectName" name="projectName" value="Project-1" />
       </div>
+
 
       <div class="status" title="Save status">
         <div id="saveDot" class="dot"></div>
@@ -357,7 +386,7 @@
             <div class="tab" data-lang="css">CSS</div>
             <div class="tab" data-lang="javascript">JS</div>
           </div>
-          <div class="hint">HTML: type <b>p</b> then Tab or Enter</div>
+          <!-- <div class="hint">HTML: type <b>p</b> then Tab or Enter</div> -->
         </div>
         <div class="editorArea">
           <div id="editor"></div>
@@ -428,6 +457,7 @@
   </script>
 
   <script>
+    /*
     const DEFAULT = {
       html: `<h1 id="title">Hello RBS Code</h1>
 <button id="btn">Click me</button>
@@ -455,6 +485,21 @@ btn.addEventListener("click", function(){
   console.log("Clicks:", count);
 });`
     };
+    */
+   const DEFAULT = {
+  html: `<div class="container">
+  <h1>My Project</h1>
+</div>`,
+
+  css: `body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+}`,
+
+  javascript: `console.log("Ready");`
+};
+
 
     const preview = document.getElementById("preview");
     const projectNameInput = document.getElementById("projectName");
@@ -730,20 +775,39 @@ ${js}
         models.javascript = monaco.editor.createModel(DEFAULT.javascript, "javascript");
 
         // Editor (SAFE options only)
-        editor = monaco.editor.create(document.getElementById("editor"), {
-          model: models.html,
-          theme: "vs-dark",
-          fontSize: 14,
-          minimap: { enabled: false },
-          automaticLayout: true,
-          scrollBeyondLastLine: false,
-          wordWrap: "on",
-          // IMPORTANT: boolean, not "off"
-          wordBasedSuggestions: false,
-          quickSuggestions: { other: true, comments: false, strings: false },
-          suggestOnTriggerCharacters: true,
-          acceptSuggestionOnEnter: "on"
+        // editor = monaco.editor.create(document.getElementById("editor"), {
+        //   model: models.html,
+        //   theme: "vs-dark",
+        //   fontSize: 14,
+        //   minimap: { enabled: false },
+        //   automaticLayout: true,
+        //   scrollBeyondLastLine: false,
+        //   wordWrap: "on",
+        //   // IMPORTANT: boolean, not "off"
+        //   wordBasedSuggestions: false,
+        //   quickSuggestions: { other: true, comments: false, strings: false },
+        //   suggestOnTriggerCharacters: true,
+        //   acceptSuggestionOnEnter: "on"
+        // });
+        monacoEditor = monaco.editor.create(document.getElementById("editor"), {
+            model: models.html,
+            theme: "vs-dark",
+            fontSize: 14,
+            minimap: { enabled: false },
+            automaticLayout: true,
+            tabSize: 2,
+
+            quickSuggestions: {
+                other: true,
+                comments: false,
+                strings: false
+            },
+
+            suggestOnTriggerCharacters: true,
+            snippetSuggestions: "top",
+            wordBasedSuggestions: false
         });
+
 
         // Tabs
         document.querySelectorAll(".tab[data-lang]").forEach(t=>{
@@ -791,6 +855,22 @@ ${js}
 
         // Load saved
         loadProject();
+        // Enable Emmet
+        monaco.languages.html.htmlDefaults.setOptions({
+            format: {
+                tabSize: 2,
+                insertSpaces: true
+            },
+            suggest: {
+                html5: true
+            }
+            });
+
+            // Emmet support
+            monaco.languages.registerCompletionItemProvider("html", {
+            triggerCharacters: ["p","d","b","u","o","a","i","h","t"],
+        });
+
 
         // Start preview placeholder
         preview.srcdoc = `<!doctype html><html><body style="font-family:Arial;padding:16px;">
@@ -802,6 +882,36 @@ ${js}
         showFatal(err && err.stack ? err.stack : String(err));
       }
     }
+    monaco.languages.registerCompletionItemProvider("html", {
+            provideCompletionItems: function () {
+                return {
+                suggestions: [
+                    snippet("div", "<div>\n\t$0\n</div>"),
+                    snippet("p", "<p>$0</p>"),
+                    snippet("h1", "<h1>$0</h1>"),
+                    snippet("a", '<a href="">$0</a>'),
+                    snippet("img", '<img src="" alt="" width="">'),
+                    snippet("button", "<button>$0</button>"),
+                    snippet("ul", "<ul>\n\t<li>$0</li>\n</ul>"),
+                    snippet("ol", "<ol>\n\t<li>$0</li>\n</ol>"),
+                    snippet("br", "<br>"),
+                    snippet("hr", "<hr>"),
+                    snippet("title", "<title>$0</title>")
+                ]
+                };
+            }
+        });
+
+        function snippet(label, body) {
+        return {
+            label: label,
+            kind: monaco.languages.CompletionItemKind.Snippet,
+            insertText: body,
+            insertTextRules:
+            monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
+        };
+    }
+
   </script>
 </body>
 </html>
