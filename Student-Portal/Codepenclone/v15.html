@@ -1,0 +1,799 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>RBS Code Studio</title>
+
+  <style>
+    :root{
+      --bg0:#070716;
+      --bg1:#0b1026;
+      --border: rgba(255,255,255,0.10);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.64);
+      --shadow: 0 20px 60px rgba(0,0,0,0.55);
+      --radius: 16px;
+      --a1:#7c3aed;
+      --a2:#22d3ee;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      background:
+        radial-gradient(1100px 700px at 15% 15%, rgba(124,58,237,0.35), transparent 55%),
+        radial-gradient(900px 650px at 85% 20%, rgba(34,211,238,0.18), transparent 55%),
+        radial-gradient(900px 650px at 60% 95%, rgba(124,58,237,0.14), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow:hidden;
+    }
+
+    .wrap{
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      padding:14px;
+      gap:12px;
+      min-height:0;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:12px 12px;
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      min-height:56px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:6px 10px;
+      border-radius: 12px;
+      background: rgba(0,0,0,0.18);
+      border:1px solid rgba(255,255,255,0.08);
+    }
+    .logo{
+      width:26px; height:26px; border-radius:10px;
+      background:
+        radial-gradient(10px 10px at 30% 30%, rgba(34,211,238,0.95), rgba(34,211,238,0) 60%),
+        radial-gradient(16px 16px at 70% 70%, rgba(124,58,237,0.95), rgba(124,58,237,0) 60%),
+        linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02));
+      border:1px solid rgba(255,255,255,0.18);
+      box-shadow: 0 0 0 1px rgba(124,58,237,0.15), 0 0 30px rgba(124,58,237,0.10);
+    }
+    .brand .title{ margin:0; font-size:14px; font-weight:800; letter-spacing:0.5px; line-height:1.1; }
+    .brand .sub{ font-size:12px; color:var(--muted); margin-top:2px; }
+
+    .spacer{ flex:1; }
+
+    .field{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.16);
+      min-width: 220px;
+    }
+    .field label{ font-size:12px; color:var(--muted); white-space:nowrap; }
+    .field input{
+      width:100%;
+      background: transparent;
+      border:none;
+      outline:none;
+      color: var(--text);
+      font-size:13px;
+    }
+
+    .chip{
+      font-size:12px;
+      padding:8px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.16);
+      color: var(--muted);
+      min-width: 180px;
+      text-align:center;
+      user-select:none;
+    }
+    .chip.ok{ color: rgba(34,197,94,0.92); border-color: rgba(34,197,94,0.25); }
+    .chip.warn{ color: rgba(245,158,11,0.92); border-color: rgba(245,158,11,0.25); }
+    .chip.bad{ color: rgba(239,68,68,0.92); border-color: rgba(239,68,68,0.25); }
+
+    .btns{ display:flex; align-items:center; gap:8px; }
+    button{
+      border:none;
+      color:var(--text);
+      background: rgba(255,255,255,0.07);
+      border:1px solid rgba(255,255,255,0.10);
+      padding:9px 12px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight:800;
+      font-size:12px;
+      letter-spacing:0.3px;
+      transition: transform 0.08s ease, background 0.2s ease, border-color 0.2s ease, filter 0.2s ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    button:hover{
+      background: rgba(255,255,255,0.10);
+      border-color: rgba(255,255,255,0.16);
+    }
+    button:active{ transform: translateY(1px); }
+
+    .primary{
+      background: linear-gradient(135deg, rgba(124,58,237,0.95), rgba(34,211,238,0.65));
+      border:1px solid rgba(255,255,255,0.18);
+      box-shadow: 0 0 0 1px rgba(124,58,237,0.10), 0 10px 30px rgba(124,58,237,0.20);
+    }
+    .primary:hover{ filter: brightness(1.06); }
+
+    .main{
+      flex:1;
+      display:grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap:12px;
+      min-height:0;
+    }
+
+    .card{
+      border-radius: var(--radius);
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      min-height:0;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .cardHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:10px 10px;
+      border-bottom:1px solid rgba(255,255,255,0.10);
+      background:
+        radial-gradient(400px 120px at 20% 0%, rgba(124,58,237,0.25), transparent 60%),
+        radial-gradient(380px 120px at 80% 0%, rgba(34,211,238,0.18), transparent 60%),
+        rgba(0,0,0,0.18);
+      min-height:48px;
+    }
+
+    .tabs{ display:flex; gap:8px; align-items:center; }
+    .tab{
+      padding:8px 10px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.05);
+      font-size:12px;
+      font-weight:900;
+      cursor:pointer;
+      color: var(--muted);
+      transition: all 0.2s ease;
+      user-select:none;
+    }
+    .tab.active{
+      color: var(--text);
+      border-color: rgba(124,58,237,0.35);
+      box-shadow: 0 0 0 1px rgba(124,58,237,0.10), 0 0 22px rgba(124,58,237,0.18);
+      background: rgba(124,58,237,0.12);
+    }
+
+    .hint{
+      font-size:12px;
+      color: var(--muted);
+      padding-right:6px;
+      white-space:nowrap;
+      user-select:none;
+    }
+
+    .editorArea{ flex:1; min-height:0; }
+    #editor{ height:100%; width:100%; }
+
+    .previewArea{ flex:1; min-height:0; background: rgba(0,0,0,0.15); }
+    iframe{ width:100%; height:100%; border:none; background:white; }
+
+    .overlay{
+      position:fixed;
+      inset:0;
+      display:none;
+      z-index:9999;
+      background: rgba(0,0,0,0.82);
+      backdrop-filter: blur(8px);
+    }
+    .overlay.active{ display:block; }
+    .overlayInner{
+      position:absolute;
+      inset:14px;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,0.16);
+      overflow:hidden;
+      box-shadow: 0 25px 90px rgba(0,0,0,0.65);
+      background: rgba(8,10,24,0.92);
+      display:flex;
+      flex-direction:column;
+      min-height:0;
+    }
+    .overlayTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:10px 10px;
+      border-bottom:1px solid rgba(255,255,255,0.10);
+      background:
+        radial-gradient(600px 140px at 20% 0%, rgba(124,58,237,0.28), transparent 60%),
+        radial-gradient(560px 140px at 80% 0%, rgba(34,211,238,0.18), transparent 60%),
+        rgba(0,0,0,0.25);
+    }
+    .overlayTop .left{
+      display:flex; align-items:center; gap:10px;
+      color: rgba(255,255,255,0.90);
+      font-weight:900;
+      letter-spacing:0.4px;
+      font-size:12px;
+      user-select:none;
+    }
+    .kbd{
+      padding:3px 8px;
+      border-radius: 10px;
+      border:1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.86);
+      font-size:11px;
+      font-weight:800;
+    }
+    .overlayFrame{ flex:1; min-height:0; background:white; }
+    .overlayFrame iframe{ height:100%; }
+
+    @media (max-width: 980px){
+      body{ overflow:auto; }
+      .main{ grid-template-columns: 1fr; }
+      .wrap{ height:auto; }
+      .editorArea, .previewArea{ height: 520px; }
+      .field{ min-width: 160px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <div class="title">RBS Code Studio</div>
+          <div class="sub">Ctrl+S save, Ctrl+Enter run, Ctrl+Space suggestions</div>
+        </div>
+      </div>
+
+      <div class="field" title="Project name (autosave key)">
+        <label>Project</label>
+        <input id="projectName" value="clicker-game-1" />
+      </div>
+
+      <div class="chip" id="statusChip">Ready</div>
+
+      <div class="spacer"></div>
+
+      <div class="btns">
+        <button id="btnRun" class="primary">Run</button>
+        <button id="btnSave">Save</button>
+        <button id="btnDownloadHtml">Download HTML</button>
+        <button id="btnDownloadZip">Download ZIP</button>
+        <button id="btnFull">Full Preview</button>
+        <button id="btnReset">Reset</button>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="card">
+        <div class="cardHead">
+          <div class="tabs">
+            <div class="tab active" data-lang="html">HTML</div>
+            <div class="tab" data-lang="css">CSS</div>
+            <div class="tab" data-lang="javascript">JS</div>
+          </div>
+          <div class="hint">Runs only when you click Run</div>
+        </div>
+        <div class="editorArea">
+          <div id="editor"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="cardHead">
+          <div class="tabs">
+            <div class="tab active" style="cursor:default;">Preview</div>
+          </div>
+          <div class="hint">Sandboxed iframe</div>
+        </div>
+        <div class="previewArea">
+          <iframe id="preview" sandbox="allow-scripts"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full Preview overlay -->
+  <div class="overlay" id="fullOverlay" aria-hidden="true">
+    <div class="overlayInner">
+      <div class="overlayTop">
+        <div class="left">
+          Full Preview
+          <span class="kbd">Esc</span>
+        </div>
+        <div class="btns">
+          <button id="fullExit">Exit</button>
+        </div>
+      </div>
+      <div class="overlayFrame">
+        <iframe id="fullPreview" sandbox="allow-scripts"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- RequireJS (Monaco loader) + JSZip -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  <script>
+    // ===== Defaults =====
+    const DEFAULT = {
+      html:
+`<h1 id="title">Hello RBS Code</h1>
+<button id="btn">Click me</button>
+<p>Clicks: <span id="count">0</span></p>`,
+      css:
+`body{
+  font-family: Arial, sans-serif;
+  text-align:center;
+  padding:30px;
+}
+#btn{
+  padding:12px 18px;
+  border-radius:12px;
+  border:none;
+  cursor:pointer;
+}
+#title{ margin-bottom:16px; }`,
+      javascript:
+`let count = 0;
+
+const btn = document.getElementById("btn");
+const countSpan = document.getElementById("count");
+
+btn.addEventListener("click", function(){
+  count++;
+  countSpan.innerText = count;
+});`
+    };
+
+    // ===== State =====
+    let monacoEditor = null;
+    let models = {};
+    let activeLang = "html";
+    let isDirty = false;
+    let lastRanSrcdoc = "";
+
+    const preview = document.getElementById("preview");
+    const fullOverlay = document.getElementById("fullOverlay");
+    const fullPreview = document.getElementById("fullPreview");
+    const fullExit = document.getElementById("fullExit");
+
+    const projectNameInput = document.getElementById("projectName");
+    const statusChip = document.getElementById("statusChip");
+
+    const btnRun = document.getElementById("btnRun");
+    const btnSave = document.getElementById("btnSave");
+    const btnDownloadHtml = document.getElementById("btnDownloadHtml");
+    const btnDownloadZip = document.getElementById("btnDownloadZip");
+    const btnFull = document.getElementById("btnFull");
+    const btnReset = document.getElementById("btnReset");
+
+    function keyPrefix(){
+      const name = (projectNameInput.value || "project").trim();
+      return "rbsstudio:" + name + ":";
+    }
+
+    function setStatus(text, kind){
+      const dot = isDirty ? "● " : "";
+      statusChip.textContent = dot + text;
+      statusChip.classList.remove("ok","warn","bad");
+      if(kind) statusChip.classList.add(kind);
+    }
+
+    function setDirty(v){
+      isDirty = v;
+      if(isDirty){
+        setStatus("Unsaved changes", "warn");
+      }else{
+        setStatus("Saved", "ok");
+      }
+    }
+
+    function safeGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+    function safeSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+
+    function loadProject(){
+      const p = keyPrefix();
+      const html = safeGet(p+"html") ?? DEFAULT.html;
+      const css  = safeGet(p+"css")  ?? DEFAULT.css;
+      const js   = safeGet(p+"js")   ?? DEFAULT.javascript;
+
+      models.html.setValue(html);
+      models.css.setValue(css);
+      models.javascript.setValue(js);
+
+      // Do not auto-run (your preference)
+      preview.srcdoc = blankPreviewDoc("Click Run to preview.");
+      fullPreview.srcdoc = preview.srcdoc;
+
+      setDirty(false);
+      setStatus("Ready", "ok");
+    }
+
+    function saveProject(){
+      const p = keyPrefix();
+      safeSet(p+"html", models.html.getValue());
+      safeSet(p+"css",  models.css.getValue());
+      safeSet(p+"js",   models.javascript.getValue());
+      setDirty(false);
+      setStatus("Saved", "ok");
+    }
+
+    function resetProject(){
+      models.html.setValue(DEFAULT.html);
+      models.css.setValue(DEFAULT.css);
+      models.javascript.setValue(DEFAULT.javascript);
+
+      preview.srcdoc = blankPreviewDoc("Click Run to preview.");
+      fullPreview.srcdoc = preview.srcdoc;
+
+      setDirty(true);
+      setStatus("Reset (not saved)", "warn");
+    }
+
+    function blankPreviewDoc(msg){
+      return (
+`<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<style>
+  body{ font-family: Arial, sans-serif; margin:0; padding:24px; background:#fff; color:#111; }
+  .box{ border:1px solid #ddd; padding:14px 16px; border-radius:12px; background:#fafafa; }
+  .muted{ color:#666; margin-top:6px; font-size:13px; }
+</style>
+</head>
+<body>
+  <div class="box">
+    <div><strong>${escapeHtml(msg)}</strong></div>
+    <div class="muted">Tip: Ctrl+Enter to run, Ctrl+S to save.</div>
+  </div>
+</body>
+</html>`
+      );
+    }
+
+    function escapeHtml(s){
+      return String(s)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function buildSrcDoc(){
+      const html = models.html.getValue();
+      const css = models.css.getValue();
+      const js = models.javascript.getValue();
+
+      // Avoid closing the script tag by accident
+      const SCRIPT_END = "</" + "script>";
+
+      return (
+`<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<style>
+${css}
+</style>
+</head>
+<body>
+${html}
+<script>
+(() => {
+  try {
+${js}
+  } catch (e) {
+    const pre = document.createElement("pre");
+    pre.style.whiteSpace = "pre-wrap";
+    pre.style.color = "crimson";
+    pre.style.fontFamily = "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace";
+    pre.style.background = "rgba(255,0,0,0.06)";
+    pre.style.border = "1px solid rgba(220,38,38,0.35)";
+    pre.style.borderRadius = "12px";
+    pre.style.padding = "12px";
+    pre.textContent = "JS Error: " + (e && e.message ? e.message : String(e));
+    document.body.appendChild(pre);
+    console.error(e);
+  }
+})();
+${SCRIPT_END}
+</body>
+</html>`
+      );
+    }
+
+    function runCode(){
+      lastRanSrcdoc = buildSrcDoc();
+      preview.srcdoc = lastRanSrcdoc;
+      fullPreview.srcdoc = lastRanSrcdoc;
+      setStatus("Ran", "ok");
+    }
+
+    function downloadHTML(){
+      const blob = new Blob([buildSrcDoc()], {type:"text/html"});
+      const a = document.createElement("a");
+      const name = (projectNameInput.value || "rbs-project").trim().replace(/[^a-z0-9\-_]+/gi,"-");
+      a.href = URL.createObjectURL(blob);
+      a.download = name + ".html";
+      a.click();
+      URL.revokeObjectURL(a.href);
+      setStatus("HTML downloaded", "ok");
+    }
+
+    function buildFolderIndexHtml(title, html){
+      // index.html references external style.css and script.js
+      const safeTitle = escapeHtml(title || "RBS Code Project");
+      return (
+`<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>${safeTitle}</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+${html}
+<script src="script.js"></script>
+</body>
+</html>`
+      );
+    }
+
+    async function downloadZIP(){
+      if(!window.JSZip){
+        setStatus("JSZip failed to load", "bad");
+        return;
+      }
+
+      const name = (projectNameInput.value || "rbs-project").trim().replace(/[^a-z0-9\-_]+/gi,"-");
+      const zip = new JSZip();
+      const folder = zip.folder(name);
+
+      const html = models.html.getValue();
+      const css = models.css.getValue();
+      const js = models.javascript.getValue();
+
+      folder.file("index.html", buildFolderIndexHtml(name, html));
+      folder.file("style.css", css);
+      folder.file("script.js", js);
+
+      const blob = await zip.generateAsync({type:"blob"});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = name + ".zip";
+      a.click();
+      URL.revokeObjectURL(a.href);
+      setStatus("ZIP downloaded", "ok");
+    }
+
+    function openFullPreview(){
+      fullOverlay.classList.add("active");
+      fullPreview.srcdoc = lastRanSrcdoc || blankPreviewDoc("Click Run to preview.");
+    }
+
+    function closeFullPreview(){
+      fullOverlay.classList.remove("active");
+    }
+
+    function setActiveTab(lang){
+      activeLang = lang;
+      document.querySelectorAll(".tab[data-lang]").forEach(t=>{
+        t.classList.toggle("active", t.dataset.lang === lang);
+      });
+      monacoEditor.setModel(models[lang]);
+      monacoEditor.focus();
+      setStatus("Editing: " + (lang==="javascript" ? "JS" : lang.toUpperCase()), isDirty ? "warn" : "ok");
+    }
+
+    function debounce(ms, fn){
+      let t = null;
+      return function(){
+        clearTimeout(t);
+        t = setTimeout(fn, ms);
+      };
+    }
+
+    // ===== Monaco loader =====
+    (function initMonaco(){
+      const base = "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.47.0/min/";
+
+      // Worker setup (critical for proper language features)
+      window.MonacoEnvironment = {
+        getWorkerUrl: function(moduleId, label){
+          const workerMain = base + "vs/base/worker/workerMain.js";
+          const code =
+            "self.MonacoEnvironment={baseUrl:'" + base + "'};" +
+            "importScripts('" + workerMain + "');";
+          return URL.createObjectURL(new Blob([code], { type: "text/javascript" }));
+        }
+      };
+
+      require.config({ paths:{ vs: base + "vs" } });
+
+      require(["vs/editor/editor.main"], function(){
+        initStudio();
+      });
+    })();
+
+    function initStudio(){
+      // Models
+      models.html = monaco.editor.createModel(DEFAULT.html, "html");
+      models.css = monaco.editor.createModel(DEFAULT.css, "css");
+      models.javascript = monaco.editor.createModel(DEFAULT.javascript, "javascript");
+
+      // Editor
+      monacoEditor = monaco.editor.create(document.getElementById("editor"), {
+        model: models.html,
+        theme: "vs-dark",
+        fontSize: 14,
+        minimap: { enabled: false },
+        automaticLayout: true,
+        scrollBeyondLastLine: false,
+        roundedSelection: true,
+        smoothScrolling: true,
+        tabSize: 2,
+        wordWrap: "on"
+      });
+
+      // ===== Emmet-like HTML tag expansion =====
+      // Type: p -> Enter -> <p></p>  (and many other tags)
+      const VOID = new Set(["img","input","br","hr","meta","link"]);
+      const TAGS = [
+        "div","p","span","h1","h2","h3","h4","h5","h6",
+        "button","a","img","ul","ol","li","input","label",
+        "section","header","footer","main","nav","article","aside",
+        "strong","em","b","i","u","small","br","hr","pre","code"
+      ];
+
+      monaco.languages.registerCompletionItemProvider("html", {
+        triggerCharacters: "abcdefghijklmnopqrstuvwxyz".split(""),
+        provideCompletionItems: function(model, position){
+          // Only when editing the HTML tab/model
+          if(model !== models.html) return { suggestions: [] };
+
+          const wordInfo = model.getWordUntilPosition(position);
+          const word = (wordInfo && wordInfo.word) ? wordInfo.word : "";
+          if(!word) return { suggestions: [] };
+
+          // Heuristic: don't suggest when you're already typing a real tag: "<p"
+          const line = model.getLineContent(position.lineNumber);
+          const before = line.slice(0, position.column - 1);
+          const lastLt = before.lastIndexOf("<");
+          const lastGt = before.lastIndexOf(">");
+          const insideTag = (lastLt > lastGt);
+          if(insideTag) return { suggestions: [] };
+
+          const prefix = word.toLowerCase();
+          if(!/^[a-z]+$/.test(prefix)) return { suggestions: [] };
+
+          const range = new monaco.Range(
+            position.lineNumber,
+            wordInfo.startColumn,
+            position.lineNumber,
+            wordInfo.endColumn
+          );
+
+          const matches = TAGS.filter(t => t.startsWith(prefix));
+          if(matches.length === 0) return { suggestions: [] };
+
+          const suggestions = matches.slice(0, 30).map(t => {
+            const isVoid = VOID.has(t);
+            const insertText = isVoid
+              ? `<${t} $1>$0`
+              : `<${t}>$0</${t}>`;
+
+            return {
+              label: t,
+              kind: monaco.languages.CompletionItemKind.Snippet,
+              insertText,
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              documentation: "Enter to expand",
+              range,
+              sortText: "0000_" + t
+            };
+          });
+
+          return { suggestions };
+        }
+      });
+
+      // Wire tabs
+      document.querySelectorAll(".tab[data-lang]").forEach(t=>{
+        t.addEventListener("click", ()=> setActiveTab(t.dataset.lang));
+      });
+
+      // Buttons
+      btnRun.addEventListener("click", runCode);
+      btnSave.addEventListener("click", saveProject);
+      btnDownloadHtml.addEventListener("click", downloadHTML);
+      btnDownloadZip.addEventListener("click", downloadZIP);
+      btnFull.addEventListener("click", openFullPreview);
+      btnReset.addEventListener("click", resetProject);
+      fullExit.addEventListener("click", closeFullPreview);
+
+      // Keyboard shortcuts
+      window.addEventListener("keydown", (e)=>{
+        const isMac = navigator.platform.toUpperCase().includes("MAC");
+        const ctrl = isMac ? e.metaKey : e.ctrlKey;
+
+        if(e.key === "Escape"){
+          closeFullPreview();
+        }
+        if(ctrl && (e.key === "s" || e.key === "S")){
+          e.preventDefault();
+          saveProject();
+        }
+        if(ctrl && e.key === "Enter"){
+          e.preventDefault();
+          runCode();
+        }
+      });
+
+      // Dirty tracking (no auto-run)
+      const markDirtySoon = debounce(80, ()=>{
+        if(!isDirty){
+          setDirty(true);
+        }else{
+          setStatus("Typing…", "warn");
+        }
+      });
+
+      monacoEditor.onDidChangeModelContent(() => {
+        markDirtySoon();
+      });
+
+      // Project switch
+      projectNameInput.addEventListener("change", loadProject);
+
+      // Initial state
+      loadProject();
+      preview.srcdoc = blankPreviewDoc("Click Run to preview.");
+      fullPreview.srcdoc = preview.srcdoc;
+      setStatus("Ready", "ok");
+      setDirty(false);
+    }
+  </script>
+</body>
+</html>
