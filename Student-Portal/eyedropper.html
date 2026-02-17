@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Color Picker</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: #f4f4f4;
+        }
+
+        canvas {
+            border: 2px solid black;
+            margin-top: 20px;
+            cursor: crosshair;
+        }
+
+        #colorPreview {
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+            border: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Upload Image and Click to Pick Color</h2>
+
+<input type="file" id="imageUpload">
+
+<br>
+
+<canvas id="canvas"></canvas>
+
+<div id="colorPreview"></div>
+
+<p id="colorInfo"></p>
+
+<script>
+let canvas = document.getElementById("canvas");
+let ctx = canvas.getContext("2d");
+let imageUpload = document.getElementById("imageUpload");
+let colorPreview = document.getElementById("colorPreview");
+let colorInfo = document.getElementById("colorInfo");
+
+// When user uploads image
+imageUpload.addEventListener("change", function(event) {
+    let file = event.target.files[0];
+    let reader = new FileReader();
+
+    reader.onload = function(e) {
+        let img = new Image();
+        img.onload = function() {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+        };
+        img.src = e.target.result;
+    };
+
+    reader.readAsDataURL(file);
+});
+
+// When user clicks canvas
+canvas.addEventListener("click", function(event) {
+    let rect = canvas.getBoundingClientRect();
+
+    let x = event.clientX - rect.left;
+    let y = event.clientY - rect.top;
+
+    let pixel = ctx.getImageData(x, y, 1, 1).data;
+
+    let r = pixel[0];
+    let g = pixel[1];
+    let b = pixel[2];
+
+    let hex = rgbToHex(r, g, b);
+
+    colorPreview.style.backgroundColor = hex;
+    colorInfo.innerText = "RGB(" + r + ", " + g + ", " + b + ")  |  " + hex;
+});
+
+// Convert RGB to HEX
+function rgbToHex(r, g, b) {
+    return "#" + toHex(r) + toHex(g) + toHex(b);
+}
+
+function toHex(num) {
+    let hex = num.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+}
+</script>
+
+</body>
+</html>
