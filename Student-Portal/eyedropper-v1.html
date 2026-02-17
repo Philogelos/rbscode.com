@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>RBS Color Finder</title>
+    <title>Simple Color Picker</title>
     <style>
         body {
             font-family: Arial;
@@ -13,7 +13,6 @@
             border: 2px solid black;
             margin-top: 20px;
             cursor: crosshair;
-            max-width: 90%;
         }
 
         #colorPreview {
@@ -22,38 +21,21 @@
             margin: 20px auto;
             border: 2px solid black;
         }
-
-        input[type="text"] {
-            width: 300px;
-            padding: 8px;
-            margin-top: 10px;
-        }
-
-        button {
-            padding: 8px 15px;
-            margin: 10px;
-            cursor: pointer;
-        }
     </style>
 </head>
 <body>
 
-<h2>RBS Color Finder</h2>
+<h2>Upload Image and Click to Pick Color</h2>
 
-<h4>Option 1: Upload Image</h4>
 <input type="file" id="imageUpload">
-
-<h4>Option 2: Paste Image URL</h4>
-<input type="text" id="imageURL" placeholder="Paste image URL here">
-<button onclick="loadImageFromURL()">Load Image</button>
 
 <br>
 
 <canvas id="canvas"></canvas>
 
 <div id="colorPreview"></div>
+
 <p id="colorInfo"></p>
-<button onclick="copyHex()">Copy HEX</button>
 
 <script>
 let canvas = document.getElementById("canvas");
@@ -62,56 +44,28 @@ let imageUpload = document.getElementById("imageUpload");
 let colorPreview = document.getElementById("colorPreview");
 let colorInfo = document.getElementById("colorInfo");
 
-
-// ---------- Upload Image ----------
+// When user uploads image
 imageUpload.addEventListener("change", function(event) {
     let file = event.target.files[0];
     let reader = new FileReader();
 
     reader.onload = function(e) {
-        loadImage(e.target.result);
+        let img = new Image();
+        img.onload = function() {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+        };
+        img.src = e.target.result;
     };
 
     reader.readAsDataURL(file);
 });
 
-
-// ---------- Load From URL ----------
-function loadImageFromURL() {
-    let url = document.getElementById("imageURL").value;
-    loadImage(url);
-}
-
-
-// ---------- Core Image Loader ----------
-function loadImage(src) {
-    let img = new Image();
-
-    // Important for loading images from other websites
-    img.crossOrigin = "Anonymous";
-
-    img.onload = function() {
-        // Resize if too large
-        let maxWidth = 800;
-        let scale = 1;
-
-        if (img.width > maxWidth) {
-            scale = maxWidth / img.width;
-        }
-
-        canvas.width = img.width * scale;
-        canvas.height = img.height * scale;
-
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    };
-
-    img.src = src;
-}
-
-
-// ---------- Click To Pick Color ----------
+// When user clicks canvas
 canvas.addEventListener("click", function(event) {
     let rect = canvas.getBoundingClientRect();
+
     let x = event.clientX - rect.left;
     let y = event.clientY - rect.top;
 
@@ -125,12 +79,9 @@ canvas.addEventListener("click", function(event) {
 
     colorPreview.style.backgroundColor = hex;
     colorInfo.innerText = "RGB(" + r + ", " + g + ", " + b + ")  |  " + hex;
-
-    lastHex = hex;
 });
 
-
-// ---------- RGB → HEX ----------
+// Convert RGB to HEX
 function rgbToHex(r, g, b) {
     return "#" + toHex(r) + toHex(g) + toHex(b);
 }
@@ -138,17 +89,6 @@ function rgbToHex(r, g, b) {
 function toHex(num) {
     let hex = num.toString(16);
     return hex.length == 1 ? "0" + hex : hex;
-}
-
-
-// ---------- Copy Button ----------
-let lastHex = "";
-
-function copyHex() {
-    if (lastHex) {
-        navigator.clipboard.writeText(lastHex);
-        alert("Copied: " + lastHex);
-    }
 }
 </script>
 
