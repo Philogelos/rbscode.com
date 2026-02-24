@@ -46,20 +46,39 @@ function buildCategories(){
     })
 }
 
-function applyFilter(){
-    const text = search.value.toLowerCase()
+// function applyFilter(){
+//     const text = search.value.toLowerCase()
+
+//     filtered = EMOJIS.filter(e => {
+//         const matchCategory =
+//             currentCategory === "All" || e.group === currentCategory
+
+//         const matchSearch =
+//             e.name.toLowerCase().includes(text)
+
+//         return matchCategory && matchSearch
+//     })
+
+//     container.innerHTML = ""
+//     lazyRender(0)
+// }
+
+function applyFilter() {
+    const text = search.value.trim().toLowerCase()
 
     filtered = EMOJIS.filter(e => {
         const matchCategory =
             currentCategory === "All" || e.group === currentCategory
 
         const matchSearch =
+            text === "" ||
             e.name.toLowerCase().includes(text)
 
         return matchCategory && matchSearch
     })
 
     container.innerHTML = ""
+    console.log("Searching:", text, "Matches:", filtered.length)
     lazyRender(0)
 }
 
