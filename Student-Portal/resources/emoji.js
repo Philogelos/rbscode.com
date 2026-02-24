@@ -6,6 +6,8 @@ let EMOJIS = []
 let currentCategory = "All"
 let filtered = []
 
+console.log(" emoji v2")
+
 // IMPORTANT: make sure path is correct relative to emoji.html
 fetch("./emoji-clean.json")
 .then(res => {
@@ -63,8 +65,32 @@ function buildCategories(){
 //     lazyRender(0)
 // }
 
+// function applyFilter() {
+//     const text = search.value.trim().toLowerCase()
+
+//     filtered = EMOJIS.filter(e => {
+//         const name = e.name.toLowerCase()
+//         const group = e.group.toLowerCase()
+
+//         const matchCategory =
+//             currentCategory === "All" ||
+//             e.group === currentCategory
+
+//         const matchSearch =
+//             text === "" ||
+//             name.includes(text) ||
+//             group.includes(text)
+
+//         return matchCategory && matchSearch
+//     })
+
+//     container.innerHTML = ""
+//     lazyRender(0)
+// }
+
 function applyFilter() {
     const text = search.value.trim().toLowerCase()
+    console.log("Current category:", currentCategory)
 
     filtered = EMOJIS.filter(e => {
         const name = e.name.toLowerCase()
@@ -72,7 +98,7 @@ function applyFilter() {
 
         const matchCategory =
             currentCategory === "All" ||
-            e.group === currentCategory
+            e.group.trim().toLowerCase() === currentCategory.trim().toLowerCase()
 
         const matchSearch =
             text === "" ||
