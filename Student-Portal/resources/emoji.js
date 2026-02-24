@@ -67,18 +67,22 @@ function applyFilter() {
     const text = search.value.trim().toLowerCase()
 
     filtered = EMOJIS.filter(e => {
+        const name = e.name.toLowerCase()
+        const group = e.group.toLowerCase()
+
         const matchCategory =
-            currentCategory === "All" || e.group === currentCategory
+            currentCategory === "All" ||
+            e.group === currentCategory
 
         const matchSearch =
             text === "" ||
-            e.name.toLowerCase().includes(text)
+            name.includes(text) ||
+            group.includes(text)
 
         return matchCategory && matchSearch
     })
 
     container.innerHTML = ""
-    console.log("Searching:", text, "Matches:", filtered.length)
     lazyRender(0)
 }
 
@@ -102,4 +106,11 @@ function lazyRender(start){
     }
 }
 
-search.addEventListener("input", applyFilter)
+search.addEventListener("input", function(){
+    currentCategory = "All"
+
+    document.querySelectorAll(".categoryBtn")
+        .forEach(b => b.classList.remove("active"))
+
+    applyFilter()
+})
