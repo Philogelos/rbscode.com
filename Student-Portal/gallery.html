@@ -158,9 +158,16 @@ button {
     Use Copy Link or Download for your HTML or CSS projects.
   </p>
     <div class="library-nav">
-    <button onclick="showLibrary('images')">🖼 Images</button>
-    <button onclick="showLibrary('sfx')">🔊 SFX</button>
-    <button onclick="showLibrary('music')">🎵 Music</button>
+    <a href="#gallery">
+      <button >🖼 Images</button>
+      <!-- onclick="showLibrary('images')" -->
+    </a>
+    <a href="#audioGallery">
+      <button >🔊 SFX</button> 
+      <!-- onclick="showLibrary('sfx')" -->
+    </a>
+
+    <!-- <button onclick="showLibrary('music')">🎵 Music</button> -->
   </div>
 
   <div class="gallery" id="gallery"></div>
