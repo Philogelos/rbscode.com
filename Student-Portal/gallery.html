@@ -125,6 +125,27 @@ button {
 .modal.show {
   display: flex;
 }
+
+.library-nav {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.library-nav button {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 10px 18px;
+  margin: 4px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.library-nav button:hover {
+  background: var(--accent);
+  color: white;
+}
 </style>
 </head>
 
@@ -136,6 +157,11 @@ button {
     Click an image to view it fully.  
     Use Copy Link or Download for your HTML or CSS projects.
   </p>
+    <div class="library-nav">
+    <button onclick="showLibrary('images')">🖼 Images</button>
+    <button onclick="showLibrary('sfx')">🔊 SFX</button>
+    <button onclick="showLibrary('music')">🎵 Music</button>
+  </div>
 
   <div class="gallery" id="gallery"></div>
 
