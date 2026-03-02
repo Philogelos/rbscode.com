@@ -139,6 +139,9 @@ button {
 
   <div class="gallery" id="gallery"></div>
 </div>
+<h1>Sound Effects</h1>
+
+<div class="gallery" id="audioGallery"></div>
 
 <div class="modal" id="modal">
   <img id="modalImg">
@@ -152,6 +155,15 @@ const NUM_IMAGES = 30; // change this only
 const gallery = document.getElementById("gallery");
 const modal = document.getElementById("modal");
 const modalImg = document.getElementById("modalImg");
+
+/* ===== AUDIO CONFIG ===== */
+const SND_BASE = "https://rbscode.com/Student-Portal/snd/";
+
+const sounds = [
+  { number: 1, name: "Zap SFX" },
+  { number: 2, name: "Coin Pickup" },
+  { number: 3, name: "Laser Shot" },
+];
 
 /* ===== BUILD GALLERY ===== */
 for (let i = 1; i <= NUM_IMAGES; i++) {
@@ -207,6 +219,60 @@ for (let i = 1; i <= NUM_IMAGES; i++) {
   card.appendChild(meta);
   card.appendChild(actions);
   gallery.appendChild(card);
+}
+
+/* ===== BUILD AUDIO ===== */
+const audioGallery = document.getElementById("audioGallery");
+
+for (let s of sounds) {
+
+  const src = `snd/${s.number}.mp3`;
+  const fullUrl = SND_BASE + `${s.number}.mp3`;
+
+  const card = document.createElement("div");
+  card.className = "card";
+
+  /* preview area */
+  const thumb = document.createElement("div");
+  thumb.className = "thumb";
+
+  const audio = document.createElement("audio");
+  audio.controls = true;
+  audio.src = src;
+  audio.style.width = "100%";
+
+  thumb.appendChild(audio);
+
+  /* meta */
+  const meta = document.createElement("div");
+  meta.className = "meta";
+  meta.innerHTML = `
+    <div>${s.name}</div>
+    <div>snd/${s.number}.mp3</div>
+  `;
+
+  /* actions */
+  const actions = document.createElement("div");
+  actions.className = "actions";
+
+  const copyBtn = document.createElement("button");
+  copyBtn.className = "copy-btn";
+  copyBtn.textContent = "Copy link";
+  copyBtn.onclick = () => copyText(fullUrl, copyBtn);
+
+  const downloadBtn = document.createElement("button");
+  downloadBtn.className = "download-btn";
+  downloadBtn.textContent = "Download";
+  downloadBtn.onclick = () => download(src);
+
+  actions.appendChild(copyBtn);
+  actions.appendChild(downloadBtn);
+
+  card.appendChild(thumb);
+  card.appendChild(meta);
+  card.appendChild(actions);
+
+  audioGallery.appendChild(card);
 }
 
 /* ===== HELPERS ===== */
