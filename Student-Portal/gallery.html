@@ -155,7 +155,7 @@ button {
 <body>
 
 <div class="wrapper">
-  <h1>Image Gallery</h1>
+  <h1>Image and Audio Gallery</h1>
   <p>
     Click an image to view it fully.  
     Use Copy Link or Download for your HTML or CSS projects.
@@ -197,11 +197,23 @@ const modalImg = document.getElementById("modalImg");
 /* ===== AUDIO CONFIG ===== */
 const SND_BASE = "https://rbscode.com/Student-Portal/snd/";
 
+/* old sounds array without images
 const sounds = [
   { number: 1, name: "Zap SFX" },
   { number: 2, name: "Coin Pickup" },
   { number: 3, name: "Laser Shot" },
 ];
+*/
+const sounds = [
+  { number: 1, name: "Zap SFX", img: "zap.png" },
+  { number: 2, name: "Coin Pickup", img: "coin.png" },
+  { number: 3, name: "Laser Shot", img: "laser.png" },
+
+  { number: 4, name: "Rocket Launch", img: "rocket.png" },
+  { number: 5, name: "Jet Flyby", img: "jet.png" },
+  { number: 6, name: "F1 Car Engine", img: "f1.png" },
+];
+
 
 /* ===== BUILD GALLERY ===== */
 for (let i = 1; i <= NUM_IMAGES; i++) {
@@ -260,6 +272,64 @@ for (let i = 1; i <= NUM_IMAGES; i++) {
 }
 
 /* ===== BUILD AUDIO ===== */
+// old audio gallery without thumbnails
+// const audioGallery = document.getElementById("audioGallery");
+
+// for (let s of sounds) {
+
+//   const src = `snd/${s.number}.mp3`;
+//   const fullUrl = SND_BASE + `${s.number}.mp3`;
+
+//   const card = document.createElement("div");
+//   card.className = "card";
+
+//   /* preview area */
+//   const thumb = document.createElement("div");
+//   thumb.className = "thumb";
+
+//   const audio = document.createElement("audio");
+//   audio.controls = true;
+//   audio.src = src;
+//   audio.style.width = "100%";
+
+//   thumb.appendChild(audio);
+
+//   /* meta */
+//   const meta = document.createElement("div");
+//   meta.className = "meta";
+//   meta.innerHTML = `
+//     <div>${s.name}</div>
+//     <div>snd/${s.number}.mp3</div>
+//   `;
+
+
+
+  /* actions */
+//   const actions = document.createElement("div");
+//   actions.className = "actions";
+
+//   const copyBtn = document.createElement("button");
+//   copyBtn.className = "copy-btn";
+//   copyBtn.textContent = "Copy link";
+//   copyBtn.onclick = () => copyText(fullUrl, copyBtn);
+
+//   const downloadBtn = document.createElement("button");
+//   downloadBtn.className = "download-btn";
+//   downloadBtn.textContent = "Download";
+//   downloadBtn.onclick = () => download(src);
+
+//   actions.appendChild(copyBtn);
+//   actions.appendChild(downloadBtn);
+
+//   card.appendChild(thumb);
+//   card.appendChild(meta);
+//   card.appendChild(actions);
+
+//   audioGallery.appendChild(card);
+// }
+
+
+/* ===== BUILD AUDIO ===== */
 const audioGallery = document.getElementById("audioGallery");
 
 for (let s of sounds) {
@@ -274,12 +344,21 @@ for (let s of sounds) {
   const thumb = document.createElement("div");
   thumb.className = "thumb";
 
+  /* sound image */
+  const img = document.createElement("img");
+  img.src = `images/audio/${s.img}`;
+  img.style.width = "100%";
+  img.style.height = "100%";
+  img.style.objectFit = "cover";
+
+  thumb.appendChild(img);
+
+  /* audio player */
   const audio = document.createElement("audio");
   audio.controls = true;
   audio.src = src;
   audio.style.width = "100%";
-
-  thumb.appendChild(audio);
+  audio.style.marginTop = "6px";
 
   /* meta */
   const meta = document.createElement("div");
@@ -307,6 +386,7 @@ for (let s of sounds) {
   actions.appendChild(downloadBtn);
 
   card.appendChild(thumb);
+  card.appendChild(audio);
   card.appendChild(meta);
   card.appendChild(actions);
 
