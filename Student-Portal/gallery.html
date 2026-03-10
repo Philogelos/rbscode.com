@@ -188,7 +188,7 @@ button {
 <script>
 /* ===== CONFIG ===== */
 const BASE_URL = "https://rbscode.com/Student-Portal/images/";
-const NUM_IMAGES = 26; // change this only
+const NUM_IMAGES = 30; // change this only
 
 const gallery = document.getElementById("gallery");
 const modal = document.getElementById("modal");
@@ -352,6 +352,9 @@ for (let s of sounds) {
   img.style.objectFit = "cover";
 
   thumb.appendChild(img);
+
+  /* click image to play sound */
+  img.onclick = () => audio.play();
 
   /* audio player */
   const audio = document.createElement("audio");
