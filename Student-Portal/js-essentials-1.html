@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RBS Code - JS Essentials 1</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 24px;
+            font-family: Arial, sans-serif;
+            background-color: #0f172a;
+            color: white;
+            line-height: 1.6;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #cbd5e1;
+            margin-bottom: 30px;
+        }
+
+        .lesson-card {
+            background-color: #1e293b;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+        }
+
+        .lesson-card h2 {
+            margin-top: 0;
+        }
+
+        .lesson-card p {
+            color: #dbeafe;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+            margin-bottom: 8px;
+        }
+
+        .copy-btn {
+            background-color: #38bdf8;
+            color: #082f49;
+            border: none;
+            border-radius: 10px;
+            padding: 8px 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .copy-btn:hover {
+            opacity: 0.9;
+        }
+
+        .code-box {
+            background-color: #020617;
+            color: #e2e8f0;
+            padding: 16px;
+            border-radius: 12px;
+            overflow-x: auto;
+            white-space: pre;
+            font-family: Consolas, Monaco, monospace;
+            font-size: 14px;
+            border: 1px solid #334155;
+        }
+
+        .demo-title {
+            margin-top: 16px;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #93c5fd;
+        }
+
+        iframe.demo-frame {
+            width: 100%;
+            height: 230px;
+            border: 1px solid #475569;
+            border-radius: 12px;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>JS Essentials 1</h1>
+    <p class="subtitle">Very simple steps for beginners</p>
+
+    <!-- LESSON 1 -->
+    <div class="lesson-card">
+        <h2>1. Get an element and put it in a variable</h2>
+        <p>
+            First, we find an HTML element and store it in a variable.
+            This is one of the most important ideas in JavaScript.
+        </p>
+
+        <div class="code-header">
+            <strong>Example Code</strong>
+            <button class="copy-btn" onclick="copyCode('code1')">Copy Code</button>
+        </div>
+
+        <div class="code-box" id="code1">let title = document.getElementById("title")</div>
+
+        <div class="demo-title">Live Demo</div>
+        <iframe class="demo-frame" srcdoc='
+            <body style="font-family:Arial;text-align:center;padding-top:40px;">
+                <h1 id="title">Hello</h1>
+                <p>The code finds the heading and puts it into a variable called title.</p>
+            </body>
+        '></iframe>
+    </div>
+
+    <!-- LESSON 2 -->
+    <div class="lesson-card">
+        <h2>2. Change innerText</h2>
+        <p>
+            After we find an element, we can change what it says.
+        </p>
+
+        <div class="code-header">
+            <strong>Example Code</strong>
+            <button class="copy-btn" onclick="copyCode('code2')">Copy Code</button>
+        </div>
+
+        <div class="code-box" id="code2">let title = document.getElementById("title")
+
+title.innerText = "Welcome to RBS Code!"</div>
+
+        <div class="demo-title">Live Demo</div>
+        <iframe class="demo-frame" srcdoc='
+            <body style="font-family:Arial;text-align:center;padding-top:40px;">
+                <h1 id="title">Hello</h1>
+
+                <script>
+                    let title = document.getElementById("title")
+                    title.innerText = "Welcome to RBS Code!"
+                </script>
+            </body>
+        '></iframe>
+    </div>
+
+    <!-- LESSON 3 -->
+    <div class="lesson-card">
+        <h2>3. Make a function</h2>
+        <p>
+            A function is a group of instructions. We can run it later.
+        </p>
+
+        <div class="code-header">
+            <strong>Example Code</strong>
+            <button class="copy-btn" onclick="copyCode('code3')">Copy Code</button>
+        </div>
+
+        <div class="code-box" id="code3">let title = document.getElementById("title")
+
+function changeTitle() {
+    title.innerText = "You ran the function!"
+}</div>
+
+        <div class="demo-title">Live Demo</div>
+        <iframe class="demo-frame" srcdoc='
+            <body style="font-family:Arial;text-align:center;padding-top:40px;">
+                <h1 id="title">Hello</h1>
+                <button onclick="changeTitle()">Run Function</button>
+
+                <script>
+                    let title = document.getElementById("title")
+
+                    function changeTitle() {
+                        title.innerText = "You ran the function!"
+                    }
+                </script>
+            </body>
+        '></iframe>
+    </div>
+
+    <!-- LESSON 4 -->
+    <div class="lesson-card">
+        <h2>4. onclick</h2>
+        <p>
+            This is the easiest way to make a button do something when clicked.
+        </p>
+
+        <div class="code-header">
+            <strong>Example Code</strong>
+            <button class="copy-btn" onclick="copyCode('code4')">Copy Code</button>
+        </div>
+
+        <div class="code-box" id="code4">let message = document.getElementById("message")
+
+function sayHello() {
+    message.innerText = "Hello!"
+}</div>
+
+        <div class="demo-title">Live Demo</div>
+        <iframe class="demo-frame" srcdoc='
+            <body style="font-family:Arial;text-align:center;padding-top:40px;">
+                <h2 id="message">Click the button</h2>
+                <button onclick="sayHello()">Click Me</button>
+
+                <script>
+                    let message = document.getElementById("message")
+
+                    function sayHello() {
+                        message.innerText = "Hello!"
+                    }
+                </script>
+            </body>
+        '></iframe>
+    </div>
+
+    <!-- LESSON 5 -->
+    <div class="lesson-card">
+        <h2>5. Change style</h2>
+        <p>
+            JavaScript can also change how things look.
+        </p>
+
+        <div class="code-header">
+            <strong>Example Code</strong>
+            <button class="copy-btn" onclick="copyCode('code5')">Copy Code</button>
+        </div>
+
+        <div class="code-box" id="code5">let box = document.getElementById("box")
+
+function makeBoxBlue() {
+    box.style.backgroundColor = "blue"
+}</div>
+
+        <div class="demo-title">Live Demo</div>
+        <iframe class="demo-frame" srcdoc='
+            <body style="font-family:Arial;text-align:center;padding-top:30px;">
+                <div id="box" style="width:120px;height:120px;background:red;margin:20px auto;border-radius:12px;"></div>
+                <button onclick="makeBoxBlue()">Make It Blue</button>
+
+                <script>
+                    let box = document.getElementById("box")
+
+                    function makeBoxBlue() {
+                        box.style.backgroundColor = "blue"
+                    }
+                </script>
+            </body>
+        '></iframe>
+    </div>
+
+    <!-- LESSON 6 -->
+    <div class="lesson-card">
+        <h2>6. if / else</h2>
+        <p>
+            if / else helps the computer make a choice.
+        </p>
+
+        <div class="code-header">
+            <strong>Example Code</strong>
+            <button class="copy-btn" onclick="copyCode('code6')">Copy Code</button>
+        </div>
+
+        <div class="code-box" id="code6">let box = document.getElementById("box")
+
+function changeColor() {
+    if (box.style.backgroundColor === "red") {
+        box.style.backgroundColor = "green"
+    } else {
+        box.style.backgroundColor = "red"
+    }
+}</div>
+
+        <div class="demo-title">Live Demo</div>
+        <iframe class="demo-frame" srcdoc='
+            <body style="font-family:Arial;text-align:center;padding-top:30px;">
+                <div id="box" style="width:120px;height:120px;background:red;margin:20px auto;border-radius:12px;"></div>
+                <button onclick="changeColor()">Change Color</button>
+
+                <script>
+                    let box = document.getElementById("box")
+
+                    function changeColor() {
+                        if (box.style.backgroundColor === "red") {
+                            box.style.backgroundColor = "green"
+                        } else {
+                            box.style.backgroundColor = "red"
+                        }
+                    }
+                </script>
+            </body>
+        '></iframe>
+    </div>
+
+    <!-- LESSON 7 -->
+    <div class="lesson-card">
+        <h2>7. A number variable</h2>
+        <p>
+            Variables can store numbers too. Here we use a score variable.
+        </p>
+
+        <div class="code-header">
+            <strong>Example Code</strong>
+            <button class="copy-btn" onclick="copyCode('code7')">Copy Code</button>
+        </div>
+
+        <div class="code-box" id="code7">let scoreText = document.getElementById("scoreText")
+let score = 0
+
+function addPoint() {
+    score = score + 1
+    scoreText.innerText = score
+}</div>
+
+        <div class="demo-title">Live Demo</div>
+        <iframe class="demo-frame" srcdoc='
+            <body style="font-family:Arial;text-align:center;padding-top:40px;">
+                <h2>Score: <span id="scoreText">0</span></h2>
+                <button onclick="addPoint()">Add Point</button>
+
+                <script>
+                    let scoreText = document.getElementById("scoreText")
+                    let score = 0
+
+                    function addPoint() {
+                        score = score + 1
+                        scoreText.innerText = score
+                    }
+                </script>
+            </body>
+        '></iframe>
+    </div>
+
+    <!-- LESSON 8 -->
+    <div class="lesson-card">
+        <h2>8. Random number</h2>
+        <p>
+            JavaScript can make random numbers.
+        </p>
+
+        <div class="code-header">
+            <strong>Example Code</strong>
+            <button class="copy-btn" onclick="copyCode('code8')">Copy Code</button>
+        </div>
+
+        <div class="code-box" id="code8">let result = document.getElementById("result")
+
+function getRandomNumber() {
+    let randomNumber = Math.floor(Math.random() * 10)
+    result.innerText = randomNumber
+}</div>
+
+        <div class="demo-title">Live Demo</div>
+        <iframe class="demo-frame" srcdoc='
+            <body style="font-family:Arial;text-align:center;padding-top:40px;">
+                <h2 id="result">0</h2>
+                <button onclick="getRandomNumber()">Random Number</button>
+
+                <script>
+                    let result = document.getElementById("result")
+
+                    function getRandomNumber() {
+                        let randomNumber = Math.floor(Math.random() * 10)
+                        result.innerText = randomNumber
+                    }
+                </script>
+            </body>
+        '></iframe>
+    </div>
+
+    <!-- LESSON 9 -->
+    <div class="lesson-card">
+        <h2>9. addEventListener with a named function</h2>
+        <p>
+            This is a cleaner way to connect a click to a function.
+        </p>
+
+        <div class="code-header">
+            <strong>Example Code</strong>
+            <button class="copy-btn" onclick="copyCode('code9')">Copy Code</button>
+        </div>
+
+        <div class="code-box" id="code9">let button = document.getElementById("button")
+let text = document.getElementById("text")
+
+button.addEventListener("click", changeText)
+
+function changeText() {
+    text.innerText = "Nice work!"
+}</div>
+
+        <div class="demo-title">Live Demo</div>
+        <iframe class="demo-frame" srcdoc='
+            <body style="font-family:Arial;text-align:center;padding-top:40px;">
+                <h2 id="text">Press the button</h2>
+                <button id="button">Click Me</button>
+
+                <script>
+                    let button = document.getElementById("button")
+                    let text = document.getElementById("text")
+
+                    button.addEventListener("click", changeText)
+
+                    function changeText() {
+                        text.innerText = "Nice work!"
+                    }
+                </script>
+            </body>
+        '></iframe>
+    </div>
+
+    <!-- LESSON 10 -->
+    <div class="lesson-card">
+        <h2>10. keydown</h2>
+        <p>
+            We can listen for keyboard presses too.
+        </p>
+
+        <div class="code-header">
+            <strong>Example Code</strong>
+            <button class="copy-btn" onclick="copyCode('code10')">Copy Code</button>
+        </div>
+
+        <div class="code-box" id="code10">let text = document.getElementById("text")
+
+document.addEventListener("keydown", showKey)
+
+function showKey(event) {
+    text.innerText = event.key
+}</div>
+
+        <div class="demo-title">Live Demo</div>
+        <iframe class="demo-frame" srcdoc='
+            <body style="font-family:Arial;text-align:center;padding-top:40px;">
+                <h2 id="text">Press any key</h2>
+
+                <script>
+                    let text = document.getElementById("text")
+
+                    document.addEventListener("keydown", showKey)
+
+                    function showKey(event) {
+                        text.innerText = event.key
+                    }
+                </script>
+            </body>
+        '></iframe>
+    </div>
+
+    <!-- LESSON 11 -->
+    <div class="lesson-card">
+        <h2>11. keyup</h2>
+        <p>
+            keyup happens when you let go of a key.
+        </p>
+
+        <div class="code-header">
+            <strong>Example Code</strong>
+            <button class="copy-btn" onclick="copyCode('code11')">Copy Code</button>
+        </div>
+
+        <div class="code-box" id="code11">let text = document.getElementById("text")
+
+document.addEventListener("keyup", keyWasReleased)
+
+function keyWasReleased(event) {
+    text.innerText = "You released: " + event.key
+}</div>
+
+        <div class="demo-title">Live Demo</div>
+        <iframe class="demo-frame" srcdoc='
+            <body style="font-family:Arial;text-align:center;padding-top:40px;">
+                <h2 id="text">Press and release a key</h2>
+
+                <script>
+                    let text = document.getElementById("text")
+
+                    document.addEventListener("keyup", keyWasReleased)
+
+                    function keyWasReleased(event) {
+                        text.innerText = "You released: " + event.key
+                    }
+                </script>
+            </body>
+        '></iframe>
+    </div>
+
+    <!-- LESSON 12 -->
+    <div class="lesson-card">
+        <h2>12. Move right and left with style.left</h2>
+        <p>
+            Now we use a number variable to move a box.
+        </p>
+
+        <div class="code-header">
+            <strong>Example Code</strong>
+            <button class="copy-btn" onclick="copyCode('code12')">Copy Code</button>
+        </div>
+
+        <div class="code-box" id="code12">let player = document.getElementById("player")
+let x = 100
+
+document.addEventListener("keydown", movePlayer)
+
+function movePlayer(event) {
+    if (event.key === "ArrowRight") {
+        x = x + 10
+    }
+
+    if (event.key === "ArrowLeft") {
+        x = x - 10
+    }
+
+    player.style.left = x + "px"
+}</div>
+
+        <div class="demo-title">Live Demo</div>
+        <iframe class="demo-frame" srcdoc='
+            <body style="font-family:Arial;padding-top:20px;">
+                <div style="position:relative;width:100%;height:170px;border:2px solid #ccc;overflow:hidden;">
+                    <div id="player" style="width:60px;height:60px;background:tomato;position:absolute;left:100px;top:50px;border-radius:12px;"></div>
+                </div>
+                <p style="text-align:center;">Use left and right arrow keys</p>
+
+                <script>
+                    let player = document.getElementById("player")
+                    let x = 100
+
+                    document.addEventListener("keydown", movePlayer)
+
+                    function movePlayer(event) {
+                        if (event.key === "ArrowRight") {
+                            x = x + 10
+                        }
+
+                        if (event.key === "ArrowLeft") {
+                            x = x - 10
+                        }
+
+                        player.style.left = x + "px"
+                    }
+                </script>
+            </body>
+        '></iframe>
+    </div>
+
+    <!-- LESSON 13 -->
+    <div class="lesson-card">
+        <h2>13. Move up and down with style.top</h2>
+        <p>
+            We can also store a y position and move up and down.
+        </p>
+
+        <div class="code-header">
+            <strong>Example Code</strong>
+            <button class="copy-btn" onclick="copyCode('code13')">Copy Code</button>
+        </div>
+
+        <div class="code-box" id="code13">let player = document.getElementById("player")
+let x = 100
+let y = 50
+
+document.addEventListener("keydown", movePlayer)
+
+function movePlayer(event) {
+    if (event.key === "ArrowRight") {
+        x = x + 10
+    }
+
+    if (event.key === "ArrowLeft") {
+        x = x - 10
+    }
+
+    if (event.key === "ArrowDown") {
+        y = y + 10
+    }
+
+    if (event.key === "ArrowUp") {
+        y = y - 10
+    }
+
+    player.style.left = x + "px"
+    player.style.top = y + "px"
+}</div>
+
+        <div class="demo-title">Live Demo</div>
+        <iframe class="demo-frame" srcdoc='
+            <body style="font-family:Arial;padding-top:20px;">
+                <div style="position:relative;width:100%;height:170px;border:2px solid #ccc;overflow:hidden;">
+                    <div id="player" style="width:60px;height:60px;background:mediumseagreen;position:absolute;left:100px;top:50px;border-radius:12px;"></div>
+                </div>
+                <p style="text-align:center;">Use all arrow keys</p>
+
+                <script>
+                    let player = document.getElementById("player")
+                    let x = 100
+                    let y = 50
+
+                    document.addEventListener("keydown", movePlayer)
+
+                    function movePlayer(event) {
+                        if (event.key === "ArrowRight") {
+                            x = x + 10
+                        }
+
+                        if (event.key === "ArrowLeft") {
+                            x = x - 10
+                        }
+
+                        if (event.key === "ArrowDown") {
+                            y = y + 10
+                        }
+
+                        if (event.key === "ArrowUp") {
+                            y = y - 10
+                        }
+
+                        player.style.left = x + "px"
+                        player.style.top = y + "px"
+                    }
+                </script>
+            </body>
+        '></iframe>
+    </div>
+
+    <script>
+        function copyCode(id) {
+            let codeBox = document.getElementById(id)
+            let codeText = codeBox.innerText
+            navigator.clipboard.writeText(codeText)
+        }
+    </script>
+
+</body>
+</html>
