@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Crash Demo</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: #f5f7fa;
+    }
+
+    #game {
+      position: relative;
+      width: 500px;
+      height: 300px;
+      margin: 20px auto;
+      background: white;
+      border: 2px solid #ccc;
+    }
+
+    .box {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    #obj1 { background: #3498db; }
+    #obj2 { background: #e67e22; }
+
+    #overlap {
+      position: absolute;
+      background: rgba(255,255,0,0.5);
+      pointer-events: none;
+    }
+
+    .panel {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      background: white;
+      padding: 10px;
+      border-radius: 8px;
+      width: 220px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+      text-align: left;
+    }
+
+    .code {
+      font-family: monospace;
+      background: #111;
+      color: white;
+    }
+
+    .line {
+      padding: 2px;
+    }
+
+    .true { background: green; }
+    .false { background: #333; }
+
+    button {
+      margin: 3px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    #crashText {
+      font-size: 24px;
+      font-weight: bold;
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>Collision Demo</h2>
+
+<div id="game">
+  <div id="obj1" class="box">obj1</div>
+  <div id="obj2" class="box">obj2</div>
+  <div id="overlap"></div>
+</div>
+
+<div>
+  obj1:
+  <button onclick="move(obj1,-10,0)">⬅</button>
+  <button onclick="move(obj1,10,0)">➡</button>
+  <button onclick="move(obj1,0,-10)">⬆</button>
+  <button onclick="move(obj1,0,10)">⬇</button>
+</div>
+
+<div>
+  obj2:
+  <button onclick="move(obj2,-10,0)">⬅</button>
+  <button onclick="move(obj2,10,0)">➡</button>
+  <button onclick="move(obj2,0,-10)">⬆</button>
+  <button onclick="move(obj2,0,10)">⬇</button>
+</div>
+
+<div class="panel">
+
+  <div class="card" id="card1"></div>
+  <div class="card" id="card2"></div>
+
+  <div class="card code">
+
+<pre id="codeBlock">
+function isCrashing(a, b) {
+  let c1 = a.x < b.x + b.w;
+  let c2 = a.x + a.w > b.x;
+  let c3 = a.y < b.y + b.h;
+  let c4 = a.y + a.h > b.y;
+
+  return c1 && c2 && c3 && c4;
+}
+</pre>
+
+<button onclick="copyCode()">Copy Function</button>
+
+<div id="c1" class="line">c1: a.left < b.right</div>
+<div id="c2" class="line">c2: a.right > b.left</div>
+<div id="c3" class="line">c3: a.top < b.bottom</div>
+<div id="c4" class="line">c4: a.bottom > b.top</div>
+
+  </div>
+
+</div>
+
+<div id="crashText"></div>
+
+<script>
+let obj1 = { el: document.getElementById("obj1"), x: 50, y: 50, w:60, h:60 };
+let obj2 = { el: document.getElementById("obj2"), x: 250, y: 120, w:60, h:60 };
+
+function move(obj, dx, dy) {
+  obj.x += dx;
+  obj.y += dy;
+
+  obj.x = Math.max(0, Math.min(440, obj.x));
+  obj.y = Math.max(0, Math.min(240, obj.y));
+
+  update();
+}
+
+function update() {
+  obj1.el.style.left = obj1.x + "px";
+  obj1.el.style.top = obj1.y + "px";
+
+  obj2.el.style.left = obj2.x + "px";
+  obj2.el.style.top = obj2.y + "px";
+
+  updateCard(obj1, "card1");
+  updateCard(obj2, "card2");
+
+  checkCrash();
+}
+
+function updateCard(obj, id) {
+  let left = obj.x;
+  let right = obj.x + obj.w;
+  let top = obj.y;
+  let bottom = obj.y + obj.h;
+
+  document.getElementById(id).innerHTML =
+    "x: " + obj.x + "<br>" +
+    "y: " + obj.y + "<br>" +
+    "left: " + left + "<br>" +
+    "right: " + right + "<br>" +
+    "top: " + top + "<br>" +
+    "bottom: " + bottom;
+}
+
+function isCrashing(a, b) {
+  let c1 = a.x < b.x + b.w;
+  let c2 = a.x + a.w > b.x;
+  let c3 = a.y < b.y + b.h;
+  let c4 = a.y + a.h > b.y;
+
+  setLine("c1", c1);
+  setLine("c2", c2);
+  setLine("c3", c3);
+  setLine("c4", c4);
+
+  return c1 && c2 && c3 && c4;
+}
+
+function setLine(id, val) {
+  let el = document.getElementById(id);
+  el.className = "line " + (val ? "true" : "false");
+}
+
+function checkCrash() {
+  let hit = isCrashing(obj1, obj2);
+
+  document.getElementById("crashText").innerText =
+    hit ? "💥 CRASH!" : "";
+
+  drawOverlap(hit);
+}
+
+function drawOverlap(hit) {
+  let overlap = document.getElementById("overlap");
+
+  if (!hit) {
+    overlap.style.width = "0px";
+    return;
+  }
+
+  let left = Math.max(obj1.x, obj2.x);
+  let right = Math.min(obj1.x+obj1.w, obj2.x+obj2.w);
+  let top = Math.max(obj1.y, obj2.y);
+  let bottom = Math.min(obj1.y+obj1.h, obj2.y+obj2.h);
+
+  overlap.style.left = left + "px";
+  overlap.style.top = top + "px";
+  overlap.style.width = (right-left) + "px";
+  overlap.style.height = (bottom-top) + "px";
+}
+
+function copyCode() {
+  let text = document.getElementById("codeBlock").innerText;
+  navigator.clipboard.writeText(text);
+  alert("Function copied!");
+}
+
+document.addEventListener("keydown", e => {
+  if (e.key === "ArrowLeft") move(obj1,-10,0);
+  if (e.key === "ArrowRight") move(obj1,10,0);
+  if (e.key === "ArrowUp") move(obj1,0,-10);
+  if (e.key === "ArrowDown") move(obj1,0,10);
+
+  if (e.key === "a") move(obj2,-10,0);
+  if (e.key === "d") move(obj2,10,0);
+  if (e.key === "w") move(obj2,0,-10);
+  if (e.key === "s") move(obj2,0,10);
+});
+
+update();
+</script>
+
+</body>
+</html>
