@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
   <title>Crash Demo</title>
@@ -248,6 +248,314 @@ document.addEventListener("keydown", e => {
 });
 
 update();
+</script>
+
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Collision Demo Pro</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  color: white;
+  text-align: center;
+}
+
+h1 {
+  margin-top: 20px;
+}
+
+/* GAME SCREEN */
+#game {
+  position: relative;
+  width: 520px;
+  height: 320px;
+  margin: 20px auto;
+  background: #020617;
+  border-radius: 14px;
+  box-shadow: 0 0 20px rgba(0,255,255,0.15);
+}
+
+/* BOXES */
+.box {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+#obj1 {
+  background: #3b82f6;
+}
+
+#obj2 {
+  background: #f97316;
+}
+
+/* LABEL */
+.label {
+  position: absolute;
+  font-size: 10px;
+  top: -16px;
+}
+
+/* OVERLAP */
+#overlap {
+  position: absolute;
+  background: rgba(255,255,0,0.4);
+}
+
+/* CONTROLS */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+.pad {
+  display: grid;
+  grid-template-columns: 50px 50px 50px;
+  gap: 5px;
+}
+
+.pad button {
+  height: 50px;
+  border-radius: 8px;
+  border: none;
+  background: #1e293b;
+  color: white;
+  cursor: pointer;
+}
+
+.pad button:hover {
+  background: #334155;
+}
+
+/* CODE PANEL */
+.codePanel {
+  width: 400px;
+  margin: 20px auto;
+  background: black;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: left;
+}
+
+.line {
+  padding: 4px;
+}
+
+.true { background: green; }
+.false { background: #111; }
+
+button.mainBtn {
+  margin-top: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+#crashText {
+  font-size: 24px;
+  color: red;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Collision Demo</h1>
+
+<div id="game">
+  <div id="obj1" class="box">
+    A
+    <div class="label" id="label1"></div>
+  </div>
+
+  <div id="obj2" class="box">
+    B
+    <div class="label" id="label2"></div>
+  </div>
+
+  <div id="overlap"></div>
+</div>
+
+<div id="crashText"></div>
+
+<!-- CONTROLS -->
+<div class="controls">
+
+  <!-- OBJ1 -->
+  <div>
+    <p>A (Arrows)</p>
+    <div class="pad">
+      <div></div><button onclick="move(obj1,0,-10)">↑</button><div></div>
+      <button onclick="move(obj1,-10,0)">←</button><div></div><button onclick="move(obj1,10,0)">→</button>
+      <div></div><button onclick="move(obj1,0,10)">↓</button><div></div>
+    </div>
+  </div>
+
+  <!-- OBJ2 -->
+  <div>
+    <p>B (WASD)</p>
+    <div class="pad">
+      <div></div><button onclick="move(obj2,0,-10)">W</button><div></div>
+      <button onclick="move(obj2,-10,0)">A</button><div></div><button onclick="move(obj2,10,0)">D</button>
+      <div></div><button onclick="move(obj2,0,10)">S</button><div></div>
+    </div>
+  </div>
+
+</div>
+
+<button class="mainBtn" onclick="toggleLabels()">Toggle Position Labels</button>
+
+<!-- CODE PANEL -->
+<div class="codePanel">
+
+<pre id="codeBlock">
+function isCrashing(a, b) {
+  let c1 = a.x < b.x + b.w;
+  let c2 = a.x + a.w > b.x;
+  let c3 = a.y < b.y + b.h;
+  let c4 = a.y + a.h > b.y;
+
+  return c1 && c2 && c3 && c4;
+}
+</pre>
+
+<button onclick="copyCode()">Copy Function</button>
+
+<div id="c1" class="line">c1</div>
+<div id="c2" class="line">c2</div>
+<div id="c3" class="line">c3</div>
+<div id="c4" class="line">c4</div>
+
+</div>
+
+<script>
+
+let showLabels = true;
+
+let obj1 = {
+  el: document.getElementById("obj1"),
+  x: 50,
+  y: 50,
+  w: 60,
+  h: 60
+};
+
+let obj2 = {
+  el: document.getElementById("obj2"),
+  x: 300,
+  y: 150,
+  w: 60,
+  h: 60
+};
+
+function move(obj, dx, dy){
+  obj.x += dx;
+  obj.y += dy;
+
+  obj.x = Math.max(0, Math.min(460, obj.x));
+  obj.y = Math.max(0, Math.min(260, obj.y));
+
+  update();
+}
+
+function update(){
+  obj1.el.style.left = obj1.x + "px";
+  obj1.el.style.top = obj1.y + "px";
+
+  obj2.el.style.left = obj2.x + "px";
+  obj2.el.style.top = obj2.y + "px";
+
+  updateLabels();
+  checkCrash();
+}
+
+function updateLabels(){
+  document.getElementById("label1").innerText = obj1.x + "," + obj1.y;
+  document.getElementById("label2").innerText = obj2.x + "," + obj2.y;
+
+  document.getElementById("label1").style.display = showLabels ? "block" : "none";
+  document.getElementById("label2").style.display = showLabels ? "block" : "none";
+}
+
+function toggleLabels(){
+  showLabels = !showLabels;
+  update();
+}
+
+function isCrashing(a,b){
+  let c1 = a.x < b.x + b.w;
+  let c2 = a.x + a.w > b.x;
+  let c3 = a.y < b.y + b.h;
+  let c4 = a.y + a.h > b.y;
+
+  setLine("c1",c1);
+  setLine("c2",c2);
+  setLine("c3",c3);
+  setLine("c4",c4);
+
+  return c1 && c2 && c3 && c4;
+}
+
+function setLine(id,val){
+  document.getElementById(id).className = "line " + (val ? "true":"false");
+}
+
+function checkCrash(){
+  let hit = isCrashing(obj1,obj2);
+  document.getElementById("crashText").innerText = hit ? "CRASH!" : "";
+  drawOverlap(hit);
+}
+
+function drawOverlap(hit){
+  let overlap = document.getElementById("overlap");
+
+  if(!hit){
+    overlap.style.width = "0px";
+    return;
+  }
+
+  let left = Math.max(obj1.x, obj2.x);
+  let right = Math.min(obj1.x+obj1.w, obj2.x+obj2.w);
+  let top = Math.max(obj1.y, obj2.y);
+  let bottom = Math.min(obj1.y+obj1.h, obj2.y+obj2.h);
+
+  overlap.style.left = left + "px";
+  overlap.style.top = top + "px";
+  overlap.style.width = (right-left) + "px";
+  overlap.style.height = (bottom-top) + "px";
+}
+
+function copyCode(){
+  navigator.clipboard.writeText(document.getElementById("codeBlock").innerText);
+}
+
+document.addEventListener("keydown", e=>{
+  if(e.key==="ArrowLeft") move(obj1,-10,0);
+  if(e.key==="ArrowRight") move(obj1,10,0);
+  if(e.key==="ArrowUp") move(obj1,0,-10);
+  if(e.key==="ArrowDown") move(obj1,0,10);
+
+  if(e.key==="a") move(obj2,-10,0);
+  if(e.key==="d") move(obj2,10,0);
+  if(e.key==="w") move(obj2,0,-10);
+  if(e.key==="s") move(obj2,0,10);
+});
+
+update();
+
 </script>
 
 </body>
