@@ -161,22 +161,21 @@ button {
     Use Copy Link or Download for your HTML or CSS projects.
   </p>
     <div class="library-nav">
-      <a href="#gallery">
-        <button >🖼 Images</button>
-        <!-- onclick="showLibrary('images')" -->
-      </a>
-      <a href="#audioGallery">
-        <button >🔊 SFX</button> 
-      <!-- onclick="showLibrary('sfx')" -->
-    </a>
+      <a href="#images"><button>🖼 Images</button></a>
+      <a href="#animations"><button>🎬 Animations</button></a>
+      <a href="#audio"><button>🔊 SFX</button></a>
+    </div>
 
     <!-- <button onclick="showLibrary('music')">🎵 Music</button> -->
   </div>
 
+  <h1 id="images">Images</h1>
   <div class="gallery" id="gallery"></div>
 
-  <h1>Sound Effects</h1>
+  <h1 id="animations">Animations</h1>
+  <div class="gallery" id="animationGallery"></div>
 
+  <h1 id="audio">Sound Effects</h1>
   <div class="gallery" id="audioGallery"></div>
 </div>
 
@@ -190,7 +189,31 @@ button {
 const BASE_URL = "https://rbscode.com/Student-Portal/images/";
 const NUM_IMAGES = 32; // change this only
 
+const ANIMATIONS = [
+  // {
+  //   name: "Man Walking",
+  //   folder: "man-walking",
+  //   frames: 8
+  // },
+  {
+    name: "Lion Walking",
+    folder: "lion-walking",
+    frames: 10
+  }
+  // {
+  //   name: "Explosion",
+  //   folder: "explosion",
+  //   frames: 6
+  // },
+  // {
+  //   name: "Coin Spin",
+  //   folder: "coin",
+  //   frames: 10
+  // }
+];
+
 const gallery = document.getElementById("gallery");
+const animationGallery = document.getElementById("animationGallery");
 const modal = document.getElementById("modal");
 const modalImg = document.getElementById("modalImg");
 
@@ -269,6 +292,97 @@ for (let i = 1; i <= NUM_IMAGES; i++) {
   card.appendChild(meta);
   card.appendChild(actions);
   gallery.appendChild(card);
+}
+
+/* ===== BUILD ANIMATIONS ===== */
+
+for(let a of ANIMATIONS){
+
+  const base = `https://rbscode.com/Student-Portal/animations/${a.folder}/`;
+
+  const card = document.createElement("div");
+  card.className = "card";
+
+  /* preview */
+  const thumb = document.createElement("div");
+  thumb.className = "thumb";
+
+  const img = document.createElement("img");
+
+  /* 👇 THIS LINE FIXES EVERYTHING */
+  img.src = base + "0.png"; // or "1.png" if your files start at 1
+
+  let previewFrame = 0;
+  let previewLoop;
+
+  img.onmouseenter = () => {
+  previewLoop = setInterval(()=>{
+    img.src = base + previewFrame + ".png";
+    previewFrame++;
+    if(previewFrame >= a.frames) previewFrame = 0;
+  }, 120);
+};
+
+img.onmouseleave = () => {
+  clearInterval(previewLoop);
+  img.src = base + "0.png";
+  previewFrame = 0;
+};
+
+  thumb.appendChild(img);
+
+  /* meta */
+  const meta = document.createElement("div");
+  meta.className = "meta";
+  meta.innerHTML = `
+    <div>${a.name}</div>
+    <div>${a.frames} frames</div>
+    <div>${a.folder}/1.png → ${a.frames}.png</div>
+  `;
+
+  /* actions */
+  const actions = document.createElement("div");
+  actions.className = "actions";
+
+  /* COPY CODE BUTTON */
+  const copyBtn = document.createElement("button");
+  copyBtn.className = "copy-btn";
+  copyBtn.textContent = "Copy Animation Code";
+
+  copyBtn.onclick = () => {
+    const code = 
+`let img = document.getElementById("img")
+let frame = 0;
+
+function animate(){
+  img.src = "${base}" + frame + ".png"
+  frame++
+
+  if(frame >= ${a.frames}){
+    frame = 0;
+  }
+}
+
+setInterval(animate, 100)`;
+
+    copyText(code, copyBtn);
+  };
+
+  /* COPY LINK BUTTON */
+  const linkBtn = document.createElement("button");
+  linkBtn.className = "download-btn";
+  linkBtn.textContent = "Copy Folder Link";
+
+  linkBtn.onclick = () => copyText(base + "1.png", linkBtn);
+
+  actions.appendChild(copyBtn);
+  actions.appendChild(linkBtn);
+
+  card.appendChild(thumb);
+  card.appendChild(meta);
+  card.appendChild(actions);
+
+  animationGallery.appendChild(card);
 }
 
 /* ===== BUILD AUDIO ===== */
