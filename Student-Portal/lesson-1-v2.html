@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HTML Starter Lab</title>
+
+<style>
+body{
+  font-family: system-ui, Arial;
+  background:#0f1226;
+  color:#e6e8ff;
+  margin:0;
+  padding:30px;
+}
+
+.wrapper{
+  max-width:900px;
+  margin:auto;
+}
+
+h1.title{
+  text-align:center;
+  margin-bottom:30px;
+}
+
+.card{
+  background:#1a1d3a;
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:20px;
+}
+
+.code{
+  background:#0b0d1f;
+  padding:12px;
+  border-radius:10px;
+  font-family:monospace;
+  color:#7fffd4;
+  white-space:pre-wrap;
+}
+
+.preview{
+  background:white;
+  color:black;
+  padding:15px;
+  border-radius:10px;
+  margin-top:10px;
+  text-align:center;
+}
+
+.preview img{
+  width:120px;
+}
+
+.copy{
+  margin-top:6px;
+  margin-right:6px;
+  padding:6px 10px;
+  background:#6c7cff;
+  color:white;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:12px;
+}
+
+.link-text{
+  font-size:13px;
+  opacity:0.8;
+  margin-top:5px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="wrapper">
+
+<h1 class="title">HTML Starter Lab</h1>
+
+<!-- H1 -->
+<div class="card">
+<h2>&lt;h1&gt;</h2>
+
+<div class="code">
+&lt;h1&gt;Hello World&lt;/h1&gt;
+</div>
+<button class="copy" onclick="copyCode(this)">Copy Code</button>
+
+<div class="preview">
+<h1>Hello World</h1>
+</div>
+</div>
+
+<!-- P -->
+<div class="card">
+<h2>&lt;p&gt;</h2>
+
+<div class="code">
+&lt;p&gt;This is a paragraph&lt;/p&gt;
+</div>
+<button class="copy" onclick="copyCode(this)">Copy Code</button>
+
+<div class="preview">
+<p>This is a paragraph</p>
+</div>
+</div>
+
+<!-- A -->
+<div class="card">
+<h2>&lt;a&gt; (Link)</h2>
+
+<div class="code">
+&lt;a href="https://www.wikipedia.org"&gt;Go to Wikipedia&lt;/a&gt;
+
+/* Real link:
+https://www.wikipedia.org */
+</div>
+<button class="copy" onclick="copyCode(this)">Copy Code</button>
+
+<div class="link-text">https://www.wikipedia.org</div>
+<button class="copy" onclick="copyText(this)">Copy Link</button>
+
+<div class="preview">
+<a href="https://www.wikipedia.org" target="_blank">Go to Wikipedia</a>
+</div>
+</div>
+
+<!-- IMG -->
+<div class="card">
+<h2>&lt;img&gt;</h2>
+
+<div class="code">
+&lt;img src="https://rbscode.com/Student-Portal/images/6.png" width="120"&gt;
+
+/* Image link:
+https://rbscode.com/Student-Portal/images/6.png */
+</div>
+<button class="copy" onclick="copyCode(this)">Copy Code</button>
+
+<div class="link-text">
+https://rbscode.com/Student-Portal/images/6.png
+</div>
+<button class="copy" onclick="copyText(this)">Copy Image Link</button>
+
+<div class="preview">
+<img src="https://rbscode.com/Student-Portal/images/6.png">
+</div>
+</div>
+
+<!-- BUTTON -->
+<div class="card">
+<h2>&lt;button&gt;</h2>
+
+<div class="code">
+&lt;button&gt;Click&lt;/button&gt;
+</div>
+<button class="copy" onclick="copyCode(this)">Copy Code</button>
+
+<div class="preview">
+<button>Click</button>
+</div>
+</div>
+
+<!-- MINI DEMO -->
+<div class="card">
+<h2>Mini Demo Page</h2>
+
+<div class="code">
+&lt;h1&gt;My First Website&lt;/h1&gt;
+
+&lt;p&gt;Welcome to my page!&lt;/p&gt;
+
+&lt;img src="https://rbscode.com/Student-Portal/images/10.png" width="120"&gt;
+
+&lt;br&gt;&lt;br&gt;
+
+&lt;a href="https://rbscode.com"&gt;Visit my site&lt;/a&gt;
+
+&lt;br&gt;&lt;br&gt;
+
+&lt;button&gt;Click Me&lt;/button&gt;
+</div>
+<button class="copy" onclick="copyCode(this)">Copy Code</button>
+
+<div class="link-text">
+Image: https://rbscode.com/Student-Portal/images/10.png
+</div>
+<button class="copy" onclick="copyText(this)">Copy Image Link</button>
+
+<div class="link-text">
+https://rbscode.com
+</div>
+<button class="copy" onclick="copyText(this)">Copy Link</button>
+
+<div class="preview">
+
+<h1>My First Website</h1>
+
+<p>Welcome to my page!</p>
+
+<img src="https://rbscode.com/Student-Portal/images/10.png">
+
+<br><br>
+
+<a href="https://rbscode.com" target="_blank">Visit my site</a>
+
+<br><br>
+
+<button>Click Me</button>
+
+</div>
+</div>
+
+</div>
+
+<script>
+function copyCode(btn){
+  let code = btn.previousElementSibling.innerText;
+  navigator.clipboard.writeText(code);
+}
+
+function copyText(btn){
+  let text = btn.previousElementSibling.innerText;
+  navigator.clipboard.writeText(text);
+}
+</script>
+
+</body>
+</html>

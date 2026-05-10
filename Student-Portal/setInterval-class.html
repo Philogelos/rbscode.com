@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>JS DOM & Animation Lab</title>
+
+<style>
+body{
+  font-family: system-ui, Arial;
+  background:#0f1226;
+  color:#e6e8ff;
+  margin:0;
+  padding:30px;
+}
+
+.wrapper{
+  max-width:900px;
+  margin:auto;
+}
+
+h1{text-align:center;}
+
+.card{
+  background:#1a1d3a;
+  padding:20px;
+  border-radius:16px;
+  margin-bottom:20px;
+}
+
+.code{
+  background:#0b0d1f;
+  padding:12px;
+  border-radius:10px;
+  font-family:monospace;
+  color:#7fffd4;
+  white-space:pre-wrap;
+}
+
+.preview{
+  background:white;
+  color:black;
+  padding:15px;
+  border-radius:10px;
+  margin-top:10px;
+}
+
+.copy-btn{
+  margin-top:8px;
+  padding:6px 12px;
+  background:#6c7cff;
+  color:white;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.tip{
+  font-size:13px;
+  opacity:0.8;
+  margin-top:8px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="wrapper">
+
+<h1>JavaScript DOM & Animation Lab</h1>
+
+<!-- ONCLICK -->
+<div class="card">
+<h2>1. onclick</h2>
+
+<div class="code">
+&lt;button onclick="sayHi()"&gt;Click&lt;/button&gt;
+
+function sayHi(){
+  alert("Hi!");
+}
+</div>
+
+<button class="copy-btn" onclick="copyCode(this)">Copy</button>
+
+<div class="preview">
+<button onclick="alert('Hi!')">Click</button>
+</div>
+</div>
+
+<!-- INNER TEXT -->
+<div class="card">
+<h2>2. innerText</h2>
+
+<div class="code">
+document.getElementById("title").innerText = "Changed!";
+</div>
+
+<button class="copy-btn" onclick="copyCode(this)">Copy</button>
+
+<div class="preview">
+<h1 id="t1">Hello</h1>
+<button onclick="t1.innerText='Changed!'">Change Text</button>
+</div>
+</div>
+
+<!-- IMAGE -->
+<div class="card">
+<h2>3. img.src</h2>
+
+<div class="code">
+document.getElementById("pic").src = "image2.png";
+</div>
+
+<button class="copy-btn" onclick="copyCode(this)">Copy</button>
+
+<div class="preview">
+<img id="p1" src="https://via.placeholder.com/120">
+<br>
+<button onclick="p1.src='https://via.placeholder.com/120/ff0000'">
+Change Image
+</button>
+</div>
+</div>
+
+<!-- STYLE -->
+<div class="card">
+<h2>4. style.property</h2>
+
+<div class="code">
+element.style.color = "red";
+element.style.backgroundColor = "yellow";
+</div>
+
+<button class="copy-btn" onclick="copyCode(this)">Copy</button>
+
+<div class="preview">
+<div id="box1">Watch me change</div>
+<button onclick="
+box1.style.color='red';
+box1.style.backgroundColor='yellow';
+">
+Change Style
+</button>
+</div>
+</div>
+
+<!-- CSS vs JS -->
+<div class="card">
+<h2>5. CSS vs JavaScript</h2>
+
+<div class="code">
+color: red;            → element.style.color = "red";
+background-color: yellow; → element.style.backgroundColor = "yellow";
+width: 200px;          → element.style.width = "200px";
+height: 100px;         → element.style.height = "100px";
+font-size: 20px;       → element.style.fontSize = "20px";
+border-radius: 20px;   → element.style.borderRadius = "20px";
+</div>
+
+<button class="copy-btn" onclick="copyCode(this)">Copy</button>
+
+<div class="tip">
+Remember: always use quotes → "200px"
+</div>
+</div>
+
+<!-- FULL EXAMPLE -->
+<div class="card">
+<h2>6. Full Example</h2>
+
+<div class="code">
+let div = document.getElementById("demoBox");
+
+div.style.color = "red";
+div.style.backgroundColor = "yellow";
+div.style.width = "200px";
+div.style.height = "100px";
+div.style.fontSize = "20px";
+div.style.fontWeight = "bold";
+div.style.border = "3px solid black";
+div.style.borderRadius = "20px";
+</div>
+
+<button class="copy-btn" onclick="copyCode(this)">Copy</button>
+
+<div class="preview">
+<div id="demoBox" style="width:100px;height:50px;background:gray;">
+Box
+</div>
+
+<br>
+<button onclick="
+demoBox.style.color='red';
+demoBox.style.backgroundColor='yellow';
+demoBox.style.width='200px';
+demoBox.style.height='100px';
+demoBox.style.fontSize='20px';
+demoBox.style.fontWeight='bold';
+demoBox.style.border='3px solid black';
+demoBox.style.borderRadius='20px';
+">
+Apply Style
+</button>
+</div>
+</div>
+
+<!-- VARIABLES -->
+<div class="card">
+<h2>7. Variables + Strings</h2>
+
+<div class="code">
+let w = 200;
+
+div.style.width = w + "px";
+</div>
+
+<button class="copy-btn" onclick="copyCode(this)">Copy</button>
+
+<div class="preview">
+<button onclick="
+let w = 200;
+demoBox.style.width = w + 'px';
+">
+Set Width
+</button>
+</div>
+
+<div class="tip">
+"px" is text → called a string
+</div>
+</div>
+
+<!-- INTERVAL -->
+<div class="card">
+<h2>8. setInterval</h2>
+
+<div class="code">
+setInterval(move, 1000);
+</div>
+
+<button class="copy-btn" onclick="copyCode(this)">Copy</button>
+
+<div class="tip">
+Interval = time between repeats  
+1000 = once per second  
+</div>
+</div>
+
+<!-- MOVE -->
+<div class="card">
+<h2>9. Movement</h2>
+
+<div class="preview">
+<div id="moveBox" style="width:80px;height:80px;background:blue;margin-left:0px;"></div>
+
+<br>
+<button onclick="startMove()">Start</button>
+<button onclick="stopMove()">Stop</button>
+<button onclick="reset()">Reset</button>
+</div>
+
+<div class="code">
+let x = 0;
+let loop;
+
+function move(){
+  x += 5;
+
+  if(x > 400){
+    clearInterval(loop);
+  }
+
+  moveBox.style.marginLeft = x + "px";
+}
+
+function startMove(){
+  clearInterval(loop);
+  loop = setInterval(move, 50);
+}
+
+function stopMove(){
+  clearInterval(loop);
+}
+
+function reset(){
+  x = 0;
+  moveBox.style.marginLeft = "0px";
+}
+</div>
+
+<button class="copy-btn" onclick="copyCode(this)">Copy</button>
+</div>
+
+<!-- SPRITE -->
+<div class="card">
+<h2>10. Sprite Animation</h2>
+
+<div class="preview">
+<img id="player" src="https://via.placeholder.com/120">
+<br><br>
+<button onclick="startAnim()">Start</button>
+<button onclick="stopAnim()">Stop</button>
+</div>
+
+<div class="code">
+let frame = 0;
+
+function animate(){
+  frame++;
+
+  if(frame > 5){
+    frame = 0;
+  }
+
+  player.src = "animations/man-walking/" + frame + ".png";
+}
+
+function startAnim(){
+  loop = setInterval(animate, 100);
+}
+
+function stopAnim(){
+  clearInterval(loop);
+}
+</div>
+
+<button class="copy-btn" onclick="copyCode(this)">Copy</button>
+</div>
+<a href="animations/lion-walking.zip" download>
+  <button>Download Animation ZIP</button>
+</a>
+
+<!-- CHALLENGE -->
+<div class="card">
+<h2>Challenge</h2>
+
+<ul>
+<li>Make a health bar grow</li>
+<li>Stop at 400px</li>
+<li>Add reset button</li>
+<li>Bonus: change color when full</li>
+</ul>
+</div>
+
+</div>
+
+<script>
+function copyCode(btn){
+  let code = btn.previousElementSibling.innerText;
+  navigator.clipboard.writeText(code);
+}
+
+let x = 0;
+let loop;
+
+function move(){
+  x += 5;
+  if(x > 400){ clearInterval(loop); }
+  moveBox.style.marginLeft = x + "px";
+}
+
+function startMove(){
+  clearInterval(loop);
+  loop = setInterval(move, 50);
+}
+
+function stopMove(){
+  clearInterval(loop);
+}
+
+function reset(){
+  x = 0;
+  moveBox.style.marginLeft = "0px";
+}
+
+let frame = 0;
+
+function animate(){
+  frame++;
+  if(frame > 5){ frame = 0; }
+  player.src = "animations/man-walking/" + frame + ".png";
+}
+
+function startAnim(){
+  clearInterval(loop);
+  loop = setInterval(animate, 100);
+}
+
+function stopAnim(){
+  clearInterval(loop);
+}
+</script>
+
+</body>
+</html>
