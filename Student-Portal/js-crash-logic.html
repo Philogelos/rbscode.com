@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Collision Conditions Demo</title>
+
+<style>
+
+:root{
+
+    /* LAPTOP THEME */
+
+    --bg:#000000;
+
+    --panel-bg:rgba(10,18,32,0.88);
+
+    --text:#9ddcff;
+
+    --line:rgba(159,201,255,0.30);
+
+    --axis:rgba(130,185,255,0.30);
+
+    --ruler:rgba(130,210,255,0.75);
+
+    --label-bg:#555;
+
+    --active:#ff7b00;
+
+    --active-soft:rgba(255,123,0,0.35);
+
+    --border:rgba(130,185,255,0.28);
+
+    --status-size:14px;
+
+    --debug-size:12px;
+
+    --label-size:18px;
+
+    --button-size:14px;
+
+    --line-thickness:3px;
+
+    --vertical-line-thickness:3px;
+
+    --status-width:330px;
+
+    --debug-width:250px;
+
+    --status-top:90px;
+
+    --debug-top:340px;
+
+    --play-area-shift:-120px;
+}
+
+/* PROJECTOR MODE */
+
+body.projector{
+
+    --bg:#07131c;
+
+    --panel-bg:#13283d;
+
+    --text:#eef9ff;
+
+    --line:#77d3ff;
+
+    --axis:#69c6ff;
+
+    --ruler:#b3ebff;
+
+    --label-bg:#36516a;
+
+    --active:#ffad33;
+
+    --active-soft:#7d4b00;
+
+    --border:#9fe1ff;
+
+    --status-size:19px;
+
+    --debug-size:17px;
+
+    --label-size:26px;
+
+    --button-size:18px;
+
+    --line-thickness:5px;
+
+    --vertical-line-thickness:5px;
+
+    --status-width:360px;
+
+    --debug-width:340px;
+
+    --status-top:110px;
+
+    --debug-top:420px;
+
+    --play-area-shift:-220px;
+}
+
+body{
+    margin:0;
+    overflow:hidden;
+    background:var(--bg);
+    font-family:monospace;
+    color:var(--text);
+}
+
+/* TOP BAR */
+
+#topBar{
+
+    position:absolute;
+
+    top:10px;
+    left:120px;
+
+    display:flex;
+
+    gap:14px;
+
+    z-index:100;
+}
+
+button{
+
+    background:var(--panel-bg);
+
+    color:var(--text);
+
+    border:2px solid var(--border);
+
+    padding:10px 18px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-family:monospace;
+
+    font-size:var(--button-size);
+
+    font-weight:700;
+}
+
+button:hover{
+    filter:brightness(1.15);
+}
+
+/* AXES */
+
+#xAxis,
+#yAxis{
+
+    position:absolute;
+
+    background:var(--axis);
+
+    display:none;
+}
+
+#xAxis{
+
+    top:28%;
+
+    left:0;
+
+    width:100%;
+
+    height:var(--line-thickness);
+}
+
+#yAxis{
+
+    top:0;
+
+    left:5%;
+
+    width:3px;
+
+    height:100%;
+}
+
+/* RULERS */
+
+#xRuler,
+#yRuler{
+
+    position:absolute;
+
+    pointer-events:none;
+
+    display:none;
+}
+
+#xRuler{
+
+    top:28%;
+
+    left:0;
+
+    width:100%;
+}
+
+#yRuler{
+
+    top:0;
+
+    left:5%;
+
+    height:100%;
+}
+
+.ruler-mark{
+    position:absolute;
+}
+
+/* X TICKS */
+
+.x-tick{
+
+    position:absolute;
+
+    top:0;
+
+    width:2px;
+
+    height:20px;
+
+    background:var(--ruler);
+}
+
+/* Y TICKS */
+
+.y-tick{
+
+    position:absolute;
+
+    left:-50px;
+
+    width:50px;
+
+    height:2px;
+
+    background:var(--ruler);
+}
+
+.ruler-mark span{
+
+    position:absolute;
+
+    background:var(--panel-bg);
+
+    border:2px solid var(--border);
+
+    border-radius:4px;
+
+    padding:4px 7px;
+
+    color:var(--text);
+
+    font-size:15px;
+
+    font-weight:700;
+
+    white-space:nowrap;
+}
+
+/* LABELS */
+
+.label{
+
+    position:absolute;
+
+    background:var(--label-bg);
+
+    color:white;
+
+    padding:5px 10px;
+
+    border-radius:6px;
+
+    font-size:var(--label-size);
+
+    font-weight:700;
+
+    z-index:10;
+}
+
+/* OBJECT BOXES */
+
+#spaceship-box,
+#asteroid-box{
+
+    position:absolute;
+
+    width:150px;
+    height:150px;
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;
+    justify-content:center;
+
+    background:var(--panel-bg);
+
+    border:2px solid var(--border);
+
+    color:var(--text);
+
+    box-shadow:0 0 16px rgba(0,0,0,0.3);
+
+    font-weight:700;
+}
+
+#spaceship-box{
+
+    bottom:30px;
+
+    left:calc(50% + var(--play-area-shift));
+
+    transform:translateX(-50%);
+}
+
+#spaceship,
+#asteroid{
+
+    font-size:56px;
+}
+
+/* VISUAL LINES */
+
+.visual-line{
+
+    position:absolute;
+
+    background:var(--line);
+}
+
+/* STATUS */
+
+#collision-status{
+
+    position:absolute;
+
+    top:var(--status-top);
+    right:10px;
+
+    width:var(--status-width);
+
+    background:var(--panel-bg);
+
+    border:2px solid var(--border);
+
+    border-radius:8px;
+
+    padding:14px;
+
+    white-space:pre-line;
+
+    color:var(--text);
+
+    font-size:var(--status-size);
+
+    line-height:1.6;
+
+    font-weight:700;
+}
+
+/* DEBUG */
+
+#debug-box{
+
+    position:absolute;
+
+    top:var(--debug-top);
+    right:10px;
+
+    width:var(--debug-width);
+
+    background:rgba(0,0,0,0.28);
+
+    border:2px solid rgba(255,255,255,0.10);
+
+    border-radius:8px;
+
+    padding:12px;
+
+    white-space:pre-line;
+
+    font-size:var(--debug-size);
+
+    line-height:1.7;
+
+    opacity:0.95;
+
+    font-weight:700;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="topBar">
+
+<button onclick="showCondition1()">
+Condition 1
+</button>
+
+<button onclick="showCondition2()">
+Condition 2
+</button>
+
+<button onclick="showCondition3()">
+Condition 3
+</button>
+
+<button onclick="showCondition4()">
+Condition 4
+</button>
+
+<button onclick="toggleTheme()">
+Toggle Theme
+</button>
+
+</div>
+
+<div id="xAxis"></div>
+<div id="yAxis"></div>
+
+<div id="xRuler"></div>
+<div id="yRuler"></div>
+
+<div id="line1" class="visual-line"></div>
+<div id="line2" class="visual-line"></div>
+
+<div id="label1" class="label"></div>
+<div id="label2" class="label"></div>
+
+<div id="asteroid-box">
+    asteroid
+    <div id="asteroid">☄️</div>
+</div>
+
+<div id="spaceship-box">
+    spaceship
+    <div id="spaceship">🚀</div>
+</div>
+
+<div id="collision-status"></div>
+
+<div id="debug-box"></div>
+
+<script>
+
+const asteroidBox = document.getElementById('asteroid-box');
+const spaceshipBox = document.getElementById('spaceship-box');
+
+const collisionStatus = document.getElementById('collision-status');
+const debugBox = document.getElementById('debug-box');
+
+const line1 = document.getElementById('line1');
+const line2 = document.getElementById('line2');
+
+const label1 = document.getElementById('label1');
+const label2 = document.getElementById('label2');
+
+const xAxis = document.getElementById('xAxis');
+const yAxis = document.getElementById('yAxis');
+
+const xRuler = document.getElementById('xRuler');
+const yRuler = document.getElementById('yRuler');
+
+let asteroidX = 300;
+let asteroidY = 50;
+
+let currentCondition = 1;
+
+const moveDistance = 8;
+
+/* THEME */
+
+function toggleTheme(){
+
+    document.body.classList.toggle('projector');
+
+    refreshCurrentCondition();
+}
+
+/* REFRESH */
+
+function refreshCurrentCondition(){
+
+    if(currentCondition===1){
+        updateCondition1();
+    }
+
+    if(currentCondition===2){
+        updateCondition2();
+    }
+
+    if(currentCondition===3){
+        updateCondition3();
+    }
+
+    if(currentCondition===4){
+        updateCondition4();
+    }
+}
+
+/* X RULER */
+
+function generateXRuler(){
+
+    for(let x=0; x<window.innerWidth; x+=100){
+
+        const mark =
+            document.createElement('div');
+
+        mark.className =
+            'ruler-mark';
+
+        mark.style.left =
+            x + 'px';
+
+        mark.innerHTML =
+        `
+        <div class="x-tick"></div>
+        <span>${x}</span>
+        `;
+
+        const span =
+            mark.querySelector('span');
+
+        span.style.top = '24px';
+
+        span.style.left = '-12px';
+
+        if(x===0){
+            span.style.left='-2px';
+        }
+
+        xRuler.appendChild(mark);
+    }
+}
+
+/* Y RULER */
+
+function generateYRuler(){
+
+    for(let y=0; y<window.innerHeight; y+=100){
+
+        const mark =
+            document.createElement('div');
+
+        mark.className =
+            'ruler-mark';
+
+        mark.style.top =
+            y + 'px';
+
+        mark.innerHTML =
+        `
+        <div class="y-tick"></div>
+        <span>${y}</span>
+        `;
+
+        const span =
+            mark.querySelector('span');
+
+        span.style.left='-50px';
+        span.style.top='-10px';
+
+        yRuler.appendChild(mark);
+    }
+}
+
+generateXRuler();
+generateYRuler();
+
+/* RESET */
+
+function resetVisuals(){
+
+    line1.style.background =
+        'var(--line)';
+
+    line2.style.background =
+        'var(--line)';
+
+    line1.style.boxShadow =
+        'none';
+
+    line2.style.boxShadow =
+        'none';
+
+    label1.style.background =
+        'var(--label-bg)';
+
+    label2.style.background =
+        'var(--label-bg)';
+
+    collisionStatus.style.color =
+        'var(--text)';
+}
+
+function glow(){
+
+    line1.style.background =
+        'var(--active)';
+
+    line2.style.background =
+        'var(--active)';
+
+    line1.style.boxShadow =
+        '0 0 12px var(--active)';
+
+    line2.style.boxShadow =
+        '0 0 12px var(--active)';
+
+    label1.style.background =
+        'var(--active-soft)';
+
+    label2.style.background =
+        'var(--active-soft)';
+
+    collisionStatus.style.color =
+        'var(--active)';
+}
+
+function resetScene(){
+
+    resetVisuals();
+
+    xAxis.style.display='none';
+    yAxis.style.display='none';
+
+    xRuler.style.display='none';
+    yRuler.style.display='none';
+
+    spaceshipBox.style.top='auto';
+    spaceshipBox.style.bottom='30px';
+}
+
+/* CONDITION 1 */
+
+function showCondition1(){
+
+    currentCondition = 1;
+
+    resetScene();
+
+    yAxis.style.display='block';
+    yRuler.style.display='block';
+
+    asteroidX = window.innerWidth * 0.42;
+    asteroidY = 50;
+
+    asteroidBox.style.left =
+        asteroidX + 'px';
+
+    asteroidBox.style.top =
+        asteroidY + 'px';
+
+    updateCondition1();
+}
+
+/* CONDITION 2 */
+
+function showCondition2(){
+
+    currentCondition = 2;
+
+    resetScene();
+
+    xAxis.style.display='block';
+    xRuler.style.display='block';
+
+    asteroidX = 120;
+    asteroidY = 400;
+
+    asteroidBox.style.left =
+        asteroidX + 'px';
+
+    asteroidBox.style.top =
+        asteroidY + 'px';
+
+    updateCondition2();
+}
+
+/* CONDITION 3 */
+
+function showCondition3(){
+
+    currentCondition = 3;
+
+    resetScene();
+
+    xAxis.style.display='block';
+    xRuler.style.display='block';
+
+    asteroidX = 700;
+    asteroidY = 350;
+
+    asteroidBox.style.left =
+        asteroidX + 'px';
+
+    asteroidBox.style.top =
+        asteroidY + 'px';
+
+    updateCondition3();
+}
+
+/* CONDITION 4 */
+
+function showCondition4(){
+
+    currentCondition = 4;
+
+    resetScene();
+
+    yAxis.style.display='block';
+    yRuler.style.display='block';
+
+    spaceshipBox.style.top='220px';
+    spaceshipBox.style.bottom='auto';
+
+    asteroidX = window.innerWidth * 0.42;
+    asteroidY = 520;
+
+    asteroidBox.style.left =
+        asteroidX + 'px';
+
+    asteroidBox.style.top =
+        asteroidY + 'px';
+
+    updateCondition4();
+}
+
+/* MOVEMENT */
+
+document.addEventListener('keydown',(e)=>{
+
+    const key =
+        e.key.toUpperCase();
+
+    if(currentCondition===1 || currentCondition===4){
+
+        if(key==='W'){
+            asteroidY -= moveDistance;
+        }
+
+        if(key==='S'){
+            asteroidY += moveDistance;
+        }
+
+        asteroidBox.style.top =
+            asteroidY + 'px';
+    }
+
+    if(currentCondition===2 || currentCondition===3){
+
+        if(key==='A'){
+            asteroidX -= moveDistance;
+        }
+
+        if(key==='D'){
+            asteroidX += moveDistance;
+        }
+
+        asteroidBox.style.left =
+            asteroidX + 'px';
+    }
+
+    refreshCurrentCondition();
+});
+
+/* CONDITION 1 */
+
+function updateCondition1(){
+
+    resetVisuals();
+
+    const asteroidRect =
+        asteroidBox.getBoundingClientRect();
+
+    const spaceshipRect =
+        spaceshipBox.getBoundingClientRect();
+
+    const asteroidBottom =
+        asteroidRect.bottom;
+
+    const spaceshipTop =
+        spaceshipRect.top;
+
+    const condition =
+        asteroidBottom > spaceshipTop;
+
+    line1.style.left='3%';
+    line1.style.width='50%';
+    line1.style.height='var(--line-thickness)';
+    line1.style.top=
+        asteroidBottom+'px';
+
+    line2.style.left='3%';
+    line2.style.width='38%';
+    line2.style.height='var(--line-thickness)';
+    line2.style.top=
+        spaceshipTop+'px';
+
+    label1.textContent =
+        Math.round(asteroidBottom)+' px';
+
+    label2.textContent =
+        Math.round(spaceshipTop)+' px';
+
+    label1.style.left='52%';
+    label1.style.top=
+        (asteroidBottom-15)+'px';
+
+    label2.style.left='28%';
+    label2.style.top=
+        (spaceshipTop-50)+'px';
+
+    collisionStatus.textContent =
+`Condition 1
+
+Vertical overlap from above
+
+asteroid bottom > spaceship top
+
+${condition ? 'TRUE ✓' : 'FALSE'}`;
+
+    debugBox.textContent =
+`asteroid bottom:
+${Math.round(asteroidBottom)} px
+
+spaceship top:
+${Math.round(spaceshipTop)} px`;
+
+    if(condition){
+        glow();
+    }
+}
+
+/* CONDITION 2 */
+
+function updateCondition2(){
+
+    resetVisuals();
+
+    const asteroidRect =
+        asteroidBox.getBoundingClientRect();
+
+    const spaceshipRect =
+        spaceshipBox.getBoundingClientRect();
+
+    const asteroidRight =
+        asteroidRect.right;
+
+    const spaceshipLeft =
+        spaceshipRect.left;
+
+    const condition =
+        asteroidRight > spaceshipLeft;
+
+    line1.style.width='var(--vertical-line-thickness)';
+    line1.style.height='70%';
+    line1.style.top='15%';
+    line1.style.left=
+        asteroidRight+'px';
+
+    line2.style.width='var(--vertical-line-thickness)';
+    line2.style.height='70%';
+    line2.style.top='15%';
+    line2.style.left=
+        spaceshipLeft+'px';
+
+    label1.textContent =
+        Math.round(asteroidRight)+' px';
+
+    label2.textContent =
+        Math.round(spaceshipLeft)+' px';
+
+    label1.style.left=
+        (asteroidRight-60)+'px';
+
+    label1.style.top='18%';
+
+    label2.style.left=
+        (spaceshipLeft-60)+'px';
+
+    label2.style.top='40%';
+
+    collisionStatus.textContent =
+`Condition 2
+
+Horizontal overlap from left side
+
+asteroid right > spaceship left
+
+${condition ? 'TRUE ✓' : 'FALSE'}`;
+
+    debugBox.textContent =
+`asteroid right:
+${Math.round(asteroidRight)} px
+
+spaceship left:
+${Math.round(spaceshipLeft)} px`;
+
+    if(condition){
+        glow();
+    }
+}
+
+/* CONDITION 3 */
+
+function updateCondition3(){
+
+    resetVisuals();
+
+    const asteroidRect =
+        asteroidBox.getBoundingClientRect();
+
+    const spaceshipRect =
+        spaceshipBox.getBoundingClientRect();
+
+    const asteroidLeft =
+        asteroidRect.left;
+
+    const spaceshipRight =
+        spaceshipRect.right;
+
+    const condition =
+        asteroidLeft < spaceshipRight;
+
+    line1.style.width='var(--vertical-line-thickness)';
+    line1.style.height='70%';
+    line1.style.top='15%';
+    line1.style.left=
+        asteroidLeft+'px';
+
+    line2.style.width='var(--vertical-line-thickness)';
+    line2.style.height='70%';
+    line2.style.top='15%';
+    line2.style.left=
+        spaceshipRight+'px';
+
+    label1.textContent =
+        Math.round(asteroidLeft)+' px';
+
+    label2.textContent =
+        Math.round(spaceshipRight)+' px';
+
+    label1.style.left=
+        (asteroidLeft-60)+'px';
+
+    label1.style.top='18%';
+
+    label2.style.left=
+        (spaceshipRight-60)+'px';
+
+    label2.style.top='40%';
+
+    collisionStatus.textContent =
+`Condition 3
+
+Horizontal overlap from right side
+
+asteroid left < spaceship right
+
+${condition ? 'TRUE ✓' : 'FALSE'}`;
+
+    debugBox.textContent =
+`asteroid left:
+${Math.round(asteroidLeft)} px
+
+spaceship right:
+${Math.round(spaceshipRight)} px`;
+
+    if(condition){
+        glow();
+    }
+}
+
+/* CONDITION 4 */
+
+function updateCondition4(){
+
+    resetVisuals();
+
+    const asteroidRect =
+        asteroidBox.getBoundingClientRect();
+
+    const spaceshipRect =
+        spaceshipBox.getBoundingClientRect();
+
+    const asteroidTop =
+        asteroidRect.top;
+
+    const spaceshipBottom =
+        spaceshipRect.bottom;
+
+    const condition =
+        asteroidTop < spaceshipBottom;
+
+    line1.style.left='3%';
+    line1.style.width='50%';
+    line1.style.height='var(--line-thickness)';
+    line1.style.top=
+        asteroidTop+'px';
+
+    line2.style.left='3%';
+    line2.style.width='38%';
+    line2.style.height='var(--line-thickness)';
+    line2.style.top=
+        spaceshipBottom+'px';
+
+    label1.textContent =
+        Math.round(asteroidTop)+' px';
+
+    label2.textContent =
+        Math.round(spaceshipBottom)+' px';
+
+    label1.style.left='52%';
+    label1.style.top=
+        (asteroidTop-15)+'px';
+
+    label2.style.left='28%';
+    label2.style.top=
+        (spaceshipBottom+10)+'px';
+
+    collisionStatus.textContent =
+`Condition 4
+
+Vertical overlap from below
+
+asteroid top < spaceship bottom
+
+${condition ? 'TRUE ✓' : 'FALSE'}`;
+
+    debugBox.textContent =
+`asteroid top:
+${Math.round(asteroidTop)} px
+
+spaceship bottom:
+${Math.round(spaceshipBottom)} px`;
+
+    if(condition){
+        glow();
+    }
+}
+
+showCondition1();
+
+</script>
+
+</body>
+</html>
