@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GPS Hello World</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      padding: 30px;
+    }
+
+    button {
+      font-size: 24px;
+      padding: 15px;
+    }
+
+    #output {
+      font-size: 22px;
+      margin-top: 20px;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>GPS Hello World</h1>
+
+  <button onclick="getLocation()">Get My Location</button>
+
+  <p id="output">Press the button</p>
+
+  <script>
+    function getLocation() {
+      document.getElementById("output").innerText = "Finding location...";
+
+      navigator.geolocation.getCurrentPosition(showPosition, showError);
+    }
+
+    function showPosition(position) {
+      let lat = position.coords.latitude;
+      let lon = position.coords.longitude;
+      let accuracy = position.coords.accuracy;
+
+      document.getElementById("output").innerText =
+        "Latitude: " + lat + "\n" +
+        "Longitude: " + lon + "\n" +
+        "Accuracy: " + Math.round(accuracy) + " meters";
+    }
+
+    function showError(error) {
+      document.getElementById("output").innerText =
+        "Could not get location.\n" +
+        error.message;
+    }
+  </script>
+
+</body>
+</html>
