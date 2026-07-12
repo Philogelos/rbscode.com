@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Space Game</title>
+
+<style>
+    body {
+        margin: 0;
+        overflow: hidden;
+        background-color: navy;
+        /* background-image: url("https://rbscode.com/Student-Portal/images/36.png"); */
+        background-image: url("img/space-backdrop.png");
+        background-size: cover;
+        font-family: Arial, sans-serif;
+    }
+
+    #ship, #rock {
+        width: 100px;
+        height: 100px;
+        position: absolute;
+    }
+
+    #ship {
+        top: 500px;
+        left: 500px;
+    }
+
+    #rock {
+        top: 0;
+        left: 100px;
+    }
+
+    #hud {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.45);
+        padding: 12px 18px;
+        border-radius: 12px;
+        font-size: 22px;
+        z-index: 5;
+    }
+
+    #hud p {
+        margin: 5px;
+    }
+
+    .screen {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 40, 0.9);
+        color: white;
+        z-index: 10;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .screen h1 {
+        font-size: 60px;
+        margin: 10px;
+    }
+
+    .screen p {
+        font-size: 24px;
+    }
+
+    .screen button {
+        font-size: 28px;
+        padding: 15px 30px;
+        border-radius: 12px;
+        border: none;
+        cursor: pointer;
+    }
+
+    #gameOverScreen {
+        display: none;
+    }
+</style>
+</head>
+
+<body>
+
+<div id="startScreen" class="screen">
+    <h1>Space Game</h1>
+    <p>Use Arrow Keys or A/D to move.</p>
+    <p>Dodge the falling space rocks.</p>
+    <button onclick="startGame()">Start Game</button>
+</div>
+
+<div id="gameOverScreen" class="screen">
+    <h1>Game Over</h1>
+    <p id="finalScoreText">Score: 0</p>
+    <button onclick="startGame()">New Game</button>
+</div>
+
+<div id="hud">
+    <p>Score: <span id="scoreBox">0</span></p>
+    <p>Hi Score: <span id="hiScoreBox">0</span></p>
+    <p>Lives: <span id="livesBox"></span></p>
+</div>
+
+<!-- <img id="ship" src="https://rbscode.com/Student-Portal/images/34.png" alt="space ship">
+<img id="rock" src="https://rbscode.com/Student-Portal/images/35.png" alt="space rock"> -->
+
+<img id="ship" src="img/space-ship.png" alt="space ship">
+<img id="rock" src="img/space-rock.png" alt="space rock">
+
+<script>
+const ship = document.getElementById("ship")
+const rock = document.getElementById("rock")
+
+const scoreBox = document.getElementById("scoreBox")
+const hiScoreBox = document.getElementById("hiScoreBox")
+const livesBox = document.getElementById("livesBox")
+
+const startScreen = document.getElementById("startScreen")
+const gameOverScreen = document.getElementById("gameOverScreen")
+const finalScoreText = document.getElementById("finalScoreText")
+
+// const shipImage = "https://rbscode.com/Student-Portal/images/34.png"
+// const rockImage = "https://rbscode.com/Student-Portal/images/35.png"
+// const explosionImage = "https://rbscode.com/Student-Portal/images/33.png"
+
+const shipImage = "img/space-ship.png"
+const rockImage = "img/space-rock.png"
+const explosionImage = "img/explosion.png"
+
+let shipTop = 500
+let shipLeft = 500
+
+let rockTop = 0
+let rockLeft = 100
+let rockSpeed = 8
+
+let score = 0
+let hiScore = localStorage.getItem("spaceHiScore") || 0
+
+let lives = ["❤️", "❤️", "❤️"]
+
+let gameStarted = false
+let gameOver = false
+let waitingAfterCrash = false
+
+hiScoreBox.innerText = hiScore
+livesBox.innerText = lives.join(" ")
+
+function startGame(){
+    gameStarted = true
+    gameOver = false
+    waitingAfterCrash = false
+
+    score = 0
+    rockSpeed = 8
+    lives = ["❤️", "❤️", "❤️"]
+
+    shipTop = 500
+    shipLeft = 500
+
+    rockTop = 0
+    rockLeft = shipLeft
+
+    ship.src = shipImage
+    rock.src = rockImage
+
+    ship.style.display = "block"
+    rock.style.display = "block"
+
+    ship.style.top = shipTop + "px"
+    ship.style.left = shipLeft + "px"
+
+    rock.style.top = rockTop + "px"
+    rock.style.left = rockLeft + "px"
+
+    scoreBox.innerText = score
+    hiScoreBox.innerText = hiScore
+    livesBox.innerText = lives.join(" ")
+
+    startScreen.style.display = "none"
+    gameOverScreen.style.display = "none"
+}
+
+function moveRight(){
+    shipLeft += 15
+    ship.style.left = shipLeft + "px"
+
+    if(shipLeft > window.innerWidth){
+        shipLeft = -100
+    }
+}
+
+function moveLeft(){
+    shipLeft -= 15
+    ship.style.left = shipLeft + "px"
+
+    if(shipLeft < -100){
+        shipLeft = window.innerWidth
+    }
+}
+
+document.addEventListener("keydown", moveShip)
+
+function moveShip(event){
+    if(gameStarted == false){
+        return
+    }
+
+    if(waitingAfterCrash == true){
+        return
+    }
+
+    if(event.key == "ArrowRight" || event.key == "d"){
+        moveRight()
+    }
+
+    if(event.key == "ArrowLeft" || event.key == "a"){
+        moveLeft()
+    }
+}
+
+function moveRock(){
+    rockTop += rockSpeed
+    rock.style.top = rockTop + "px"
+
+    let rockBottom = rockTop + 100
+
+    if(rockBottom > window.innerHeight){
+        score += 1
+        scoreBox.innerText = score
+
+        if(score > hiScore){
+            hiScore = score
+            hiScoreBox.innerText = hiScore
+            localStorage.setItem("spaceHiScore", hiScore)
+        }
+
+        if(score % 5 == 0){
+            rockSpeed += 1
+        }
+
+        resetRock()
+    }
+}
+
+function resetRock(){
+    rockTop = 0
+
+    // The rock seeks the ship.
+    // This makes one rock feel much more dangerous.
+    rockLeft = shipLeft
+
+    rock.style.top = rockTop + "px"
+    rock.style.left = rockLeft + "px"
+}
+
+function crashDetection(){
+    let size = 100
+
+    let shipBox = {
+        top: shipTop,
+        bottom: shipTop + size,
+        left: shipLeft,
+        right: shipLeft + size
+    }
+
+    let rockBox = {
+        top: rockTop,
+        bottom: rockTop + size,
+        left: rockLeft,
+        right: rockLeft + size
+    }
+
+    if(
+        rockBox.bottom > shipBox.top &&
+        rockBox.top < shipBox.bottom &&
+        rockBox.right > shipBox.left &&
+        rockBox.left < shipBox.right
+    ){
+        loseLife()
+    }
+}
+
+function loseLife(){
+    waitingAfterCrash = true
+
+    lives.pop()
+    livesBox.innerText = lives.join(" ")
+
+    ship.src = explosionImage
+    rock.style.display = "none"
+
+    setTimeout(afterExplosion, 1000)
+}
+
+function afterExplosion(){
+    if(lives.length == 0){
+        endGame()
+    } else {
+        ship.src = shipImage
+        rock.style.display = "block"
+        resetRock()
+        waitingAfterCrash = false
+    }
+}
+
+function endGame(){
+    gameOver = true
+    gameStarted = false
+    waitingAfterCrash = false
+
+    finalScoreText.innerText = "Score: " + score
+    gameOverScreen.style.display = "flex"
+}
+
+function gameLoop(){
+    if(gameStarted == false){
+        return
+    }
+
+    if(gameOver == true){
+        return
+    }
+
+    if(waitingAfterCrash == true){
+        return
+    }
+
+    moveRock()
+    crashDetection()
+}
+
+setInterval(gameLoop, 20)
+</script>
+
+</body>
+</html>
