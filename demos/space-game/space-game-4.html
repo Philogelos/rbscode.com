@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Game</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+     <style>
+        body {
+            background-color: navy;
+            margin: 0;
+        }
+        div{
+            width: 100px;
+            height: 100px;
+            /* background-color: gray; */
+            /* border: 1px solid blueviolet; */
+            font-size: 100px;
+            position: absolute; 
+        }
+        #rock{
+            top: 0;
+            left: 100px;
+        }
+        #ship{
+            top: 500px;
+            left: 500px;
+        }
+     </style>
+</head>
+<body>
+
+    <div id="rock">🪨</div>
+    <div id="ship">🚀</div>
+    
+    <script>
+        const ship = document.getElementById("ship")
+        const rock = document.getElementById("rock") // new
+        let shipTop = 500
+        let shipLeft = 500
+        let rockTop = 0 // new
+        let rockLeft = 100
+        
+        function moveRight(){
+            shipLeft += 10
+            ship.style.left = shipLeft + "px"
+            // ship.style.left = "510px"
+            if(shipLeft > window.innerWidth){
+                shipLeft = 0
+            }
+
+        }
+        function moveLeft(){
+            shipLeft -= 10
+            ship.style.left = shipLeft + "px"
+
+            if(shipLeft < 0){
+                shipLeft = window.innerWidth
+            }
+        }
+        function moveRock(){ // new
+            rockTop += 10
+            rock.style.top = rockTop + "px"
+
+            let rockBottom = rockTop + 100
+            if(rockBottom > window.innerHeight){
+                resetRock()
+            }
+        }
+        function resetRock(){
+            rockTop = 0
+            rockLeft = shipLeft
+            rock.style.top = rockTop + "px"
+            rock.style.left = rockLeft + "px"
+        }
+        document.addEventListener("keydown", moveShip)
+        function moveShip(event){
+            console.log("event object", event)
+            if(event.key == "ArrowRight" || event.key == "d"){
+                moveRight()
+            }
+            if(event.key == "ArrowLeft" || event.key == "a"){
+                moveLeft()
+            }
+        }
+
+        function crashDetection(shipLeft, shipTop, rockLeft, rockTop){
+            let size = 100
+            let ship = {
+                top: shipTop,
+                bottom: shipTop + size,
+                left: shipLeft,
+                right: shipLeft + size
+            }
+            let rock = {
+                top: rockTop,
+                bottom: rockTop + size,
+                left: rockLeft,
+                right: rockLeft + size
+            }
+            if(rock.bottom > ship.top &&
+                rock.right > ship.left &&
+                rock.left < ship.right
+            ){
+                document.getElementById("ship").innerText = "💥"
+                document.getElementById("rock").style.display = "none"
+            }
+
+
+        }
+        function gameLoop(){
+            moveRock()
+            crashDetection(shipLeft, shipTop, rockLeft, rockTop)
+        }
+        setInterval(gameLoop, 20)
+
+    </script>
+  
+</body>
+</html>
