@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Car Game</title>
+
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: green;
+            font-family: Arial;
+        }
+
+        #road {
+            width: 220px;
+            height: 100vh;
+
+            position: relative;
+            margin: 0 auto;
+            overflow: hidden;
+
+            background: gray;
+        }
+
+        #line {
+            width: 8px;
+            height: 100%;
+
+            position: absolute;
+            left: 106px;
+
+            background: white;
+        }
+
+        .car {
+            width: 100px;
+            position: absolute;
+        }
+
+        #player {
+            left: 5px;
+            bottom: 30px;
+
+            transition: left 0.12s;
+        }
+
+        #enemy {
+            left: 5px;
+            top: -160px;
+        }
+
+        #score {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+
+            z-index: 3;
+            padding: 10px;
+
+            color: white;
+            background: black;
+
+            font-size: 20px;
+        }
+
+        #message {
+            width: 180px;
+
+            position: absolute;
+            top: 35%;
+            left: 5px; 
+            /* left: 4px; if we add 1px border */
+            z-index: 2;
+
+            padding: 15px;
+
+            background: white;
+            /* small bonus */
+            /* border: 1px solid black;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3); */
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="score">
+        Score: 0
+    </div>
+
+    <div id="road">
+
+        <div id="line"></div>
+
+        <img
+            id="player"
+            class="car"
+            src="img/car1.png"
+            alt="Player car"
+        >
+
+        <img
+            id="enemy"
+            class="car"
+            src="img/car2.png"
+            alt="Enemy car"
+        >
+
+        <div id="message">
+
+            <h2 id="title">
+                Car Game
+            </h2>
+
+            <p id="text">
+                Use the arrow keys.
+            </p>
+
+            <button onclick="startGame()">
+                Start Game
+            </button>
+
+        </div>
+
+    </div>
+
+    <script>
+        // Get the HTML elements.
+
+        const player =
+            document.getElementById("player")
+
+        const enemy =
+            document.getElementById("enemy")
+
+        const scoreBox =
+            document.getElementById("score")
+
+        const message =
+            document.getElementById("message")
+
+        const title =
+            document.getElementById("title")
+
+        const text =
+            document.getElementById("text")
+
+
+        // Game information.
+
+        let playerLeft = 5
+
+        let enemyLeft = 5
+        let enemyTop = -160
+
+        let speed = 12
+        let score = 0
+
+        let game
+
+
+        // Start or restart the game.
+
+        function startGame() {
+            clearInterval(game)
+
+            playerLeft = 5
+
+            enemyLeft = randomLane()
+            enemyTop = -160
+
+            speed = 12
+            score = 0
+
+            player.style.left =
+                playerLeft + "px"
+
+            enemy.style.left =
+                enemyLeft + "px"
+
+            enemy.style.top =
+                enemyTop + "px"
+
+            scoreBox.innerText =
+                "Score: 0"
+
+            message.style.display =
+                "none"
+
+            game =
+                setInterval(playGame, 20)
+        }
+
+
+        // Run the game again and again.
+
+        function playGame() {
+            enemyTop += speed
+
+            enemy.style.top =
+                enemyTop + "px"
+
+            if (enemyTop > window.innerHeight) {
+                resetEnemy()
+                addPoint()
+            }
+
+            checkCrash()
+        }
+
+
+        // Move the player.
+
+        document.addEventListener(
+            "keydown",
+            function (event) {
+                if (event.key === "ArrowLeft") {
+                    playerLeft = 5
+                }
+
+                if (event.key === "ArrowRight") {
+                    playerLeft = 115
+                }
+
+                player.style.left =
+                    playerLeft + "px"
+            }
+        )
+
+
+        // Send the enemy back to the top.
+
+        function resetEnemy() {
+            enemyTop = -160
+            enemyLeft = randomLane()
+
+            enemy.style.left =
+                enemyLeft + "px"
+        }
+
+
+        // Add one point.
+
+        function addPoint() {
+            score++
+
+            scoreBox.innerText =
+                "Score: " + score
+        }
+
+
+        // Check whether the cars touch.
+
+        function checkCrash() {
+            const enemyBottom =
+                enemyTop + enemy.offsetHeight
+
+            const playerTop =
+                player.offsetTop
+
+            const sameLane =
+                enemyLeft === playerLeft
+
+            if (
+                sameLane &&
+                enemyBottom > playerTop
+            ) {
+                endGame()
+            }
+        }
+
+
+        // Choose the left or right lane.
+
+        function randomLane() {
+            if (Math.random() < 0.5) {
+                return 5
+            }
+            else {
+                return 115
+            }
+        }
+
+
+        // Stop the game.
+
+        function endGame() {
+            clearInterval(game)
+
+            title.innerText =
+                "Game Over"
+
+            text.innerText =
+                "Score: " + score
+
+            message.style.display =
+                "block"
+        }
+    </script>
+
+</body>
+</html>
