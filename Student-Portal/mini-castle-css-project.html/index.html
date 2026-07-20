@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Castle CSS Challenge | RBS Code</title>
+    <style>
+        :root {
+            --ink: #172554;
+            --muted: #64748b;
+            --page: #f4f2ed;
+            --card: #ffffff;
+            --line: #dbe3ef;
+            --purple: #7c3aed;
+            --green: #168a55;
+            --pink: #db2777;
+            --blue: #2563eb;
+            --orange: #ea7c18;
+            --yellow: #f7c948;
+            --scene-blue: skyblue;
+            --grass-green: green;
+            --castle-gray: gray;
+            --door-brown: brown;
+            --flag-purple: purple;
+            --shadow: 0 16px 42px rgba(30, 41, 59, 0.09);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 8% 2%, rgba(124, 58, 237, 0.08), transparent 25rem),
+                radial-gradient(circle at 95% 12%, rgba(37, 99, 235, 0.07), transparent 26rem),
+                var(--page);
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            line-height: 1.5;
+        }
+
+        button,
+        summary {
+            font: inherit;
+        }
+
+        button {
+            border: 0;
+        }
+
+        button:focus-visible,
+        summary:focus-visible {
+            outline: 4px solid rgba(37, 99, 235, 0.25);
+            outline-offset: 3px;
+        }
+
+        code,
+        pre {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+        }
+
+        .site-header {
+            padding: 22px 22px 12px;
+        }
+
+        .header-inner {
+            width: min(1080px, 100%);
+            margin: auto;
+        }
+
+        .brand-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+            font-weight: 900;
+            letter-spacing: 0.03em;
+            color: var(--ink);
+        }
+
+        .brand-mark {
+            display: grid;
+            place-items: center;
+            width: 42px;
+            height: 42px;
+            color: white;
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(80, 70, 190, 0.22);
+        }
+
+        .lesson-tag {
+            padding: 7px 12px;
+            color: #4c1d95;
+            background: #ede9fe;
+            border: 1px solid #ddd6fe;
+            border-radius: 999px;
+            font-size: 0.86rem;
+            font-weight: 800;
+        }
+
+        .hero {
+            text-align: center;
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-size: clamp(2rem, 5vw, 3.6rem);
+            line-height: 1.05;
+            letter-spacing: -0.045em;
+        }
+
+        .hero p {
+            width: min(760px, 100%);
+            margin: 18px auto 0;
+            color: #475569;
+            font-size: clamp(1rem, 2.3vw, 1.18rem);
+        }
+
+        .progress-wrap {
+            width: min(720px, 100%);
+            margin: 28px auto 0;
+        }
+
+        .progress-track {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            align-items: center;
+            gap: 6px;
+        }
+
+        .progress-track::before {
+            content: "";
+            position: absolute;
+            left: 7%;
+            right: 7%;
+            top: 18px;
+            height: 4px;
+            background: #dbe3ef;
+            border-radius: 99px;
+        }
+
+        .progress-fill {
+            position: absolute;
+            left: 7%;
+            top: 18px;
+            width: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--purple), var(--blue));
+            border-radius: 99px;
+            transition: width 250ms ease;
+        }
+
+        .progress-step {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            justify-items: center;
+            gap: 8px;
+            color: #94a3b8;
+            font-size: 0.74rem;
+            font-weight: 800;
+        }
+
+        .progress-dot {
+            display: grid;
+            place-items: center;
+            width: 38px;
+            height: 38px;
+            color: #64748b;
+            background: white;
+            border: 3px solid #dbe3ef;
+            border-radius: 50%;
+            transition: 200ms ease;
+        }
+
+        .progress-step.active,
+        .progress-step.complete {
+            color: var(--ink);
+        }
+
+        .progress-step.active .progress-dot {
+            color: white;
+            background: var(--purple);
+            border-color: var(--purple);
+            transform: scale(1.08);
+            box-shadow: 0 6px 18px rgba(124, 58, 237, 0.22);
+        }
+
+        .progress-step.complete .progress-dot {
+            color: white;
+            background: var(--blue);
+            border-color: var(--blue);
+        }
+
+        main {
+            width: min(1080px, calc(100% - 28px));
+            margin: 18px auto 60px;
+        }
+
+        .worksheet-card {
+            overflow: hidden;
+            background: var(--card);
+            border: 1px solid rgba(203, 213, 225, 0.86);
+            border-radius: 26px;
+            box-shadow: var(--shadow);
+        }
+
+        .step-panel {
+            display: none;
+            padding: clamp(22px, 4vw, 42px);
+        }
+
+        .step-panel.active {
+            display: block;
+            animation: panelIn 280ms ease;
+        }
+
+        @keyframes panelIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .step-heading {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            align-items: start;
+            gap: 16px;
+            margin-bottom: 22px;
+        }
+
+        .step-number {
+            display: grid;
+            place-items: center;
+            width: 58px;
+            height: 58px;
+            color: white;
+            background: linear-gradient(135deg, var(--purple), #5b4bc4);
+            border-radius: 17px;
+            font-size: 1.25rem;
+            font-weight: 900;
+            box-shadow: 0 9px 22px rgba(124, 58, 237, 0.2);
+        }
+
+        .step-title {
+            margin: 0;
+            font-size: clamp(1.55rem, 4vw, 2.45rem);
+            line-height: 1.12;
+            letter-spacing: -0.03em;
+        }
+
+        .step-kicker {
+            margin: 6px 0 0;
+            color: var(--muted);
+            font-size: 1.03rem;
+        }
+
+        .mission {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 0 0 24px;
+            padding: 15px 18px;
+            color: #312e81;
+            background: #eef2ff;
+            border-left: 5px solid var(--purple);
+            border-radius: 12px;
+            font-size: 1.06rem;
+            font-weight: 750;
+        }
+
+        .mission-icon {
+            display: grid;
+            place-items: center;
+            flex: 0 0 auto;
+            width: 31px;
+            height: 31px;
+            color: white;
+            background: var(--purple);
+            border-radius: 9px;
+            font-size: 0.92rem;
+        }
+
+        .diagram-shell {
+            padding: 18px;
+            background: linear-gradient(180deg, #f8fbff, #f6f8fc);
+            border: 1px solid var(--line);
+            border-radius: 22px;
+        }
+
+        .diagram-title {
+            margin: 0 0 14px;
+            text-align: center;
+            color: #334155;
+            font-size: 0.88rem;
+            font-weight: 900;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .diagram-scroll {
+            overflow-x: auto;
+            padding: 8px 2px 14px;
+        }
+
+        .diagram {
+            position: relative;
+            width: 820px;
+            height: 535px;
+            margin: auto;
+        }
+
+        .visual-scene {
+            position: absolute;
+            top: 80px;
+            left: 150px;
+            width: 500px;
+            height: 350px;
+            overflow: hidden;
+            background-color: var(--scene-blue);
+            border: 3px solid #23366d;
+            box-shadow: 0 7px 18px rgba(51, 65, 85, 0.13);
+        }
+
+        .visual-grass {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 500px;
+            height: 90px;
+            background-color: var(--grass-green);
+        }
+
+        .visual-castle {
+            position: absolute;
+            left: 160px;
+            bottom: 90px;
+            width: 180px;
+            height: 150px;
+            background-color: var(--castle-gray);
+        }
+
+        .visual-door {
+            position: absolute;
+            left: 225px;
+            bottom: 90px;
+            width: 50px;
+            height: 70px;
+            background-color: var(--door-brown);
+        }
+
+        .visual-pole {
+            position: absolute;
+            left: 246px;
+            bottom: 240px;
+            width: 8px;
+            height: 100px;
+            background-color: black;
+        }
+
+        .visual-flag {
+            position: absolute;
+            left: 254px;
+            top: 10px;
+            width: 70px;
+            height: 40px;
+            background-color: var(--flag-purple);
+        }
+
+        .shape-label {
+            position: absolute;
+            display: grid;
+            place-items: center;
+            padding: 4px 10px;
+            min-width: 54px;
+            min-height: 30px;
+            color: white;
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 900;
+        }
+
+        .scene-label {
+            top: 94px;
+            left: 164px;
+            color: #0f3d62;
+            background: rgba(255, 255, 255, 0.76);
+        }
+
+        .measure-svg {
+            position: absolute;
+            inset: 0;
+            width: 820px;
+            height: 535px;
+            overflow: visible;
+            pointer-events: none;
+        }
+
+        .measure-line {
+            fill: none;
+            stroke-width: 3;
+            stroke-linecap: round;
+        }
+
+        .measure-width {
+            stroke: var(--purple);
+        }
+
+        .measure-height {
+            stroke: var(--green);
+        }
+
+        .measure-left {
+            stroke: var(--pink);
+        }
+
+        .measure-bottom {
+            stroke: var(--blue);
+        }
+
+        .measure-top {
+            stroke: var(--orange);
+        }
+
+        .guide-line {
+            fill: none;
+            stroke: #64748b;
+            stroke-width: 2;
+            stroke-dasharray: 7 7;
+        }
+
+        .measure-label {
+            position: absolute;
+            z-index: 3;
+            padding: 5px 9px;
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 8px;
+            box-shadow: 0 3px 9px rgba(15, 23, 42, 0.08);
+            font-size: 0.94rem;
+            font-weight: 900;
+            white-space: nowrap;
+        }
+
+        .measure-label.purple { color: var(--purple); }
+        .measure-label.green { color: var(--green); }
+        .measure-label.pink { color: var(--pink); }
+        .measure-label.blue { color: var(--blue); }
+        .measure-label.orange { color: var(--orange); }
+
+        .property-guide {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .property-chip {
+            padding: 13px 9px;
+            text-align: center;
+            background: white;
+            border: 2px solid var(--line);
+            border-radius: 14px;
+        }
+
+        .property-chip strong {
+            display: block;
+            margin-top: 4px;
+            font-size: 1.02rem;
+        }
+
+        .property-chip:nth-child(1) { border-color: #c4b5fd; }
+        .property-chip:nth-child(2) { border-color: #86efac; }
+        .property-chip:nth-child(3) { border-color: #cbd5e1; }
+        .property-chip:nth-child(4) { border-color: #f9a8d4; }
+        .property-chip:nth-child(5) { border-color: #93c5fd; }
+
+        .example-box,
+        .clue-box,
+        .check-box,
+        .hint-box {
+            margin-top: 18px;
+            padding: 18px;
+            border-radius: 16px;
+        }
+
+        .example-box {
+            background: #f8fafc;
+            border: 1px solid #dbe3ef;
+        }
+
+        .example-box p,
+        .clue-box p,
+        .check-box p,
+        .hint-box p {
+            margin: 0;
+        }
+
+        .mini-code {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 13px;
+            color: #172554;
+            background: #e9eef8;
+            border-radius: 9px;
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .clue-box {
+            color: #713f12;
+            background: #fff7d6;
+            border: 1px solid #f4d26c;
+        }
+
+        .check-box {
+            display: none;
+            color: #14532d;
+            background: #ecfdf3;
+            border: 1px solid #86efac;
+        }
+
+        .check-box.visible {
+            display: block;
+            animation: panelIn 180ms ease;
+        }
+
+        .check-list {
+            display: grid;
+            gap: 8px;
+            margin: 12px 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .check-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .check-list li::before {
+            content: "✓";
+            display: grid;
+            place-items: center;
+            flex: 0 0 auto;
+            width: 22px;
+            height: 22px;
+            color: white;
+            background: #16a34a;
+            border-radius: 50%;
+            font-size: 0.78rem;
+            font-weight: 900;
+        }
+
+        .hint-box {
+            display: none;
+            color: #4c1d95;
+            background: #f4efff;
+            border: 1px solid #d8c8ff;
+        }
+
+        .hint-box.visible {
+            display: block;
+            animation: panelIn 180ms ease;
+        }
+
+        .hint-stage {
+            display: none;
+        }
+
+        .hint-stage.visible {
+            display: block;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 20px clamp(22px, 4vw, 42px);
+            background: #f8fafc;
+            border-top: 1px solid var(--line);
+        }
+
+        .control-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .btn {
+            min-height: 45px;
+            padding: 11px 17px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 850;
+            transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+        }
+
+        .btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.42;
+        }
+
+        .btn-primary {
+            color: white;
+            background: linear-gradient(135deg, var(--purple), #5b4bc4);
+            box-shadow: 0 8px 20px rgba(124, 58, 237, 0.2);
+        }
+
+        .btn-secondary {
+            color: #334155;
+            background: white;
+            border: 1px solid #cbd5e1;
+        }
+
+        .btn-check {
+            color: #14532d;
+            background: #dcfce7;
+            border: 1px solid #86efac;
+        }
+
+        .btn-hint {
+            color: #5b21b6;
+            background: #ede9fe;
+            border: 1px solid #c4b5fd;
+        }
+
+        .below-sections {
+            display: grid;
+            gap: 16px;
+            margin-top: 22px;
+        }
+
+        details {
+            background: white;
+            border: 1px solid #dbe3ef;
+            border-radius: 18px;
+            box-shadow: 0 7px 22px rgba(30, 41, 59, 0.06);
+        }
+
+        summary {
+            padding: 18px 20px;
+            cursor: pointer;
+            color: var(--ink);
+            font-size: 1.08rem;
+            font-weight: 900;
+        }
+
+        details[open] summary {
+            border-bottom: 1px solid #dbe3ef;
+        }
+
+        .details-body {
+            padding: 18px 20px 22px;
+        }
+
+        .code-block {
+            overflow-x: auto;
+            margin: 0;
+            padding: 18px;
+            color: #e2e8f0;
+            background: #111827;
+            border-radius: 14px;
+            font-size: 0.87rem;
+            line-height: 1.65;
+            tab-size: 4;
+        }
+
+        .teacher-answer {
+            border-color: #c7b8e7;
+        }
+
+        .teacher-answer summary {
+            color: #4c1d95;
+            background: #faf7ff;
+            border-radius: 18px;
+        }
+
+        .answer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+        }
+
+        .answer-title {
+            margin: 0 0 10px;
+            font-size: 1rem;
+        }
+
+        .marking-guide {
+            margin: 0;
+            padding-left: 1.35rem;
+        }
+
+        .marking-guide li + li {
+            margin-top: 7px;
+        }
+
+        .idea-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .idea-card {
+            display: grid;
+            place-items: center;
+            min-height: 118px;
+            padding: 14px;
+            background: #f8fafc;
+            border: 1px solid #dbe3ef;
+            border-radius: 16px;
+            text-align: center;
+            font-weight: 850;
+        }
+
+        .idea-shape {
+            position: relative;
+            width: 62px;
+            height: 55px;
+            margin-bottom: 7px;
+        }
+
+        .sun-shape {
+            width: 46px;
+            height: 46px;
+            margin: 4px auto 0;
+            background: #facc15;
+            border-radius: 50%;
+        }
+
+        .tower-shape {
+            position: absolute;
+            left: 17px;
+            bottom: 0;
+            width: 30px;
+            height: 50px;
+            background: gray;
+        }
+
+        .treasure-shape {
+            position: absolute;
+            left: 8px;
+            bottom: 3px;
+            width: 48px;
+            height: 32px;
+            background: #9a5b22;
+            border-top: 9px solid #d99b31;
+        }
+
+        .cloud-shape::before,
+        .cloud-shape::after {
+            content: "";
+            position: absolute;
+            background: white;
+            border: 1px solid #cbd5e1;
+            border-radius: 999px;
+        }
+
+        .cloud-shape::before {
+            left: 4px;
+            bottom: 7px;
+            width: 54px;
+            height: 25px;
+        }
+
+        .cloud-shape::after {
+            left: 18px;
+            bottom: 20px;
+            width: 31px;
+            height: 26px;
+        }
+
+        .tree-shape::before {
+            content: "";
+            position: absolute;
+            left: 27px;
+            bottom: 0;
+            width: 10px;
+            height: 29px;
+            background: #8b5a2b;
+        }
+
+        .tree-shape::after {
+            content: "";
+            position: absolute;
+            left: 9px;
+            bottom: 19px;
+            width: 47px;
+            height: 36px;
+            background: #169447;
+            border-radius: 50%;
+        }
+
+        .moat-shape {
+            position: absolute;
+            left: 3px;
+            bottom: 5px;
+            width: 58px;
+            height: 18px;
+            background: #38bdf8;
+            border-radius: 50%;
+        }
+
+        .completion-checklist {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .completion-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            background: #f8fafc;
+            border: 1px solid #dbe3ef;
+            border-radius: 12px;
+        }
+
+        .fake-checkbox {
+            width: 22px;
+            height: 22px;
+            background: white;
+            border: 2px solid #94a3b8;
+            border-radius: 6px;
+        }
+
+        @media (max-width: 850px) {
+            .progress-step span:last-child {
+                display: none;
+            }
+
+            .progress-track::before,
+            .progress-fill {
+                left: 6%;
+                right: 6%;
+            }
+
+            .property-guide {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .idea-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 560px) {
+            .site-header {
+                padding-inline: 14px;
+            }
+
+            main {
+                width: min(100% - 16px, 1080px);
+            }
+
+            .brand-row {
+                align-items: flex-start;
+            }
+
+            .lesson-tag {
+                display: none;
+            }
+
+            .step-heading {
+                grid-template-columns: 1fr;
+            }
+
+            .step-number {
+                width: 48px;
+                height: 48px;
+            }
+
+            .property-guide,
+            .completion-checklist {
+                grid-template-columns: 1fr;
+            }
+
+            .idea-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .controls {
+                align-items: stretch;
+            }
+
+            .control-group,
+            .btn {
+                width: 100%;
+            }
+
+            .control-group .btn {
+                flex: 1 1 140px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="brand-row">
+                <div class="brand">
+                    <span class="brand-mark" aria-hidden="true">&lt;/&gt;</span>
+                    <span>RBS Code</span>
+                </div>
+                <span class="lesson-tag">HTML + CSS Practice</span>
+            </div>
+
+            <div class="hero">
+                <h1>Mini Castle CSS Challenge</h1>
+                <p>Build the castle one part at a time. Use each picture like a map. You must create the HTML divs and CSS yourself.</p>
+            </div>
+
+            <div class="progress-wrap" aria-label="Lesson progress">
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressFill"></div>
+                    <div class="progress-step active" data-progress="0"><span class="progress-dot">1</span><span>Scene</span></div>
+                    <div class="progress-step" data-progress="1"><span class="progress-dot">2</span><span>Castle</span></div>
+                    <div class="progress-step" data-progress="2"><span class="progress-dot">3</span><span>Grass</span></div>
+                    <div class="progress-step" data-progress="3"><span class="progress-dot">4</span><span>Door</span></div>
+                    <div class="progress-step" data-progress="4"><span class="progress-dot">5</span><span>Pole</span></div>
+                    <div class="progress-step" data-progress="5"><span class="progress-dot">6</span><span>Flag</span></div>
+                    <div class="progress-step" data-progress="6"><span class="progress-dot">7</span><span>Your idea</span></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="worksheet-card" aria-live="polite">
+            <!-- STEP 1 -->
+            <article class="step-panel active" data-step="0">
+                <div class="step-heading">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h2 class="step-title">Understand the scene</h2>
+                        <p class="step-kicker">This is the space that holds every object in the game picture.</p>
+                    </div>
+                </div>
+
+                <div class="mission">
+                    <span class="mission-icon">i</span>
+                    <span>The scene is already in your starter file. Learn how to read its map.</span>
+                </div>
+
+                <div class="diagram-shell">
+                    <p class="diagram-title">The scene map</p>
+                    <div class="diagram-scroll">
+                        <div class="diagram">
+                            <div class="visual-scene">
+                                <div class="shape-label scene-label">skyblue</div>
+                            </div>
+
+                            <svg class="measure-svg" viewBox="0 0 820 535" aria-hidden="true">
+                                <defs>
+                                    <marker id="arrowPurple1" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse">
+                                        <path d="M0,0 L8,4 L0,8 Z" fill="#7c3aed"></path>
+                                    </marker>
+                                    <marker id="arrowGreen1" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse">
+                                        <path d="M0,0 L8,4 L0,8 Z" fill="#168a55"></path>
+                                    </marker>
+                                </defs>
+                                <line x1="150" y1="55" x2="650" y2="55" class="measure-line measure-width" marker-start="url(#arrowPurple1)" marker-end="url(#arrowPurple1)"></line>
+                                <line x1="690" y1="80" x2="690" y2="430" class="measure-line measure-height" marker-start="url(#arrowGreen1)" marker-end="url(#arrowGreen1)"></line>
+                            </svg>
+
+                            <div class="measure-label purple" style="top:18px; left:340px;">Width: 500px</div>
+                            <div class="measure-label green" style="top:238px; left:702px;">Height: 350px</div>
+                        </div>
+                    </div>
+
+                    <div class="property-guide" style="grid-template-columns: repeat(4, 1fr);">
+                        <div class="property-chip">Width<strong>500px</strong></div>
+                        <div class="property-chip">Height<strong>350px</strong></div>
+                        <div class="property-chip">Color<strong>skyblue</strong></div>
+                        <div class="property-chip">Position<strong>relative</strong></div>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <p><strong>The scene HTML looks like this:</strong></p>
+                    <code class="mini-code">&lt;div id="scene"&gt;&lt;/div&gt;</code>
+                </div>
+
+                <div class="check-box">
+                    <p><strong>Quick self-check:</strong> The scene uses <code>position: relative</code> so the objects inside it can be placed using its edges.</p>
+                </div>
+            </article>
+
+            <!-- STEP 2 -->
+            <article class="step-panel" data-step="1">
+                <div class="step-heading">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h2 class="step-title">Add the castle</h2>
+                        <p class="step-kicker">Your first object is fully guided.</p>
+                    </div>
+                </div>
+
+                <div class="mission">
+                    <span class="mission-icon">1</span>
+                    <span>Create a new div called <code>castle</code>. Place it inside the scene. Use the map to write its CSS.</span>
+                </div>
+
+                <div class="diagram-shell">
+                    <p class="diagram-title">Castle map</p>
+                    <div class="diagram-scroll">
+                        <div class="diagram">
+                            <div class="visual-scene">
+                                <div class="visual-castle"></div>
+                            </div>
+
+                            <svg class="measure-svg" viewBox="0 0 820 535" aria-hidden="true">
+                                <defs>
+                                    <marker id="arrowPurple2" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 Z" fill="#7c3aed"></path></marker>
+                                    <marker id="arrowGreen2" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 Z" fill="#168a55"></path></marker>
+                                    <marker id="arrowPink2" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 Z" fill="#db2777"></path></marker>
+                                    <marker id="arrowBlue2" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 Z" fill="#2563eb"></path></marker>
+                                </defs>
+                                <line x1="310" y1="145" x2="490" y2="145" class="measure-line measure-width" marker-start="url(#arrowPurple2)" marker-end="url(#arrowPurple2)"></line>
+                                <line x1="520" y1="190" x2="520" y2="340" class="measure-line measure-height" marker-start="url(#arrowGreen2)" marker-end="url(#arrowGreen2)"></line>
+                                <line x1="150" y1="366" x2="310" y2="366" class="measure-line measure-left" marker-start="url(#arrowPink2)" marker-end="url(#arrowPink2)"></line>
+                                <line x1="400" y1="340" x2="400" y2="430" class="measure-line measure-bottom" marker-start="url(#arrowBlue2)" marker-end="url(#arrowBlue2)"></line>
+                            </svg>
+
+                            <div class="measure-label purple" style="top:106px; left:354px;">180px</div>
+                            <div class="measure-label green" style="top:246px; left:536px;">150px</div>
+                            <div class="measure-label pink" style="top:378px; left:204px;">160px</div>
+                            <div class="measure-label blue" style="top:374px; left:415px;">90px</div>
+                            <div class="shape-label" style="top:247px; left:365px;">gray</div>
+                        </div>
+                    </div>
+
+                    <div class="property-guide">
+                        <div class="property-chip">Width<strong>180px</strong></div>
+                        <div class="property-chip">Height<strong>150px</strong></div>
+                        <div class="property-chip">Color<strong>gray</strong></div>
+                        <div class="property-chip">From the left<strong>160px</strong></div>
+                        <div class="property-chip">From the bottom<strong>90px</strong></div>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <p><strong>HTML pattern:</strong> replace the example name with your own object name.</p>
+                    <code class="mini-code">&lt;div id="objectName"&gt;&lt;/div&gt;</code>
+                </div>
+
+                <div class="hint-box">
+                    <p>The castle is inside the scene, so it needs <code>position: absolute</code>.</p>
+                </div>
+
+                <div class="check-box">
+                    <p><strong>Check your castle:</strong></p>
+                    <ul class="check-list">
+                        <li>It is a gray rectangle.</li>
+                        <li>It sits 90px above the bottom of the scene.</li>
+                        <li>It starts 160px from the left edge.</li>
+                    </ul>
+                </div>
+            </article>
+
+            <!-- STEP 3 -->
+            <article class="step-panel" data-step="2">
+                <div class="step-heading">
+                    <div class="step-number">3</div>
+                    <div>
+                        <h2 class="step-title">Add the grass</h2>
+                        <p class="step-kicker">Now read the measurement lines without property names.</p>
+                    </div>
+                </div>
+
+                <div class="mission">
+                    <span class="mission-icon">2</span>
+                    <span>Create a div called <code>grass</code>. Read the lines carefully.</span>
+                </div>
+
+                <div class="diagram-shell">
+                    <p class="diagram-title">Grass map</p>
+                    <div class="diagram-scroll">
+                        <div class="diagram">
+                            <div class="visual-scene">
+                                <div class="visual-grass"></div>
+                                <div class="visual-castle"></div>
+                            </div>
+
+                            <svg class="measure-svg" viewBox="0 0 820 535" aria-hidden="true">
+                                <defs>
+                                    <marker id="arrowPurple3" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 Z" fill="#7c3aed"></path></marker>
+                                    <marker id="arrowGreen3" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 Z" fill="#168a55"></path></marker>
+                                    <marker id="arrowPink3" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 Z" fill="#db2777"></path></marker>
+                                    <marker id="arrowBlue3" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 Z" fill="#2563eb"></path></marker>
+                                </defs>
+                                <line x1="150" y1="462" x2="650" y2="462" class="measure-line measure-width" marker-start="url(#arrowPurple3)" marker-end="url(#arrowPurple3)"></line>
+                                <line x1="690" y1="340" x2="690" y2="430" class="measure-line measure-height" marker-start="url(#arrowGreen3)" marker-end="url(#arrowGreen3)"></line>
+                                <line x1="150" y1="447" x2="150" y2="447" class="measure-line measure-left" marker-start="url(#arrowPink3)" marker-end="url(#arrowPink3)"></line>
+                                <line x1="670" y1="430" x2="670" y2="430" class="measure-line measure-bottom" marker-start="url(#arrowBlue3)" marker-end="url(#arrowBlue3)"></line>
+                            </svg>
+
+                            <div class="measure-label purple" style="top:474px; left:356px;">500px</div>
+                            <div class="measure-label green" style="top:370px; left:701px;">90px</div>
+                            <div class="measure-label pink" style="top:432px; left:100px;">0px</div>
+                            <div class="measure-label blue" style="top:417px; left:680px;">0px</div>
+                            <div class="shape-label" style="top:374px; left:360px;">green</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hint-box">
+                    <p>A line across an object tells you its width. A line beside it tells you its height.</p>
+                </div>
+
+                <div class="check-box">
+                    <p><strong>Check your grass:</strong></p>
+                    <ul class="check-list">
+                        <li>It fills the full width of the scene.</li>
+                        <li>It touches the left and bottom edges.</li>
+                        <li>The castle sits on top of it.</li>
+                    </ul>
+                </div>
+            </article>
+
+            <!-- STEP 4 -->
+            <article class="step-panel" data-step="3">
+                <div class="step-heading">
+                    <div class="step-number">4</div>
+                    <div>
+                        <h2 class="step-title">Add the door</h2>
+                        <p class="step-kicker">One important measurement is now missing.</p>
+                    </div>
+                </div>
+
+                <div class="mission">
+                    <span class="mission-icon">3</span>
+                    <span>Create a div called <code>door</code>. Notice what lines up with the castle.</span>
+                </div>
+
+                <div class="diagram-shell">
+                    <p class="diagram-title">Door map</p>
+                    <div class="diagram-scroll">
+                        <div class="diagram">
+                            <div class="visual-scene">
+                                <div class="visual-grass"></div>
+                                <div class="visual-castle"></div>
+                                <div class="visual-door"></div>
+                            </div>
+
+                            <svg class="measure-svg" viewBox="0 0 820 535" aria-hidden="true">
+                                <defs>
+                                    <marker id="arrowPurple4" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 Z" fill="#7c3aed"></path></marker>
+                                    <marker id="arrowGreen4" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 Z" fill="#168a55"></path></marker>
+                                    <marker id="arrowPink4" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 Z" fill="#db2777"></path></marker>
+                                </defs>
+                                <line x1="375" y1="244" x2="425" y2="244" class="measure-line measure-width" marker-start="url(#arrowPurple4)" marker-end="url(#arrowPurple4)"></line>
+                                <line x1="448" y1="270" x2="448" y2="340" class="measure-line measure-height" marker-start="url(#arrowGreen4)" marker-end="url(#arrowGreen4)"></line>
+                                <line x1="150" y1="360" x2="375" y2="360" class="measure-line measure-left" marker-start="url(#arrowPink4)" marker-end="url(#arrowPink4)"></line>
+                                <line x1="310" y1="340" x2="490" y2="340" class="guide-line"></line>
+                            </svg>
+
+                            <div class="measure-label purple" style="top:206px; left:380px;">50px</div>
+                            <div class="measure-label green" style="top:291px; left:462px;">70px</div>
+                            <div class="measure-label pink" style="top:372px; left:238px;">225px</div>
+                            <div class="shape-label" style="top:291px; left:371px;">brown</div>
+                        </div>
+                    </div>
+
+                    <div class="clue-box">
+                        <p><strong>Clue:</strong> The door stands on the same ground line as the castle.</p>
+                    </div>
+                </div>
+
+                <div class="hint-box">
+                    <p>Look back at the castle’s bottom value.</p>
+                </div>
+
+                <div class="check-box">
+                    <p><strong>Self-check:</strong> Does the bottom of the door line up exactly with the bottom of the castle?</p>
+                </div>
+            </article>
+
+            <!-- STEP 5 -->
+            <article class="step-panel" data-step="4">
+                <div class="step-heading">
+                    <div class="step-number">5</div>
+                    <div>
+                        <h2 class="step-title">Add the flagpole</h2>
+                        <p class="step-kicker">Work out one position using two measurements you already know.</p>
+                    </div>
+                </div>
+
+                <div class="mission">
+                    <span class="mission-icon">4</span>
+                    <span>Create a div called <code>flagPole</code>. The pole begins exactly where the top of the castle begins.</span>
+                </div>
+
+                <div class="diagram-shell">
+                    <p class="diagram-title">Flagpole map</p>
+                    <div class="diagram-scroll">
+                        <div class="diagram">
+                            <div class="visual-scene">
+                                <div class="visual-grass"></div>
+                                <div class="visual-castle"></div>
+                                <div class="visual-door"></div>
+                                <div class="visual-pole"></div>
+                            </div>
+
+                            <svg class="measure-svg" viewBox="0 0 820 535" aria-hidden="true">
+                                <defs>
+                                    <marker id="arrowPurple5" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 Z" fill="#7c3aed"></path></marker>
+                                    <marker id="arrowGreen5" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 Z" fill="#168a55"></path></marker>
+                                    <marker id="arrowPink5" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 Z" fill="#db2777"></path></marker>
+                                </defs>
+                                <line x1="396" y1="72" x2="404" y2="72" class="measure-line measure-width" marker-start="url(#arrowPurple5)" marker-end="url(#arrowPurple5)"></line>
+                                <line x1="432" y1="90" x2="432" y2="190" class="measure-line measure-height" marker-start="url(#arrowGreen5)" marker-end="url(#arrowGreen5)"></line>
+                                <line x1="150" y1="210" x2="396" y2="210" class="measure-line measure-left" marker-start="url(#arrowPink5)" marker-end="url(#arrowPink5)"></line>
+                                <line x1="310" y1="190" x2="490" y2="190" class="guide-line"></line>
+                            </svg>
+
+                            <div class="measure-label purple" style="top:30px; left:376px;">8px</div>
+                            <div class="measure-label green" style="top:126px; left:447px;">100px</div>
+                            <div class="measure-label pink" style="top:222px; left:248px;">246px</div>
+                            <div class="shape-label" style="top:108px; left:357px;">black</div>
+                        </div>
+                    </div>
+
+                    <div class="clue-box">
+                        <p><strong>Clue:</strong> The castle is 90px from the bottom and 150px high.</p>
+                    </div>
+                </div>
+
+                <div class="hint-box">
+                    <div class="hint-stage visible"><p><strong>Small hint:</strong> <code>90px + 150px = ?</code></p></div>
+                    <div class="hint-stage"><p><strong>Next hint:</strong> The pole’s bottom value is <code>240px</code>.</p></div>
+                </div>
+
+                <div class="check-box">
+                    <p><strong>Self-check:</strong> Does the bottom of the pole touch the top edge of the castle?</p>
+                </div>
+            </article>
+
+            <!-- STEP 6 -->
+            <article class="step-panel" data-step="5">
+                <div class="step-heading">
+                    <div class="step-number">6</div>
+                    <div>
+                        <h2 class="step-title">Add the flag</h2>
+                        <p class="step-kicker">The size is given. You choose and test the position.</p>
+                    </div>
+                </div>
+
+                <div class="mission">
+                    <span class="mission-icon">5</span>
+                    <span>Create a div called <code>flag</code>. Try different top and left values until it is attached to the pole.</span>
+                </div>
+
+                <div class="diagram-shell">
+                    <p class="diagram-title">Flag map</p>
+                    <div class="diagram-scroll">
+                        <div class="diagram">
+                            <div class="visual-scene">
+                                <div class="visual-grass"></div>
+                                <div class="visual-castle"></div>
+                                <div class="visual-door"></div>
+                                <div class="visual-pole"></div>
+                                <div class="visual-flag"></div>
+                            </div>
+
+                            <svg class="measure-svg" viewBox="0 0 820 535" aria-hidden="true">
+                                <defs>
+                                    <marker id="arrowPurple6" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 Z" fill="#7c3aed"></path></marker>
+                                    <marker id="arrowGreen6" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 Z" fill="#168a55"></path></marker>
+                                </defs>
+                                <line x1="404" y1="52" x2="474" y2="52" class="measure-line measure-width" marker-start="url(#arrowPurple6)" marker-end="url(#arrowPurple6)"></line>
+                                <line x1="502" y1="90" x2="502" y2="130" class="measure-line measure-height" marker-start="url(#arrowGreen6)" marker-end="url(#arrowGreen6)"></line>
+                                <line x1="404" y1="80" x2="404" y2="190" class="guide-line"></line>
+                                <line x1="150" y1="90" x2="404" y2="90" class="guide-line"></line>
+                            </svg>
+
+                            <div class="measure-label purple" style="top:14px; left:422px;">70px</div>
+                            <div class="measure-label green" style="top:94px; left:516px;">40px</div>
+                            <div class="shape-label" style="top:94px; left:415px;">purple</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hint-box">
+                    <div class="hint-stage visible"><p><strong>Small hint:</strong> The flag begins just to the right of the pole.</p></div>
+                    <div class="hint-stage"><p><strong>Next hint:</strong> Try a top value close to <code>10px</code>.</p></div>
+                </div>
+
+                <div class="check-box">
+                    <p><strong>Self-check:</strong> Is the flag attached to the pole and close to the top of the scene?</p>
+                </div>
+            </article>
+
+            <!-- STEP 7 -->
+            <article class="step-panel" data-step="6">
+                <div class="step-heading">
+                    <div class="step-number">7</div>
+                    <div>
+                        <h2 class="step-title">Create your own object</h2>
+                        <p class="step-kicker">Now use the same skills without measurements.</p>
+                    </div>
+                </div>
+
+                <div class="mission">
+                    <span class="mission-icon">+</span>
+                    <span>Choose your own width, height, color, and position. Add one new object to the scene.</span>
+                </div>
+
+                <div class="diagram-shell">
+                    <p class="diagram-title">Completed mini castle</p>
+                    <div class="diagram-scroll">
+                        <div class="diagram" style="height:460px;">
+                            <div class="visual-scene">
+                                <div class="visual-grass"></div>
+                                <div class="visual-castle"></div>
+                                <div class="visual-door"></div>
+                                <div class="visual-pole"></div>
+                                <div class="visual-flag"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="idea-grid">
+                        <div class="idea-card"><div class="idea-shape"><div class="sun-shape"></div></div>Sun</div>
+                        <div class="idea-card"><div class="idea-shape"><div class="tower-shape"></div></div>Tower</div>
+                        <div class="idea-card"><div class="idea-shape"><div class="treasure-shape"></div></div>Treasure box</div>
+                        <div class="idea-card"><div class="idea-shape cloud-shape"></div>Cloud</div>
+                        <div class="idea-card"><div class="idea-shape tree-shape"></div>Tree</div>
+                        <div class="idea-card"><div class="idea-shape"><div class="moat-shape"></div></div>Moat</div>
+                    </div>
+
+                    <div class="completion-checklist">
+                        <div class="completion-item"><span class="fake-checkbox"></span>I created a new div.</div>
+                        <div class="completion-item"><span class="fake-checkbox"></span>I gave it an id.</div>
+                        <div class="completion-item"><span class="fake-checkbox"></span>I wrote CSS for the id.</div>
+                        <div class="completion-item"><span class="fake-checkbox"></span>I chose its size.</div>
+                        <div class="completion-item"><span class="fake-checkbox"></span>I chose its color.</div>
+                        <div class="completion-item"><span class="fake-checkbox"></span>I placed it inside the scene.</div>
+                    </div>
+                </div>
+
+                <div class="check-box">
+                    <p><strong>Challenge complete:</strong> Explain to someone which CSS property controlled the object’s width, height, color, and position.</p>
+                </div>
+            </article>
+
+            <nav class="controls" aria-label="Worksheet navigation">
+                <div class="control-group">
+                    <button class="btn btn-secondary" id="previousButton" type="button">Previous</button>
+                    <button class="btn btn-hint" id="hintButton" type="button">Show a small hint</button>
+                    <button class="btn btn-check" id="checkButton" type="button">Check this step</button>
+                </div>
+
+                <div class="control-group">
+                    <button class="btn btn-secondary" id="resetButton" type="button">Reset</button>
+                    <button class="btn btn-primary" id="nextButton" type="button">Next challenge</button>
+                </div>
+            </nav>
+        </section>
+
+        <section class="below-sections">
+            <details>
+                <summary>Starter File</summary>
+                <div class="details-body">
+<pre class="code-block"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Mini Castle&lt;/title&gt;
+
+    &lt;style&gt;
+        body {
+            font-family: cursive;
+            background-color: lightgray;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #scene {
+            width: 500px;
+            height: 350px;
+            background-color: skyblue;
+            position: relative;
+            margin: auto;
+        }
+
+        /* Write your object CSS below */
+
+    &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+    &lt;h1&gt;Mini Castle&lt;/h1&gt;
+
+    &lt;div id="scene"&gt;
+        &lt;!-- Create your castle objects inside the scene --&gt;
+    &lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                </div>
+            </details>
+
+            <details class="teacher-answer">
+                <summary>Teacher Answer</summary>
+                <div class="details-body">
+                    <div class="answer-grid">
+                        <div>
+                            <h3 class="answer-title">Completed HTML and CSS</h3>
+<pre class="code-block"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Mini Castle&lt;/title&gt;
+
+    &lt;style&gt;
+        body {
+            font-family: cursive;
+            background-color: lightgray;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #scene {
+            width: 500px;
+            height: 350px;
+            background-color: skyblue;
+            position: relative;
+            margin: auto;
+        }
+
+        #grass {
+            width: 500px;
+            height: 90px;
+            background-color: green;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        #castle {
+            width: 180px;
+            height: 150px;
+            background-color: gray;
+            position: absolute;
+            bottom: 90px;
+            left: 160px;
+        }
+
+        #door {
+            width: 50px;
+            height: 70px;
+            background-color: brown;
+            position: absolute;
+            bottom: 90px;
+            left: 225px;
+        }
+
+        #flagPole {
+            width: 8px;
+            height: 100px;
+            background-color: black;
+            position: absolute;
+            bottom: 240px;
+            left: 246px;
+        }
+
+        #flag {
+            width: 70px;
+            height: 40px;
+            background-color: purple;
+            position: absolute;
+            top: 10px;
+            left: 254px;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+    &lt;h1&gt;Mini Castle&lt;/h1&gt;
+
+    &lt;div id="scene"&gt;
+        &lt;div id="grass"&gt;&lt;/div&gt;
+        &lt;div id="castle"&gt;&lt;/div&gt;
+        &lt;div id="door"&gt;&lt;/div&gt;
+        &lt;div id="flagPole"&gt;&lt;/div&gt;
+        &lt;div id="flag"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                        </div>
+
+                        <div>
+                            <h3 class="answer-title">Concise marking guide</h3>
+                            <ol class="marking-guide">
+                                <li>Creates the correct div and id.</li>
+                                <li>Uses the correct width and height.</li>
+                                <li>Uses the correct background color.</li>
+                                <li>Uses absolute positioning.</li>
+                                <li>Places the object correctly.</li>
+                                <li>Can explain which measurement controls each direction.</li>
+                                <li>Completes one independent bonus object.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </details>
+        </section>
+    </main>
+
+    <script>
+        const panels = [...document.querySelectorAll(".step-panel")];
+        const progressSteps = [...document.querySelectorAll(".progress-step")];
+        const progressFill = document.getElementById("progressFill");
+        const previousButton = document.getElementById("previousButton");
+        const nextButton = document.getElementById("nextButton");
+        const hintButton = document.getElementById("hintButton");
+        const checkButton = document.getElementById("checkButton");
+        const resetButton = document.getElementById("resetButton");
+
+        let currentStep = 0;
+        const hintLevels = new Array(panels.length).fill(0);
+
+        function updateProgress() {
+            const percentage = currentStep === 0
+                ? 0
+                : (currentStep / (panels.length - 1)) * 86;
+
+            progressFill.style.width = percentage + "%";
+
+            progressSteps.forEach((step, index) => {
+                step.classList.toggle("active", index === currentStep);
+                step.classList.toggle("complete", index < currentStep);
+            });
+        }
+
+        function updatePanel() {
+            panels.forEach((panel, index) => {
+                panel.classList.toggle("active", index === currentStep);
+            });
+
+            previousButton.disabled = currentStep === 0;
+            nextButton.disabled = currentStep === panels.length - 1;
+            nextButton.textContent = currentStep === panels.length - 2
+                ? "Final challenge"
+                : "Next challenge";
+
+            const currentPanel = panels[currentStep];
+            const hintBox = currentPanel.querySelector(".hint-box");
+            const checkBox = currentPanel.querySelector(".check-box");
+
+            hintButton.disabled = !hintBox;
+            hintButton.textContent = hintBox && hintBox.classList.contains("visible")
+                ? "Show next hint"
+                : "Show a small hint";
+
+            checkButton.disabled = !checkBox;
+            checkButton.textContent = checkBox && checkBox.classList.contains("visible")
+                ? "Hide self-check"
+                : "Check this step";
+
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        function showHint() {
+            const currentPanel = panels[currentStep];
+            const hintBox = currentPanel.querySelector(".hint-box");
+
+            if (!hintBox) return;
+
+            hintBox.classList.add("visible");
+            const stages = [...hintBox.querySelectorAll(".hint-stage")];
+
+            if (stages.length > 1) {
+                const nextLevel = Math.min(hintLevels[currentStep], stages.length - 1);
+                stages.forEach((stage, index) => {
+                    stage.classList.toggle("visible", index <= nextLevel);
+                });
+                hintLevels[currentStep] = Math.min(nextLevel + 1, stages.length - 1);
+
+                hintButton.textContent = hintLevels[currentStep] >= stages.length - 1
+                    ? "Hint shown"
+                    : "Show next hint";
+            } else {
+                hintButton.textContent = "Hint shown";
+            }
+        }
+
+        function toggleCheck() {
+            const currentPanel = panels[currentStep];
+            const checkBox = currentPanel.querySelector(".check-box");
+
+            if (!checkBox) return;
+
+            checkBox.classList.toggle("visible");
+            checkButton.textContent = checkBox.classList.contains("visible")
+                ? "Hide self-check"
+                : "Check this step";
+        }
+
+        function resetWorksheet() {
+            currentStep = 0;
+            hintLevels.fill(0);
+
+            panels.forEach(panel => {
+                panel.querySelectorAll(".hint-box, .check-box").forEach(box => {
+                    box.classList.remove("visible");
+                });
+
+                panel.querySelectorAll(".hint-stage").forEach((stage, index) => {
+                    stage.classList.toggle("visible", index === 0);
+                });
+            });
+
+            document.querySelectorAll("details").forEach(detail => {
+                detail.open = false;
+            });
+
+            updatePanel();
+        }
+
+        previousButton.addEventListener("click", () => {
+            if (currentStep > 0) {
+                currentStep -= 1;
+                updatePanel();
+            }
+        });
+
+        nextButton.addEventListener("click", () => {
+            if (currentStep < panels.length - 1) {
+                currentStep += 1;
+                updatePanel();
+            }
+        });
+
+        hintButton.addEventListener("click", showHint);
+        checkButton.addEventListener("click", toggleCheck);
+        resetButton.addEventListener("click", resetWorksheet);
+
+        document.addEventListener("keydown", event => {
+            if (event.key === "ArrowRight" && currentStep < panels.length - 1) {
+                currentStep += 1;
+                updatePanel();
+            }
+
+            if (event.key === "ArrowLeft" && currentStep > 0) {
+                currentStep -= 1;
+                updatePanel();
+            }
+        });
+
+        updatePanel();
+    </script>
+</body>
+</html>
