@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build a Dice Game</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #dbeafe 0, transparent 34%),
+                linear-gradient(#f8fbff, #eef5ff);
+            color: #1f2937;
+            line-height: 1.65;
+        }
+
+        header {
+            background: linear-gradient(135deg, #17324d, #24557d);
+            color: white;
+            text-align: center;
+            padding: 42px 18px 38px;
+        }
+
+        header h1 {
+            margin: 0 0 10px;
+            font-size: clamp(34px, 6vw, 52px);
+        }
+
+        header p {
+            max-width: 760px;
+            margin: 7px auto;
+            font-size: 19px;
+        }
+
+        .header-die {
+            width: 86px;
+            margin-top: 15px;
+            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.22));
+        }
+
+        main {
+            width: min(94%, 1040px);
+            margin: 26px auto 60px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 18px;
+            padding: 24px;
+            margin-bottom: 22px;
+            box-shadow: 0 8px 24px rgba(29, 78, 126, 0.10);
+            border: 1px solid #dbe7f2;
+        }
+
+        .lesson {
+            border-left: 8px solid #2563eb;
+        }
+
+        .check {
+            border-left: 8px solid #16a34a;
+            background-color: #f3fff7;
+        }
+
+        .challenge {
+            border-left: 8px solid #f59e0b;
+            background-color: #fffbeb;
+        }
+
+        .deep-dive {
+            border-left: 8px solid #7c3aed;
+            background-color: #faf7ff;
+        }
+
+        .warning {
+            border-left: 8px solid #dc2626;
+            background-color: #fff7f7;
+        }
+
+        h2, h3 {
+            margin-top: 0;
+            line-height: 1.25;
+        }
+
+        h2 {
+            font-size: 27px;
+        }
+
+        h3 {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            margin-bottom: 8px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background-color: #e8f1ff;
+            color: #1d4ed8;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .where {
+            display: inline-block;
+            margin: 2px 0 10px;
+            padding: 7px 11px;
+            border-radius: 8px;
+            background-color: #e0f2fe;
+            color: #0c4a6e;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: Consolas, "Courier New", monospace;
+            background-color: #e8edf3;
+            padding: 2px 5px;
+            border-radius: 5px;
+        }
+
+        .code-wrap {
+            position: relative;
+            margin: 14px 0;
+        }
+
+        pre {
+            margin: 0;
+            background-color: #111827;
+            color: #f9fafb;
+            padding: 18px;
+            border-radius: 12px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            tab-size: 4;
+        }
+
+        pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 9px;
+            right: 9px;
+            border: none;
+            border-radius: 8px;
+            padding: 7px 11px;
+            background-color: #334155;
+            color: white;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .copy-btn:hover {
+            background-color: #475569;
+        }
+
+        .progress {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .progress li {
+            background-color: #f1f5f9;
+            border-radius: 10px;
+            padding: 10px 12px;
+        }
+
+        .steps li {
+            margin-bottom: 8px;
+        }
+
+        .big-check {
+            font-size: 19px;
+            font-weight: bold;
+            color: #166534;
+        }
+
+        .download-link {
+            display: inline-block;
+            background-color: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 12px 18px;
+            border-radius: 9px;
+            font-weight: bold;
+            margin: 4px 8px 8px 0;
+        }
+
+        .download-link:hover {
+            background-color: #1d4ed8;
+        }
+
+        .number-flow {
+            display: grid;
+            gap: 12px;
+            margin-top: 14px;
+        }
+
+        .number-step {
+            background-color: white;
+            border: 1px solid #ddd6fe;
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .number-step strong {
+            color: #5b21b6;
+        }
+
+        .style-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        .style-option {
+            background-color: white;
+            border: 1px solid #fde68a;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .tiny-note {
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .mistakes li {
+            margin-bottom: 10px;
+        }
+
+        footer {
+            background-color: #17324d;
+            color: white;
+            text-align: center;
+            padding: 22px;
+            font-size: 18px;
+        }
+
+        @media (max-width: 720px) {
+            .progress,
+            .style-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .copy-btn {
+                position: static;
+                margin-bottom: 7px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Build a Dice Game</h1>
+    <p>Make one small change at a time. Save, refresh and check what happened.</p>
+    <p>Try to type the short code yourself. Use the Copy button only when a long line is slowing you down.</p>
+    <img class="header-die" src="img/6.png" alt="dice">
+</header>
+
+<main>
+
+    <section class="card">
+        <span class="eyebrow">Your mission</span>
+        <h2>What You Will Build</h2>
+
+        <p>You will make a button that rolls a random number from 1 to 6. The number and dice picture will change together.</p>
+
+        <ul class="progress">
+            <li>☐ Open the starter project</li>
+            <li>☐ Add a heading and picture</li>
+            <li>☐ Add a button and message</li>
+            <li>☐ Make a random number</li>
+            <li>☐ Change the dice picture</li>
+            <li>☐ Improve the design</li>
+        </ul>
+    </section>
+
+    <section class="card">
+        <span class="eyebrow">Setup</span>
+        <h2>Download and Extract the Project</h2>
+
+        <a class="download-link" href="./dice-game-pack.zip" download="dice-game-pack.zip">Download Project Pack</a>
+
+        <!-- <p class="tiny-note">If the download button does not work while the page is opened as a local file, test the page on the website or through a local web server.</p> -->
+
+        <h3>1. Find the ZIP</h3>
+        <p>Look in your <strong>Downloads</strong> folder for <code>dice-game-pack.zip</code>.</p>
+
+        <h3>2. Extract it</h3>
+        <p><strong>Windows:</strong> right-click the ZIP and choose <strong>Extract All</strong>.</p>
+        <p><strong>Ubuntu/Linux:</strong> right-click the ZIP and choose <strong>Extract Here</strong>.</p>
+
+        <p class="big-check">Do not edit files while they are still inside the ZIP.</p>
+
+        <h3>3. Open the real project folder</h3>
+
+        <pre><code>dice-game
+├── index.html
+└── img
+    ├── 1.png
+    ├── 2.png
+    ├── 3.png
+    ├── 4.png
+    ├── 5.png
+    └── 6.png</code></pre>
+
+        <p>Open the <code>dice-game</code> folder in VS Code.</p>
+    </section>
+
+    <section class="card check">
+        <h2>The Rule for Every Step</h2>
+        <ol class="steps">
+            <li>Read what the new code does.</li>
+            <li>Add only the new part.</li>
+            <li>Press <strong>Ctrl + S</strong>.</li>
+            <li>Return to the browser.</li>
+            <li>Press <strong>Ctrl + R</strong>.</li>
+            <li>Check what changed.</li>
+        </ol>
+    </section>
+
+    <section class="card lesson">
+        <span class="eyebrow">Lesson 1</span>
+        <h2>Open the Starter Page</h2>
+
+        <p>Open <code>index.html</code> in VS Code. It already contains the basic page:</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('starter-code', this)">Copy</button>
+            <pre><code id="starter-code">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;My Dice Game&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+
+        <p>Double-click <code>index.html</code> to open it in the browser. A blank page is correct.</p>
+    </section>
+
+    <section class="card lesson">
+        <span class="eyebrow">Lesson 2</span>
+        <h2>Add a Heading</h2>
+        <p class="where">Put this inside &lt;body&gt;</p>
+
+        <pre><code>&lt;h1&gt;My Dice Game&lt;/h1&gt;</code></pre>
+
+        <p><code>&lt;h1&gt;</code> makes a large heading.</p>
+
+        <p class="big-check">Save and refresh. Can you see the heading?</p>
+    </section>
+
+    <section class="card challenge">
+        <h2>Mini Challenge: Make It Yours</h2>
+        <p>Change the words inside the heading. For example:</p>
+        <pre><code>&lt;h1&gt;Super Dice Roller&lt;/h1&gt;</code></pre>
+    </section>
+
+    <section class="card lesson">
+        <span class="eyebrow">Lesson 3</span>
+        <h2>Show a Dice Picture</h2>
+        <p class="where">Put this under the heading</p>
+
+        <pre><code>&lt;img src="img/1.png" alt="dice"&gt;</code></pre>
+
+        <p><code>src</code> tells the browser where the picture is.</p>
+        <p><code>img/1.png</code> means: open the <code>img</code> folder and find <code>1.png</code>.</p>
+
+        <p class="big-check">Save and refresh. You should see dice face 1.</p>
+    </section>
+
+    <section class="card challenge">
+        <h2>Mini Challenge: Test the Image Path</h2>
+        <p>Change <code>1.png</code> to <code>2.png</code>, <code>4.png</code> or <code>6.png</code>.</p>
+        <p>Save and refresh after each change.</p>
+    </section>
+
+    <section class="card lesson">
+        <span class="eyebrow">Lesson 4</span>
+        <h2>Give the Picture a Name</h2>
+        <p>Change the image to:</p>
+
+        <pre><code>&lt;img id="dice" src="img/1.png" alt="dice"&gt;</code></pre>
+
+        <p>The ID <code>dice</code> is a name for this picture. JavaScript will use that name later.</p>
+    </section>
+
+    <section class="card lesson">
+        <span class="eyebrow">Lesson 5</span>
+        <h2>Add the Button and Message</h2>
+        <p class="where">Put this under the image</p>
+
+        <pre><code>&lt;br&gt;&lt;br&gt;
+
+&lt;button&gt;Roll the Dice&lt;/button&gt;
+
+&lt;p id="result"&gt;Press the button!&lt;/p&gt;</code></pre>
+
+        <p>The button does not work yet. That is correct.</p>
+        <p>The paragraph has the ID <code>result</code>, so JavaScript can change its words later.</p>
+
+        <p class="big-check">Save and refresh. You should see the button and message.</p>
+    </section>
+
+    <section class="card lesson">
+        <span class="eyebrow">Lesson 6</span>
+        <h2>Add Simple CSS</h2>
+        <p class="where">Put this inside &lt;head&gt;</p>
+
+        <pre><code>&lt;style&gt;
+    body {
+        text-align: center;
+        background-color: lightblue;
+        font-family: Arial;
+    }
+
+    #dice {
+        width: 150px;
+    }
+
+    button {
+        font-size: 20px;
+        padding: 10px;
+    }
+&lt;/style&gt;</code></pre>
+
+        <p><code>text-align</code> moves the content to the centre.</p>
+        <p><code>background-color</code> changes the page colour.</p>
+        <p><code>width</code> changes the dice size.</p>
+        <p><code>padding</code> adds space inside the button.</p>
+    </section>
+
+    <section class="card challenge">
+        <h2>Mini Challenge: Change One Value</h2>
+        <p>Try one change at a time:</p>
+
+        <pre><code>background-color: lightgreen;</code></pre>
+        <pre><code>width: 220px;</code></pre>
+        <pre><code>padding: 20px;</code></pre>
+
+        <p>Save and refresh after every change.</p>
+    </section>
+
+    <section class="card lesson">
+        <span class="eyebrow">Lesson 7</span>
+        <h2>Make the Button Run a Function</h2>
+
+        <p>Change the button to:</p>
+
+        <pre><code>&lt;button onclick="rollDice()"&gt;Roll the Dice&lt;/button&gt;</code></pre>
+
+        <p><code>onclick</code> means: when the button is clicked, run the function called <code>rollDice</code>.</p>
+
+        <p class="where">Put this just before &lt;/body&gt;</p>
+
+        <pre><code>&lt;script&gt;
+    function rollDice() {
+
+    }
+&lt;/script&gt;</code></pre>
+
+        <p>A function is a group of instructions. It is empty for now.</p>
+    </section>
+
+    <section class="card deep-dive">
+        <span class="eyebrow">Deeper explanation</span>
+        <h2>How Random Numbers Work</h2>
+
+        <p>You can use the finished dice formula later, but this section shows how it is built.</p>
+
+        <div class="number-flow">
+            <div class="number-step">
+                <strong>Step A: Math.random()</strong>
+                <pre><code>Math.random()</code></pre>
+                <p>This makes a random decimal number starting at 0 and smaller than 1.</p>
+                <p>Examples: <code>0.18</code>, <code>0.62</code>, <code>0.999</code>.</p>
+            </div>
+
+            <div class="number-step">
+                <strong>Step B: Multiply by 6</strong>
+                <pre><code>Math.random() * 6</code></pre>
+                <p>This stretches the possible numbers from 0–1 to 0–6.</p>
+                <p>Examples: <code>0.72</code>, <code>3.48</code>, <code>5.91</code>.</p>
+            </div>
+
+            <div class="number-step">
+                <strong>Step C: Use Math.floor()</strong>
+                <pre><code>Math.floor(Math.random() * 6)</code></pre>
+                <p><code>Math.floor()</code> rounds down to a whole number.</p>
+                <p><code>Math.floor(4.9)</code> becomes <code>4</code>.</p>
+                <p>Now the possible answers are <code>0, 1, 2, 3, 4, 5</code>.</p>
+            </div>
+
+            <div class="number-step">
+                <strong>Step D: Add 1</strong>
+                <pre><code>Math.floor(Math.random() * 6) + 1</code></pre>
+                <p>Adding 1 changes the possible answers to <code>1, 2, 3, 4, 5, 6</code>.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="card lesson">
+        <span class="eyebrow">Lesson 8</span>
+        <h2>Make and Show the Random Number</h2>
+        <p class="where">Put these lines inside rollDice()</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('random-code', this)">Copy</button>
+            <pre><code id="random-code">let diceNumber = Math.floor(Math.random() * 6) + 1;
+
+document.getElementById("result").innerText =
+    "You rolled a " + diceNumber;</code></pre>
+        </div>
+
+        <p>The first line makes the random number.</p>
+        <p>The second instruction finds <code>id="result"</code> and changes the words inside it.</p>
+
+        <p class="big-check">Save, refresh and press the button many times. Do not continue until the number changes.</p>
+    </section>
+
+    <section class="card lesson">
+        <span class="eyebrow">Lesson 9</span>
+        <h2>Change the Dice Picture</h2>
+        <p class="where">Add this under the result line, inside rollDice()</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('image-code', this)">Copy</button>
+            <pre><code id="image-code">document.getElementById("dice").src =
+    "img/" + diceNumber + ".png";</code></pre>
+        </div>
+
+        <p>If the random number is 4, the image path becomes <code>img/4.png</code>.</p>
+
+        <p class="big-check">Save and refresh. Check that the number and picture match.</p>
+    </section>
+
+    <section class="card check">
+        <h2>Your Main Game Is Finished</h2>
+
+        <p>Your function should now look like this:</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('full-function', this)">Copy</button>
+            <pre><code id="full-function">function rollDice() {
+    let diceNumber = Math.floor(Math.random() * 6) + 1;
+
+    document.getElementById("result").innerText =
+        "You rolled a " + diceNumber;
+
+    document.getElementById("dice").src =
+        "img/" + diceNumber + ".png";
+}</code></pre>
+        </div>
+    </section>
+
+    <section class="card warning">
+        <h2>Important CSS Rule</h2>
+
+        <p>If you already have a <code>button { }</code> rule, add new button styles inside it.</p>
+
+        <h3>Preferred:</h3>
+        <pre><code>button {
+    font-size: 20px;
+    padding: 10px;
+    background-color: royalblue;
+    color: white;
+}</code></pre>
+
+        <p>Do not keep making more and more separate <code>button { }</code> rules. It becomes hard to read.</p>
+
+        <p>A different selector, such as <code>button:hover</code> or <code>#result</code>, needs its own rule.</p>
+    </section>
+
+    <section class="card challenge">
+        <span class="eyebrow">Design finish</span>
+        <h2>Make the Game Look Polished</h2>
+
+        <p>Add one group at a time. Save and refresh after each group.</p>
+
+        <div class="style-grid">
+            <div class="style-option">
+                <h3>Improve the page</h3>
+                <p>Add these lines inside the existing <code>body</code> rule:</p>
+                <pre><code>background: linear-gradient(lightblue, white);
+min-height: 100vh;</code></pre>
+            </div>
+
+            <div class="style-option">
+                <h3>Improve the button</h3>
+                <p>Add these lines inside the existing <code>button</code> rule:</p>
+                <pre><code>background-color: royalblue;
+color: white;
+border: none;
+border-radius: 10px;
+font-weight: bold;
+cursor: pointer;</code></pre>
+            </div>
+
+            <div class="style-option">
+                <h3>Add a hover effect</h3>
+                <p>This needs a new rule:</p>
+                <pre><code>button:hover {
+    background-color: darkblue;
+}</code></pre>
+            </div>
+
+            <div class="style-option">
+                <h3>Improve the result</h3>
+                <p>This needs a new rule:</p>
+                <pre><code>#result {
+    font-size: 24px;
+    font-weight: bold;
+}</code></pre>
+            </div>
+
+            <div class="style-option">
+                <h3>Improve the dice</h3>
+                <p>Add these lines inside the existing <code>#dice</code> rule:</p>
+                <pre><code>margin: 20px;
+border-radius: 20px;</code></pre>
+            </div>
+
+            <div class="style-option">
+                <h3>Add a button shadow</h3>
+                <p>Add this inside the existing <code>button</code> rule:</p>
+                <pre><code>box-shadow: 3px 4px 10px gray;</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <section class="card deep-dive">
+        <h2>Big Design Bonus: Put the Game in a Card</h2>
+
+        <p>Wrap the game parts inside:</p>
+
+        <pre><code>&lt;div class="game"&gt;
+    &lt;h1&gt;My Dice Game&lt;/h1&gt;
+    &lt;img id="dice" src="img/1.png" alt="dice"&gt;
+    &lt;br&gt;&lt;br&gt;
+    &lt;button onclick="rollDice()"&gt;Roll the Dice&lt;/button&gt;
+    &lt;p id="result"&gt;Press the button!&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+
+        <p>Then add this new CSS rule:</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('game-card-css', this)">Copy</button>
+            <pre><code id="game-card-css">.game {
+    background-color: white;
+    width: 400px;
+    max-width: 90%;
+    margin: 50px auto;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px gray;
+}</code></pre>
+        </div>
+    </section>
+
+    <section class="card warning">
+        <h2>Common Mistakes</h2>
+
+        <ul class="mistakes">
+            <li><strong>Nothing changed:</strong> save the file and refresh the browser.</li>
+            <li><strong>Broken image:</strong> check that the <code>img</code> folder is next to <code>index.html</code>.</li>
+            <li><strong>Button does nothing:</strong> check that the button says <code>onclick="rollDice()"</code>.</li>
+            <li><strong>JavaScript error:</strong> check quotation marks, brackets and semicolons.</li>
+            <li><strong>Random line does not work:</strong> make sure it is inside <code>rollDice()</code>.</li>
+            <li><strong>Wrong picture:</strong> check that the files are named exactly <code>1.png</code> to <code>6.png</code>.</li>
+        </ul>
+    </section>
+
+    <section class="card challenge">
+        <h2>Final Personalisation Challenge</h2>
+
+        <p>Change at least three things so your game is not identical to everyone else’s:</p>
+
+        <ul>
+            <li>Change the title.</li>
+            <li>Change the page background.</li>
+            <li>Change the button colour.</li>
+            <li>Change the dice size.</li>
+            <li>Change the result message.</li>
+            <li>Add a shadow or hover effect.</li>
+        </ul>
+    </section>
+
+    <section class="card check">
+        <h2>Show the Teacher</h2>
+
+        <ul class="progress">
+            <li>☐ The button works</li>
+            <li>☐ The result is 1–6</li>
+            <li>☐ The picture matches</li>
+            <li>☐ I changed the design</li>
+            <li>☐ I can explain one line</li>
+            <li>☐ I tested it many times</li>
+        </ul>
+    </section>
+
+</main>
+
+<footer>
+    Build it. Test it. Understand it. Then make it your own.
+</footer>
+
+<script>
+    function copyCode(codeId, button) {
+        let code = document.getElementById(codeId).innerText;
+
+        navigator.clipboard.writeText(code).then(function () {
+            let oldText = button.innerText;
+            button.innerText = "Copied!";
+
+            setTimeout(function () {
+                button.innerText = oldText;
+            }, 1200);
+        }).catch(function () {
+            button.innerText = "Select and copy";
+        });
+    }
+</script>
+
+</body>
+</html>
