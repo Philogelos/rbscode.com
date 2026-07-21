@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>סטודיו לציור בעזרת DIV</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;line-height:1.75;color:#1f2937;background:linear-gradient(#f8fbff,#edf4fb)}
+header{padding:42px 18px;text-align:center;color:white;background:linear-gradient(135deg,#15324b,#285f8d)}
+header h1{margin:0 0 10px;font-size:46px}
+main{width:min(94%,1050px);margin:28px auto 60px}
+.card{background:white;border:1px solid #dbe7f2;border-radius:18px;padding:24px;margin-bottom:22px;box-shadow:0 8px 24px rgba(29,78,126,.1)}
+.lesson{border-right:8px solid #2563eb}.check{border-right:8px solid #16a34a;background:#f3fff7}.challenge{border-right:8px solid #f59e0b;background:#fffbeb}.bonus{border-right:8px solid #7c3aed;background:#faf7ff}.warning{border-right:8px solid #dc2626;background:#fff7f7}
+h2,h3{margin-top:0}.tag{display:inline-block;padding:4px 10px;border-radius:999px;background:#e8f1ff;color:#1d4ed8;font-size:13px;font-weight:bold}
+code{direction:ltr;unicode-bidi:embed;display:inline-block;background:#e8edf3;padding:2px 5px;border-radius:5px;font-family:Consolas,monospace}
+.code{position:relative;direction:ltr;margin:14px 0}
+pre{direction:ltr;text-align:left;white-space:pre-wrap;margin:0;padding:18px;border-radius:12px;background:#111827;color:white;overflow:auto}
+pre code{background:none;color:inherit;padding:0}
+.copy{position:absolute;top:8px;right:8px;border:0;border-radius:8px;background:#334155;color:white;padding:7px 11px;cursor:pointer}
+.note{padding:12px 14px;border-radius:10px;background:#eef6ff}
+.where{display:inline-block;padding:7px 11px;border-radius:8px;background:#e0f2fe;color:#0c4a6e;font-weight:bold}
+.preview{direction:ltr;position:relative;min-height:260px;border:2px dashed #9fb5c9;border-radius:15px;overflow:hidden;background:#f8fbff}
+.robot{direction:ltr;position:relative;height:590px;border-radius:15px;overflow:hidden;background:linear-gradient(skyblue 0 73%,#84cc73 73% 100%)}
+.body{width:190px;height:220px;position:absolute;left:calc(50% - 95px);top:220px;background:royalblue}
+.head{width:160px;height:115px;position:absolute;left:calc(50% - 80px);top:80px;background:silver}
+.eye{width:30px;height:30px;position:absolute;top:120px;background:yellow}.e1{left:calc(50% - 52px)}.e2{left:calc(50% + 22px)}
+.arm{width:70px;height:28px;position:absolute;top:275px;background:royalblue}.a1{left:calc(50% - 165px)}.a2{left:calc(50% + 95px)}
+.leg{width:48px;height:110px;position:absolute;top:440px;background:darkblue}.l1{left:calc(50% - 70px)}.l2{left:calc(50% + 22px)}
+.scene{direction:ltr;width:100%;max-width:500px;height:350px;position:relative;margin:auto;background:skyblue}
+.grass{width:100%;height:90px;position:absolute;bottom:0;background:green}.castle{width:180px;height:150px;position:absolute;left:160px;bottom:90px;background:gray}.door{width:50px;height:70px;position:absolute;left:225px;bottom:90px;background:brown}.pole{width:8px;height:100px;position:absolute;left:246px;bottom:240px;background:black}.flag{width:70px;height:40px;position:absolute;left:254px;top:10px;background:purple}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.box{padding:16px;border:1px solid #ddd6fe;border-radius:14px;background:white}
+ul li,ol li{margin-bottom:8px}
+footer{text-align:center;background:#15324b;color:white;padding:22px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}.copy{position:static;margin-bottom:7px}}
+</style>
+</head>
+<body>
+<header>
+<h1>סטודיו לציור בעזרת DIV</h1>
+<p>בונים רובוטים, טירות ותמונות בעזרת קופסאות HTML פשוטות ו־CSS.</p>
+<p>מומלץ להקליד קוד קצר. כשההקלדה מעכבת, אפשר להשתמש בכפתור ההעתקה.</p>
+</header>
+<main>
+
+<section class="card bonus">
+<span class="tag">מילים חשובות</span>
+<h2>מילון קצר</h2>
+<ul>
+<li><code>width</code> — רוחב</li><li><code>height</code> — גובה</li>
+<li><code>background-color</code> — צבע רקע</li><li><code>position</code> — מיקום</li>
+<li><code>absolute</code> — מיקום מדויק</li><li><code>left / right</code> — שמאל / ימין</li>
+<li><code>top / bottom</code> — למעלה / למטה</li><li><code>ID</code> — שם מיוחד לאלמנט אחד</li>
+<li><code>class</code> — שם משותף לכמה אלמנטים</li><li><code>border-radius</code> — עיגול פינות</li>
+</ul>
+</section>
+
+<section class="card check">
+<h2>הכלל בכל שלב</h2>
+<ol><li>מוסיפים רק את הקוד החדש.</li><li>לוחצים Ctrl + S.</li><li>חוזרים לדפדפן.</li><li>לוחצים Ctrl + R.</li><li>בודקים מה השתנה.</li></ol>
+</section>
+
+<section class="card lesson">
+<span class="tag">הדגמה 1</span><h2>יוצרים מלבן ראשון</h2>
+<p>צרו תיקייה בשם <code>div-art</code> וקובץ בשם <code>demo-1.html</code>.</p>
+<div class="code"><button class="copy" onclick="copyCode('c1',this)">העתק</button><pre><code id="c1">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My First Shape&lt;/title&gt;
+    &lt;style&gt;
+        #shape {
+            width: 200px;
+            height: 100px;
+            background-color: blue;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id="shape"&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div>
+<p><code>&lt;div&gt;</code> הוא קופסה ריקה. ה־ID נותן לה שם. <code>width</code> קובע רוחב, <code>height</code> קובע גובה, ו־<code>background-color</code> קובע צבע.</p>
+</section>
+
+<section class="card challenge">
+<h2>ניסויים</h2>
+<p>ריבוע:</p><div class="code"><button class="copy" onclick="copyCode('c2',this)">העתק</button><pre><code id="c2">width: 150px;
+height: 150px;</code></pre></div>
+<p>מלבן גבוה:</p><div class="code"><button class="copy" onclick="copyCode('c3',this)">העתק</button><pre><code id="c3">width: 80px;
+height: 220px;</code></pre></div>
+</section>
+
+<section class="card lesson">
+<span class="tag">הדגמה 2</span><h2>מזיזים את הצורה</h2>
+<p>הוסיפו בתוך חוק ה־<code>#shape</code>:</p>
+<div class="code"><button class="copy" onclick="copyCode('c4',this)">העתק</button><pre><code id="c4">position: absolute;
+left: 300px;
+top: 150px;</code></pre></div>
+<p><code>left</code> מודד מצד שמאל. <code>top</code> מודד מלמעלה.</p>
+<div class="note">משתמשים בדרך כלל ב־<code>left</code> או <code>right</code>, וב־<code>top</code> או <code>bottom</code>.</div>
+</section>
+
+<section class="card lesson">
+<span class="tag">הפרויקט המרכזי</span><h2>בונים רובוט</h2>
+<p class="where">בתוך body</p>
+<div class="code"><button class="copy" onclick="copyCode('rhtml',this)">העתק</button><pre><code id="rhtml">&lt;div id="body"&gt;&lt;/div&gt;
+&lt;div id="head"&gt;&lt;/div&gt;
+&lt;div id="eye1"&gt;&lt;/div&gt;
+&lt;div id="eye2"&gt;&lt;/div&gt;</code></pre></div>
+<p class="where">בתוך style</p>
+<div class="code"><button class="copy" onclick="copyCode('rcss',this)">העתק</button><pre><code id="rcss">#body {
+    width: 190px;
+    height: 220px;
+    background-color: royalblue;
+    position: absolute;
+    left: 400px;
+    top: 220px;
+}
+
+#head {
+    width: 160px;
+    height: 115px;
+    background-color: silver;
+    position: absolute;
+    left: 415px;
+    top: 80px;
+}</code></pre></div>
+<div class="robot"><div class="body"></div><div class="head"></div></div>
+</section>
+
+<section class="card lesson">
+<h2>שתי עיניים בשני IDs</h2>
+<div class="code"><button class="copy" onclick="copyCode('eyes1',this)">העתק</button><pre><code id="eyes1">#eye1 {
+    width: 30px;
+    height: 30px;
+    background-color: yellow;
+    position: absolute;
+    left: 445px;
+    top: 120px;
+}
+
+#eye2 {
+    width: 30px;
+    height: 30px;
+    background-color: yellow;
+    position: absolute;
+    left: 510px;
+    top: 120px;
+}</code></pre></div>
+<div class="robot"><div class="body"></div><div class="head"></div><div class="eye e1"></div><div class="eye e2"></div></div>
+</section>
+
+<section class="card bonus">
+<h2>אותן עיניים עם class מסודר</h2>
+<p>את מה שמשותף שמים ב־class. את מה ששונה שמים ב־ID.</p>
+<div class="code"><button class="copy" onclick="copyCode('eyes2',this)">העתק</button><pre><code id="eyes2">&lt;div id="eye1" class="eye"&gt;&lt;/div&gt;
+&lt;div id="eye2" class="eye"&gt;&lt;/div&gt;
+
+.eye {
+    width: 30px;
+    height: 30px;
+    background-color: yellow;
+    position: absolute;
+    top: 120px;
+}
+
+#eye1 { left: 445px; }
+#eye2 { left: 510px; }</code></pre></div>
+<div class="note"><strong>class</strong> מכיל את המשותף. <strong>ID</strong> מכיל את ההבדל.</div>
+</section>
+
+<section class="card lesson">
+<h2>ידיים ורגליים בעזרת class</h2>
+<div class="code"><button class="copy" onclick="copyCode('limbs',this)">העתק</button><pre><code id="limbs">&lt;div id="arm1" class="arm"&gt;&lt;/div&gt;
+&lt;div id="arm2" class="arm"&gt;&lt;/div&gt;
+&lt;div id="leg1" class="leg"&gt;&lt;/div&gt;
+&lt;div id="leg2" class="leg"&gt;&lt;/div&gt;
+
+.arm {
+    width: 70px;
+    height: 28px;
+    background-color: royalblue;
+    position: absolute;
+    top: 275px;
+}
+#arm1 { left: 330px; }
+#arm2 { left: 590px; }
+
+.leg {
+    width: 48px;
+    height: 110px;
+    background-color: darkblue;
+    position: absolute;
+    top: 440px;
+}
+#leg1 { left: 425px; }
+#leg2 { left: 517px; }</code></pre></div>
+<div class="robot"><div class="body"></div><div class="head"></div><div class="eye e1"></div><div class="eye e2"></div><div class="arm a1"></div><div class="arm a2"></div><div class="leg l1"></div><div class="leg l2"></div></div>
+</section>
+
+<section class="card bonus">
+<h2>עיגול ואליפסה</h2>
+<div class="grid">
+<div class="box"><h3>עיגול</h3><p>הרוחב והגובה שווים.</p><div class="code"><button class="copy" onclick="copyCode('circle',this)">העתק</button><pre><code id="circle">width: 100px;
+height: 100px;
+background-color: crimson;
+border-radius: 50%;</code></pre></div></div>
+<div class="box"><h3>אליפסה</h3><p>הרוחב והגובה שונים.</p><div class="code"><button class="copy" onclick="copyCode('ellipse',this)">העתק</button><pre><code id="ellipse">width: 180px;
+height: 80px;
+background-color: deepskyblue;
+border-radius: 50%;</code></pre></div></div>
+</div>
+</section>
+
+<section class="card lesson">
+<h2>אתגר טירה קטנה</h2>
+<div class="scene"><div class="grass"></div><div class="castle"></div><div class="door"></div><div class="pole"></div><div class="flag"></div></div>
+<p>אפשר להעתיק את ה־HTML. את ה־CSS כותבים לבד.</p>
+<div class="code"><button class="copy" onclick="copyCode('castlehtml',this)">העתק</button><pre><code id="castlehtml">&lt;h1&gt;Mini Castle&lt;/h1&gt;
+&lt;div id="scene"&gt;
+    &lt;div id="grass"&gt;&lt;/div&gt;
+    &lt;div id="castle"&gt;&lt;/div&gt;
+    &lt;div id="door"&gt;&lt;/div&gt;
+    &lt;div id="flagPole"&gt;&lt;/div&gt;
+    &lt;div id="flag"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre></div>
+</section>
+
+<section class="card bonus">
+<h2>איך border-radius עובד?</h2>
+<p>ערך אחד מעגל את כל הפינות:</p>
+<div class="code"><button class="copy" onclick="copyCode('b1',this)">העתק</button><pre><code id="b1">border-radius: 20px;</code></pre></div>
+<p>ארבעה ערכים הולכים לפי הסדר: שמאל־עליון, ימין־עליון, ימין־תחתון, שמאל־תחתון.</p>
+<div class="code"><button class="copy" onclick="copyCode('b2',this)">העתק</button><pre><code id="b2">border-radius: 30px 10px 40px 0;</code></pre></div>
+<h3>כתיבה ארוכה — longhand</h3>
+<div class="code"><button class="copy" onclick="copyCode('b3',this)">העתק</button><pre><code id="b3">border-top-left-radius: 30px;
+border-top-right-radius: 10px;
+border-bottom-right-radius: 40px;
+border-bottom-left-radius: 0;</code></pre></div>
+<p>שתי הצורות כותבות את אותו הדבר.</p>
+</section>
+
+<section class="card bonus">
+<h2>איך קימור המטרייה עובד?</h2>
+<div class="code"><button class="copy" onclick="copyCode('umb',this)">העתק</button><pre><code id="umb">border-radius: 50% 50% 0 0;</code></pre></div>
+<ul><li>שמאל־עליון: מעוגל</li><li>ימין־עליון: מעוגל</li><li>ימין־תחתון: ישר</li><li>שמאל־תחתון: ישר</li></ul>
+<p>אותו דבר בכתיבה ארוכה:</p>
+<div class="code"><button class="copy" onclick="copyCode('umblong',this)">העתק</button><pre><code id="umblong">border-top-left-radius: 50%;
+border-top-right-radius: 50%;
+border-bottom-right-radius: 0;
+border-bottom-left-radius: 0;</code></pre></div>
+</section>
+
+<section class="card warning">
+<h2>טעויות נפוצות</h2>
+<ul><li>לא מופיע כלום: בדקו שה־ID מתאים ל־CSS.</li><li>הצורה לא זזה: בדקו <code>position: absolute</code>.</li><li>class מתחיל בנקודה, למשל <code>.eye</code>.</li><li>ID מתחיל בסולמית, למשל <code>#eye1</code>.</li><li>לא השתנה כלום: שמרו ורעננו.</li></ul>
+</section>
+
+</main>
+<footer>DIV אחד הוא צורה אחת. הרבה צורות יכולות להפוך לעולם שלם.</footer>
+<script>
+function copyCode(id,button){
+let t=document.getElementById(id).innerText;
+navigator.clipboard.writeText(t).then(function(){
+let old=button.innerText;button.innerText="הועתק!";
+setTimeout(function(){button.innerText=old},1200);
+}).catch(function(){button.innerText="סמנו והעתיקו"});
+}
+</script>
+</body>
+</html>
