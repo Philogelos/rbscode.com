@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V3YYH8QWW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V3YYH8QWW0');
+</script>
+
+<meta charset="UTF-8" />
+<title>Student Portal — The Tech Lab</title>
+
+<style>
+/* ============================================
+   THEME VARIABLES
+============================================ */
+:root {
+  --bg: linear-gradient(135deg, #f7f3ec, #e9e2ff);
+  --card: #ffffff;
+  --text: #2d2959;
+  --subtle: #5a5a72;
+  --border: #e4def7;
+  --shadow: rgba(0,0,0,0.1);
+  --shadow-hover: rgba(0,0,0,0.16);
+  --accent: #5a3cc4;
+}
+
+body.dark {
+  --bg: linear-gradient(135deg, #1e2030, #2c2f45);
+  --card: #2a2d3c;
+  --text: #e5eeff;
+  --subtle: #a7b4d4;
+  --border: #3d4154;
+  --shadow: rgba(0,0,0,0.35);
+  --shadow-hover: rgba(0,0,0,0.55);
+  --accent: #8aa4ff;
+}
+
+/* ============================================
+   GLOBAL STYLES
+============================================ */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  transition: background 0.35s, color 0.35s;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.wrapper {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* ============================================
+   HEADER
+============================================ */
+.portal-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.portal-header p {
+  max-width: 650px;
+  margin: 10px auto;
+  color: var(--subtle);
+}
+
+/* ============================================
+   TOOL ICONS (CIRCLE STYLE)
+============================================ */
+.tool-section {
+  margin-bottom: 50px;
+}
+
+.tool-row {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  flex-wrap: nowrap; /* FORCE SINGLE ROW */
+  overflow-x: auto;  /* allow tiny overflow if needed */
+    padding-top: 8px; /* add breathing room for hover lift */
+}
+
+
+.tool-item {
+  width: 110px;
+  /* text-align: center; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.tool-item span {
+  display: block;
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.tool-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 2px solid var(--border);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+  box-shadow: 0 4px 10px var(--shadow);
+}
+
+.tool-icon img {
+  width: 55%;
+  height: 55%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.tool-item:hover .tool-icon {
+  transform: translateY(-5px);
+  border-color: var(--accent);
+  box-shadow: 0 8px 20px var(--shadow-hover);
+}
+
+/* PLACEHOLDERS */
+.placeholder {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.placeholder .tool-icon {
+  border-style: dashed;
+}
+
+.placeholder:hover .tool-icon {
+  transform: none;
+  border-color: var(--border);
+  box-shadow: 0 4px 10px var(--shadow);
+}
+
+/* ============================================
+   LESSON GRID
+============================================ */
+.lesson-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.lesson-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 6px 16px var(--shadow);
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+}
+
+.lesson-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 10px 24px var(--shadow-hover);
+  transform: translateY(-3px);
+}
+
+.lesson-card p {
+  color: var(--subtle);
+}
+
+/* PLACEHOLDER LESSON */
+.lesson-placeholder {
+  opacity: 0.45;
+  border-style: dashed;
+}
+
+.lesson-placeholder:hover {
+  transform: none;
+  border-color: var(--border);
+  box-shadow: 0 6px 16px var(--shadow);
+}
+
+
+/* ============================================
+   SPECIAL LAST DAY FUN SECTION
+============================================ */
+.fun-zone {
+  position: relative;
+  overflow: hidden;
+  margin: 10px 0 50px;
+  padding: 26px;
+  border: 2px solid var(--accent);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at top right, rgba(90, 60, 196, 0.18), transparent 34%),
+    var(--card);
+  box-shadow: 0 10px 28px var(--shadow);
+}
+
+.fun-zone::before {
+  content: "★";
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 72px;
+  line-height: 1;
+  color: var(--accent);
+  opacity: 0.10;
+  pointer-events: none;
+}
+
+.fun-zone-header {
+  position: relative;
+  margin-bottom: 22px;
+}
+
+.fun-badge {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.fun-zone h2 {
+  margin: 0;
+}
+
+.fun-zone-header p {
+  max-width: 650px;
+  margin: 6px 0 0;
+  color: var(--subtle);
+}
+
+.fun-project-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.fun-project-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 185px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card);
+  box-shadow: 0 5px 14px var(--shadow);
+  transition: transform 0.22s, border-color 0.22s, box-shadow 0.22s;
+}
+
+.fun-project-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 10px 22px var(--shadow-hover);
+}
+
+.fun-project-top {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.fun-project-icon {
+  flex: 0 0 54px;
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  background: rgba(90, 60, 196, 0.11);
+  font-size: 31px;
+}
+
+.fun-project-card h3 {
+  margin: 0;
+}
+
+.fun-project-card p {
+  flex-grow: 1;
+  margin: 12px 0 14px;
+  color: var(--subtle);
+}
+
+.fun-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.fun-button {
+  display: inline-block;
+  padding: 8px 13px;
+  border-radius: 9px;
+  background: var(--accent);
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  transition: filter 0.2s, transform 0.2s;
+}
+
+.fun-button:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+
+.fun-button.secondary {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+@media (max-width: 650px) {
+  .fun-zone {
+    padding: 20px;
+  }
+
+  .fun-project-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   DARK/LIGHT MODE BUTTON
+============================================ */
+.toggle-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+  z-index: 999;
+}
+
+.toggle-btn:hover {
+  background: var(--accent);
+  color: white;
+}
+
+/* ============================================
+   FOOTER
+============================================ */
+footer {
+  text-align: center;
+  color: var(--subtle);
+  font-size: 0.9rem;
+  padding: 40px 0;
+}
+
+footer a { color: var(--accent); }
+
+</style>
+</head>
+
+<body>
+
+<button class="toggle-btn" onclick="toggleMode()" id="modeToggle">🌙</button>
+
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <section class="portal-header">
+    <h1>Student Portal</h1>
+    <p>Welcome to your coding hub! All your tools, lessons, and practice links are right here.</p>
+  </section>
+
+  <!-- ===========================
+       TOOLS SECTION
+  ============================ -->
+  <section class="tool-section">
+    <h2>Tools</h2>
+
+    <div class="tool-row">
+
+      <!-- VS CODE -->
+      <a class="tool-item" href="https://code.visualstudio.com/download" target="_blank" title="Download VS Code — the main editor we'll use">
+        <div class="tool-icon">
+          <img src="img/icons/vscode.png" alt="VS Code">
+        </div>
+        <span>VS Code</span>
+      </a>
+
+      <!-- VS CODE ONLINE -->
+      <!-- <a class="tool-item" href="https://vscode.dev" target="_blank"
+        title="Use VS Code in your browser (no download)">
+        <div class="tool-icon"> -->
+          <!-- <img src="img/icons/browser.png" alt="VS Code Online"> -->
+          <!-- <img src="img/icons/vscode.png" alt="VS Code Online">
+        </div>
+        <span>VS Code Online</span>
+      </a> -->
+      <!-- RBS CODE STUDIO -->
+      <a class="tool-item" href="code-studio-new.html" target="_blank"
+        title="Use RBS Code Studio in your browser (no download)">
+        <div class="tool-icon">
+          <!-- <img src="img/icons/browser.png" alt="VS Code Online"> -->
+          <img src="img/icons/code-studio.png" alt="RBS-code-studio">
+        </div>
+        <span>Code Studio</span>
+      </a>
+
+
+      <!-- CODEPEN -->
+      <a class="tool-item" href="codepen.html" title="Open CodePen tools and projects">        <div class="tool-icon">
+          <img src="img/icons/codepen.png" alt="CodePen">
+        </div>
+        <span>CodePen</span>
+      </a>
+
+      <!-- RBSCODE TEMPLATES -->
+      <!-- <a class="tool-item" href="https://codepen.io/rbscodepen" target="_blank"
+        title="Copy ready-made buttons, cards, and layouts">
+        <div class="tool-icon">
+          <img src="img/icons/codepen.png" alt="RBSCODE Templates">
+        </div>
+        <span>Code Kits</span>
+      </a> -->
+
+
+      <!-- EMAIL -->
+      <a class="tool-item" href="https://mail.jerusalemtechlab.org/" title="Sign in to your student email account">
+        <div class="tool-icon">
+          <img src="img/icons/email.png" alt="Email">
+        </div>
+        <span>Email</span>
+      </a>
+
+      <!-- SUBMIT CODE -->
+      <!-- <a class="tool-item placeholder" 
+         href="https://docs.google.com/forms/YOUR-FORM"
+         target="_blank"
+         title="Ask a question, report a bug, or send your code for feedback">
+        <div class="tool-icon">
+          <img src="img/icons/submit.png" alt="Submit Code">
+        </div>
+        <span>Submit Code</span>
+      </a> -->
+            <!-- EYE DROPPER -->
+      <a class="tool-item" 
+         href="eyedropper.html"
+         target="_blank"
+         title="Upload an image and find its colors!">
+        <div class="tool-icon">
+          <img src="img/icons/eyedropper.png" alt="Color Finder">
+        </div>
+        <span>Color Finder</span>
+      </a>
+
+      <!-- RESOURCES (COMING SOON) -->
+      <a class="tool-item" href="gallery.html" title="Images, sound files, and assets — coming soon!">
+        <div class="tool-icon">
+          <img src="img/icons/resources.png" alt="Resources">
+        </div>
+        <span>Resources</span>
+      </a>
+
+      <!-- EMOJI LIBRARY -->
+      <a class="tool-item" href="resources/emoji.html" title="Open the full Emoji Library">
+        <div class="tool-icon">
+          <span style="font-size:34px;">😀</span>
+        </div>
+        <span>Emoji</span>
+      </a>
+
+
+
+<!-- 
+      <div class="tool-item placeholder" title="Images, sound files, and assets — coming soon!">
+        <div class="tool-icon">
+          <img src="img/icons/resources.png" alt="">
+        </div>
+        <span>Resources</span>
+      </div> -->
+
+      <!-- SHARED FOLDER (COMING SOON) -->
+      <!-- <div class="tool-item placeholder" title="Shared Google Drive folder — coming soon">
+        <div class="tool-icon">
+          <img src="img/icons/shared.png" alt="">
+        </div>
+        <span>Shared</span>
+      </div> -->
+
+      <!-- TOOLBOX rbscode.com/Student-Portal/css-tools-basic-11.html-->
+      <!-- <div class="tool-item placeholder" title="New coding tools and helpers — unlocked soon!">
+        <div class="tool-icon">
+          <img src="img/icons/toolbox.png" alt="toolbox">
+        </div>
+        <span>Toolbox</span>
+      </div> -->
+
+      <a class="tool-item" href="css-tools-basic-11.html" title="New coding tools and helpers">
+          <div class="tool-icon">
+            <img src="img/icons/toolbox.png" alt="toolbox">
+          </div>
+          <span>Toolbox</span>
+      </a>
+
+    </div>
+  </section>
+
+
+  <!-- ===========================
+       SPECIAL LAST DAY FUN
+  ============================ -->
+  <section class="fun-zone">
+    <div class="fun-zone-header">
+      <span class="fun-badge">SPECIAL LAST DAY</span>
+      <h2>Last Day Fun Projects</h2>
+      <p>Choose a project, make it your own, and have fun building. You can finish one project or try more than one.</p>
+    </div>
+
+    <div class="fun-project-grid">
+
+      <article class="fun-project-card">
+        <div class="fun-project-top">
+          <div class="fun-project-icon">🦖</div>
+          <h3>Dino Runner</h3>
+        </div>
+        <p>Make the dinosaur jump, dodge obstacles, and improve your score.</p>
+        <div class="fun-links">
+          <a class="fun-button" href="dino-runner/index.html">Open Project</a>
+        </div>
+      </article>
+
+      <article class="fun-project-card">
+        <div class="fun-project-top">
+          <div class="fun-project-icon">🏎️</div>
+          <h3>Road Racer</h3>
+        </div>
+        <p>Drive between the lanes, avoid the other car, and add your own upgrades.</p>
+        <div class="fun-links">
+          <a class="fun-button" href="road-racer/index.html">Open Project</a>
+        </div>
+      </article>
+
+      <article class="fun-project-card">
+        <div class="fun-project-top">
+          <div class="fun-project-icon">🎨</div>
+          <h3>Div Art</h3>
+        </div>
+        <p>Create a colourful picture using simple HTML divs and CSS.</p>
+        <div class="fun-links">
+          <a class="fun-button" href="div-art/index.html">English</a>
+          <a class="fun-button secondary" href="div-art/hebrew-instructions.html">עברית</a>
+        </div>
+      </article>
+
+      <article class="fun-project-card">
+        <div class="fun-project-top">
+          <div class="fun-project-icon">🎲</div>
+          <h3>Dice Game</h3>
+        </div>
+        <p>Roll the dice, use random numbers, and create your own game rules.</p>
+        <div class="fun-links">
+          <a class="fun-button" href="dice-game/index.html">Open Project</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===========================
+       LESSONS SECTION
+  ============================ -->
+  <h2>Lessons</h2>
+
+  <div class="lesson-grid">
+
+    <!-- <a href="lesson-1.html"> -->
+    <a href="lesson-1-v2.html">
+      <div class="lesson-card">
+        <h3>Lesson 1 — HTML Basics</h3>
+        <p>Headings, paragraphs, images, and structure.</p>
+      </div>
+    </a>
+    
+    <a href="CSS-Reference.html">
+      <div class="lesson-card">
+        <h3>Lesson 2 — CSS Basics</h3>
+        <p>Colors, borders, spacing, buttons, and more.</p>
+      </div>
+    </a>
+
+    <!-- <div class="lesson-card lesson-placeholder">
+      <h3>Lesson 3 — Coming Soon</h3>
+      <p>New lessons unlock after each class.</p>
+    </div> -->
+
+    <!-- Student-Portal/CSS-2-Reference.html -->
+    <a href="CSS-2-Reference.html">
+      <div class="lesson-card">
+        <h3>Lesson 3 — CSS Cards</h3>
+        <p>Learn to build real cards like the ones used on actual websites.</p>
+      </div>
+    </a>
+
+   <a href="js-essentials-1.html">
+  <div class="lesson-card">
+    <h3>Lesson 4 — JavaScript Essentials 1</h3>
+    <p>Start coding real interactivity — clicks, functions, and movement.</p>
+  </div>
+</a>
+
+<a href="js-crash-logic.html">
+  <div class="lesson-card">
+    <h3>Lesson 5 — How Games Detect Crashes</h3>
+    <p>Learn step by step how games detect when objects touch.</p>
+  </div>
+</a>
+
+<a href="js-crash-detection.html">
+  <div class="lesson-card">
+    <h3>Lesson 6 — Crash Detection Sandbox</h3>
+    <p>Move objects around and test real game crash code yourself.</p>
+  </div>
+</a>
+
+    <a href="setInterval-class.html">
+      <div class="lesson-card">
+        <h3>Lesson 6 — JavaScript Crash Detection</h3>
+        <p>Learn how to create animations.</p>
+      </div>
+    </a>
+
+    <div class="lesson-card lesson-placeholder">
+      <h3>More Lessons</h3>
+      <p>More content arriving next month.</p>
+    </div>
+
+  </div>
+
+  <footer>
+    Back to main site: <a href="/">rbscode.com</a>
+  </footer>
+
+</div>
+
+<script>
+/* DARK MODE */
+document.addEventListener("DOMContentLoaded", () => {
+  const savedMode = localStorage.getItem("techlab-theme");
+  if (savedMode === "dark") {
+    document.body.classList.add("dark");
+    document.getElementById("modeToggle").textContent = "☀️";
+  }
+});
+
+function toggleMode() {
+  const isDark = document.body.classList.toggle("dark");
+  localStorage.setItem("techlab-theme", isDark ? "dark" : "light");
+  document.getElementById("modeToggle").textContent = isDark ? "☀️" : "🌙";
+}
+</script>
+
+</body>
+</html>
