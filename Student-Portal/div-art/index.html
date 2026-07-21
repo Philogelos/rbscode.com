@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIV Art Studio</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #1f2937;
+            line-height: 1.65;
+            background:
+                radial-gradient(circle at top left, #dbeafe 0, transparent 30%),
+                linear-gradient(#f8fbff, #edf4fb);
+        }
+
+        header {
+            padding: 46px 18px 40px;
+            text-align: center;
+            color: white;
+            background: linear-gradient(135deg, #15324b, #285f8d);
+        }
+
+        header h1 {
+            margin: 0 0 10px;
+            font-size: clamp(38px, 7vw, 58px);
+        }
+
+        header p {
+            max-width: 820px;
+            margin: 7px auto;
+            font-size: 19px;
+        }
+
+        main {
+            width: min(94%, 1080px);
+            margin: 28px auto 60px;
+        }
+
+        .card {
+            margin-bottom: 22px;
+            padding: 24px;
+            border: 1px solid #dbe7f2;
+            border-radius: 18px;
+            background-color: white;
+            box-shadow: 0 8px 24px rgba(29, 78, 126, 0.10);
+        }
+
+        .lesson {
+            border-left: 8px solid #2563eb;
+        }
+
+        .check {
+            border-left: 8px solid #16a34a;
+            background-color: #f3fff7;
+        }
+
+        .challenge {
+            border-left: 8px solid #f59e0b;
+            background-color: #fffbeb;
+        }
+
+        .bonus {
+            border-left: 8px solid #7c3aed;
+            background-color: #faf7ff;
+        }
+
+        .warning {
+            border-left: 8px solid #dc2626;
+            background-color: #fff7f7;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            margin-bottom: 8px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            color: #1d4ed8;
+            background-color: #e8f1ff;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        h2,
+        h3 {
+            margin-top: 0;
+            line-height: 1.25;
+        }
+
+        h2 {
+            font-size: 28px;
+        }
+
+        h3 {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+
+        code {
+            padding: 2px 5px;
+            border-radius: 5px;
+            background-color: #e8edf3;
+            font-family: Consolas, "Courier New", monospace;
+        }
+
+        .where {
+            display: inline-block;
+            margin: 2px 0 10px;
+            padding: 7px 11px;
+            border-radius: 8px;
+            color: #0c4a6e;
+            background-color: #e0f2fe;
+            font-weight: bold;
+        }
+
+        .code-wrap {
+            position: relative;
+            margin: 14px 0;
+        }
+
+        pre {
+            margin: 0;
+            padding: 18px;
+            overflow-x: auto;
+            border-radius: 12px;
+            color: #f9fafb;
+            background-color: #111827;
+            white-space: pre-wrap;
+            tab-size: 4;
+        }
+
+        pre code {
+            padding: 0;
+            color: inherit;
+            background: none;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 9px;
+            right: 9px;
+            padding: 7px 11px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            background-color: #334155;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .copy-btn:hover {
+            background-color: #475569;
+        }
+
+        .typing-note {
+            padding: 12px 14px;
+            border-radius: 10px;
+            color: #374151;
+            background-color: #eef6ff;
+        }
+
+        .progress {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .progress li {
+            padding: 11px 13px;
+            border-radius: 10px;
+            background-color: #f1f5f9;
+        }
+
+        .steps li,
+        .mistakes li {
+            margin-bottom: 9px;
+        }
+
+        .big-check {
+            color: #166534;
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+        .preview-label {
+            margin: 20px 0 8px;
+            font-weight: bold;
+            color: #0f4c75;
+        }
+
+        .preview {
+            position: relative;
+            min-height: 260px;
+            overflow: hidden;
+            border: 2px dashed #9fb5c9;
+            border-radius: 15px;
+            background-color: #f8fbff;
+        }
+
+        .preview.small {
+            min-height: 190px;
+        }
+
+        .shape-demo {
+            width: 200px;
+            height: 100px;
+            position: absolute;
+            left: 45px;
+            top: 45px;
+            background-color: blue;
+        }
+
+        .position-shape {
+            width: 120px;
+            height: 80px;
+            position: absolute;
+            left: 300px;
+            top: 120px;
+            background-color: orange;
+        }
+
+        .robot-stage {
+            position: relative;
+            height: 590px;
+            overflow: hidden;
+            border-radius: 15px;
+            background: linear-gradient(skyblue 0 73%, #84cc73 73% 100%);
+        }
+
+        .rb-body {
+            width: 190px;
+            height: 220px;
+            position: absolute;
+            left: calc(50% - 95px);
+            top: 220px;
+            background-color: royalblue;
+        }
+
+        .rb-head {
+            width: 160px;
+            height: 115px;
+            position: absolute;
+            left: calc(50% - 80px);
+            top: 80px;
+            background-color: silver;
+        }
+
+        .rb-eye {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            top: 120px;
+            background-color: yellow;
+        }
+
+        .rb-eye1 {
+            left: calc(50% - 52px);
+        }
+
+        .rb-eye2 {
+            left: calc(50% + 22px);
+        }
+
+        .rb-arm {
+            width: 70px;
+            height: 28px;
+            position: absolute;
+            top: 275px;
+            background-color: royalblue;
+        }
+
+        .rb-arm1 {
+            left: calc(50% - 165px);
+        }
+
+        .rb-arm2 {
+            left: calc(50% + 95px);
+        }
+
+        .rb-leg {
+            width: 48px;
+            height: 110px;
+            position: absolute;
+            top: 440px;
+            background-color: darkblue;
+        }
+
+        .rb-leg1 {
+            left: calc(50% - 70px);
+        }
+
+        .rb-leg2 {
+            left: calc(50% + 22px);
+        }
+
+        .rb-mouth {
+            width: 70px;
+            height: 14px;
+            position: absolute;
+            left: calc(50% - 35px);
+            top: 165px;
+            background-color: black;
+        }
+
+        .rb-light {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            left: calc(50% - 25px);
+            top: 292px;
+            border-radius: 50%;
+            background-color: lime;
+            box-shadow: 0 0 18px lime;
+        }
+
+        .rb-shadow {
+            width: 230px;
+            height: 42px;
+            position: absolute;
+            left: calc(50% - 115px);
+            top: 535px;
+            border-radius: 50%;
+            background-color: rgba(40, 40, 40, 0.35);
+        }
+
+        .compare-grid,
+        .project-grid,
+        .shape-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .compare-card,
+        .project-card,
+        .shape-card {
+            padding: 17px;
+            border: 1px solid #d9e3ee;
+            border-radius: 14px;
+            background-color: white;
+        }
+
+        .relief {
+            padding: 16px;
+            border-radius: 12px;
+            background-color: #ecfdf5;
+            font-weight: bold;
+            color: #166534;
+        }
+
+        .mini-scene {
+            width: 100%;
+            max-width: 500px;
+            height: 350px;
+            position: relative;
+            margin: 10px auto;
+            overflow: hidden;
+            background-color: skyblue;
+        }
+
+        .castle-grass {
+            width: 100%;
+            height: 90px;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            background-color: green;
+        }
+
+        .castle-main {
+            width: 180px;
+            height: 150px;
+            position: absolute;
+            left: calc(50% - 90px);
+            bottom: 90px;
+            background-color: gray;
+        }
+
+        .castle-door {
+            width: 50px;
+            height: 70px;
+            position: absolute;
+            left: calc(50% - 25px);
+            bottom: 90px;
+            background-color: brown;
+        }
+
+        .castle-pole {
+            width: 8px;
+            height: 100px;
+            position: absolute;
+            left: calc(50% - 4px);
+            bottom: 240px;
+            background-color: black;
+        }
+
+        .castle-flag {
+            width: 70px;
+            height: 40px;
+            position: absolute;
+            left: 50%;
+            top: 10px;
+            background-color: purple;
+        }
+
+        .beach-scene {
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            position: relative;
+            margin: 10px auto;
+            overflow: hidden;
+            background-color: skyblue;
+        }
+
+        .beach-sea {
+            width: 100%;
+            height: 130px;
+            position: absolute;
+            left: 0;
+            bottom: 90px;
+            background-color: dodgerblue;
+        }
+
+        .beach-sand {
+            width: 100%;
+            height: 90px;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            background-color: khaki;
+        }
+
+        .beach-sun {
+            width: 70px;
+            height: 70px;
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            border-radius: 50%;
+            background-color: gold;
+        }
+
+        .cloud-piece {
+            height: 30px;
+            position: absolute;
+            background-color: white;
+        }
+
+        .cloud-piece.one {
+            width: 100px;
+            top: 55px;
+            left: 60px;
+        }
+
+        .cloud-piece.two {
+            width: 50px;
+            top: 35px;
+            left: 85px;
+        }
+
+        .umbrella-pole {
+            width: 12px;
+            height: 150px;
+            position: absolute;
+            left: 65%;
+            bottom: 35px;
+            background-color: brown;
+        }
+
+        .umbrella-top {
+            width: 180px;
+            height: 70px;
+            position: absolute;
+            left: calc(65% - 85px);
+            bottom: 170px;
+            border-radius: 50% 50% 0 0;
+            background-color: tomato;
+        }
+
+        .umbrella-stripe {
+            width: 45px;
+            height: 70px;
+            position: absolute;
+            left: calc(65% - 18px);
+            bottom: 170px;
+            background-color: white;
+        }
+
+        .towel {
+            width: 150px;
+            height: 55px;
+            position: absolute;
+            left: 90px;
+            bottom: 15px;
+            background-color: royalblue;
+        }
+
+        .towel-stripe {
+            width: 150px;
+            height: 15px;
+            position: absolute;
+            left: 90px;
+            bottom: 35px;
+            background-color: white;
+        }
+
+        .sandcastle {
+            width: 90px;
+            height: 65px;
+            position: absolute;
+            right: 45px;
+            bottom: 0;
+            background-color: goldenrod;
+        }
+
+        .sandcastle-tower {
+            width: 40px;
+            height: 90px;
+            position: absolute;
+            right: 70px;
+            bottom: 0;
+            background-color: goldenrod;
+        }
+
+        .sandcastle-door {
+            width: 22px;
+            height: 35px;
+            position: absolute;
+            right: 79px;
+            bottom: 0;
+            background-color: sienna;
+        }
+
+        .circle-demo,
+        .ellipse-demo,
+        .tree-top-demo,
+        .puddle-demo {
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .circle-demo {
+            width: 100px;
+            height: 100px;
+            left: calc(50% - 50px);
+            top: 45px;
+            background-color: crimson;
+        }
+
+        .ellipse-demo {
+            width: 180px;
+            height: 80px;
+            left: calc(50% - 90px);
+            top: 60px;
+            background-color: deepskyblue;
+        }
+
+        .tree-trunk-demo {
+            width: 45px;
+            height: 100px;
+            position: absolute;
+            left: calc(50% - 22px);
+            bottom: 12px;
+            background-color: saddlebrown;
+        }
+
+        .tree-top-demo {
+            width: 150px;
+            height: 95px;
+            left: calc(50% - 75px);
+            top: 18px;
+            background-color: forestgreen;
+        }
+
+        .puddle-demo {
+            width: 190px;
+            height: 55px;
+            left: calc(50% - 95px);
+            top: 65px;
+            background-color: dodgerblue;
+            box-shadow: 0 8px 14px rgba(0,0,0,0.18);
+        }
+
+        footer {
+            padding: 22px;
+            text-align: center;
+            color: white;
+            background-color: #15324b;
+            font-size: 18px;
+        }
+
+        @media (max-width: 760px) {
+            .progress,
+            .compare-grid,
+            .project-grid,
+            .shape-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .copy-btn {
+                position: static;
+                margin-bottom: 7px;
+            }
+
+            .position-shape {
+                left: 160px;
+                top: 150px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>DIV Art Studio</h1>
+    <p>Build robots, castles, beach scenes and more using simple HTML boxes and CSS.</p>
+    <p>Type the short code when you can. Use Copy when typing is slowing you down.</p>
+</header>
+
+<main>
+
+    <section class="card">
+        <span class="eyebrow">Your mission</span>
+        <h2>What You Will Learn</h2>
+
+        <ul class="progress">
+            <li>☐ Make a rectangle</li>
+            <li>☐ Change width and height</li>
+            <li>☐ Change colours</li>
+            <li>☐ Move shapes</li>
+            <li>☐ Use IDs and classes</li>
+            <li>☐ Build a complete scene</li>
+        </ul>
+
+        <p class="typing-note">
+            <strong>Typing helps you remember.</strong>
+            Try to type short lines yourself. Use the Copy button for long blocks or when slow typing is stopping you from moving forward.
+            After copying, change at least one value and test what happens.
+        </p>
+    </section>
+
+    <section class="card check">
+        <h2>The Rule for Every Step</h2>
+
+        <ol class="steps">
+            <li>Add only the new code.</li>
+            <li>Press <strong>Ctrl + S</strong>.</li>
+            <li>Return to the browser.</li>
+            <li>Press <strong>Ctrl + R</strong>.</li>
+            <li>Check what changed.</li>
+        </ol>
+    </section>
+
+    <section class="card lesson">
+        <span class="eyebrow">Demo 1</span>
+        <h2>Make Your First Rectangle</h2>
+
+        <p>Create a folder called <code>div-art</code>.</p>
+        <p>Inside it, create a file called <code>demo-1.html</code>.</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('demo1', this)">Copy</button>
+            <pre><code id="demo1">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;My First Shape&lt;/title&gt;
+
+    &lt;style&gt;
+        #shape {
+            width: 200px;
+            height: 100px;
+            background-color: blue;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+    &lt;div id="shape"&gt;&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+
+        <p class="preview-label">Your page should look approximately like this:</p>
+        <div class="preview">
+            <div class="shape-demo"></div>
+        </div>
+    </section>
+
+    <section class="card check">
+        <h2>Open It in the Browser</h2>
+
+        <ol class="steps">
+            <li>Save the file.</li>
+            <li>Open the <code>div-art</code> folder.</li>
+            <li>Double-click <code>demo-1.html</code>.</li>
+            <li>You should see a blue rectangle.</li>
+        </ol>
+
+        <p class="big-check">Do not continue until the rectangle appears.</p>
+    </section>
+
+    <section class="card lesson">
+        <h2>Understand the First Shape</h2>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('div-line', this)">Copy</button>
+            <pre><code id="div-line">&lt;div id="shape"&gt;&lt;/div&gt;</code></pre>
+        </div>
+
+        <p>A <code>&lt;div&gt;</code> is an empty box.</p>
+        <p>The ID <code>shape</code> gives the box a name so CSS can find it.</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('shape-css', this)">Copy</button>
+            <pre><code id="shape-css">width: 200px;
+height: 100px;
+background-color: blue;</code></pre>
+        </div>
+
+        <p><code>width</code> means how wide it is.</p>
+        <p><code>height</code> means how tall it is.</p>
+        <p><code>background-color</code> fills the box with colour.</p>
+    </section>
+
+    <section class="card challenge">
+        <h2>Mini Experiments</h2>
+
+        <h3>Make a square</h3>
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('square-code', this)">Copy</button>
+            <pre><code id="square-code">width: 150px;
+height: 150px;</code></pre>
+        </div>
+
+        <p>A square has the same width and height.</p>
+
+        <h3>Make a tall rectangle</h3>
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('tall-code', this)">Copy</button>
+            <pre><code id="tall-code">width: 80px;
+height: 220px;</code></pre>
+        </div>
+
+        <h3>Try a new colour</h3>
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('color-code', this)">Copy</button>
+            <pre><code id="color-code">background-color: orange;</code></pre>
+        </div>
+    </section>
+
+    <section class="card lesson">
+        <span class="eyebrow">Demo 2</span>
+        <h2>Move the Rectangle</h2>
+
+        <p>Add these lines inside the existing <code>#shape</code> rule:</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('position-code', this)">Copy</button>
+            <pre><code id="position-code">position: absolute;
+left: 300px;
+top: 150px;</code></pre>
+        </div>
+
+        <p><code>position: absolute</code> lets you choose exactly where the shape goes.</p>
+        <p><code>left</code> measures from the left side.</p>
+        <p><code>top</code> measures down from the top.</p>
+
+        <p class="preview-label">Your moved shape should look approximately like this:</p>
+        <div class="preview">
+            <div class="position-shape"></div>
+        </div>
+    </section>
+
+    <section class="card challenge">
+        <h2>Position Challenges</h2>
+
+        <p>Predict first. Then save and refresh.</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('move-right', this)">Copy</button>
+            <pre><code id="move-right">left: 500px;</code></pre>
+        </div>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('move-left', this)">Copy</button>
+            <pre><code id="move-left">left: 50px;</code></pre>
+        </div>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('move-down', this)">Copy</button>
+            <pre><code id="move-down">top: 300px;</code></pre>
+        </div>
+    </section>
+
+    <section class="card lesson">
+        <h2>Right and Bottom</h2>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('right-bottom', this)">Copy</button>
+            <pre><code id="right-bottom">position: absolute;
+right: 40px;
+bottom: 40px;</code></pre>
+        </div>
+
+        <p><code>right</code> measures from the right side.</p>
+        <p><code>bottom</code> measures from the bottom side.</p>
+
+        <p class="typing-note">
+            Use either <code>left</code> or <code>right</code>.
+            Use either <code>top</code> or <code>bottom</code>.
+        </p>
+    </section>
+
+    <section class="card lesson">
+        <span class="eyebrow">Main project</span>
+        <h2>Start a Robot</h2>
+
+        <p>Create a new file called <code>robot.html</code>.</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('robot-starter', this)">Copy</button>
+            <pre><code id="robot-starter">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;My DIV Robot&lt;/title&gt;
+
+    &lt;style&gt;
+
+    &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+    </section>
+
+    <section class="card lesson">
+        <span class="eyebrow">Robot step 1</span>
+        <h2>Add the Body</h2>
+
+        <p class="where">Inside &lt;body&gt;</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('robot-body-html', this)">Copy</button>
+            <pre><code id="robot-body-html">&lt;div id="body"&gt;&lt;/div&gt;</code></pre>
+        </div>
+
+        <p class="where">Inside &lt;style&gt;</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('robot-body-css', this)">Copy</button>
+            <pre><code id="robot-body-css">#body {
+    width: 190px;
+    height: 220px;
+    background-color: royalblue;
+
+    position: absolute;
+    left: 400px;
+    top: 220px;
+}</code></pre>
+        </div>
+
+        <p class="preview-label">Stage 1: body only</p>
+        <div class="robot-stage">
+            <div class="rb-body"></div>
+        </div>
+    </section>
+
+    <section class="card lesson">
+        <span class="eyebrow">Robot step 2</span>
+        <h2>Add the Head</h2>
+
+        <p class="where">Inside &lt;body&gt;</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('robot-head-html', this)">Copy</button>
+            <pre><code id="robot-head-html">&lt;div id="head"&gt;&lt;/div&gt;</code></pre>
+        </div>
+
+        <p class="where">Inside &lt;style&gt;</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('robot-head-css', this)">Copy</button>
+            <pre><code id="robot-head-css">#head {
+    width: 160px;
+    height: 115px;
+    background-color: silver;
+
+    position: absolute;
+    left: 415px;
+    top: 80px;
+}</code></pre>
+        </div>
+
+        <p class="preview-label">Stage 2: body and head</p>
+        <div class="robot-stage">
+            <div class="rb-body"></div>
+            <div class="rb-head"></div>
+        </div>
+    </section>
+
+    <section class="card lesson">
+        <span class="eyebrow">Robot step 3</span>
+        <h2>Add Two Eyes Using Two IDs</h2>
+
+        <p>First, make each eye with its own complete CSS rule.</p>
+
+        <p class="where">Inside &lt;body&gt;</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('eyes-html-old', this)">Copy</button>
+            <pre><code id="eyes-html-old">&lt;div id="eye1"&gt;&lt;/div&gt;
+&lt;div id="eye2"&gt;&lt;/div&gt;</code></pre>
+        </div>
+
+        <p class="where">Inside &lt;style&gt;</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('eyes-css-old', this)">Copy</button>
+            <pre><code id="eyes-css-old">#eye1 {
+    width: 30px;
+    height: 30px;
+    background-color: yellow;
+    position: absolute;
+    left: 445px;
+    top: 120px;
+}
+
+#eye2 {
+    width: 30px;
+    height: 30px;
+    background-color: yellow;
+    position: absolute;
+    left: 510px;
+    top: 120px;
+}</code></pre>
+        </div>
+
+        <p class="preview-label">Stage 3: the robot has eyes</p>
+        <div class="robot-stage">
+            <div class="rb-body"></div>
+            <div class="rb-head"></div>
+            <div class="rb-eye rb-eye1"></div>
+            <div class="rb-eye rb-eye2"></div>
+        </div>
+    </section>
+
+    <section class="card bonus">
+        <span class="eyebrow">Cleaner code</span>
+        <h2>Use One Class and Two IDs</h2>
+
+        <p>Look at the two eye rules. Almost every line is repeated.</p>
+
+        <div class="compare-grid">
+            <div class="compare-card">
+                <h3>Repeated version</h3>
+                <p>Each eye repeats width, height, colour, position and top.</p>
+            </div>
+
+            <div class="compare-card">
+                <h3>Cleaner version</h3>
+                <p>Put shared styles in a class. Put only the different position in each ID.</p>
+            </div>
+        </div>
+
+        <p class="where">Replace the eye HTML with:</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('eyes-html-new', this)">Copy</button>
+            <pre><code id="eyes-html-new">&lt;div id="eye1" class="eye"&gt;&lt;/div&gt;
+&lt;div id="eye2" class="eye"&gt;&lt;/div&gt;</code></pre>
+        </div>
+
+        <p class="where">Replace the two old eye CSS rules with:</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('eyes-css-new', this)">Copy</button>
+            <pre><code id="eyes-css-new">.eye {
+    width: 30px;
+    height: 30px;
+    background-color: yellow;
+    position: absolute;
+    top: 120px;
+}
+
+#eye1 {
+    left: 445px;
+}
+
+#eye2 {
+    left: 510px;
+}</code></pre>
+        </div>
+
+        <div class="relief">
+            The class contains what both eyes share. The IDs contain what is different.
+        </div>
+    </section>
+
+    <section class="card lesson">
+        <span class="eyebrow">Robot step 4</span>
+        <h2>Add Arms Using a Class</h2>
+
+        <p class="where">Inside &lt;body&gt;</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('arms-html', this)">Copy</button>
+            <pre><code id="arms-html">&lt;div id="arm1" class="arm"&gt;&lt;/div&gt;
+&lt;div id="arm2" class="arm"&gt;&lt;/div&gt;</code></pre>
+        </div>
+
+        <p class="where">Inside &lt;style&gt;</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('arms-css', this)">Copy</button>
+            <pre><code id="arms-css">.arm {
+    width: 70px;
+    height: 28px;
+    background-color: royalblue;
+    position: absolute;
+    top: 275px;
+}
+
+#arm1 {
+    left: 330px;
+}
+
+#arm2 {
+    left: 590px;
+}</code></pre>
+        </div>
+
+        <p class="preview-label">Stage 4: the robot has arms</p>
+        <div class="robot-stage">
+            <div class="rb-body"></div>
+            <div class="rb-head"></div>
+            <div class="rb-eye rb-eye1"></div>
+            <div class="rb-eye rb-eye2"></div>
+            <div class="rb-arm rb-arm1"></div>
+            <div class="rb-arm rb-arm2"></div>
+        </div>
+    </section>
+
+    <section class="card lesson">
+        <span class="eyebrow">Robot step 5</span>
+        <h2>Add Legs Using a Class</h2>
+
+        <p class="where">Inside &lt;body&gt;</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('legs-html', this)">Copy</button>
+            <pre><code id="legs-html">&lt;div id="leg1" class="leg"&gt;&lt;/div&gt;
+&lt;div id="leg2" class="leg"&gt;&lt;/div&gt;</code></pre>
+        </div>
+
+        <p class="where">Inside &lt;style&gt;</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('legs-css', this)">Copy</button>
+            <pre><code id="legs-css">.leg {
+    width: 48px;
+    height: 110px;
+    background-color: darkblue;
+    position: absolute;
+    top: 440px;
+}
+
+#leg1 {
+    left: 425px;
+}
+
+#leg2 {
+    left: 517px;
+}</code></pre>
+        </div>
+
+        <p class="preview-label">Stage 5: complete basic robot</p>
+        <div class="robot-stage">
+            <div class="rb-body"></div>
+            <div class="rb-head"></div>
+            <div class="rb-eye rb-eye1"></div>
+            <div class="rb-eye rb-eye2"></div>
+            <div class="rb-arm rb-arm1"></div>
+            <div class="rb-arm rb-arm2"></div>
+            <div class="rb-leg rb-leg1"></div>
+            <div class="rb-leg rb-leg2"></div>
+        </div>
+    </section>
+
+    <section class="card bonus">
+        <h2>Robot Polish Bonuses</h2>
+
+        <div class="project-grid">
+            <div class="project-card">
+                <h3>Mouth</h3>
+                <div class="code-wrap">
+                    <button class="copy-btn" onclick="copyCode('mouth-code', this)">Copy</button>
+                    <pre><code id="mouth-code">#mouth {
+    width: 70px;
+    height: 14px;
+    background-color: black;
+    position: absolute;
+    left: 460px;
+    top: 165px;
+}</code></pre>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <h3>Glowing chest light</h3>
+                <div class="code-wrap">
+                    <button class="copy-btn" onclick="copyCode('light-code', this)">Copy</button>
+                    <pre><code id="light-code">#chestLight {
+    width: 50px;
+    height: 50px;
+    background-color: lime;
+    border-radius: 50%;
+    box-shadow: 0 0 18px lime;
+    position: absolute;
+    left: 470px;
+    top: 292px;
+}</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <p class="preview-label">Polished robot example</p>
+        <div class="robot-stage">
+            <div class="rb-shadow"></div>
+            <div class="rb-body"></div>
+            <div class="rb-head"></div>
+            <div class="rb-eye rb-eye1"></div>
+            <div class="rb-eye rb-eye2"></div>
+            <div class="rb-arm rb-arm1"></div>
+            <div class="rb-arm rb-arm2"></div>
+            <div class="rb-leg rb-leg1"></div>
+            <div class="rb-leg rb-leg2"></div>
+            <div class="rb-mouth"></div>
+            <div class="rb-light"></div>
+        </div>
+    </section>
+
+    <section class="card bonus">
+        <span class="eyebrow">Curved shapes</span>
+        <h2>Circles and Ellipses</h2>
+
+        <div class="shape-grid">
+            <div class="shape-card">
+                <h3>Circle</h3>
+                <div class="preview small">
+                    <div class="circle-demo"></div>
+                </div>
+
+                <p>For a circle, width and height must be the same.</p>
+
+                <div class="code-wrap">
+                    <button class="copy-btn" onclick="copyCode('circle-code', this)">Copy</button>
+                    <pre><code id="circle-code">#circle {
+    width: 100px;
+    height: 100px;
+    background-color: crimson;
+    border-radius: 50%;
+}</code></pre>
+                </div>
+            </div>
+
+            <div class="shape-card">
+                <h3>Ellipse</h3>
+                <div class="preview small">
+                    <div class="ellipse-demo"></div>
+                </div>
+
+                <p>An ellipse has different width and height.</p>
+
+                <div class="code-wrap">
+                    <button class="copy-btn" onclick="copyCode('ellipse-code', this)">Copy</button>
+                    <pre><code id="ellipse-code">#ellipse {
+    width: 180px;
+    height: 80px;
+    background-color: deepskyblue;
+    border-radius: 50%;
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="card bonus">
+        <h2>Tree and Puddle Ideas</h2>
+
+        <div class="shape-grid">
+            <div class="shape-card">
+                <h3>Tree</h3>
+                <div class="preview small">
+                    <div class="tree-trunk-demo"></div>
+                    <div class="tree-top-demo"></div>
+                </div>
+
+                <div class="code-wrap">
+                    <button class="copy-btn" onclick="copyCode('tree-code', this)">Copy</button>
+                    <pre><code id="tree-code">#trunk {
+    width: 45px;
+    height: 100px;
+    background-color: saddlebrown;
+}
+
+#treeTop {
+    width: 150px;
+    height: 95px;
+    background-color: forestgreen;
+    border-radius: 50%;
+}</code></pre>
+                </div>
+            </div>
+
+            <div class="shape-card">
+                <h3>Puddle</h3>
+                <div class="preview small">
+                    <div class="puddle-demo"></div>
+                </div>
+
+                <div class="code-wrap">
+                    <button class="copy-btn" onclick="copyCode('puddle-code', this)">Copy</button>
+                    <pre><code id="puddle-code">#puddle {
+    width: 190px;
+    height: 55px;
+    background-color: dodgerblue;
+    border-radius: 50%;
+    box-shadow: 0 8px 14px gray;
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="card lesson">
+        <span class="eyebrow">Project 2</span>
+        <h2>Mini Castle Challenge</h2>
+
+        <p>This time, you will build the CSS yourself.</p>
+        <p>You may copy the HTML structure, but use what you learned to create and position each shape.</p>
+
+        <div class="mini-scene">
+            <div class="castle-grass"></div>
+            <div class="castle-main"></div>
+            <div class="castle-door"></div>
+            <div class="castle-pole"></div>
+            <div class="castle-flag"></div>
+        </div>
+
+        <p class="where">You may copy this HTML</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('castle-html', this)">Copy</button>
+            <pre><code id="castle-html">&lt;h1&gt;Mini Castle&lt;/h1&gt;
+
+&lt;div id="scene"&gt;
+    &lt;div id="grass"&gt;&lt;/div&gt;
+    &lt;div id="castle"&gt;&lt;/div&gt;
+    &lt;div id="door"&gt;&lt;/div&gt;
+    &lt;div id="flagPole"&gt;&lt;/div&gt;
+    &lt;div id="flag"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+
+        <h3>Your job</h3>
+
+        <ol class="steps">
+            <li>Make a blue scene box.</li>
+            <li>Add green grass at the bottom.</li>
+            <li>Add the main castle rectangle.</li>
+            <li>Add a smaller brown door.</li>
+            <li>Add a thin flag pole.</li>
+            <li>Add a purple flag.</li>
+        </ol>
+
+        <h3>Suggested measurements</h3>
+
+        <ul>
+            <li>Scene: <code>500px</code> wide and <code>350px</code> tall.</li>
+            <li>Grass: full scene width and about <code>90px</code> tall.</li>
+            <li>Castle: about <code>180px</code> wide and <code>150px</code> tall.</li>
+            <li>Door: about <code>50px</code> wide and <code>70px</code> tall.</li>
+            <li>Flag pole: very thin and about <code>100px</code> tall.</li>
+            <li>Flag: about <code>70px</code> wide and <code>40px</code> tall.</li>
+        </ul>
+
+        <div class="typing-note">
+            Start with the scene and grass. Check the browser. Then add one castle part at a time.
+        </div>
+    </section>
+
+    <section class="card bonus">
+        <span class="eyebrow">Border radius lesson</span>
+        <h2>How the Four Border-Radius Corners Work</h2>
+
+        <p><code>border-radius</code> rounds the corners of a DIV.</p>
+
+        <p>A single value rounds every corner:</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('radius-one-value', this)">Copy</button>
+            <pre><code id="radius-one-value">border-radius: 20px;</code></pre>
+        </div>
+
+        <p>This means all four corners get the same curve.</p>
+
+        <h3>Using four values</h3>
+
+        <p>When you write four values, they follow the corners clockwise:</p>
+
+        <pre><code>border-radius:
+    top-left
+    top-right
+    bottom-right
+    bottom-left;</code></pre>
+
+        <p>A useful way to remember it:</p>
+
+        <pre><code>start at the top-left
+then move clockwise around the box</code></pre>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('radius-four-values', this)">Copy</button>
+            <pre><code id="radius-four-values">border-radius: 30px 10px 40px 0;</code></pre>
+        </div>
+
+        <p>This means:</p>
+
+        <ul>
+            <li><strong>Top-left:</strong> <code>30px</code></li>
+            <li><strong>Top-right:</strong> <code>10px</code></li>
+            <li><strong>Bottom-right:</strong> <code>40px</code></li>
+            <li><strong>Bottom-left:</strong> <code>0</code></li>
+        </ul>
+
+        <h3>Longhand properties</h3>
+
+        <p>You can also name each corner separately. This is longer, but sometimes easier to understand:</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('radius-longhand', this)">Copy</button>
+            <pre><code id="radius-longhand">border-top-left-radius: 30px;
+border-top-right-radius: 10px;
+border-bottom-right-radius: 40px;
+border-bottom-left-radius: 0;</code></pre>
+        </div>
+
+        <p>These longhand lines make the same result as:</p>
+
+        <pre><code>border-radius: 30px 10px 40px 0;</code></pre>
+
+        <div class="typing-note">
+            Use the four-value version when you are comfortable. Use the longhand version when you want each corner to be very clear.
+        </div>
+    </section>
+
+    <section class="card bonus">
+        <span class="eyebrow">Umbrella curve</span>
+        <h2>How the Curved Umbrella Top Works</h2>
+
+        <p>The umbrella needs rounded top corners but square bottom corners.</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('umbrella-radius', this)">Copy</button>
+            <pre><code id="umbrella-radius">#umbrellaTop {
+    width: 180px;
+    height: 70px;
+    background-color: tomato;
+
+    border-radius: 50% 50% 0 0;
+}</code></pre>
+        </div>
+
+        <p>The four values mean:</p>
+
+        <ul>
+            <li><strong>Top-left:</strong> <code>50%</code> — rounded</li>
+            <li><strong>Top-right:</strong> <code>50%</code> — rounded</li>
+            <li><strong>Bottom-right:</strong> <code>0</code> — square</li>
+            <li><strong>Bottom-left:</strong> <code>0</code> — square</li>
+        </ul>
+
+        <p>That gives the DIV a curved top and a flat bottom.</p>
+
+        <h3>The same umbrella using longhand</h3>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('umbrella-longhand', this)">Copy</button>
+            <pre><code id="umbrella-longhand">border-top-left-radius: 50%;
+border-top-right-radius: 50%;
+border-bottom-right-radius: 0;
+border-bottom-left-radius: 0;</code></pre>
+        </div>
+
+        <h3>Try different curves</h3>
+
+        <p>A softer curve:</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('umbrella-soft', this)">Copy</button>
+            <pre><code id="umbrella-soft">border-radius: 25% 25% 0 0;</code></pre>
+        </div>
+
+        <p>A stronger curve:</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('umbrella-strong', this)">Copy</button>
+            <pre><code id="umbrella-strong">border-radius: 80% 80% 0 0;</code></pre>
+        </div>
+
+        <p class="big-check">Change the percentages, save and refresh. Watch how the umbrella curve changes.</p>
+    </section>
+
+    <section class="card bonus">
+        <span class="eyebrow">Project 3</span>
+        <h2>Mini Beach Scene Challenge</h2>
+
+        <p>This is a larger independent project.</p>
+        <p>You may copy the HTML, but write the CSS yourself using the preview and the suggested measurements.</p>
+
+        <div class="beach-scene">
+            <div class="beach-sea"></div>
+            <div class="beach-sand"></div>
+            <div class="beach-sun"></div>
+            <div class="cloud-piece one"></div>
+            <div class="cloud-piece two"></div>
+            <div class="umbrella-pole"></div>
+            <div class="umbrella-top"></div>
+            <div class="umbrella-stripe"></div>
+            <div class="towel"></div>
+            <div class="towel-stripe"></div>
+            <div class="sandcastle"></div>
+            <div class="sandcastle-tower"></div>
+            <div class="sandcastle-door"></div>
+        </div>
+
+        <p class="where">You may copy this HTML</p>
+
+        <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode('beach-html', this)">Copy</button>
+            <pre><code id="beach-html">&lt;h1&gt;Mini Beach Scene&lt;/h1&gt;
+
+&lt;div id="scene"&gt;
+    &lt;div id="sea"&gt;&lt;/div&gt;
+    &lt;div id="sand"&gt;&lt;/div&gt;
+    &lt;div id="sun"&gt;&lt;/div&gt;
+
+    &lt;div id="cloud1" class="cloud"&gt;&lt;/div&gt;
+    &lt;div id="cloud2" class="cloud"&gt;&lt;/div&gt;
+
+    &lt;div id="umbrellaPole"&gt;&lt;/div&gt;
+    &lt;div id="umbrellaTop"&gt;&lt;/div&gt;
+    &lt;div id="umbrellaStripe"&gt;&lt;/div&gt;
+
+    &lt;div id="towel"&gt;&lt;/div&gt;
+    &lt;div id="towelStripe"&gt;&lt;/div&gt;
+
+    &lt;div id="sandcastle"&gt;&lt;/div&gt;
+    &lt;div id="sandcastleTower"&gt;&lt;/div&gt;
+    &lt;div id="sandcastleDoor"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+
+        <h3>Build it in checkpoints</h3>
+
+        <ol class="steps">
+            <li><strong>Checkpoint 1:</strong> scene, sea and sand.</li>
+            <li><strong>Checkpoint 2:</strong> sun and cloud.</li>
+            <li><strong>Checkpoint 3:</strong> umbrella.</li>
+            <li><strong>Checkpoint 4:</strong> towel.</li>
+            <li><strong>Checkpoint 5:</strong> sandcastle.</li>
+        </ol>
+
+        <h3>Suggested colours</h3>
+
+        <p><code>skyblue</code>, <code>dodgerblue</code>, <code>khaki</code>, <code>gold</code>, <code>white</code>, <code>brown</code>, <code>tomato</code>, <code>royalblue</code>, <code>goldenrod</code>, <code>sienna</code></p>
+
+        <h3>Selected hints</h3>
+
+        <div class="project-grid">
+            <div class="project-card">
+                <h3>Scene</h3>
+                <pre><code>#scene {
+    width: 600px;
+    height: 400px;
+    position: relative;
+    margin: auto;
+}</code></pre>
+            </div>
+
+            <div class="project-card">
+                <h3>Cloud class</h3>
+                <pre><code>.cloud {
+    height: 30px;
+    background-color: white;
+    position: absolute;
+}</code></pre>
+            </div>
+        </div>
+
+        <p class="typing-note">
+            The hints do not finish the project. Use width, height, background colour and position to build each remaining part.
+        </p>
+    </section>
+
+    <section class="card challenge">
+        <h2>Choose Your Final Project</h2>
+
+        <ul>
+            <li>Make your own robot.</li>
+            <li>Change the castle into a fortress.</li>
+            <li>Add more objects to the beach.</li>
+            <li>Make a space scene.</li>
+            <li>Make a house, tree and sun.</li>
+            <li>Make a city skyline.</li>
+        </ul>
+
+        <p>Use at least:</p>
+
+        <ul class="progress">
+            <li>☐ 6 DIVs</li>
+            <li>☐ 3 colours</li>
+            <li>☐ 2 rectangles</li>
+            <li>☐ 1 circle or ellipse</li>
+            <li>☐ 1 class</li>
+            <li>☐ left/top or right/bottom</li>
+        </ul>
+    </section>
+
+    <section class="card warning">
+        <h2>Common Mistakes</h2>
+
+        <ul class="mistakes">
+            <li><strong>Nothing appears:</strong> check that the DIV ID matches the CSS selector.</li>
+            <li><strong>The shape does not move:</strong> check for <code>position: absolute</code>.</li>
+            <li><strong>The circle is oval:</strong> width and height must be the same.</li>
+            <li><strong>The class does not work:</strong> CSS classes use a dot, such as <code>.eye</code>.</li>
+            <li><strong>The ID does not work:</strong> CSS IDs use a hash, such as <code>#eye1</code>.</li>
+            <li><strong>Nothing changed:</strong> save and refresh.</li>
+        </ul>
+    </section>
+
+    <section class="card check">
+        <h2>Show the Teacher</h2>
+
+        <ul class="progress">
+            <li>☐ My shapes appear</li>
+            <li>☐ I can move a shape</li>
+            <li>☐ I used a class</li>
+            <li>☐ I used more than one ID</li>
+            <li>☐ I changed the design</li>
+            <li>☐ I can explain one CSS line</li>
+        </ul>
+    </section>
+
+</main>
+
+<footer>
+    One DIV is one shape. Many shapes can become a whole world.
+</footer>
+
+<script>
+    function copyCode(codeId, button) {
+        let code = document.getElementById(codeId).innerText;
+
+        navigator.clipboard.writeText(code).then(function () {
+            let oldText = button.innerText;
+            button.innerText = "Copied!";
+
+            setTimeout(function () {
+                button.innerText = oldText;
+            }, 1200);
+        }).catch(function () {
+            button.innerText = "Select and copy";
+        });
+    }
+</script>
+
+</body>
+</html>
