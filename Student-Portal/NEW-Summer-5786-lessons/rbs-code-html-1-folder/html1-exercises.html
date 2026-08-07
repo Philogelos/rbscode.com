@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RBS CODE · HTML 1 Practice</title>
+
+<style>
+:root {
+    --page-bg:#f6f7fb;
+    --surface:#fff;
+    --surface-soft:#fafbfe;
+    --text:#172033;
+    --muted:#68768a;
+    --border:#dfe5ee;
+    --accent:#4f46e5;
+    --accent-dark:#3730a3;
+    --accent-soft:#eef2ff;
+    --code-bg:#0d1526;
+    --code-text:#eef3ff;
+    --radius:14px;
+}
+*{box-sizing:border-box}
+body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--text);
+    font-family:Inter,system-ui,Arial,sans-serif;
+    line-height:1.55;
+}
+button,textarea{font:inherit}
+button{cursor:pointer}
+.page{
+    width:min(1100px,calc(100% - 32px));
+    margin:0 auto;
+    padding:30px 0 80px;
+}
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    margin-bottom:24px;
+}
+.back-link{
+    color:var(--accent-dark);
+    font-weight:850;
+    text-decoration:none;
+}
+.lesson-label,.exercise-type,.mini-label{
+    color:var(--accent-dark);
+    font-size:12px;
+    font-weight:900;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+}
+h1{
+    margin:5px 0 8px;
+    font-size:clamp(38px,6vw,62px);
+    line-height:1;
+    letter-spacing:-.04em;
+}
+.intro{
+    max-width:760px;
+    margin:0;
+    color:var(--muted);
+    font-size:19px;
+}
+.reference{
+    position:sticky;
+    top:10px;
+    z-index:5;
+    margin:26px 0 34px;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:rgba(255,255,255,.97);
+    box-shadow:0 8px 30px rgba(23,32,51,.08);
+    overflow:hidden;
+}
+.reference summary{
+    padding:14px 16px;
+    font-weight:900;
+    cursor:pointer;
+}
+.reference-content{
+    border-top:1px solid var(--border);
+    padding:16px;
+    display:grid;
+    grid-template-columns:1fr 1.3fr;
+    gap:16px;
+}
+.cheatsheet{
+    display:grid;
+    gap:8px;
+}
+.cheat{
+    padding:9px 11px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--surface-soft);
+}
+.cheat code{font-family:Consolas,monospace;font-weight:800}
+pre{
+    margin:0;
+    padding:14px;
+    overflow:auto;
+    border-radius:10px;
+    background:var(--code-bg);
+    color:var(--code-text);
+    font:15px/1.55 Consolas,"Courier New",monospace;
+    white-space:pre-wrap;
+}
+.exercise{
+    margin-top:26px;
+    padding:22px;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:var(--surface);
+}
+.exercise h2{
+    margin:4px 0 6px;
+    font-size:28px;
+}
+.exercise-intro{margin:0;color:var(--muted)}
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin-top:16px;
+}
+.panel{
+    overflow:hidden;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:white;
+}
+.panel-title{
+    min-height:42px;
+    padding:0 12px;
+    border-bottom:1px solid var(--border);
+    background:var(--surface-soft);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:8px;
+    color:var(--muted);
+    font-size:13px;
+    font-weight:850;
+}
+.actions{display:flex;gap:6px}
+.small{
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:white;
+    padding:5px 9px;
+    font-size:12px;
+    font-weight:900;
+}
+.small.primary{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:white;
+}
+.editor{
+    width:100%;
+    min-height:220px;
+    resize:vertical;
+    border:0;
+    outline:0;
+    padding:16px;
+    background:var(--code-bg);
+    color:var(--code-text);
+    font:17px/1.55 Consolas,"Courier New",monospace;
+}
+.result{
+    width:100%;
+    min-height:220px;
+    border:0;
+    background:white;
+}
+.target{
+    min-height:220px;
+    padding:24px;
+    background:white;
+}
+.target.center{
+    display:grid;
+    place-items:center;
+    text-align:center;
+}
+.target.left{
+    display:flex;
+    align-items:flex-start;
+}
+.target .browser-ish{
+    width:100%;
+    padding:14px;
+}
+.browser-ish h1{font-size:32px;letter-spacing:0;margin:0 0 12px}
+.browser-ish h2{font-size:24px;margin:16px 0 8px}
+.browser-ish p{margin:6px 0}
+.browser-ish button{margin:4px 4px 4px 0}
+.task{
+    margin-top:14px;
+    padding:14px 16px;
+    border-left:4px solid var(--accent);
+    border-radius:0 12px 12px 0;
+    background:var(--accent-soft);
+}
+details.hint{
+    margin-top:10px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:white;
+}
+details.hint summary{
+    padding:10px 12px;
+    cursor:pointer;
+    font-weight:850;
+}
+.hint-body{padding:0 12px 12px;color:var(--muted)}
+.hint-body code{font-family:Consolas,monospace;color:var(--text)}
+.puzzle-lines{
+    margin-top:16px;
+    display:grid;
+    gap:8px;
+}
+.puzzle-line{
+    padding:12px 14px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--surface-soft);
+    font-family:Consolas,monospace;
+}
+.choice-grid{
+    margin-top:16px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+.choice{
+    padding:16px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:white;
+    text-align:center;
+}
+.choice code{
+    display:block;
+    margin-bottom:8px;
+    font:800 18px Consolas,monospace;
+}
+.build-list{margin:8px 0 0;padding-left:22px}
+.finish{
+    margin-top:30px;
+    padding:20px;
+    text-align:center;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:white;
+}
+@media(max-width:800px){
+    .grid,.reference-content,.choice-grid{grid-template-columns:1fr}
+    .reference{position:static}
+}
+</style>
+</head>
+<body>
+<main class="page">
+
+<div class="topbar">
+    <a class="back-link" href="html1-guide.html">← HTML 1 Guide</a>
+    <span class="lesson-label">HTML 1 · Practice</span>
+</div>
+
+<h1>Can you build it?</h1>
+<p class="intro">Try the challenge first. Use the reference or hints only when you need them.</p>
+
+<details class="reference" open>
+    <summary>HTML 1 Quick Reference / Template</summary>
+    <div class="reference-content">
+        <div class="cheatsheet">
+            <div class="cheat"><code>&lt;h1&gt;...&lt;/h1&gt;</code> = main heading</div>
+            <div class="cheat"><code>&lt;p&gt;...&lt;/p&gt;</code> = paragraph / normal text</div>
+            <div class="cheat"><code>&lt;button&gt;...&lt;/button&gt;</code> = button</div>
+            <div class="cheat"><code>&lt;body&gt;</code> = visible page content</div>
+            <div class="cheat"><code>&lt;head&gt;</code> = information about the page</div>
+        </div>
+        <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;title&gt;My Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;h1&gt;My Game&lt;/h1&gt;
+    &lt;p&gt;Welcome to my game!&lt;/p&gt;
+    &lt;button&gt;PLAY&lt;/button&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+    </div>
+</details>
+
+<section class="exercise">
+    <div class="exercise-type">1 · Main Challenge · Replicate</div>
+    <h2>Build the arcade start screen</h2>
+    <p class="exercise-intro">Start with an empty editor. Make your result match the target.</p>
+
+    <div class="grid">
+        <div class="panel">
+            <div class="panel-title"><strong>Target</strong><span>Copy what you see</span></div>
+            <div class="target center">
+                <div class="browser-ish">
+                    <h1>METEOR DASH</h1>
+                    <p>Dodge the meteors. Reach the station.</p>
+                    <button>PLAY</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel" data-code>
+            <div class="panel-title">
+                <strong>Your code</strong>
+                <div class="actions">
+                    <button class="small primary" data-run>RUN</button>
+                    <button class="small" data-reset>RESET</button>
+                </div>
+            </div>
+            <textarea class="editor" data-editor></textarea>
+        </div>
+    </div>
+
+    <div class="task">Use an <code>&lt;h1&gt;</code>, a <code>&lt;p&gt;</code>, and a <code>&lt;button&gt;</code>.</div>
+
+    <details class="hint">
+        <summary>Need a small hint?</summary>
+        <div class="hint-body">Start with <code>&lt;h1&gt;METEOR DASH&lt;/h1&gt;</code>.</div>
+    </details>
+    <details class="hint">
+        <summary>Make it easier</summary>
+        <div class="hint-body">
+            Paste these empty tags and fill them in:
+            <pre>&lt;h1&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;button&gt;&lt;/button&gt;</pre>
+        </div>
+    </details>
+</section>
+
+<section class="exercise">
+    <div class="exercise-type">2 · Spot the Difference</div>
+    <h2>What is missing?</h2>
+    <p class="exercise-intro">The target has four visible items. The code only makes three.</p>
+
+    <div class="grid">
+        <div class="panel">
+            <div class="panel-title"><strong>Target</strong><span>Find the missing part</span></div>
+            <div class="target left">
+                <div class="browser-ish">
+                    <h1>Treasure Island</h1>
+                    <p>Find the lost treasure.</p>
+                    <p>Watch out for traps!</p>
+                    <button>BEGIN</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel" data-code>
+            <div class="panel-title">
+                <strong>Code</strong>
+                <div class="actions">
+                    <button class="small primary" data-run>RUN</button>
+                    <button class="small" data-reset>RESET</button>
+                </div>
+            </div>
+            <textarea class="editor" data-editor><h1>Treasure Island</h1>
+<p>Find the lost treasure.</p>
+<button>BEGIN</button></textarea>
+        </div>
+    </div>
+
+    <div class="task">Add the one missing line so the page matches the target.</div>
+</section>
+
+<section class="exercise">
+    <div class="exercise-type">3 · Build from Instructions</div>
+    <h2>No picture this time</h2>
+    <p class="exercise-intro">Turn these instructions into HTML.</p>
+
+    <div class="task">
+        Build a page with:
+        <ul class="build-list">
+            <li>a heading saying <strong>ROBOT LAB</strong></li>
+            <li>a paragraph saying <strong>Build your first robot!</strong></li>
+            <li>a button saying <strong>ENTER LAB</strong></li>
+            <li>a second button saying <strong>HELP</strong></li>
+        </ul>
+    </div>
+
+    <div class="grid">
+        <div class="panel" data-code>
+            <div class="panel-title">
+                <strong>Your code</strong>
+                <div class="actions">
+                    <button class="small primary" data-run>RUN</button>
+                    <button class="small" data-reset>RESET</button>
+                </div>
+            </div>
+            <textarea class="editor" data-editor><h1>ROBOT LAB</h1></textarea>
+        </div>
+        <div class="panel">
+            <div class="panel-title"><strong>Your result</strong><span>Check as you build</span></div>
+            <iframe class="result" data-frame></iframe>
+        </div>
+    </div>
+</section>
+
+<section class="exercise">
+    <div class="exercise-type">4 · Code Puzzle</div>
+    <h2>Put the page back together</h2>
+    <p class="exercise-intro">These lines belong in a page, but some closing tags are wrong or missing.</p>
+
+    <div class="puzzle-lines">
+        <div class="puzzle-line">&lt;h1&gt;Castle Escape&lt;h1&gt;</div>
+        <div class="puzzle-line">&lt;p&gt;Escape before sunset!</div>
+        <div class="puzzle-line">&lt;button&gt;OPEN GATE&lt;/button&gt;</div>
+    </div>
+
+    <div class="grid">
+        <div class="panel" data-code>
+            <div class="panel-title">
+                <strong>Fix it here</strong>
+                <div class="actions">
+                    <button class="small primary" data-run>RUN</button>
+                    <button class="small" data-reset>RESET</button>
+                </div>
+            </div>
+            <textarea class="editor" data-editor><h1>Castle Escape<h1>
+<p>Escape before sunset!
+<button>OPEN GATE</button></textarea>
+        </div>
+        <div class="panel">
+            <div class="panel-title"><strong>Result</strong><span>Make it correct</span></div>
+            <iframe class="result" data-frame></iframe>
+        </div>
+    </div>
+
+    <details class="hint">
+        <summary>Hint</summary>
+        <div class="hint-body">Closing tags need a <code>/</code>.</div>
+    </details>
+</section>
+
+<section class="exercise">
+    <div class="exercise-type">5 · Which Tag?</div>
+    <h2>Choose the right tool</h2>
+    <p class="exercise-intro">Before building, decide which HTML tag fits each job.</p>
+
+    <div class="choice-grid">
+        <div class="choice"><code>?</code><strong>Big game name</strong><br>h1, p, or button?</div>
+        <div class="choice"><code>?</code><strong>Short instructions</strong><br>h1, p, or button?</div>
+        <div class="choice"><code>?</code><strong>START GAME</strong><br>h1, p, or button?</div>
+    </div>
+
+    <div class="task">Now prove your answers by building all three underneath.</div>
+
+    <div class="grid">
+        <div class="panel" data-code>
+            <div class="panel-title">
+                <strong>Your code</strong>
+                <div class="actions">
+                    <button class="small primary" data-run>RUN</button>
+                    <button class="small" data-reset>RESET</button>
+                </div>
+            </div>
+            <textarea class="editor" data-editor></textarea>
+        </div>
+        <div class="panel">
+            <div class="panel-title"><strong>Result</strong></div>
+            <iframe class="result" data-frame></iframe>
+        </div>
+    </div>
+</section>
+
+<section class="exercise">
+    <div class="exercise-type">6 · Page Structure</div>
+    <h2>Turn the mini page into a real HTML file</h2>
+    <p class="exercise-intro">The visible code works, but now wrap it in the proper page structure.</p>
+
+    <div class="grid">
+        <div class="panel" data-code>
+            <div class="panel-title">
+                <strong>Starting code</strong>
+                <div class="actions">
+                    <button class="small primary" data-run>RUN</button>
+                    <button class="small" data-reset>RESET</button>
+                </div>
+            </div>
+            <textarea class="editor" data-editor><h1>Ocean Explorer</h1>
+<p>Dive into the deep sea!</p>
+<button>DIVE</button></textarea>
+        </div>
+        <div class="panel">
+            <div class="panel-title"><strong>Result</strong><span>It should still look the same</span></div>
+            <iframe class="result" data-frame></iframe>
+        </div>
+    </div>
+
+    <div class="task">
+        Add <code>&lt;!DOCTYPE html&gt;</code>, <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>,
+        <code>&lt;title&gt;</code>, and <code>&lt;body&gt;</code> in the correct places.
+    </div>
+
+    <details class="hint">
+        <summary>Use the template</summary>
+        <div class="hint-body">Open the HTML 1 Quick Reference at the top of the page and compare your structure.</div>
+    </details>
+</section>
+
+<section class="exercise">
+    <div class="exercise-type">7 · Create</div>
+    <h2>Make a completely different page</h2>
+    <p class="exercise-intro">It does not have to be a game title screen.</p>
+
+    <div class="task">
+        Pick one:
+        <ul class="build-list">
+            <li><strong>Pet page:</strong> a pet name, one fact, and an Adopt button</li>
+            <li><strong>Secret club:</strong> a club name, a welcome message, and an Enter button</li>
+            <li><strong>Quiz opening:</strong> a quiz title, instructions, and a Begin Quiz button</li>
+            <li><strong>Your own idea</strong></li>
+        </ul>
+    </div>
+
+    <div class="grid">
+        <div class="panel" data-code>
+            <div class="panel-title">
+                <strong>Your code</strong>
+                <div class="actions">
+                    <button class="small primary" data-run>RUN</button>
+                    <button class="small" data-reset>RESET</button>
+                </div>
+            </div>
+            <textarea class="editor" data-editor></textarea>
+        </div>
+        <div class="panel">
+            <div class="panel-title"><strong>Your creation</strong></div>
+            <iframe class="result" data-frame></iframe>
+        </div>
+    </div>
+</section>
+
+<div class="finish">
+    <div class="mini-label">Finished?</div>
+    <strong>If you can do the main replicate challenge without help, you are ready to move on.</strong>
+</div>
+
+</main>
+
+<script>
+document.querySelectorAll("[data-code]").forEach(component => {
+    const editor = component.querySelector("[data-editor]");
+    const localFrame = component.querySelector("[data-frame]");
+    const siblingFrame = component.parentElement?.querySelector("[data-frame]");
+    const frame = localFrame || siblingFrame;
+    const run = component.querySelector("[data-run]");
+    const reset = component.querySelector("[data-reset]");
+    const original = editor.value;
+
+    function runCode() {
+        if (frame) {
+            frame.srcdoc = editor.value;
+        } else {
+            let preview = component.querySelector(".temporary-result");
+            if (!preview) {
+                preview = document.createElement("iframe");
+                preview.className = "result temporary-result";
+                component.appendChild(preview);
+            }
+            preview.srcdoc = editor.value;
+        }
+    }
+
+    run?.addEventListener("click", runCode);
+    reset?.addEventListener("click", () => {
+        editor.value = original;
+        runCode();
+    });
+
+    if (frame) runCode();
+});
+</script>
+</body>
+</html>

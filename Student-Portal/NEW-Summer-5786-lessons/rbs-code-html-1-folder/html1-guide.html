@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+
+<!--
+=========================================================
+RBS CODE · HTML 1 GUIDE
+=========================================================
+
+IMAGE FILES TO PREPARE
+Save these inside an "img" folder next to this HTML file:
+
+1. img/html1-h1-result.png
+   Screenshot showing a plain browser page with:
+   My Game
+   shown as a large H1 heading.
+
+2. img/html1-p-result.png
+   Screenshot showing:
+   My Game
+   Welcome to my game!
+
+3. img/html1-button-result.png
+   Screenshot showing:
+   My Game
+   Welcome to my game!
+   [Start Game]
+
+4. img/html1-browser-title.png
+   Screenshot / crop of the browser tab showing:
+   My Game Title
+   This should clearly point out where <title> appears.
+
+5. img/html1-full-page-result.png
+   Screenshot showing the final simple page with heading,
+   paragraph and Start Game button.
+
+OPTIONAL:
+6. img/html1-page-structure-diagram.png
+   Simple visual diagram showing:
+   HTML
+     HEAD -> information about page
+     BODY -> things visible on page
+
+=========================================================
+TEACHING ORDER
+=========================================================
+HTML 1.1  <h1>
+HTML 1.2  <p>
+HTML 1.3  <button>
+HTML 1.4  Basic page structure
+
+DIV is deliberately NOT taught here.
+Save <div> for HTML 2, when students already understand
+that HTML elements create visible things on the page.
+=========================================================
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RBS CODE · HTML 1</title>
+<style>
+:root {
+    --page-bg: #f6f7fb;
+    --surface: #ffffff;
+    --surface-soft: #fafbfe;
+    --text: #172033;
+    --muted: #68768a;
+    --border: #dfe5ee;
+    --accent: #4f46e5;
+    --accent-dark: #3730a3;
+    --accent-soft: #eef2ff;
+    --code-bg: #0d1526;
+    --code-text: #eef3ff;
+    --radius: 14px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: var(--page-bg);
+    color: var(--text);
+    font-family: Inter, system-ui, Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+}
+
+button { font: inherit; cursor: pointer; }
+
+.page {
+    width: min(1050px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 30px 0 80px;
+}
+
+.lesson-header {
+    margin-bottom: 34px;
+}
+
+.lesson-label,
+.section-kicker,
+.try-label {
+    color: var(--accent-dark);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.lesson-header h1 {
+    margin: 5px 0 8px;
+    font-size: clamp(38px, 6vw, 64px);
+    line-height: 1;
+    letter-spacing: -.04em;
+}
+
+.lesson-header p {
+    max-width: 720px;
+    margin: 0;
+    color: var(--muted);
+    font-size: 19px;
+}
+
+.progress {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.progress span {
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: white;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.lesson-section {
+    margin-top: 46px;
+    padding-top: 6px;
+}
+
+.lesson-section h2 {
+    margin: 4px 0 6px;
+    font-size: 30px;
+    line-height: 1.15;
+    letter-spacing: -.025em;
+}
+
+.section-intro {
+    max-width: 740px;
+    margin: 0 0 18px;
+    color: var(--muted);
+}
+
+.code-result {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    align-items: stretch;
+}
+
+.panel {
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+}
+
+.panel-title {
+    min-height: 42px;
+    padding: 0 12px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-soft);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 850;
+}
+
+.copy-button {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: white;
+    color: var(--text);
+    padding: 5px 9px;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+pre {
+    margin: 0;
+    min-height: 170px;
+    overflow: auto;
+    padding: 16px;
+    background: var(--code-bg);
+    color: var(--code-text);
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 17px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+}
+
+.result-image-wrap {
+    min-height: 170px;
+    background: white;
+    display: grid;
+    place-items: center;
+    padding: 12px;
+}
+
+.result-image {
+    display: block;
+    max-width: 100%;
+    max-height: 330px;
+    object-fit: contain;
+    border: 1px solid #edf0f5;
+}
+
+.missing-image {
+    width: 100%;
+    min-height: 145px;
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    padding: 18px;
+    color: var(--muted);
+    text-align: center;
+    background: var(--surface-soft);
+}
+
+.explain-box {
+    margin-top: 14px;
+    padding: 14px 16px;
+    border-left: 4px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+    background: var(--accent-soft);
+}
+
+.explain-box strong {
+    display: block;
+    margin-bottom: 3px;
+}
+
+.try-box {
+    margin-top: 12px;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: white;
+}
+
+.try-box code,
+.explain-box code,
+.tag-card code {
+    font-family: Consolas, monospace;
+    font-weight: 800;
+}
+
+.structure-code pre {
+    min-height: 420px;
+}
+
+.structure-list {
+    display: grid;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.tag-card {
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: white;
+}
+
+.tag-card h3 {
+    margin: 0 0 5px;
+    font-size: 18px;
+}
+
+.tag-card p {
+    margin: 0;
+    color: var(--muted);
+}
+
+.browser-title-demo {
+    margin-top: 12px;
+}
+
+.exercise-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.exercise {
+    padding: 15px;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    background: var(--surface);
+}
+
+.exercise-type {
+    color: var(--accent-dark);
+    font-size: 11px;
+    font-weight: 950;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.exercise h3 {
+    margin: 4px 0 5px;
+    font-size: 17px;
+}
+
+.exercise p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 15px;
+}
+
+.next-box {
+    margin-top: 44px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.next-box p { margin: 3px 0 0; color: var(--muted); }
+
+@media (max-width: 800px) {
+    .code-result,
+    .exercise-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .structure-code pre { min-height: 0; }
+}
+
+.practice-cta {
+    margin-top: 46px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--accent-soft);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+}
+.practice-cta h2 { margin: 4px 0 5px; }
+.practice-cta p { margin: 0; color: var(--muted); }
+.practice-button {
+    flex: 0 0 auto;
+    display: inline-block;
+    padding: 11px 16px;
+    border-radius: 10px;
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    font-weight: 900;
+}
+</style>
+</head>
+<body>
+<main class="page">
+<header class="lesson-header">
+<div class="lesson-label">HTML 1</div>
+<h1>Build Your First Web Page</h1>
+<p>Learn one tag at a time. See what it does. Then put the pieces together into a real HTML page.</p>
+<div class="progress">
+<span>1 · Heading</span>
+<span>2 · Paragraph</span>
+<span>3 · Button</span>
+<span>4 · Page Structure</span>
+</div>
+</header>
+<section class="lesson-section">
+<div class="section-kicker">HTML 1.1</div>
+<h2>1. H1 = Heading</h2>
+<p class="section-intro">The <code>&lt;h1&gt;</code> tag makes a large main heading.</p>
+<div class="code-result">
+<div class="panel">
+<div class="panel-title">
+<strong>Code</strong>
+<button class="copy-button" data-copy="code-h1">COPY</button>
+</div>
+<pre id="code-h1">&lt;h1&gt;My Game&lt;/h1&gt;</pre>
+</div>
+<div class="panel">
+<div class="panel-title"><strong>Result</strong><span>What the browser shows</span></div>
+<div class="result-image-wrap">
+<img alt="Result of h1 code" class="result-image" onerror="showMissing(this, 'img/html1-h1-result.png')" src="img/html1-h1-result.png"/>
+</div>
+</div>
+</div>
+<div class="try-box">
+<div class="try-label">Try it</div>
+        Copy the tag. Change <strong>My Game</strong> to the name of your own game.
+    </div>
+</section>
+<section class="lesson-section">
+<div class="section-kicker">HTML 1.2</div>
+<h2>2. P = Paragraph</h2>
+<p class="section-intro">A <code>&lt;p&gt;</code> tag is for normal text or a paragraph.</p>
+<div class="code-result">
+<div class="panel">
+<div class="panel-title">
+<strong>Code</strong>
+<button class="copy-button" data-copy="code-p">COPY</button>
+</div>
+<pre id="code-p">&lt;h1&gt;My Game&lt;/h1&gt;
+&lt;p&gt;Welcome to my game!&lt;/p&gt;</pre>
+</div>
+<div class="panel">
+<div class="panel-title"><strong>Result</strong><span>Now we added text</span></div>
+<div class="result-image-wrap">
+<img alt="Result of h1 and paragraph code" class="result-image" onerror="showMissing(this, 'img/html1-p-result.png')" src="img/html1-p-result.png"/>
+</div>
+</div>
+</div>
+<div class="try-box">
+<div class="try-label">Try it</div>
+        Add your own sentence underneath the heading using <code>&lt;p&gt;</code>.
+    </div>
+</section>
+<section class="lesson-section">
+<div class="section-kicker">HTML 1.3</div>
+<h2>3. Button</h2>
+<p class="section-intro">The <code>&lt;button&gt;</code> tag puts a button on the page. It does not do anything yet. We will make buttons work when we learn JavaScript.</p>
+<div class="code-result">
+<div class="panel">
+<div class="panel-title">
+<strong>Code</strong>
+<button class="copy-button" data-copy="code-button">COPY</button>
+</div>
+<pre id="code-button">&lt;h1&gt;My Game&lt;/h1&gt;
+&lt;p&gt;Welcome to my game!&lt;/p&gt;
+&lt;button&gt;Start Game&lt;/button&gt;</pre>
+</div>
+<div class="panel">
+<div class="panel-title"><strong>Result</strong><span>Your first mini page</span></div>
+<div class="result-image-wrap">
+<img alt="Result showing heading paragraph and button" class="result-image" onerror="showMissing(this, 'img/html1-button-result.png')" src="img/html1-button-result.png"/>
+</div>
+</div>
+</div>
+<div class="try-box">
+<div class="try-label">Try it</div>
+        Change the button text. Try <strong>PLAY</strong>, <strong>START</strong>, or invent your own.
+    </div>
+</section>
+<section class="lesson-section">
+<div class="section-kicker">HTML 1.4</div>
+<h2>4. The Basic Page Structure</h2>
+<p class="section-intro">Now we put our code inside the normal structure of a real HTML page.</p>
+<div class="code-result structure-code">
+<div class="panel">
+<div class="panel-title">
+<strong>Complete HTML page</strong>
+<button class="copy-button" data-copy="code-structure">COPY</button>
+</div>
+<pre id="code-structure">&lt;!DOCTYPE html&gt;
+
+&lt;html lang="en"&gt;
+
+&lt;head&gt;
+    &lt;title&gt;My Game Title&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;h1&gt;My Game&lt;/h1&gt;
+    &lt;p&gt;Welcome to my game!&lt;/p&gt;
+    &lt;button&gt;Start Game&lt;/button&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;</pre>
+</div>
+<div class="panel">
+<div class="panel-title"><strong>Result</strong><span>The page still looks simple</span></div>
+<div class="result-image-wrap">
+<img alt="Final HTML page result" class="result-image" onerror="showMissing(this, 'img/html1-full-page-result.png')" src="img/html1-full-page-result.png"/>
+</div>
+</div>
+</div>
+<div class="explain-box">
+<strong>Why do we need all this?</strong>
+        Think of it as the <strong>basic frame of a web page</strong>. It tells the browser how the page is organised. Browsers can sometimes fix incomplete HTML for us, but this is the correct way to build a page.
+    </div>
+<div class="structure-list">
+<div class="tag-card">
+<h3><code>&lt;!DOCTYPE html&gt;</code></h3>
+<p>This tells the browser to use modern HTML. Put it at the very top of the file.</p>
+</div>
+<div class="tag-card">
+<h3><code>&lt;html lang="en"&gt;</code></h3>
+<p>This is the outer container for the whole HTML page. <code>lang="en"</code> says that the main language of the page is English. The closing <code>&lt;/html&gt;</code> tag goes right at the bottom.</p>
+</div>
+<div class="tag-card">
+<h3><code>&lt;head&gt;</code></h3>
+<p>The head contains information <strong>about</strong> the page. Most things in the head are not shown inside the page itself.</p>
+</div>
+<div class="tag-card">
+<h3><code>&lt;title&gt;My Game Title&lt;/title&gt;</code></h3>
+<p>The title appears on the browser tab.</p>
+<div class="browser-title-demo">
+<img alt="Browser tab showing My Game Title" class="result-image" onerror="showMissing(this, 'img/html1-browser-title.png')" src="img/html1-browser-title.png"/>
+</div>
+</div>
+<div class="tag-card">
+<h3><code>&lt;body&gt;</code></h3>
+<p>The body contains the things we actually put on the page: headings, paragraphs, buttons, images, games and more.</p>
+</div>
+</div>
+</section>
+<section class="practice-cta">
+<div>
+<div class="section-kicker">Practice</div>
+<h2>Ready to try it yourself?</h2>
+<p>Start with a replicate challenge, then try puzzles, missing-code tasks and your own creation.</p>
+</div>
+<a class="practice-button" href="html1-exercises.html">PRACTICE HTML 1 →</a>
+</section>
+<div class="next-box">
+<div>
+<div class="section-kicker">After Practice</div>
+<strong>HTML 2: Containers, images and links</strong>
+<p>That is a better place to introduce <code>&lt;div&gt;</code>.</p>
+</div>
+</div>
+</main>
+<script>
+function showMissing(img, filename) {
+    const replacement = document.createElement('div');
+    replacement.className = 'missing-image';
+    replacement.innerHTML = '<div><strong>RESULT IMAGE</strong><br>' + filename + '</div>';
+    img.replaceWith(replacement);
+}
+
+document.querySelectorAll('[data-copy]').forEach(button => {
+    button.addEventListener('click', async () => {
+        const target = document.getElementById(button.dataset.copy);
+        await navigator.clipboard.writeText(target.innerText);
+        const oldText = button.textContent;
+        button.textContent = 'COPIED';
+        setTimeout(() => button.textContent = oldText, 900);
+    });
+});
+</script>
+</body>
+</html>

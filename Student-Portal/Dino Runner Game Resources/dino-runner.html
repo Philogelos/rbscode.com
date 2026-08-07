@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Dino Runner</title>
+   <style>
+       body{
+           background-color: skyblue;
+           margin: 0;
+       }
+
+
+       img{
+           height: 100px;
+           position: absolute;
+           bottom: 100px;
+           z-index: 1;
+       }
+       #dino{
+           left: 0;
+       }
+       #cactus{
+           left: 500px;
+           bottom: 92px;
+       }
+       #ground{
+           background-color: tan;
+           width: 100%;
+           height: 100px;
+           position: absolute;
+           bottom: 0;
+       }
+   </style>
+</head>
+
+
+<body>
+   <p id="score">Score: 0</p>
+
+
+   <img id="dino" src="img/dino.png" alt="dino">
+   <img id="cactus" src="img/cactus.png" alt="cactus">
+   <!-- <img src="img/dead-dino.png" alt="dead dino"> -->
+
+
+   <div id="ground"></div>
+
+
+   <button onclick="jump()">Jump</button>
+
+
+   <button onclick="start()">Start</button>
+   <button onclick="stopGame()">Stop</button>
+   <script>
+   let cactusLeft = window.innerWidth
+
+
+   let intervalID = 0  
+
+
+   function start(){
+       if(intervalID == 0){
+           intervalID = setInterval(gameLoop, 20)
+       }
+   }
+
+
+   function stopGame(){
+       clearInterval(intervalID)
+       intervalID = 0 // Reset, so Start can work again
+   }
+
+
+   let score = 0
+   function moveCactus(){
+       addToScore()
+       cactusLeft -= 5
+       checkCactusHitEdge()
+       document.getElementById("cactus").style.left = cactusLeft + "px"
+   }
+   function addToScore(){
+       score++ // add 1 to score
+       document.getElementById("score").innerText = "Score: " + score
+   }
+
+
+   function checkCactusHitEdge(){
+       if(cactusLeft < 0){
+           cactusLeft = window.innerWidth
+       }       
+   }
+  
+   let dinoIsJumping = false
+
+
+   function jump(){
+       dinoIsJumping = true
+       document.getElementById("dino").style.bottom = "200px"
+       setTimeout(jumpDown, 700)
+   }
+   function jumpDown(){
+       dinoIsJumping = false
+       document.getElementById("dino").style.bottom = "100px"
+   }
+
+
+   function checkCrash(){
+       if(cactusLeft < 100 && dinoIsJumping == false){
+           gameOver()
+       }
+   }
+
+
+   function gameOver(){
+       stopGame()
+       document.getElementById("dino").style.bottom = "80px"
+       document.getElementById("dino").src = "img/dead-dino.png"
+   }
+
+
+
+
+   function gameLoop(){
+       moveCactus()
+       addToScore()
+       checkCrash()
+   }
+   </script>   
+</body>
+</html>
+
+
