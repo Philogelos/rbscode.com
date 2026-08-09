@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIV Art Bonus Projects | RBS Code</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #182033;
+            line-height: 1.55;
+        }
+
+        header {
+            background: #182033;
+            color: white;
+            padding: 42px 20px 36px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0 0 10px;
+            font-size: 2.35rem;
+        }
+
+        header p {
+            max-width: 760px;
+            margin: 0 auto;
+            font-size: 1.05rem;
+            color: #dbe5ff;
+        }
+
+        .top-links {
+            margin-top: 18px;
+        }
+
+        .top-links a {
+            color: white;
+            text-decoration: none;
+            border: 1px solid #8293bf;
+            border-radius: 8px;
+            padding: 8px 12px;
+            display: inline-block;
+        }
+
+        main {
+            width: min(1000px, calc(100% - 28px));
+            margin: 28px auto 60px;
+        }
+
+        .intro,
+        .project,
+        .finish-card {
+            background: white;
+            border: 1px solid #dfe5ef;
+            border-radius: 14px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 18px rgba(25, 36, 60, 0.05);
+        }
+
+        .intro h2,
+        .project h2,
+        .finish-card h2 {
+            margin-top: 0;
+        }
+
+        .gold-rule {
+            background: #fff7d6;
+            border-left: 5px solid #e7b62f;
+            padding: 15px 17px;
+            border-radius: 8px;
+            margin: 18px 0;
+            font-size: 1.05rem;
+        }
+
+        .project-number {
+            display: inline-block;
+            background: #edf2ff;
+            color: #334b9b;
+            font-weight: bold;
+            border-radius: 999px;
+            padding: 5px 10px;
+            margin-bottom: 8px;
+        }
+
+        .difficulty {
+            font-size: 0.92rem;
+            color: #5d6780;
+            margin-top: -6px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 22px;
+            align-items: start;
+        }
+
+        @media (max-width: 760px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 1.9rem;
+            }
+        }
+
+        .target-wrap {
+            background: #eef3fa;
+            border: 1px solid #d9e2ee;
+            border-radius: 12px;
+            padding: 14px;
+        }
+
+        .target-label {
+            margin: 0 0 8px;
+            font-size: 0.82rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #66718a;
+        }
+
+        .preview {
+            position: relative;
+            width: 100%;
+            height: 320px;
+            overflow: hidden;
+            background: #dcecff;
+            border-radius: 10px;
+        }
+
+        .game-use {
+            background: #eaf8ef;
+            border-left: 5px solid #3e9c5e;
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin: 15px 0;
+        }
+
+        .hint {
+            background: #f2efff;
+            border-left: 5px solid #7658c6;
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin: 12px 0;
+        }
+
+        .challenge {
+            background: #fff0e8;
+            border-left: 5px solid #dc7440;
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin: 12px 0;
+        }
+
+        ul, ol {
+            padding-left: 23px;
+        }
+
+        code {
+            font-family: Consolas, Monaco, monospace;
+        }
+
+        .code-box {
+            position: relative;
+            margin: 14px 0 18px;
+        }
+
+        pre {
+            margin: 0;
+            background: #111827;
+            color: #eef4ff;
+            padding: 18px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-size: 0.91rem;
+            line-height: 1.5;
+            white-space: pre;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 9px;
+            right: 9px;
+            border: 0;
+            background: #ffffff;
+            color: #172033;
+            padding: 7px 11px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .copy-btn:hover {
+            background: #dfe7f6;
+        }
+
+        .palette {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 10px 0 14px;
+        }
+
+        .colour-word {
+            background: #edf1f7;
+            border: 1px solid #d6deea;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-family: Consolas, Monaco, monospace;
+            font-size: 0.9rem;
+        }
+
+        .support-note {
+            font-weight: bold;
+            color: #314276;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #e3e8f0;
+            margin: 24px 0;
+        }
+
+        /* =========================================================
+           TARGET PREVIEWS
+           These styles are for the worksheet pictures only.
+           Students do NOT need to copy these.
+           ========================================================= */
+
+        /* 1. Arcade */
+        .arcade-preview {
+            background: #18213c;
+        }
+
+        .arcade-cabinet {
+            position: absolute;
+            width: 190px;
+            height: 245px;
+            left: 50%;
+            top: 35px;
+            transform: translateX(-50%);
+            background: #322160;
+            border-radius: 16px 16px 8px 8px;
+        }
+
+        .arcade-screen {
+            position: absolute;
+            width: 132px;
+            height: 82px;
+            left: 50%;
+            top: 65px;
+            transform: translateX(-50%);
+            background: #1dd3e8;
+            border: 9px solid #101628;
+            border-radius: 8px;
+        }
+
+        .arcade-panel {
+            position: absolute;
+            width: 162px;
+            height: 53px;
+            left: 50%;
+            top: 168px;
+            transform: translateX(-50%);
+            background: #4d328d;
+        }
+
+        .arcade-stick {
+            position: absolute;
+            width: 10px;
+            height: 36px;
+            left: calc(50% - 48px);
+            top: 172px;
+            background: #111827;
+        }
+
+        .arcade-stick-top {
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            left: calc(50% - 57px);
+            top: 160px;
+            background: #ff4c60;
+            border-radius: 50%;
+        }
+
+        .arcade-btn {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            top: 182px;
+            border-radius: 50%;
+        }
+
+        .arcade-btn.one {
+            left: calc(50% + 18px);
+            background: gold;
+        }
+
+        .arcade-btn.two {
+            left: calc(50% + 50px);
+            background: lime;
+        }
+
+        .arcade-foot {
+            position: absolute;
+            width: 43px;
+            height: 48px;
+            top: 275px;
+            background: #241648;
+        }
+
+        .arcade-foot.left {
+            left: calc(50% - 74px);
+        }
+
+        .arcade-foot.right {
+            left: calc(50% + 31px);
+        }
+
+        /* 2. Racer */
+        .racer-preview {
+            background: #4b4f56;
+        }
+
+        .road-line {
+            position: absolute;
+            width: 18px;
+            height: 58px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+        }
+
+        .road-line.r1 { top: 15px; }
+        .road-line.r2 { top: 104px; }
+        .road-line.r3 { top: 193px; }
+        .road-line.r4 { top: 282px; }
+
+        .car-main {
+            position: absolute;
+            width: 92px;
+            height: 178px;
+            left: 50%;
+            top: 74px;
+            transform: translateX(-50%);
+            background: #e22d41;
+            border-radius: 22px;
+        }
+
+        .car-window {
+            position: absolute;
+            width: 62px;
+            height: 55px;
+            left: 50%;
+            top: 98px;
+            transform: translateX(-50%);
+            background: #bfeaff;
+            border-radius: 12px 12px 5px 5px;
+        }
+
+        .car-wheel {
+            position: absolute;
+            width: 18px;
+            height: 48px;
+            background: #111;
+            border-radius: 7px;
+        }
+
+        .cw1 { left: calc(50% - 61px); top: 102px; }
+        .cw2 { left: calc(50% + 43px); top: 102px; }
+        .cw3 { left: calc(50% - 61px); top: 188px; }
+        .cw4 { left: calc(50% + 43px); top: 188px; }
+
+        .car-light {
+            position: absolute;
+            width: 18px;
+            height: 13px;
+            top: 79px;
+            background: #ffe873;
+            border-radius: 5px;
+        }
+
+        .cl1 { left: calc(50% - 34px); }
+        .cl2 { left: calc(50% + 16px); }
+
+        /* 3. Chest */
+        .chest-preview {
+            background: #173a31;
+        }
+
+        .chest-shadow {
+            position: absolute;
+            width: 230px;
+            height: 38px;
+            left: 50%;
+            top: 239px;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.25);
+            border-radius: 50%;
+        }
+
+        .chest-lid {
+            position: absolute;
+            width: 220px;
+            height: 92px;
+            left: 50%;
+            top: 83px;
+            transform: translateX(-50%);
+            background: #a75d25;
+            border-radius: 28px 28px 0 0;
+            border-bottom: 12px solid #5d321c;
+        }
+
+        .chest-body {
+            position: absolute;
+            width: 220px;
+            height: 105px;
+            left: 50%;
+            top: 175px;
+            transform: translateX(-50%);
+            background: #8c4b21;
+        }
+
+        .chest-band {
+            position: absolute;
+            width: 28px;
+            height: 197px;
+            left: 50%;
+            top: 83px;
+            transform: translateX(-50%);
+            background: #e3af36;
+        }
+
+        .chest-lock {
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            left: 50%;
+            top: 176px;
+            transform: translateX(-50%);
+            background: gold;
+            border-radius: 7px;
+        }
+
+        /* 4. Shop */
+        .shop-preview {
+            background: #8ed4ff;
+        }
+
+        .shop-ground {
+            position: absolute;
+            width: 100%;
+            height: 65px;
+            left: 0;
+            bottom: 0;
+            background: #72bd5c;
+        }
+
+        .shop-building {
+            position: absolute;
+            width: 245px;
+            height: 190px;
+            left: 50%;
+            top: 92px;
+            transform: translateX(-50%);
+            background: #f4c66c;
+        }
+
+        .shop-sign {
+            position: absolute;
+            width: 155px;
+            height: 46px;
+            left: 50%;
+            top: 49px;
+            transform: translateX(-50%);
+            background: #c94d49;
+            color: white;
+            text-align: center;
+            padding-top: 10px;
+            font-weight: bold;
+            border-radius: 8px;
+        }
+
+        .shop-door {
+            position: absolute;
+            width: 64px;
+            height: 98px;
+            left: 50%;
+            top: 184px;
+            transform: translateX(-50%);
+            background: #70452a;
+        }
+
+        .shop-window {
+            position: absolute;
+            width: 55px;
+            height: 60px;
+            top: 135px;
+            background: #b8ecff;
+            border: 7px solid white;
+        }
+
+        .sw1 { left: calc(50% - 103px); }
+        .sw2 { left: calc(50% + 48px); }
+
+        .awning {
+            position: absolute;
+            width: 245px;
+            height: 27px;
+            left: 50%;
+            top: 104px;
+            transform: translateX(-50%);
+            background: #f06d61;
+        }
+
+        /* 5. Spaceship */
+        .space-preview {
+            background: #10172c;
+        }
+
+        .star {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: white;
+        }
+
+        .s1 { left: 12%; top: 18%; }
+        .s2 { left: 81%; top: 22%; }
+        .s3 { left: 68%; top: 68%; }
+        .s4 { left: 22%; top: 77%; }
+        .s5 { left: 90%; top: 84%; }
+
+        .ship-body {
+            position: absolute;
+            width: 86px;
+            height: 170px;
+            left: 50%;
+            top: 67px;
+            transform: translateX(-50%);
+            background: #d8e1ea;
+            border-radius: 45px 45px 18px 18px;
+        }
+
+        .ship-window {
+            position: absolute;
+            width: 46px;
+            height: 46px;
+            left: 50%;
+            top: 100px;
+            transform: translateX(-50%);
+            background: #4bc8ff;
+            border-radius: 50%;
+            border: 6px solid #516074;
+        }
+
+        .ship-wing {
+            position: absolute;
+            width: 58px;
+            height: 90px;
+            top: 148px;
+            background: #ef4969;
+        }
+
+        .ship-wing.left {
+            left: calc(50% - 99px);
+            border-radius: 28px 0 8px 8px;
+        }
+
+        .ship-wing.right {
+            left: calc(50% + 41px);
+            border-radius: 0 28px 8px 8px;
+        }
+
+        .ship-flame {
+            position: absolute;
+            width: 30px;
+            height: 57px;
+            left: 50%;
+            top: 233px;
+            transform: translateX(-50%);
+            background: #ff9b31;
+            border-radius: 0 0 50% 50%;
+        }
+
+        /* 6. Arena */
+        .arena-preview {
+            background: #263044;
+        }
+
+        .arena-floor {
+            position: absolute;
+            width: 84%;
+            height: 82%;
+            left: 8%;
+            top: 9%;
+            background: #d6c39a;
+            border: 10px solid #6f5940;
+        }
+
+        .wall {
+            position: absolute;
+            background: #725b43;
+        }
+
+        .wall.a { width: 150px; height: 24px; left: 15%; top: 31%; }
+        .wall.b { width: 24px; height: 105px; left: 59%; top: 38%; }
+        .wall.c { width: 115px; height: 24px; left: 39%; top: 70%; }
+
+        .arena-player {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            left: 20%;
+            top: 64%;
+            background: royalblue;
+            border-radius: 7px;
+        }
+
+        .coin {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: gold;
+            border-radius: 50%;
+        }
+
+        .coin.c1 { left: 72%; top: 26%; }
+        .coin.c2 { left: 47%; top: 47%; }
+        .coin.c3 { left: 73%; top: 68%; }
+
+        .goal {
+            position: absolute;
+            width: 57px;
+            height: 57px;
+            left: 73%;
+            top: 44%;
+            background: #48c777;
+            border: 7px solid #1d8b47;
+        }
+
+        .legend {
+            font-size: 0.9rem;
+            color: #6b7386;
+        }
+
+        .checklist {
+            columns: 2;
+        }
+
+        @media (max-width: 620px) {
+            .checklist {
+                columns: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>DIV Art: Bonus Game Projects</h1>
+    <p>
+        You already know how DIV Art works. Now use it.
+        Copy the HTML when you want, build the CSS yourself, and turn simple boxes into game art.
+    </p>
+
+    <div class="top-links">
+        <a href="index.html">← Main DIV Art Lesson</a>
+    </div>
+</header>
+
+<main>
+
+    <section class="intro">
+        <h2>Bonus Mission</h2>
+
+        <div class="gold-rule">
+            <strong>Important:</strong> Your picture does NOT need to match perfectly.
+            If yours looks good, works, and you understand the code, that is better than copying every pixel.
+        </div>
+
+        <p>
+            For these projects, the HTML is supplied because the challenge is mainly CSS.
+            Start with the biggest DIV, then add one part at a time.
+        </p>
+
+        <ol>
+            <li>Look at the target.</li>
+            <li>Copy the starter HTML.</li>
+            <li>Build the CSS yourself.</li>
+            <li>Save with <strong>Ctrl + S</strong>.</li>
+            <li>Refresh with <strong>Ctrl + R</strong>.</li>
+            <li>Change something and make it yours.</li>
+        </ol>
+
+        <div class="hint">
+            <strong>Core tools:</strong>
+            <code>width</code>,
+            <code>height</code>,
+            <code>background-color</code>,
+            <code>position: absolute</code>,
+            <code>left</code>,
+            <code>top</code>,
+            IDs and classes.
+        </div>
+
+        <p>
+            You may also use <code>border-radius</code> when you want a circle or softer corners.
+            Keep it simple.
+        </p>
+    </section>
+
+
+    <!-- =========================================================
+         PROJECT 1
+         ========================================================= -->
+    <section class="project">
+        <span class="project-number">Project 1</span>
+        <h2>Retro Arcade Machine</h2>
+        <p class="difficulty">Support level: ★★★ lots of help</p>
+
+        <div class="grid">
+
+            <div class="target-wrap">
+                <p class="target-label">Target idea</p>
+
+                <div class="preview arcade-preview">
+                    <div class="arcade-cabinet"></div>
+                    <div class="arcade-screen"></div>
+                    <div class="arcade-panel"></div>
+                    <div class="arcade-stick"></div>
+                    <div class="arcade-stick-top"></div>
+                    <div class="arcade-btn one"></div>
+                    <div class="arcade-btn two"></div>
+                    <div class="arcade-foot left"></div>
+                    <div class="arcade-foot right"></div>
+                </div>
+
+                <p class="legend">Boxes first. Circles only for the joystick and buttons.</p>
+            </div>
+
+            <div>
+                <h3>Your mission</h3>
+                <p>Build an arcade cabinet with a screen, controls and two feet.</p>
+
+                <div class="game-use">
+                    <strong>Use it in a game:</strong>
+                    Make it a clickable arcade machine, a level selector, a shop object,
+                    or something the player walks up to before starting a mini-game.
+                </div>
+
+                <h3>Suggested sizes</h3>
+                <ul>
+                    <li>Scene: about 600 × 420</li>
+                    <li>Machine: about 240 × 300</li>
+                    <li>Screen: about 160 × 100</li>
+                    <li>Control panel: about 200 × 65</li>
+                    <li>Buttons: about 28 × 28</li>
+                    <li>Feet: about 50 × 60</li>
+                </ul>
+
+                <p class="support-note">You choose the left and top positions.</p>
+
+                <h3>Colour ideas</h3>
+                <div class="palette">
+                    <span class="colour-word">midnightblue</span>
+                    <span class="colour-word">purple</span>
+                    <span class="colour-word">deepskyblue</span>
+                    <span class="colour-word">crimson</span>
+                    <span class="colour-word">gold</span>
+                    <span class="colour-word">lime</span>
+                </div>
+            </div>
+
+        </div>
+
+        <h3>Copy the HTML</h3>
+
+        <div class="code-box">
+            <button class="copy-btn">Copy</button>
+            <pre><code>&lt;h1&gt;Arcade Machine&lt;/h1&gt;
+
+&lt;div id="scene"&gt;
+
+    &lt;div id="machine"&gt;&lt;/div&gt;
+    &lt;div id="screen"&gt;&lt;/div&gt;
+    &lt;div id="controlPanel"&gt;&lt;/div&gt;
+
+    &lt;div id="joystickStick"&gt;&lt;/div&gt;
+    &lt;div id="joystickTop"&gt;&lt;/div&gt;
+
+    &lt;div id="button1" class="gameButton"&gt;&lt;/div&gt;
+    &lt;div id="button2" class="gameButton"&gt;&lt;/div&gt;
+
+    &lt;div id="foot1" class="foot"&gt;&lt;/div&gt;
+    &lt;div id="foot2" class="foot"&gt;&lt;/div&gt;
+
+&lt;/div&gt;</code></pre>
+        </div>
+
+        <div class="hint">
+            <strong>Circle hint:</strong>
+            same width + same height + <code>border-radius: 50%;</code>
+        </div>
+
+        <div class="challenge">
+            <strong>Make it yours:</strong>
+            Add a coin slot, a third button, a game title, different colours,
+            or a glowing power light.
+        </div>
+    </section>
+
+
+    <!-- =========================================================
+         PROJECT 2
+         ========================================================= -->
+    <section class="project">
+        <span class="project-number">Project 2</span>
+        <h2>Road Racer Car</h2>
+        <p class="difficulty">Support level: ★★ some help</p>
+
+        <div class="grid">
+
+            <div class="target-wrap">
+                <p class="target-label">Target idea</p>
+
+                <div class="preview racer-preview">
+                    <div class="road-line r1"></div>
+                    <div class="road-line r2"></div>
+                    <div class="road-line r3"></div>
+                    <div class="road-line r4"></div>
+
+                    <div class="car-wheel cw1"></div>
+                    <div class="car-wheel cw2"></div>
+                    <div class="car-wheel cw3"></div>
+                    <div class="car-wheel cw4"></div>
+
+                    <div class="car-main"></div>
+                    <div class="car-window"></div>
+                    <div class="car-light cl1"></div>
+                    <div class="car-light cl2"></div>
+                </div>
+            </div>
+
+            <div>
+                <h3>Your mission</h3>
+                <p>Build a top-down racing car that could become the player in Road Racer.</p>
+
+                <div class="game-use">
+                    <strong>Use it in a game:</strong>
+                    Put the whole car inside one player DIV later and move it left and right with JavaScript.
+                    Make another colour for enemy traffic.
+                </div>
+
+                <h3>Parts you need</h3>
+                <ul>
+                    <li>car body</li>
+                    <li>window</li>
+                    <li>4 wheels using one class</li>
+                    <li>2 headlights using one class</li>
+                </ul>
+
+                <h3>Only a few size clues</h3>
+                <ul>
+                    <li>Car body: roughly 90 × 180</li>
+                    <li>Wheels should be narrow rectangles</li>
+                    <li>The window should fit inside the body</li>
+                </ul>
+
+                <h3>Colour ideas</h3>
+                <div class="palette">
+                    <span class="colour-word">crimson</span>
+                    <span class="colour-word">black</span>
+                    <span class="colour-word">lightblue</span>
+                    <span class="colour-word">gold</span>
+                </div>
+            </div>
+
+        </div>
+
+        <h3>Copy the HTML</h3>
+
+        <div class="code-box">
+            <button class="copy-btn">Copy</button>
+            <pre><code>&lt;h1&gt;Road Racer Car&lt;/h1&gt;
+
+&lt;div id="scene"&gt;
+
+    &lt;div id="carBody"&gt;&lt;/div&gt;
+    &lt;div id="window"&gt;&lt;/div&gt;
+
+    &lt;div id="wheel1" class="wheel"&gt;&lt;/div&gt;
+    &lt;div id="wheel2" class="wheel"&gt;&lt;/div&gt;
+    &lt;div id="wheel3" class="wheel"&gt;&lt;/div&gt;
+    &lt;div id="wheel4" class="wheel"&gt;&lt;/div&gt;
+
+    &lt;div id="light1" class="light"&gt;&lt;/div&gt;
+    &lt;div id="light2" class="light"&gt;&lt;/div&gt;
+
+&lt;/div&gt;</code></pre>
+        </div>
+
+        <div class="hint">
+            <strong>Class challenge:</strong>
+            Put the shared wheel CSS in <code>.wheel</code>.
+            Use the IDs only for their different positions.
+        </div>
+
+        <div class="challenge">
+            <strong>Bonus:</strong>
+            Add a spoiler, racing stripe, number plate or second enemy car.
+        </div>
+    </section>
+
+
+    <!-- =========================================================
+         PROJECT 3
+         ========================================================= -->
+    <section class="project">
+        <span class="project-number">Project 3</span>
+        <h2>Treasure Chest</h2>
+        <p class="difficulty">Support level: ★★ less help</p>
+
+        <div class="grid">
+
+            <div class="target-wrap">
+                <p class="target-label">Target idea</p>
+
+                <div class="preview chest-preview">
+                    <div class="chest-shadow"></div>
+                    <div class="chest-lid"></div>
+                    <div class="chest-body"></div>
+                    <div class="chest-band"></div>
+                    <div class="chest-lock"></div>
+                </div>
+            </div>
+
+            <div>
+                <h3>Your mission</h3>
+                <p>Build a game reward chest using mostly rectangles.</p>
+
+                <div class="game-use">
+                    <strong>Use it in a game:</strong>
+                    The player could collide with it to earn points, unlock a level,
+                    reveal an item, or make the chest change colour when opened.
+                </div>
+
+                <h3>Build these parts</h3>
+                <ul>
+                    <li>main box</li>
+                    <li>lid</li>
+                    <li>gold strip</li>
+                    <li>lock</li>
+                    <li>optional shadow</li>
+                </ul>
+
+                <div class="hint">
+                    The lid can still be almost a rectangle.
+                    Try rounding only the top corners if you want.
+                </div>
+
+                <h3>Colour ideas</h3>
+                <div class="palette">
+                    <span class="colour-word">saddlebrown</span>
+                    <span class="colour-word">peru</span>
+                    <span class="colour-word">gold</span>
+                    <span class="colour-word">darkgoldenrod</span>
+                </div>
+            </div>
+
+        </div>
+
+        <h3>Copy the HTML</h3>
+
+        <div class="code-box">
+            <button class="copy-btn">Copy</button>
+            <pre><code>&lt;h1&gt;Treasure Chest&lt;/h1&gt;
+
+&lt;div id="scene"&gt;
+
+    &lt;div id="chestBody"&gt;&lt;/div&gt;
+    &lt;div id="chestLid"&gt;&lt;/div&gt;
+    &lt;div id="goldBand"&gt;&lt;/div&gt;
+    &lt;div id="lock"&gt;&lt;/div&gt;
+    &lt;div id="shadow"&gt;&lt;/div&gt;
+
+&lt;/div&gt;</code></pre>
+        </div>
+
+        <div class="challenge">
+            <strong>Bonus:</strong>
+            Make an “open” version by moving the lid upward.
+            You can later switch between closed and open with JavaScript.
+        </div>
+    </section>
+
+
+    <!-- =========================================================
+         PROJECT 4
+         ========================================================= -->
+    <section class="project">
+        <span class="project-number">Project 4</span>
+        <h2>Game Shop</h2>
+        <p class="difficulty">Support level: ★ getting independent</p>
+
+        <div class="grid">
+
+            <div class="target-wrap">
+                <p class="target-label">Target idea</p>
+
+                <div class="preview shop-preview">
+                    <div class="shop-ground"></div>
+                    <div class="shop-building"></div>
+                    <div class="awning"></div>
+                    <div class="shop-sign">SHOP</div>
+                    <div class="shop-window sw1"></div>
+                    <div class="shop-window sw2"></div>
+                    <div class="shop-door"></div>
+                </div>
+            </div>
+
+            <div>
+                <h3>Your mission</h3>
+                <p>Make a simple building that looks like somewhere your player could visit.</p>
+
+                <div class="game-use">
+                    <strong>Use it in a game:</strong>
+                    Make the shop a collision zone.
+                    When the player reaches the door, JavaScript could show
+                    “Welcome to the shop!” or display an upgrade menu.
+                </div>
+
+                <h3>You decide the sizes</h3>
+                <p>Try to include:</p>
+                <ul>
+                    <li>building</li>
+                    <li>door</li>
+                    <li>2 windows using a class</li>
+                    <li>shop sign</li>
+                    <li>awning or roof strip</li>
+                </ul>
+
+                <p class="support-note">No measurements this time. Use the target only as a guide.</p>
+
+                <h3>Colour ideas</h3>
+                <div class="palette">
+                    <span class="colour-word">khaki</span>
+                    <span class="colour-word">tomato</span>
+                    <span class="colour-word">lightblue</span>
+                    <span class="colour-word">sienna</span>
+                    <span class="colour-word">white</span>
+                </div>
+            </div>
+
+        </div>
+
+        <h3>Copy the HTML</h3>
+
+        <div class="code-box">
+            <button class="copy-btn">Copy</button>
+            <pre><code>&lt;h1&gt;Game Shop&lt;/h1&gt;
+
+&lt;div id="scene"&gt;
+
+    &lt;div id="ground"&gt;&lt;/div&gt;
+    &lt;div id="shop"&gt;&lt;/div&gt;
+    &lt;div id="awning"&gt;&lt;/div&gt;
+    &lt;div id="sign"&gt;SHOP&lt;/div&gt;
+
+    &lt;div id="window1" class="window"&gt;&lt;/div&gt;
+    &lt;div id="window2" class="window"&gt;&lt;/div&gt;
+
+    &lt;div id="door"&gt;&lt;/div&gt;
+
+&lt;/div&gt;</code></pre>
+        </div>
+
+        <div class="challenge">
+            <strong>Bonus:</strong>
+            Turn it into a garage, café, game headquarters, upgrade station or checkpoint building.
+        </div>
+    </section>
+
+
+    <!-- =========================================================
+         PROJECT 5
+         ========================================================= -->
+    <section class="project">
+        <span class="project-number">Project 5</span>
+        <h2>Player Spaceship</h2>
+        <p class="difficulty">Support level: ★ mostly independent</p>
+
+        <div class="grid">
+
+            <div class="target-wrap">
+                <p class="target-label">Target idea</p>
+
+                <div class="preview space-preview">
+                    <div class="star s1"></div>
+                    <div class="star s2"></div>
+                    <div class="star s3"></div>
+                    <div class="star s4"></div>
+                    <div class="star s5"></div>
+
+                    <div class="ship-wing left"></div>
+                    <div class="ship-wing right"></div>
+                    <div class="ship-body"></div>
+                    <div class="ship-window"></div>
+                    <div class="ship-flame"></div>
+                </div>
+            </div>
+
+            <div>
+                <h3>Your mission</h3>
+                <p>Create a spaceship from simple DIVs. It does not have to look like this one.</p>
+
+                <div class="game-use">
+                    <strong>Use it in a game:</strong>
+                    This can become the actual player.
+                    Later you can move it with arrow keys and make enemy DIVs or falling objects.
+                </div>
+
+                <h3>Possible parts</h3>
+                <ul>
+                    <li>body</li>
+                    <li>2 wings</li>
+                    <li>window</li>
+                    <li>engine flame</li>
+                    <li>optional stars</li>
+                </ul>
+
+                <div class="hint">
+                    If a curve starts becoming annoying, stop.
+                    A square-looking spaceship is completely fine.
+                    Good DIV Art does not need complicated shapes.
+                </div>
+            </div>
+
+        </div>
+
+        <h3>Copy the HTML</h3>
+
+        <div class="code-box">
+            <button class="copy-btn">Copy</button>
+            <pre><code>&lt;h1&gt;Player Spaceship&lt;/h1&gt;
+
+&lt;div id="scene"&gt;
+
+    &lt;div id="shipBody"&gt;&lt;/div&gt;
+
+    &lt;div id="wing1" class="wing"&gt;&lt;/div&gt;
+    &lt;div id="wing2" class="wing"&gt;&lt;/div&gt;
+
+    &lt;div id="shipWindow"&gt;&lt;/div&gt;
+    &lt;div id="flame"&gt;&lt;/div&gt;
+
+    &lt;div id="star1" class="star"&gt;&lt;/div&gt;
+    &lt;div id="star2" class="star"&gt;&lt;/div&gt;
+    &lt;div id="star3" class="star"&gt;&lt;/div&gt;
+
+&lt;/div&gt;</code></pre>
+        </div>
+
+        <div class="challenge">
+            <strong>Bonus:</strong>
+            Make a second spaceship as an enemy. Change its colours and shape so it is clearly different.
+        </div>
+    </section>
+
+
+    <!-- =========================================================
+         PROJECT 6
+         ========================================================= -->
+    <section class="project">
+        <span class="project-number">Project 6</span>
+        <h2>Mini Game Arena</h2>
+        <p class="difficulty">Final challenge: build the beginning of a real game</p>
+
+        <div class="grid">
+
+            <div class="target-wrap">
+                <p class="target-label">Target idea</p>
+
+                <div class="preview arena-preview">
+                    <div class="arena-floor"></div>
+
+                    <div class="wall a"></div>
+                    <div class="wall b"></div>
+                    <div class="wall c"></div>
+
+                    <div class="arena-player"></div>
+
+                    <div class="coin c1"></div>
+                    <div class="coin c2"></div>
+                    <div class="coin c3"></div>
+
+                    <div class="goal"></div>
+                </div>
+            </div>
+
+            <div>
+                <h3>Your mission</h3>
+                <p>
+                    Build a tiny level using DIVs:
+                    a player, walls, collectibles and a goal.
+                </p>
+
+                <div class="game-use">
+                    <strong>This IS the start of a game:</strong>
+                    JavaScript can later move <code>#player</code>,
+                    detect collisions with <code>.wall</code>,
+                    collect <code>.coin</code> DIVs,
+                    and win when the player reaches <code>#goal</code>.
+                </div>
+
+                <h3>Rules</h3>
+                <ul>
+                    <li>At least 3 walls</li>
+                    <li>At least 3 coins</li>
+                    <li>1 player</li>
+                    <li>1 goal</li>
+                    <li>Use a class for repeated walls</li>
+                    <li>Use a class for repeated coins</li>
+                </ul>
+
+                <p class="support-note">Design your own level. Do not copy the target layout exactly.</p>
+            </div>
+
+        </div>
+
+        <h3>Copy the HTML</h3>
+
+        <div class="code-box">
+            <button class="copy-btn">Copy</button>
+            <pre><code>&lt;h1&gt;Mini Game Arena&lt;/h1&gt;
+
+&lt;div id="game"&gt;
+
+    &lt;div id="player"&gt;&lt;/div&gt;
+
+    &lt;div id="wall1" class="wall"&gt;&lt;/div&gt;
+    &lt;div id="wall2" class="wall"&gt;&lt;/div&gt;
+    &lt;div id="wall3" class="wall"&gt;&lt;/div&gt;
+
+    &lt;div id="coin1" class="coin"&gt;&lt;/div&gt;
+    &lt;div id="coin2" class="coin"&gt;&lt;/div&gt;
+    &lt;div id="coin3" class="coin"&gt;&lt;/div&gt;
+
+    &lt;div id="goal"&gt;&lt;/div&gt;
+
+&lt;/div&gt;</code></pre>
+        </div>
+
+        <div class="hint">
+            <strong>Important:</strong>
+            Give <code>#game</code> a width and height and use
+            <code>position: relative;</code>.
+            Then your game objects can use <code>position: absolute;</code>.
+        </div>
+
+        <div class="challenge">
+            <strong>Super bonus:</strong>
+            Add a danger zone, second room, key, door, extra coins,
+            checkpoint, sign, shop or anything else made from DIVs.
+        </div>
+    </section>
+
+
+    <!-- =========================================================
+         FAST FINISHERS
+         ========================================================= -->
+    <section class="finish-card">
+        <h2>Fast Finisher: Turn Art Into Game Pieces</h2>
+
+        <p>
+            Pick one thing you built and prepare it for JavaScript.
+        </p>
+
+        <ul>
+            <li>Car → player for Road Racer</li>
+            <li>Spaceship → player for a space game</li>
+            <li>Chest → collectible or reward</li>
+            <li>Shop → place the player can enter</li>
+            <li>Arcade machine → level selector or mini-game entrance</li>
+            <li>Arena → movement + collision game</li>
+        </ul>
+
+        <div class="gold-rule">
+            <strong>Best challenge:</strong>
+            Build something new without a target picture.
+            If another student can tell what it is, your DIV Art worked.
+        </div>
+
+        <h3>Show the teacher</h3>
+
+        <div class="checklist">
+            <p>☐ I used width and height</p>
+            <p>☐ I positioned DIVs myself</p>
+            <p>☐ I used at least one class</p>
+            <p>☐ I used more than one ID</p>
+            <p>☐ I changed the example</p>
+            <p>☐ I can explain my CSS</p>
+            <p>☐ I built something useful for a game</p>
+            <p>☐ I fixed at least one mistake myself</p>
+        </div>
+    </section>
+
+</main>
+
+<script>
+    const copyButtons = document.querySelectorAll(".copy-btn");
+
+    copyButtons.forEach(function(button) {
+        button.addEventListener("click", function() {
+            const code = button.nextElementSibling.innerText;
+
+            navigator.clipboard.writeText(code).then(function() {
+                const oldText = button.innerText;
+                button.innerText = "Copied!";
+
+                setTimeout(function() {
+                    button.innerText = oldText;
+                }, 1200);
+            }).catch(function() {
+                const textarea = document.createElement("textarea");
+                textarea.value = code;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand("copy");
+                textarea.remove();
+
+                const oldText = button.innerText;
+                button.innerText = "Copied!";
+
+                setTimeout(function() {
+                    button.innerText = oldText;
+                }, 1200);
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RBS CODE · CSS 2</title>
+
+<!--
+============================================================
+RBS CODE · CSS 2 — Space, Cards & Real Websites
+============================================================
+
+TEACHER / SITE SETUP NOTES
+
+CORE LESSON REQUIRES NO EXTERNAL ASSETS.
+All demos use inline SVG/data images or plain CSS so the lesson works offline.
+
+RECOMMENDED RBS CODE FONT PACK (host locally for filtered/offline schools):
+1. Fredoka          — friendly / general use
+2. Nunito           — clean / readable
+3. Quicksand        — smooth / modern
+4. Baloo 2          — playful / chunky
+5. Luckiest Guy     — cartoon / game titles
+6. Bungee           — arcade / bold display
+7. Orbitron         — space / futuristic
+8. Audiowide        — tech / sci-fi
+9. Oxanium          — game / interface
+10. Press Start 2P  — retro pixel
+11. Chewy           — cartoon / playful
+12. Titan One       — bold fun titles
+
+Suggested site structure:
+/Student-Portal/fonts/
+    rbs-fonts.css
+    fredoka/Fredoka-Regular.woff2
+    fredoka/Fredoka-Bold.woff2
+    nunito/Nunito-Regular.woff2
+    ...etc
+
+Suggested online student link:
+<link rel="stylesheet" href="https://rbscode.com/Student-Portal/fonts/rbs-fonts.css">
+
+Suggested zero-internet student link (starter folder includes fonts/):
+<link rel="stylesheet" href="fonts/rbs-fonts.css">
+
+IMPORTANT:
+- Download only fonts whose licenses allow redistribution/self-hosting.
+- Keep each font's license file with the font files.
+- WOFF2 is the preferred classroom format for modern browsers.
+- The student lesson below treats downloaded fonts and Google Fonts as BONUS.
+
+PEDAGOGY:
+Core completion checkpoint ends BEFORE bonus effects / external-font material.
+A student who completes the core is ready to move on.
+============================================================
+-->
+
+<style>
+:root{
+    --page-bg:#f6f7fb;
+    --surface:#ffffff;
+    --surface-soft:#fafbfe;
+    --text:#172033;
+    --muted:#68768a;
+    --border:#dfe5ee;
+    --accent:#4f46e5;
+    --accent-dark:#3730a3;
+    --accent-soft:#eef2ff;
+    --good:#0f766e;
+    --good-soft:#ecfdf5;
+    --bonus:#9a3412;
+    --bonus-soft:#fff7ed;
+    --code-bg:#0d1526;
+    --code-text:#eef3ff;
+    --radius:14px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page-bg);color:var(--text);font-family:Inter,system-ui,Arial,sans-serif;font-size:17px;line-height:1.55}
+button,textarea{font:inherit}
+button{cursor:pointer}
+code{font-family:Consolas,"Courier New",monospace}
+.page{width:min(1080px,calc(100% - 32px));margin:0 auto;padding:30px 0 80px}
+.top-links{display:flex;justify-content:space-between;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+.text-link{color:var(--accent-dark);font-weight:850;text-decoration:none}
+.lesson-header{margin-bottom:34px}
+.lesson-label,.section-kicker,.try-label,.bonus-label{color:var(--accent-dark);font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.bonus-label{color:var(--bonus)}
+.lesson-header h1{margin:5px 0 8px;font-size:clamp(38px,6vw,64px);line-height:1;letter-spacing:-.04em}
+.lesson-header p{max-width:800px;margin:0;color:var(--muted);font-size:19px}
+.progress{display:flex;gap:8px;margin-top:20px;flex-wrap:wrap}
+.progress span{padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:white;color:var(--muted);font-size:13px;font-weight:800}
+.progress span.core{border-color:#bbf7d0;background:#f0fdf4;color:#166534}
+.lesson-section{margin-top:48px;padding-top:4px}
+.lesson-section h2{margin:4px 0 6px;font-size:30px;line-height:1.15;letter-spacing:-.025em}
+.lesson-section h3{margin:24px 0 8px;font-size:22px}
+.section-intro{max-width:800px;margin:0 0 18px;color:var(--muted)}
+.code-result{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.panel{overflow:hidden;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface)}
+.panel-title{min-height:42px;padding:0 12px;border-bottom:1px solid var(--border);background:var(--surface-soft);display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--muted);font-size:13px;font-weight:850}
+.panel-title strong{color:var(--text)}
+.panel-actions{display:flex;gap:6px;flex-wrap:wrap}
+.small-button{border:1px solid var(--border);border-radius:8px;background:white;color:var(--text);padding:5px 8px;font-size:12px;font-weight:900}
+.small-button.primary{border-color:var(--accent);background:var(--accent);color:white}
+.code-box{display:block;width:100%;min-height:250px;resize:vertical;border:0;outline:0;padding:16px;background:var(--code-bg);color:var(--code-text);font-family:Consolas,"Courier New",monospace;font-size:16px;line-height:1.55}
+.result-box{width:100%;min-height:250px;border:0;background:white}
+.explain-box{margin-top:14px;padding:14px 16px;border-left:4px solid var(--accent);border-radius:0 12px 12px 0;background:var(--accent-soft)}
+.explain-box.good{border-left-color:var(--good);background:var(--good-soft)}
+.explain-box.bonus{border-left-color:var(--bonus);background:var(--bonus-soft)}
+.explain-box strong{display:block;margin-bottom:3px}
+.try-box{margin-top:12px;padding:14px 16px;border:1px solid var(--border);border-radius:12px;background:white}
+.memory-grid,.reference-grid,.template-grid,.font-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.memory-card,.reference-card,.template-card,.font-card{padding:14px;border:1px solid var(--border);border-radius:12px;background:white}
+.memory-card code,.reference-card code,.font-card code{display:block;margin-bottom:4px;color:var(--accent-dark);font-family:Consolas,monospace;font-weight:800}
+.memory-card span,.reference-card span,.font-card span,.template-card p{color:var(--muted);font-size:14px}
+.memory-card strong,.template-card strong{display:block;margin-bottom:4px}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.template-box{margin-top:16px;overflow:hidden;border:1px solid var(--border);border-radius:var(--radius);background:white}
+.template-box pre{margin:0;padding:16px;overflow:auto;background:var(--code-bg);color:var(--code-text);font:16px/1.55 Consolas,"Courier New",monospace;white-space:pre-wrap}
+.clockwise{display:grid;place-items:center;min-height:230px;border:1px solid var(--border);border-radius:var(--radius);background:white;text-align:center}
+.clockwise-box{position:relative;width:150px;height:100px;border:3px solid var(--accent);border-radius:12px;display:grid;place-items:center;font-weight:900;background:var(--accent-soft)}
+.clockwise-box span{position:absolute;font:800 13px/1.2 Inter,Arial,sans-serif;color:var(--accent-dark)}
+.clockwise-box .top{top:-34px;left:50%;transform:translateX(-50%)}
+.clockwise-box .right{right:-62px;top:50%;transform:translateY(-50%)}
+.clockwise-box .bottom{bottom:-34px;left:50%;transform:translateX(-50%)}
+.clockwise-box .left{left:-53px;top:50%;transform:translateY(-50%)}
+.checkpoint{margin-top:52px;padding:22px;border:2px solid #86efac;border-radius:var(--radius);background:#f0fdf4}
+.checkpoint h2{margin:3px 0 8px}
+.checkpoint ul{margin:10px 0 0;padding-left:22px}
+.bonus-section{margin-top:56px;padding:24px;border:1px solid #fed7aa;border-radius:18px;background:#fffaf5}
+.bonus-section h2{margin:4px 0 7px}
+.quiz{display:grid;gap:10px;margin-top:14px}
+.quiz-item{padding:14px 16px;border:1px solid var(--border);border-radius:12px;background:white}
+.quiz-item summary{cursor:pointer;font-weight:850}
+.quiz-item p{margin:8px 0 0;color:var(--muted)}
+.practice-cta{margin-top:50px;padding:24px;border:1px solid var(--border);border-radius:var(--radius);background:var(--accent-soft);display:flex;justify-content:space-between;align-items:center;gap:18px}
+.practice-cta h2{margin:4px 0 5px}.practice-cta p{margin:0;color:var(--muted)}
+.practice-button{flex:0 0 auto;display:inline-block;padding:11px 16px;border-radius:10px;background:var(--accent);color:white;text-decoration:none;font-weight:900}
+.next-box{margin-top:28px;padding:20px;border:1px solid var(--border);border-radius:var(--radius);background:white}.next-box p{margin:3px 0 0;color:var(--muted)}
+.skill-list{columns:2;column-gap:30px;margin:12px 0 0;padding-left:22px}
+.skill-list li{margin:5px 0;break-inside:avoid}
+.badge{display:inline-block;padding:3px 7px;border-radius:999px;background:#eef2ff;color:var(--accent-dark);font-size:12px;font-weight:850}
+@media(max-width:800px){
+    .code-result,.memory-grid,.reference-grid,.template-grid,.font-grid,.compare{grid-template-columns:1fr}
+    .practice-cta{align-items:flex-start;flex-direction:column}
+    .skill-list{columns:1}
+}
+</style>
+</head>
+
+<body>
+<main class="page">
+
+<div class="top-links">
+    <a class="text-link" href="html-2.html">← HTML 2</a>
+    <a class="text-link" href="css2-exercises.html">CSS 2 Practice →</a>
+</div>
+
+<header class="lesson-header">
+    <div class="lesson-label">CSS 2</div>
+    <h1>Give Your Website Space</h1>
+    <p>In HTML 2 you built cards, images and links. Now we make them feel like a real website: add breathing room, center boxes, build a navbar and make an image card look clean.</p>
+    <div class="progress">
+        <span class="core">1 · Padding</span>
+        <span class="core">2 · Margin</span>
+        <span class="core">3 · Shortcuts</span>
+        <span class="core">4 · Centering</span>
+        <span class="core">5 · Navbar</span>
+        <span class="core">6 · Image Card</span>
+        <span class="core">7 · Fonts</span>
+        <span>Bonus · Effects</span>
+    </div>
+</header>
+
+<section class="lesson-section">
+    <div class="section-kicker">CSS 2.1</div>
+    <h2>1. Padding = Space Inside</h2>
+    <p class="section-intro">Start with the card you already know. The text is too close to the border. <code>padding</code> pushes the content away from the inside edge.</p>
+
+    <div class="code-result" data-code-result>
+        <div class="panel">
+            <div class="panel-title"><strong>Code</strong><div class="panel-actions"><button class="small-button primary" data-run-button>RUN</button><button class="small-button" data-copy-button>COPY</button><button class="small-button" data-reset-button>RESET</button></div></div>
+            <textarea class="code-box" data-code-editor><!DOCTYPE html>
+<html>
+<head>
+<style>
+.card {
+    width: 260px;
+    border: 3px solid navy;
+    border-radius: 15px;
+    padding: 20px;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Dino Runner</h2>
+    <p>Jump over the obstacles!</p>
+    <button>PLAY</button>
+</div>
+
+</body>
+</html></textarea>
+        </div>
+        <div class="panel">
+            <div class="panel-title"><strong>Result</strong><span>Change the padding</span></div>
+            <iframe class="result-box" data-code-result-frame></iframe>
+        </div>
+    </div>
+
+    <div class="explain-box good"><strong>Remember</strong><code>padding</code> = space between the content and its own edge.</div>
+    <div class="try-box"><div class="try-label">Try it</div>Change <code>20px</code> to <code>0px</code>, <code>10px</code> and <code>40px</code>. Which looks best?</div>
+</section>
+
+<section class="lesson-section">
+    <div class="section-kicker">CSS 2.2</div>
+    <h2>2. Margin = Space Outside</h2>
+    <p class="section-intro">Padding makes room <strong>inside</strong> a card. Margin makes room <strong>around</strong> it, separating the card from other things.</p>
+
+    <div class="code-result" data-code-result>
+        <div class="panel">
+            <div class="panel-title"><strong>Code</strong><div class="panel-actions"><button class="small-button primary" data-run-button>RUN</button><button class="small-button" data-copy-button>COPY</button><button class="small-button" data-reset-button>RESET</button></div></div>
+            <textarea class="code-box" data-code-editor><style>
+.card {
+    width: 220px;
+    padding: 18px;
+    margin: 20px;
+
+    border: 3px solid navy;
+    border-radius: 15px;
+}
+</style>
+
+<div class="card">
+    <h2>Game One</h2>
+    <p>My first game.</p>
+</div>
+
+<div class="card">
+    <h2>Game Two</h2>
+    <p>My next game.</p>
+</div></textarea>
+        </div>
+        <div class="panel">
+            <div class="panel-title"><strong>Result</strong><span>Margin separates the cards</span></div>
+            <iframe class="result-box" data-code-result-frame></iframe>
+        </div>
+    </div>
+
+    <div class="memory-grid">
+        <div class="memory-card"><strong>Padding</strong><code>padding: 20px;</code><span>Space inside the element.</span></div>
+        <div class="memory-card"><strong>Margin</strong><code>margin: 20px;</code><span>Space outside the element.</span></div>
+        <div class="memory-card"><strong>Card rule</strong><code>padding + margin</code><span>Cards often need both.</span></div>
+    </div>
+</section>
+
+<section class="lesson-section">
+    <div class="section-kicker">CSS 2.3</div>
+    <h2>3. Choose the Side</h2>
+    <p class="section-intro">You can change one side at a time.</p>
+
+    <div class="compare">
+        <div class="template-box">
+            <div class="panel-title"><strong>Padding sides</strong></div>
+            <pre>padding-top: 10px;
+padding-right: 20px;
+padding-bottom: 30px;
+padding-left: 40px;</pre>
+        </div>
+        <div class="template-box">
+            <div class="panel-title"><strong>Margin sides</strong></div>
+            <pre>margin-top: 10px;
+margin-right: 20px;
+margin-bottom: 30px;
+margin-left: 40px;</pre>
+        </div>
+    </div>
+</section>
+
+<section class="lesson-section">
+    <div class="section-kicker">CSS 2.4</div>
+    <h2>4. The Padding & Margin Shortcut</h2>
+    <p class="section-intro">CSS lets you set all four sides in one line. The order goes clockwise: <strong>Top → Right → Bottom → Left</strong>.</p>
+
+    <div class="compare">
+        <div class="clockwise">
+            <div class="clockwise-box">
+                BOX
+                <span class="top">TOP · 10</span>
+                <span class="right">RIGHT · 20</span>
+                <span class="bottom">BOTTOM · 30</span>
+                <span class="left">LEFT · 40</span>
+            </div>
+        </div>
+        <div class="template-box" style="margin-top:0">
+            <div class="panel-title"><strong>Shortcut patterns</strong></div>
+            <pre>padding: 20px;
+/* all 4 sides */
+
+padding: 10px 20px;
+/* top/bottom | left/right */
+
+padding: 10px 20px 30px;
+/* top | left/right | bottom */
+
+padding: 10px 20px 30px 40px;
+/* top | right | bottom | left */</pre>
+        </div>
+    </div>
+
+    <div class="explain-box"><strong>One pattern, twice</strong>The exact same shortcut works for <code>margin</code>.</div>
+</section>
+
+<section class="lesson-section">
+    <div class="section-kicker">CSS 2.5</div>
+    <h2>5. Center the Box vs Center the Text</h2>
+    <p class="section-intro">These look similar, but they do different jobs.</p>
+
+    <div class="code-result" data-code-result>
+        <div class="panel">
+            <div class="panel-title"><strong>Code</strong><div class="panel-actions"><button class="small-button primary" data-run-button>RUN</button><button class="small-button" data-copy-button>COPY</button><button class="small-button" data-reset-button>RESET</button></div></div>
+            <textarea class="code-box" data-code-editor><style>
+.card {
+    width: 300px;
+    margin: 20px auto;
+    padding: 20px;
+
+    text-align: center;
+
+    border: 3px solid navy;
+    border-radius: 15px;
+}
+</style>
+
+<div class="card">
+    <h2>Dino Runner</h2>
+    <p>Jump over the obstacles!</p>
+    <button>PLAY</button>
+</div></textarea>
+        </div>
+        <div class="panel">
+            <div class="panel-title"><strong>Result</strong><span>Two kinds of centering</span></div>
+            <iframe class="result-box" data-code-result-frame></iframe>
+        </div>
+    </div>
+
+    <div class="memory-grid">
+        <div class="memory-card"><strong>Center the box</strong><code>margin: auto;</code><span>Useful for a box that has a width.</span></div>
+        <div class="memory-card"><strong>Center what's inside</strong><code>text-align: center;</code><span>Centers text and other inline content inside.</span></div>
+        <div class="memory-card"><strong>Remove outside space</strong><code>margin: 0;</code><span>Does not center. It removes margin.</span></div>
+    </div>
+
+    <div class="explain-box"><strong>Why doesn't <code>margin: auto</code> work the same on everything?</strong>Different HTML elements take up space differently. We'll go deeper into <code>block</code> and <code>inline</code> in CSS 3.</div>
+</section>
+
+<section class="lesson-section">
+    <div class="section-kicker">CSS 2.6</div>
+    <h2>6. Flexible Width: % + max-width</h2>
+    <p class="section-intro">Pixels are exact. Percentages can grow and shrink with the available space. <code>max-width</code> stops something getting too wide.</p>
+
+    <div class="code-result" data-code-result>
+        <div class="panel">
+            <div class="panel-title"><strong>Code</strong><div class="panel-actions"><button class="small-button primary" data-run-button>RUN</button><button class="small-button" data-copy-button>COPY</button><button class="small-button" data-reset-button>RESET</button></div></div>
+            <textarea class="code-box" data-code-editor><style>
+.card {
+    width: 80%;
+    max-width: 500px;
+
+    margin: 20px auto;
+    padding: 20px;
+
+    border: 3px solid navy;
+    border-radius: 15px;
+}
+</style>
+
+<div class="card">
+    <h2>My Game</h2>
+    <p>This card can shrink, but it will not grow wider than 500px.</p>
+</div></textarea>
+        </div>
+        <div class="panel">
+            <div class="panel-title"><strong>Result</strong><span>Resize the window</span></div>
+            <iframe class="result-box" data-code-result-frame></iframe>
+        </div>
+    </div>
+
+    <div class="explain-box good"><strong>Useful website pattern</strong><code>width: 80%;</code> + <code>max-width: 500px;</code> + <code>margin: auto;</code></div>
+</section>
+
+<section class="lesson-section">
+    <div class="section-kicker">CSS 2.7</div>
+    <h2>7. Build a Simple Navbar</h2>
+    <p class="section-intro">Links already sit beside each other, so we can make a clean first navbar without learning a new layout system yet.</p>
+
+    <div class="code-result" data-code-result>
+        <div class="panel">
+            <div class="panel-title"><strong>Code</strong><div class="panel-actions"><button class="small-button primary" data-run-button>RUN</button><button class="small-button" data-copy-button>COPY</button><button class="small-button" data-reset-button>RESET</button></div></div>
+            <textarea class="code-box" data-code-editor><!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+}
+
+nav {
+    background-color: navy;
+    padding: 15px;
+    text-align: center;
+}
+
+.nav-link {
+    color: white;
+    margin: 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
+</style>
+</head>
+<body>
+
+<nav>
+    <a class="nav-link" href="#">HOME</a>
+    <a class="nav-link" href="#">GAMES</a>
+    <a class="nav-link" href="#">ABOUT</a>
+</nav>
+
+<h1>My Game Website</h1>
+
+</body>
+</html></textarea>
+        </div>
+        <div class="panel">
+            <div class="panel-title"><strong>Result</strong><span>A real website shape</span></div>
+            <iframe class="result-box" data-code-result-frame></iframe>
+        </div>
+    </div>
+
+    <div class="memory-grid">
+        <div class="memory-card"><strong>Touch the screen edge</strong><code>body { margin: 0; }</code><span>Removes the browser's outside body space.</span></div>
+        <div class="memory-card"><strong>Remove link underline</strong><code>text-decoration: none;</code><span>Useful for navbar links.</span></div>
+        <div class="memory-card"><strong>Space the links</strong><code>margin: 15px;</code><span>Separates one link from another.</span></div>
+    </div>
+</section>
+
+<section class="lesson-section">
+    <div class="section-kicker">CSS 2.8</div>
+    <h2>8. Build a Cool Image Card</h2>
+    <p class="section-intro">Now combine HTML 2 images with CSS 2 spacing. This is a pattern you'll use constantly for games and projects.</p>
+
+    <div class="code-result" data-code-result>
+        <div class="panel">
+            <div class="panel-title"><strong>Code</strong><div class="panel-actions"><button class="small-button primary" data-run-button>RUN</button><button class="small-button" data-copy-button>COPY</button><button class="small-button" data-reset-button>RESET</button></div></div>
+            <textarea class="code-box" data-code-editor><!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    background-color: #eef2ff;
+    font-family: Arial;
+}
+
+.game-card {
+    width: 80%;
+    max-width: 320px;
+
+    margin: 30px auto;
+    padding: 18px;
+
+    background-color: white;
+    border: 3px solid navy;
+    border-radius: 18px;
+
+    text-align: center;
+}
+
+.game-image {
+    width: 100%;
+    border-radius: 12px;
+}
+
+.game-button {
+    background-color: navy;
+    color: white;
+    width: 130px;
+    height: 42px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="game-card">
+    <img class="game-image" alt="Dino game preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='330'%3E%3Crect width='600' height='330' fill='%2387ceeb'/%3E%3Crect y='250' width='600' height='80' fill='%2383b64b'/%3E%3Ccircle cx='490' cy='65' r='35' fill='%23ffd95a'/%3E%3Crect x='95' y='175' width='70' height='65' rx='12' fill='%23344c2f'/%3E%3Crect x='145' y='150' width='48' height='45' rx='10' fill='%23344c2f'/%3E%3Ccircle cx='177' cy='165' r='4' fill='white'/%3E%3C/svg%3E">
+
+    <h2>Dino Runner</h2>
+    <p>Jump over obstacles and beat your score!</p>
+    <button class="game-button">PLAY</button>
+</div>
+
+</body>
+</html></textarea>
+        </div>
+        <div class="panel">
+            <div class="panel-title"><strong>Result</strong><span>HTML 2 + CSS 1 + CSS 2</span></div>
+            <iframe class="result-box" data-code-result-frame></iframe>
+        </div>
+    </div>
+
+    <div class="explain-box good"><strong>Notice the jobs</strong>The card uses <code>padding</code> inside, <code>margin</code> outside, <code>margin: auto</code> to center the card, and <code>width: 100%</code> to make the image fill the card.</div>
+</section>
+
+<section class="lesson-section">
+    <div class="section-kicker">CSS 2.9</div>
+    <h2>9. Fonts That Work at School</h2>
+    <p class="section-intro">A font changes the whole personality of a website. Start with fonts that are already available, then use the RBS Code font pack when your teacher gives it to you.</p>
+
+    <div class="font-grid">
+        <div class="font-card" style="font-family:Arial,sans-serif"><code>Arial</code><span>Simple and clear.</span></div>
+        <div class="font-card" style="font-family:Georgia,serif"><code>Georgia</code><span>Classic and book-like.</span></div>
+        <div class="font-card" style="font-family:'Courier New',monospace"><code>Courier New</code><span>Code / typewriter feel.</span></div>
+    </div>
+
+    <div class="template-box">
+        <div class="panel-title"><strong>Use a font</strong></div>
+        <pre>body {
+    font-family: Arial;
+}</pre>
+    </div>
+
+    <h3>RBS Code Font Pack</h3>
+    <p class="section-intro">For filtered or offline schools, RBS Code can keep a small font library on the school computer or on rbscode.com. Then you are not dependent on Google Fonts.</p>
+
+    <div class="font-grid">
+        <div class="font-card"><code>Fredoka</code><span>Friendly all-round game / website font.</span></div>
+        <div class="font-card"><code>Nunito</code><span>Clean and very readable.</span></div>
+        <div class="font-card"><code>Quicksand</code><span>Smooth and modern.</span></div>
+        <div class="font-card"><code>Baloo 2</code><span>Big and playful.</span></div>
+        <div class="font-card"><code>Luckiest Guy</code><span>Cartoon game title.</span></div>
+        <div class="font-card"><code>Bungee</code><span>Bold arcade style.</span></div>
+        <div class="font-card"><code>Orbitron</code><span>Space / futuristic.</span></div>
+        <div class="font-card"><code>Audiowide</code><span>Sci-fi / tech.</span></div>
+        <div class="font-card"><code>Oxanium</code><span>Game interface style.</span></div>
+        <div class="font-card"><code>Press Start 2P</code><span>Retro pixel games.</span></div>
+        <div class="font-card"><code>Chewy</code><span>Cartoon / silly.</span></div>
+        <div class="font-card"><code>Titan One</code><span>Big fun headings.</span></div>
+    </div>
+
+    <div class="compare">
+        <div class="template-box">
+            <div class="panel-title"><strong>Online RBS Code pack</strong></div>
+            <pre>&lt;link rel="stylesheet"
+href="https://rbscode.com/Student-Portal/fonts/rbs-fonts.css"&gt;</pre>
+        </div>
+        <div class="template-box">
+            <div class="panel-title"><strong>Offline starter folder</strong></div>
+            <pre>&lt;link rel="stylesheet"
+href="fonts/rbs-fonts.css"&gt;</pre>
+        </div>
+    </div>
+
+    <div class="template-box">
+        <div class="panel-title"><strong>Then use the font normally</strong></div>
+        <pre>h1 {
+    font-family: "Fredoka", Arial, sans-serif;
+}</pre>
+    </div>
+
+    <div class="explain-box"><strong>Why list more than one font?</strong>If the first font cannot load, the browser tries the next one. These are called fallback fonts.</div>
+</section>
+
+<section class="lesson-section">
+    <div class="section-kicker">CSS 2.10</div>
+    <h2>10. Three Tiny Learning Templates</h2>
+    <p class="section-intro">Templates help you start quickly. They should not be magic: every line here uses skills from HTML 1–2 and CSS 1–2.</p>
+
+    <div class="template-grid">
+        <div class="template-card"><strong>Template 1 · Minimal Page</strong><span class="badge">HTML 1 · CSS 1</span><p>Heading, paragraph, background and simple text styling.</p></div>
+        <div class="template-card"><strong>Template 2 · Navbar Page</strong><span class="badge">HTML 1–2 · CSS 1–2</span><p>Adds links, padding, margin and text decoration.</p></div>
+        <div class="template-card"><strong>Template 3 · Image Card Page</strong><span class="badge">HTML 1–2 · CSS 1–2</span><p>Adds an image card, flexible width and centering.</p></div>
+    </div>
+
+    <div class="template-box">
+        <div class="panel-title"><strong>Template 1 · Minimal Page</strong><button class="small-button" data-copy-pre>COPY</button></div>
+        <pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My Website&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            background-color: lightblue;
+            font-family: Arial;
+            text-align: center;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;My Website&lt;/h1&gt;
+    &lt;p&gt;Welcome to my website!&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+    </div>
+
+    <div class="template-box">
+        <div class="panel-title"><strong>Template 2 · Navbar Page</strong><button class="small-button" data-copy-pre>COPY</button></div>
+        <pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My Website&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            margin: 0;
+            font-family: Arial;
+            text-align: center;
+        }
+
+        nav {
+            background-color: navy;
+            padding: 15px;
+        }
+
+        .nav-link {
+            color: white;
+            margin: 15px;
+            text-decoration: none;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;nav&gt;
+        &lt;a class="nav-link" href="#"&gt;HOME&lt;/a&gt;
+        &lt;a class="nav-link" href="#"&gt;GAMES&lt;/a&gt;
+        &lt;a class="nav-link" href="#"&gt;ABOUT&lt;/a&gt;
+    &lt;/nav&gt;
+
+    &lt;h1&gt;My Website&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+    </div>
+
+    <div class="template-box">
+        <div class="panel-title"><strong>Template 3 · Image Card Page</strong><button class="small-button" data-copy-pre>COPY</button></div>
+        <pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My Games&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            background-color: #eeeeee;
+            font-family: Arial;
+            text-align: center;
+        }
+
+        .card {
+            width: 80%;
+            max-width: 320px;
+            margin: 30px auto;
+            padding: 18px;
+            background-color: white;
+            border: 3px solid navy;
+            border-radius: 18px;
+        }
+
+        .card-image {
+            width: 100%;
+            border-radius: 12px;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;My Games&lt;/h1&gt;
+
+    &lt;div class="card"&gt;
+        &lt;img class="card-image" src="game.png"&gt;
+        &lt;h2&gt;My Game&lt;/h2&gt;
+        &lt;p&gt;Coming soon!&lt;/p&gt;
+        &lt;button&gt;PLAY&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+    </div>
+</section>
+
+<section class="checkpoint">
+    <div class="section-kicker">Core checkpoint</div>
+    <h2>CSS 2 Core Complete ✓</h2>
+    <p>If you can use the skills below, you are ready to move on. Everything after this checkpoint is extra.</p>
+    <ul class="skill-list">
+        <li><code>padding</code></li>
+        <li><code>margin</code></li>
+        <li>top / right / bottom / left shortcuts</li>
+        <li><code>margin: 0</code></li>
+        <li><code>margin: auto</code></li>
+        <li><code>width: %</code></li>
+        <li><code>max-width</code></li>
+        <li><code>text-align</code></li>
+        <li><code>text-decoration</code></li>
+        <li><code>cursor: pointer</code></li>
+        <li>build a simple navbar</li>
+        <li>build a clean image card</li>
+        <li>choose and use a font</li>
+    </ul>
+</section>
+
+<section class="bonus-section">
+    <div class="bonus-label">Bonus · Effects</div>
+    <h2>Make It Pop</h2>
+    <p class="section-intro">These are useful and fun, but you can skip them for now if you need to move on.</p>
+
+    <div class="code-result" data-code-result>
+        <div class="panel">
+            <div class="panel-title"><strong>Code</strong><div class="panel-actions"><button class="small-button primary" data-run-button>RUN</button><button class="small-button" data-copy-button>COPY</button><button class="small-button" data-reset-button>RESET</button></div></div>
+            <textarea class="code-box" data-code-editor><style>
+body {
+    min-height: 100vh;
+    background: linear-gradient(blue, purple);
+    font-family: Arial;
+}
+
+.card {
+    width: 280px;
+    margin: 40px auto;
+    padding: 20px;
+
+    background-color: white;
+    border-radius: 18px;
+    text-align: center;
+
+    box-shadow: 0 8px 22px #333;
+}
+</style>
+
+<div class="card">
+    <h2>Space Quest</h2>
+    <p>Now it pops off the page.</p>
+</div></textarea>
+        </div>
+        <div class="panel">
+            <div class="panel-title"><strong>Result</strong><span>Shadow + gradient</span></div>
+            <iframe class="result-box" data-code-result-frame></iframe>
+        </div>
+    </div>
+
+    <div class="memory-grid">
+        <div class="memory-card"><strong>Shadow</strong><code>box-shadow: 0 8px 22px #333;</code><span>Sideways · down · blur · colour.</span></div>
+        <div class="memory-card"><strong>Gradient</strong><code>linear-gradient(blue, purple)</code><span>One colour changes into another.</span></div>
+        <div class="memory-card"><strong>Direction</strong><code>linear-gradient(to right, blue, purple)</code><span>Make the gradient move sideways.</span></div>
+    </div>
+</section>
+
+<section class="bonus-section">
+    <div class="bonus-label">Bonus · Google Fonts</div>
+    <h2>Want Hundreds More Fonts?</h2>
+    <p class="section-intro">If your internet filter allows Google Fonts, you can choose a font there. If it is blocked, use the RBS Code font pack instead.</p>
+
+    <div class="explain-box bonus"><strong>Google Fonts memory rule</strong><strong>LINK → FONT-FAMILY</strong></div>
+
+    <h3>Step 1 · Choose a font</h3>
+    <p>Go to <strong>fonts.google.com</strong> and choose a font.</p>
+
+    <h3>Step 2 · Copy the link Google gives you</h3>
+    <div class="template-box"><pre>&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
+&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;
+&lt;link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&amp;display=swap" rel="stylesheet"&gt;</pre></div>
+
+    <h3>Step 3 · Put it inside <code>&lt;head&gt;</code></h3>
+    <div class="template-box"><pre>&lt;head&gt;
+    &lt;title&gt;My Website&lt;/title&gt;
+
+    &lt;link href="..." rel="stylesheet"&gt;
+
+    &lt;style&gt;
+    &lt;/style&gt;
+&lt;/head&gt;</pre></div>
+
+    <h3>Step 4 · Use it</h3>
+    <div class="template-box"><pre>body {
+    font-family: "Fredoka", Arial, sans-serif;
+}</pre></div>
+
+    <div class="explain-box"><strong>Filter blocking it?</strong>No problem. Use an RBS Code font or a normal built-in font and keep coding.</div>
+</section>
+
+<section class="bonus-section">
+    <div class="bonus-label">Bonus · Download Your Own Font</div>
+    <h2>Use a Font With Zero Internet</h2>
+    <p class="section-intro">A downloaded font can live inside your project. This is how an offline school can still use custom fonts.</p>
+
+    <h3>1. Save the font file</h3>
+    <div class="template-box"><pre>my-project/
+│
+├── index.html
+└── fonts/
+    └── Fredoka-Regular.woff2</pre></div>
+
+    <h3>2. Tell CSS where it is</h3>
+    <div class="template-box"><pre>@font-face {
+    font-family: "Fredoka";
+    src: url("fonts/Fredoka-Regular.woff2");
+}</pre></div>
+
+    <h3>3. Use it normally</h3>
+    <div class="template-box"><pre>body {
+    font-family: "Fredoka", Arial, sans-serif;
+}</pre></div>
+
+    <div class="explain-box bonus"><strong>Download font memory rule</strong>FONT FILE → <code>@font-face</code> → <code>font-family</code></div>
+</section>
+
+<section class="bonus-section">
+    <div class="bonus-label">Teacher Demo / Bonus</div>
+    <h2>See the Box Model in DevTools</h2>
+    <p class="section-intro">Browsers can show you the content, padding, border and margin as a diagram. Your teacher may demonstrate this now; you do not need to master DevTools for CSS 2.</p>
+    <div class="memory-grid">
+        <div class="memory-card"><strong>1</strong><code>Right-click</code><span>Choose Inspect.</span></div>
+        <div class="memory-card"><strong>2</strong><code>Elements</code><span>Click the card element.</span></div>
+        <div class="memory-card"><strong>3</strong><code>Box model</code><span>Find content → padding → border → margin.</span></div>
+    </div>
+</section>
+
+<section class="lesson-section">
+    <div class="section-kicker">Remember</div>
+    <h2>CSS 2 Memory Map</h2>
+
+    <div class="reference-grid">
+        <div class="reference-card"><code>padding</code><span>Space inside.</span></div>
+        <div class="reference-card"><code>margin</code><span>Space outside / between elements.</span></div>
+        <div class="reference-card"><code>margin: auto</code><span>Center a box with a width.</span></div>
+        <div class="reference-card"><code>margin: 0</code><span>Remove margin.</span></div>
+        <div class="reference-card"><code>width: 80%</code><span>Flexible width.</span></div>
+        <div class="reference-card"><code>max-width</code><span>Stop it getting too wide.</span></div>
+        <div class="reference-card"><code>text-align</code><span>Align content inside.</span></div>
+        <div class="reference-card"><code>text-decoration</code><span>Underline / no underline.</span></div>
+        <div class="reference-card"><code>cursor: pointer</code><span>Clickable mouse cursor.</span></div>
+        <div class="reference-card"><code>font-family</code><span>Choose the font.</span></div>
+        <div class="reference-card"><code>box-shadow</code><span>Bonus: shadow effect.</span></div>
+        <div class="reference-card"><code>linear-gradient()</code><span>Bonus: blended background.</span></div>
+    </div>
+
+    <div class="explain-box good"><strong>The big memory rule</strong><strong>Padding = inside. Margin = outside. <code>margin: auto</code> centers the box. <code>text-align: center</code> centers what's inside.</strong></div>
+
+    <div class="quiz">
+        <details class="quiz-item"><summary>Which property gives a card breathing room inside its border?</summary><p><code>padding</code></p></details>
+        <details class="quiz-item"><summary>Which property separates one card from another?</summary><p><code>margin</code></p></details>
+        <details class="quiz-item"><summary>What order does <code>padding: 10px 20px 30px 40px</code> use?</summary><p>Top → Right → Bottom → Left.</p></details>
+        <details class="quiz-item"><summary>What is the difference between <code>margin: auto</code> and <code>text-align: center</code>?</summary><p><code>margin: auto</code> can center the box. <code>text-align: center</code> centers content inside the box.</p></details>
+    </div>
+</section>
+
+<section class="practice-cta">
+    <div>
+        <div class="section-kicker">Practice</div>
+        <h2>Now prove you can use it</h2>
+        <p>Match cards, fix spacing, rebuild a navbar, then create your own mini game website.</p>
+    </div>
+    <a class="practice-button" href="css2-exercises.html">PRACTICE CSS 2 →</a>
+</section>
+
+<div class="next-box">
+    <div class="section-kicker">Next</div>
+    <strong>CSS 3.1: Put Game Objects Anywhere</strong>
+    <p>Next: <code>position: relative</code>, <code>position: absolute</code>, <code>left</code> and <code>top</code> — enough to get ready for JavaScript movement.</p>
+</div>
+
+</main>
+
+<script>
+document.querySelectorAll('[data-code-result]').forEach(component=>{
+    const editor=component.querySelector('[data-code-editor]');
+    const frame=component.querySelector('[data-code-result-frame]');
+    const run=component.querySelector('[data-run-button]');
+    const copy=component.querySelector('[data-copy-button]');
+    const reset=component.querySelector('[data-reset-button]');
+    const original=editor.value;
+
+    function runCode(){ frame.srcdoc=editor.value; }
+
+    run.addEventListener('click',runCode);
+    copy.addEventListener('click',async()=>{
+        await navigator.clipboard.writeText(editor.value);
+        const old=copy.textContent;
+        copy.textContent='COPIED';
+        setTimeout(()=>copy.textContent=old,800);
+    });
+    reset.addEventListener('click',()=>{
+        editor.value=original;
+        runCode();
+    });
+    runCode();
+});
+
+document.querySelectorAll('[data-copy-pre]').forEach(button=>{
+    button.addEventListener('click',async()=>{
+        const pre=button.closest('.template-box').querySelector('pre');
+        await navigator.clipboard.writeText(pre.innerText);
+        const old=button.textContent;
+        button.textContent='COPIED';
+        setTimeout(()=>button.textContent=old,800);
+    });
+});
+</script>
+</body>
+</html>

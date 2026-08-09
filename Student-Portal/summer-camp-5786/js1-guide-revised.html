@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<!--
+=========================================================
+RBS CODE · JAVASCRIPT 1 GUIDE
+=========================================================
+
+SAVE AS:
+    js1-guide.html
+
+PRACTICE PAGE:
+    js1-exercises.html
+
+JAVASCRIPT 1 GOAL:
+Use JavaScript without touching the page yet.
+
+TEACHING ORDER:
+1. <script>
+2. alert()
+3. let
+4. strings
+5. prompt()
+6. joining strings with +
+7. Number()
+8. maths operators + - * /
+9. if
+10. else
+11. comparisons == != < <= > >=
+12. mini projects
+
+KEEP FOR JS 2:
+document.getElementById()
+input.value
+innerText
+style.left
+img.src
+onclick
+functions that control HTML
+
+=========================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RBS CODE · JavaScript 1</title>
+
+<style>
+:root {
+    --page-bg:#f6f7fb;
+    --surface:#ffffff;
+    --surface-soft:#fafbfe;
+    --text:#172033;
+    --muted:#68768a;
+    --border:#dfe5ee;
+    --accent:#4f46e5;
+    --accent-dark:#3730a3;
+    --accent-soft:#eef2ff;
+    --code-bg:#0d1526;
+    --code-text:#eef3ff;
+    --radius:14px;
+}
+*{box-sizing:border-box}
+body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--text);
+    font-family:Inter,system-ui,Arial,sans-serif;
+    font-size:17px;
+    line-height:1.55;
+}
+button,textarea,input{font:inherit}
+button{cursor:pointer}
+.page{
+    width:min(1080px,calc(100% - 32px));
+    margin:0 auto;
+    padding:30px 0 80px;
+}
+.top-links{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:24px;
+    flex-wrap:wrap;
+}
+.text-link{
+    color:var(--accent-dark);
+    font-weight:850;
+    text-decoration:none;
+}
+.lesson-label,.section-kicker,.try-label{
+    color:var(--accent-dark);
+    font-size:12px;
+    font-weight:900;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+}
+.lesson-header{margin-bottom:34px}
+.lesson-header h1{
+    margin:5px 0 8px;
+    font-size:clamp(38px,6vw,64px);
+    line-height:1;
+    letter-spacing:-.04em;
+}
+.lesson-header p{
+    max-width:780px;
+    margin:0;
+    color:var(--muted);
+    font-size:19px;
+}
+.progress{
+    display:flex;
+    gap:8px;
+    margin-top:20px;
+    flex-wrap:wrap;
+}
+.progress span{
+    padding:6px 10px;
+    border:1px solid var(--border);
+    border-radius:999px;
+    background:white;
+    color:var(--muted);
+    font-size:13px;
+    font-weight:800;
+}
+.lesson-section{
+    margin-top:46px;
+    padding-top:6px;
+}
+.lesson-section h2{
+    margin:4px 0 6px;
+    font-size:30px;
+    line-height:1.15;
+}
+.section-intro{
+    max-width:780px;
+    margin:0 0 18px;
+    color:var(--muted);
+}
+.code-result{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+.panel{
+    overflow:hidden;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:white;
+}
+.panel-title{
+    min-height:42px;
+    padding:0 12px;
+    border-bottom:1px solid var(--border);
+    background:var(--surface-soft);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    color:var(--muted);
+    font-size:13px;
+    font-weight:850;
+}
+.panel-title strong{color:var(--text)}
+.panel-actions{display:flex;gap:6px;flex-wrap:wrap}
+.small-button{
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:white;
+    color:var(--text);
+    padding:5px 8px;
+    font-size:12px;
+    font-weight:900;
+}
+.small-button.primary{
+    border-color:var(--accent);
+    background:var(--accent);
+    color:white;
+}
+.code-box{
+    display:block;
+    width:100%;
+    min-height:225px;
+    resize:vertical;
+    border:0;
+    outline:0;
+    padding:16px;
+    background:var(--code-bg);
+    color:var(--code-text);
+    font:16px/1.55 Consolas,"Courier New",monospace;
+}
+.result-box{
+    width:100%;
+    min-height:225px;
+    border:0;
+    background:white;
+}
+.console{
+    min-height:225px;
+    padding:18px;
+    background:white;
+}
+.console-card{
+    max-width:100%;
+    padding:14px 16px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:var(--surface-soft);
+}
+.console-label{
+    color:var(--muted);
+    font-size:12px;
+    font-weight:900;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+}
+.console-output{
+    margin-top:6px;
+    font-family:Consolas,monospace;
+    white-space:pre-wrap;
+}
+.explain-box{
+    margin-top:14px;
+    padding:14px 16px;
+    border-left:4px solid var(--accent);
+    border-radius:0 12px 12px 0;
+    background:var(--accent-soft);
+}
+.explain-box strong{display:block;margin-bottom:3px}
+.try-box{
+    margin-top:12px;
+    padding:14px 16px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:white;
+}
+.try-box code,.explain-box code,.reference-card code{
+    font-family:Consolas,monospace;
+    font-weight:800;
+}
+.reference-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-top:14px;
+}
+.reference-card{
+    padding:14px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:white;
+}
+.reference-card code{
+    display:block;
+    margin-bottom:4px;
+    color:var(--accent-dark);
+    font-size:16px;
+}
+.reference-card span{
+    color:var(--muted);
+    font-size:14px;
+}
+.project-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:16px;
+}
+.project-card{
+    padding:16px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:white;
+}
+.project-card h3{margin:4px 0 6px;font-size:18px}
+.project-card p{margin:0;color:var(--muted);font-size:15px}
+.practice-cta{
+    margin-top:50px;
+    padding:24px;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:var(--accent-soft);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:18px;
+}
+.practice-cta h2{margin:4px 0 5px}
+.practice-cta p{margin:0;color:var(--muted)}
+.practice-button{
+    flex:0 0 auto;
+    display:inline-block;
+    padding:11px 16px;
+    border-radius:10px;
+    background:var(--accent);
+    color:white;
+    text-decoration:none;
+    font-weight:900;
+}
+.next-box{
+    margin-top:28px;
+    padding:20px;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:white;
+}
+.next-box p{margin:3px 0 0;color:var(--muted)}
+
+.template-box {
+    margin-top: 14px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: white;
+}
+.template-box pre {
+    margin: 0;
+    padding: 16px;
+    overflow: auto;
+    background: var(--code-bg);
+    color: var(--code-text);
+    font: 16px/1.55 Consolas, "Courier New", monospace;
+    white-space: pre-wrap;
+}
+
+@media(max-width:800px){
+    .code-result,.reference-grid,.project-grid{grid-template-columns:1fr}
+    .practice-cta{align-items:flex-start;flex-direction:column}
+}
+</style>
+</head>
+<body>
+<main class="page">
+
+<div class="top-links">
+    <a class="text-link" href="css1-guide.html">← CSS 1</a>
+    <a class="text-link" href="js1-exercises.html">JavaScript 1 Practice →</a>
+</div>
+
+<header class="lesson-header">
+    <div class="lesson-label">JavaScript 1</div>
+    <h1>Make Your Code Think</h1>
+    <p>HTML builds the page. CSS styles it. JavaScript can ask questions, remember answers, do maths and make decisions.</p>
+
+    <div class="progress">
+        <span>1 · Script</span>
+        <span>2 · Alert</span>
+        <span>3 · Variables</span>
+        <span>4 · Prompt</span>
+        <span>5 · Maths</span>
+        <span>6 · If / Else</span>
+    </div>
+</header>
+
+<section class="lesson-section">
+    <div class="section-kicker">Where does JavaScript go?</div>
+    <h2>Put &lt;script&gt; near the bottom</h2>
+    <p class="section-intro">For now, put your <code>&lt;script&gt;</code> just before the closing <code>&lt;/body&gt;</code> tag.</p>
+
+    <div class="template-box" style="margin-top:14px;">
+        <pre>&lt;body&gt;
+
+    &lt;h1&gt;My Game&lt;/h1&gt;
+    &lt;button&gt;PLAY&lt;/button&gt;
+
+    &lt;script&gt;
+        // JavaScript goes here
+    &lt;/script&gt;
+
+&lt;/body&gt;</pre>
+    </div>
+
+    <div class="explain-box">
+        <strong>Curious why?</strong>
+        Later JavaScript will find and change HTML elements. Putting the script near the bottom means the browser has already read the HTML above it. There are other correct ways to load JavaScript too, but this is the simplest place for us to start.
+    </div>
+</section>
+
+<section class="lesson-section">
+    <div class="section-kicker">JavaScript 1.1</div>
+    <h2>1. Your First JavaScript</h2>
+    <p class="section-intro">JavaScript goes inside a <code>&lt;script&gt;</code> tag. Try the smallest useful JavaScript command: <code>alert()</code>.</p>
+
+    <div class="code-result" data-code-result>
+        <div class="panel">
+            <div class="panel-title">
+                <strong>Code</strong>
+                <div class="panel-actions">
+                    <button class="small-button primary" data-run-button>RUN</button>
+                    <button class="small-button" data-copy-button>COPY</button>
+                    <button class="small-button" data-reset-button>RESET</button>
+                </div>
+            </div>
+            <textarea class="code-box" data-code-editor><!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>My JavaScript</title>
+</head>
+
+<body>
+    <h1>My Game</h1>
+
+    <script>
+        alert("Hello!");
+    </script>
+</body>
+</html></textarea>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title"><strong>Result</strong><span>A popup message</span></div>
+            <iframe class="result-box" data-code-result-frame></iframe>
+        </div>
+    </div>
+
+    <div class="try-box">
+        <div class="try-label">Try it</div>
+        Change <code>Hello!</code> to your own message. Then add a second <code>alert()</code>.
+    </div>
+</section>
+
+<section class="lesson-section">
+    <div class="section-kicker">JavaScript 1.2</div>
+    <h2>2. Let JavaScript Remember Something</h2>
+    <p class="section-intro"><code>let</code> creates a variable. Think of a variable as a named box that stores something.</p>
+
+    <div class="code-result" data-code-result>
+        <div class="panel">
+            <div class="panel-title">
+                <strong>Code</strong>
+                <div class="panel-actions">
+                    <button class="small-button primary" data-run-button>RUN</button>
+                    <button class="small-button" data-copy-button>COPY</button>
+                    <button class="small-button" data-reset-button>RESET</button>
+                </div>
+            </div>
+            <textarea class="code-box" data-code-editor><script>
+let playerName = "Daniel";
+
+alert(playerName);
+</script></textarea>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title"><strong>Result</strong><span>Stored in a variable</span></div>
+            <iframe class="result-box" data-code-result-frame></iframe>
+        </div>
+    </div>
+
+    <!-- <div class="explain-box">
+        <strong>Text goes inside quotes.</strong>
+        Text such as <code>"Daniel"</code> is called a <strong>string</strong>.
+    </div> -->
+    <div class="explain-box">
+        <strong>Text goes inside quotes.</strong>
+        <code>"Daniel"</code> is text. <code>playerName</code> is a variable name, so it has no quotes.
+    </div>
+</section>
+
+<section class="lesson-section">
+    <div class="section-kicker">JavaScript 1.3</div>
+    <h2>3. Ask the Player a Question</h2>
+    <p class="section-intro"><code>prompt()</code> asks a question and gives JavaScript the answer.</p>
+
+    <div class="code-result" data-code-result>
+        <div class="panel">
+            <div class="panel-title">
+                <strong>Code</strong>
+                <div class="panel-actions">
+                    <button class="small-button primary" data-run-button>RUN</button>
+                    <button class="small-button" data-copy-button>COPY</button>
+                    <button class="small-button" data-reset-button>RESET</button>
+                </div>
+            </div>
+            <textarea class="code-box" data-code-editor><script>
+let name = prompt("What is your name?");
+
+alert("Hello " + name);
+</script></textarea>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title"><strong>Result</strong><span>Question → answer → message</span></div>
+            <iframe class="result-box" data-code-result-frame></iframe>
+        </div>
+    </div>
+
+    <div class="explain-box">
+        <strong><code>+</code> can join text together.</strong>
+        <code>"Hello " + name</code> joins the words <strong>Hello</strong> with whatever the player typed.
+    </div>
+
+    <div class="try-box">
+        <div class="try-label">Try it</div>
+        Change the question. Then make the final alert say something like <code>"Welcome to the game, " + name + "!"</code>
+    </div>
+</section>
+
+<section class="lesson-section">
+    <div class="section-kicker">JavaScript 1.4</div>
+    <h2>4. Store the Question Too</h2>
+    <p class="section-intro">Variables can store the question, the answer, or almost anything else we need later.</p>
+
+    <div class="code-result" data-code-result>
+        <div class="panel">
+            <div class="panel-title">
+                <strong>Code</strong>
+                <div class="panel-actions">
+                    <button class="small-button primary" data-run-button>RUN</button>
+                    <button class="small-button" data-copy-button>COPY</button>
+                    <button class="small-button" data-reset-button>RESET</button>
+                </div>
+            </div>
+            <textarea class="code-box" data-code-editor><script>
+let question = "What is your favourite game?";
+let answer = prompt(question);
+
+alert("Your answer is: " + answer);
+</script></textarea>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title"><strong>Result</strong><span>Variables working together</span></div>
+            <iframe class="result-box" data-code-result-frame></iframe>
+        </div>
+    </div>
+</section>
+
+<section class="lesson-section">
+    <div class="section-kicker">JavaScript 1.5</div>
+    <h2>5. JavaScript Can Do Maths</h2>
+    <p class="section-intro">Use <code>+</code>, <code>-</code>, <code>*</code> and <code>/</code> for maths.</p>
+
+    <div class="code-result" data-code-result>
+        <div class="panel">
+            <div class="panel-title">
+                <strong>Code</strong>
+                <div class="panel-actions">
+                    <button class="small-button primary" data-run-button>RUN</button>
+                    <button class="small-button" data-copy-button>COPY</button>
+                    <button class="small-button" data-reset-button>RESET</button>
+                </div>
+            </div>
+            <textarea class="code-box" data-code-editor><script>
+let num1 = 7;
+let num2 = 3;
+
+let sum = num1 + num2;
+let product = num1 * num2;
+
+alert("Sum: " + sum);
+alert("Product: " + product);
+</script></textarea>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title"><strong>Result</strong><span>Maths with variables</span></div>
+            <iframe class="result-box" data-code-result-frame></iframe>
+        </div>
+    </div>
+
+    <div class="explain-box">
+        <strong>Math operators</strong>
+        <code>+</code> add &nbsp; <code>-</code> subtract &nbsp; <code>*</code> multiply &nbsp; <code>/</code> divide
+    </div>
+</section>
+
+<section class="lesson-section">
+    <div class="section-kicker">JavaScript 1.6</div>
+    <h2>6. Maths with Answers</h2>
+    <p class="section-intro">We can use answers from <code>prompt()</code> in simple maths. For now, multiplication is especially easy.</p>
+
+    <div class="code-result" data-code-result>
+        <div class="panel">
+            <div class="panel-title">
+                <strong>Code</strong>
+                <div class="panel-actions">
+                    <button class="small-button primary" data-run-button>RUN</button>
+                    <button class="small-button" data-copy-button>COPY</button>
+                    <button class="small-button" data-reset-button>RESET</button>
+                </div>
+            </div>
+            <textarea class="code-box" data-code-editor><script>
+let length = prompt("Length?");
+let width = prompt("Width?");
+
+let area = length * width;
+
+alert("Area: " + area);
+</script></textarea>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title"><strong>Result</strong><span>Mini area calculator</span></div>
+            <iframe class="result-box" data-code-result-frame></iframe>
+        </div>
+    </div>
+
+    <!-- <div class="explain-box">
+        <strong>One thing to remember</strong>
+        With prompt answers, <code>*</code>, <code>-</code> and <code>/</code> work naturally for number maths. We will learn more about number conversion later.
+    </div> -->
+</section>
+
+<section class="lesson-section">
+    <div class="section-kicker">JavaScript 1.7</div>
+    <h2>7. Make a Decision with if</h2>
+    <p class="section-intro"><code>if</code> means: only run this code when something is true.</p>
+
+    <div class="code-result" data-code-result>
+        <div class="panel">
+            <div class="panel-title">
+                <strong>Code</strong>
+                <div class="panel-actions">
+                    <button class="small-button primary" data-run-button>RUN</button>
+                    <button class="small-button" data-copy-button>COPY</button>
+                    <button class="small-button" data-reset-button>RESET</button>
+                </div>
+            </div>
+            <textarea class="code-box" data-code-editor><script>
+let answer = prompt("What is 2 + 2?");
+
+if (answer == 4) {
+    alert("Correct!");
+}
+</script></textarea>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title"><strong>Result</strong><span>Only runs when true</span></div>
+            <iframe class="result-box" data-code-result-frame></iframe>
+        </div>
+    </div>
+</section>
+
+<section class="lesson-section">
+    <div class="section-kicker">JavaScript 1.8</div>
+    <h2>8. if ... else</h2>
+    <p class="section-intro"><code>else</code> gives JavaScript something different to do when the answer is not correct.</p>
+
+    <div class="code-result" data-code-result>
+        <div class="panel">
+            <div class="panel-title">
+                <strong>Code</strong>
+                <div class="panel-actions">
+                    <button class="small-button primary" data-run-button>RUN</button>
+                    <button class="small-button" data-copy-button>COPY</button>
+                    <button class="small-button" data-reset-button>RESET</button>
+                </div>
+            </div>
+            <textarea class="code-box" data-code-editor><script>
+let answer = prompt("What is 2 + 2?");
+
+if (answer == 4) {
+    alert("Correct!");
+} else {
+    alert("Try again!");
+}
+</script></textarea>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title"><strong>Result</strong><span>Two possible paths</span></div>
+            <iframe class="result-box" data-code-result-frame></iframe>
+        </div>
+    </div>
+</section>
+
+<section class="lesson-section">
+    <div class="section-kicker">JavaScript 1.9</div>
+    <h2>9. Comparisons</h2>
+    <p class="section-intro">Comparisons ask questions that can be true or false.</p>
+
+    <div class="reference-grid">
+        <div class="reference-card"><code>==</code><span>equal to</span></div>
+        <div class="reference-card"><code>!=</code><span>not equal to</span></div>
+        <div class="reference-card"><code>&gt;</code><span>greater than</span></div>
+        <div class="reference-card"><code>&lt;</code><span>less than</span></div>
+        <div class="reference-card"><code>&gt;=</code><span>greater than or equal</span></div>
+        <div class="reference-card"><code>&lt;=</code><span>less than or equal</span></div>
+    </div>
+
+    <div class="try-box">
+        <div class="try-label">Examples</div>
+        <code>score &gt; 100</code><br>
+        <code>age &gt;= 10</code><br>
+        <code>answer != "no"</code>
+    </div>
+</section>
+
+<section class="lesson-section">
+    <div class="section-kicker">Mini Projects</div>
+    <h2>10. Put It Together</h2>
+    <p class="section-intro">These are small, but they use real programming: input, variables, maths and decisions.</p>
+
+    <div class="project-grid">
+        <div class="project-card">
+            <div class="section-kicker">Project 1</div>
+            <h3>Personal Greeting</h3>
+            <p>Ask the player's name and welcome them to the game.</p>
+        </div>
+
+        <div class="project-card">
+            <div class="section-kicker">Project 2</div>
+            <h3>Maths Calculator</h3>
+            <p>Ask for two numbers and show the product, area or difference.</p>
+        </div>
+
+        <div class="project-card">
+            <div class="section-kicker">Project 3</div>
+            <h3>Guessing Game</h3>
+            <p>Ask for a secret number and use if/else to say whether the guess is correct.</p>
+        </div>
+    </div>
+</section>
+
+<section class="lesson-section">
+    <div class="section-kicker">Reference</div>
+    <h2>JavaScript 1 Quick Reference</h2>
+
+    <div class="reference-grid">
+        <div class="reference-card"><code>&lt;script&gt;</code><span>Where JavaScript goes.</span></div>
+        <div class="reference-card"><code>alert("Hi")</code><span>Show a message.</span></div>
+        <div class="reference-card"><code>prompt("Question?")</code><span>Ask the user.</span></div>
+        <div class="reference-card"><code>let score = 5</code><span>Store a value.</span></div>
+        <div class="reference-card"><code>"Hello"</code><span>A string: text in quotes.</span></div>
+        <div class="reference-card"><code>"Hi " + name</code><span>Join text and values.</span></div>
+        <div class="reference-card"><code>+ - * /</code><span>Math operators.</span></div>
+        <div class="reference-card"><code>if (...) { }</code><span>Run code when true.</span></div>
+        <div class="reference-card"><code>else { }</code><span>Otherwise do this.</span></div>
+        <div class="reference-card"><code>== !=</code><span>Equal / not equal.</span></div>
+        <div class="reference-card"><code>&lt; &lt;= &gt; &gt;=</code><span>Compare numbers.</span></div>
+    </div>
+</section>
+
+<section class="practice-cta">
+    <div>
+        <div class="section-kicker">Practice</div>
+        <h2>Ready to make some mini programs?</h2>
+        <p>Start with quick checks, then build a calculator and guessing game.</p>
+    </div>
+
+    <a class="practice-button" href="js1-exercises.html">
+        PRACTICE JAVASCRIPT 1 →
+    </a>
+</section>
+
+<div class="next-box">
+    <div class="section-kicker">Next</div>
+    <strong>JavaScript 2: Control the actual web page</strong>
+    <p>Next: buttons, functions, <code>getElementById()</code>, input values, changing text, changing styles and finally moving a player.</p>
+</div>
+
+</main>
+
+<script>
+document.querySelectorAll("[data-code-result]").forEach(component => {
+    const editor = component.querySelector("[data-code-editor]");
+    const frame = component.querySelector("[data-code-result-frame]");
+    const runButton = component.querySelector("[data-run-button]");
+    const copyButton = component.querySelector("[data-copy-button]");
+    const resetButton = component.querySelector("[data-reset-button]");
+    const originalCode = editor.value;
+
+    function runCode() {
+        frame.srcdoc = editor.value;
+    }
+
+    function copyCode() {
+        navigator.clipboard.writeText(editor.value).then(() => {
+            const old = copyButton.textContent;
+            copyButton.textContent = "COPIED";
+            setTimeout(() => copyButton.textContent = old, 800);
+        });
+    }
+
+    function showReady() {
+        frame.srcdoc = `
+            <div style="
+                font-family: Arial, sans-serif;
+                color: #68768a;
+                padding: 24px;
+            ">
+                Press <strong>RUN</strong> to run this JavaScript.
+            </div>
+        `;
+    }
+
+    function resetCode() {
+        editor.value = originalCode;
+        showReady();
+    }
+
+    runButton.addEventListener("click", runCode);
+    copyButton.addEventListener("click", copyCode);
+    resetButton.addEventListener("click", resetCode);
+
+    showReady();
+});
+</script>
+</body>
+</html>
