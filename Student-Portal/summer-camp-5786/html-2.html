@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RBS CODE - HTML 2</title>
+
+<!--
+=========================================================
+RBS CODE - HTML 2
+MISSION:
+Build a simple game card using HTML 1 + HTML 2 + CSS 1.
+
+NEW HTML:
+<div>
+<img> + src + alt + width
+<a> + href + target
+same-page links with href="#id"
+id + class
+<br>
+<input> + type + placeholder + value
+
+CSS:
+This lesson deliberately REUSES CSS 1.
+It does NOT require CSS 2 (margin, padding, positioning).
+
+IMAGE USED:
+https://rbscode.com/Student-Portal/images/8.png
+
+PEDAGOGY:
+See it -> copy it -> change it -> build it -> prove it.
+=========================================================
+-->
+
+<style>
+:root{
+    --page:#f5f7fb;
+    --surface:#ffffff;
+    --ink:#172033;
+    --muted:#68768a;
+    --line:#dde4ee;
+    --accent:#315efb;
+    --accent-soft:#eef2ff;
+    --green:#13794c;
+    --green-soft:#ecfff4;
+    --gold:#8c5b00;
+    --gold-soft:#fff7df;
+    --dark:#111827;
+    --code:#101827;
+    --code-text:#edf2ff;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+    margin:0;
+    background:var(--page);
+    color:var(--ink);
+    font-family:Arial, Helvetica, sans-serif;
+    line-height:1.55;
+}
+.wrap{width:min(980px, calc(100% - 32px)); margin:auto;}
+.hero{
+    background:radial-gradient(circle at 80% 0%, #2b3f72 0, transparent 33%), var(--dark);
+    color:white;
+    padding:54px 20px 48px;
+}
+.kicker{
+    font-size:13px;
+    font-weight:900;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    opacity:.72;
+}
+.hero h1{
+    margin:8px 0 12px;
+    max-width:800px;
+    font-size:clamp(40px, 7vw, 72px);
+    line-height:.98;
+}
+.hero p{
+    max-width:760px;
+    margin:0;
+    color:#d9e1ee;
+    font-size:18px;
+}
+.hero-goal{
+    display:grid;
+    grid-template-columns:repeat(3, minmax(0,1fr));
+    gap:10px;
+    margin-top:28px;
+    max-width:760px;
+}
+.hero-goal div{
+    border:1px solid #43506a;
+    border-radius:12px;
+    padding:11px 13px;
+    background:rgba(255,255,255,.035);
+    font-size:14px;
+}
+.hero-link{
+    display:inline-block;
+    margin-top:18px;
+    color:#c9d5ff;
+    font-weight:800;
+}
+main{padding:32px 0 70px;}
+.lesson{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:28px;
+    margin:20px 0;
+    box-shadow:0 9px 28px rgba(17,24,39,.045);
+}
+.lesson-number{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:34px;
+    height:34px;
+    border-radius:10px;
+    background:var(--accent);
+    color:white;
+    font-weight:900;
+    margin-bottom:10px;
+}
+h2{margin:0 0 8px; font-size:30px; line-height:1.15;}
+h3{margin:22px 0 8px; font-size:19px;}
+p{margin:8px 0;}
+.small{color:var(--muted); font-size:14px;}
+.rule{
+    margin:14px 0;
+    padding:11px 14px;
+    border-left:4px solid var(--accent);
+    border-radius:8px;
+    background:var(--accent-soft);
+    font-weight:750;
+}
+.code-card{
+    border:1px solid var(--line);
+    border-radius:14px;
+    overflow:hidden;
+    margin:14px 0;
+}
+.code-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    padding:9px 12px;
+    background:#f8fafc;
+    border-bottom:1px solid var(--line);
+    font-size:13px;
+    font-weight:850;
+}
+.copy-btn{
+    border:0;
+    border-radius:9px;
+    padding:8px 11px;
+    cursor:pointer;
+    background:var(--accent);
+    color:white;
+    font-weight:850;
+}
+pre{
+    margin:0;
+    padding:18px;
+    overflow:auto;
+    background:var(--code);
+    color:var(--code-text);
+    font-size:15px;
+    line-height:1.55;
+}
+code{font-family:Consolas, Monaco, "Courier New", monospace;}
+.preview{border-top:1px solid #273246; padding:16px; background:white;}
+.preview iframe{
+    display:block;
+    width:100%;
+    min-height:210px;
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:white;
+}
+.challenge{
+    margin-top:16px;
+    padding:18px;
+    border:1px solid #bce8cf;
+    border-radius:14px;
+    background:var(--green-soft);
+}
+.challenge h3{margin:0 0 8px; color:var(--green);}
+.try{
+    margin-top:12px;
+    padding:14px 16px;
+    border-radius:12px;
+    background:#f8fafc;
+    border:1px dashed #b7c1cf;
+}
+.try strong{display:block; margin-bottom:4px;}
+.hint{
+    margin-top:12px;
+    overflow:hidden;
+    border:1px solid #efdba2;
+    border-radius:12px;
+    background:var(--gold-soft);
+}
+.hint summary{cursor:pointer; padding:12px 14px; color:var(--gold); font-weight:850;}
+.hint-body{padding:0 14px 14px;}
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0,1fr));
+    gap:14px;
+    margin-top:14px;
+}
+.mini{
+    padding:16px;
+    border:1px solid var(--line);
+    border-radius:14px;
+    background:#fbfcff;
+}
+.mini strong{display:block; margin-bottom:4px;}
+.tag{
+    display:inline-block;
+    padding:2px 6px;
+    border-radius:6px;
+    background:#edf1ff;
+    color:#273da8;
+    font-family:Consolas, Monaco, monospace;
+    font-size:.9em;
+}
+.compare{width:100%; border-collapse:collapse; margin-top:14px;}
+.compare th,.compare td{
+    padding:10px;
+    text-align:left;
+    vertical-align:top;
+    border:1px solid var(--line);
+}
+.compare th{background:#f6f8fc;}
+.bonus{
+    margin-top:15px;
+    padding:14px 16px;
+    border:1px solid #cdd6ff;
+    border-radius:12px;
+    background:#f3f5ff;
+}
+.bonus-label{
+    font-size:12px;
+    font-weight:900;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    color:#3851bd;
+}
+.checklist{display:grid; gap:10px; margin-top:16px;}
+.check{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    padding:12px 14px;
+    border:1px solid var(--line);
+    border-radius:12px;
+}
+.box{
+    width:20px;
+    height:20px;
+    flex:0 0 auto;
+    margin-top:2px;
+    border:2px solid #9aa7b8;
+    border-radius:5px;
+}
+.fast{background:var(--dark); color:white; border-color:var(--dark);}
+.fast p,.fast .small{color:#d7dfeb;}
+.fast .challenge{background:#182235; border-color:#354258; color:white;}
+.fast .challenge h3{color:#b8c5ff;}
+footer{padding:20px 0 60px; color:var(--muted); text-align:center;}
+@media (max-width:720px){
+    .lesson{padding:20px;}
+    .hero-goal,.grid{grid-template-columns:1fr;}
+    h2{font-size:26px;}
+}
+</style>
+</head>
+
+<body>
+<header class="hero">
+    <div class="wrap">
+        <div class="kicker">RBS CODE · HTML 2</div>
+        <h1>Build a real game card</h1>
+        <p>
+            HTML 1 gave us the page. Now we add containers, images, links and inputs,
+            then reuse CSS 1 to turn them into something real.
+        </p>
+
+        <div class="hero-goal">
+            <div><strong>Learn it</strong><br>One new idea at a time</div>
+            <div><strong>Use it</strong><br>Build while you learn</div>
+            <div><strong>Prove it</strong><br>Finish without notes</div>
+        </div>
+
+        <!-- This link is intentional. Students learn how it works later. -->
+        <a class="hero-link" href="#final-project">Jump to the final build ↓</a>
+    </div>
+</header>
+
+<main class="wrap">
+    <section class="lesson">
+        <div class="kicker">START HERE</div>
+        <h2>HTML 1 + CSS 1 are still alive</h2>
+        <p>We are not replacing what you learned. We are building on it.</p>
+
+        <div class="grid">
+            <div class="mini">
+                <strong>HTML 1</strong>
+                <span class="tag">&lt;html&gt;</span>
+                <span class="tag">&lt;head&gt;</span>
+                <span class="tag">&lt;body&gt;</span>
+                <span class="tag">&lt;title&gt;</span>
+                <span class="tag">&lt;style&gt;</span>
+                <span class="tag">&lt;h1&gt;</span>
+                <span class="tag">&lt;p&gt;</span>
+                <span class="tag">&lt;button&gt;</span>
+            </div>
+
+            <div class="mini">
+                <strong>CSS 1</strong>
+                tag · #id · .class<br>
+                color · background-color · width · height<br>
+                font-size · font-weight · font-family<br>
+                border-width · border-style · border-color<br>
+                border-radius · border: none
+            </div>
+        </div>
+
+        <div class="rule">Today: learn new HTML, then style it using CSS you already know.</div>
+    </section>
+
+    <section class="lesson">
+        <div class="lesson-number">1</div>
+        <h2><span class="tag">&lt;div&gt;</span> makes a container</h2>
+        <div class="rule">A div is a box that groups part of your page together.</div>
+
+        <div class="code-card preview-card">
+            <div class="code-top"><span>Start a game card</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>&lt;div&gt;
+    &lt;h2&gt;Road Racer&lt;/h2&gt;
+    &lt;p&gt;Race through the city!&lt;/p&gt;
+    &lt;button&gt;Play&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+            <div class="preview"><iframe title="div preview"></iframe></div>
+        </div>
+
+        <div class="try"><strong>Change it</strong>Change the title, description and button text to invent your own game.</div>
+    </section>
+
+    <section class="lesson">
+        <div class="lesson-number">2</div>
+        <h2><span class="tag">id</span> and <span class="tag">class</span> label things</h2>
+
+        <div class="code-card">
+            <div class="code-top"><span>Add labels to HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>&lt;div id="roadRacer" class="gameCard"&gt;
+    &lt;h2 class="gameTitle"&gt;Road Racer&lt;/h2&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+
+        <table class="compare">
+            <tr><th>id</th><th>class</th></tr>
+            <tr><td>Usually one unique thing.</td><td>A reusable group. Many things can share it.</td></tr>
+            <tr><td><code>id="player"</code></td><td><code>class="enemy"</code></td></tr>
+            <tr><td>CSS: <code>#player</code></td><td>CSS: <code>.enemy</code></td></tr>
+        </table>
+
+        <div class="rule">Same labels, two superpowers: CSS can style them and JavaScript can find them.</div>
+        <div class="try"><strong>Quick check</strong>One player = id or class?<br>Ten enemies that should share the same style = id or class?</div>
+    </section>
+
+    <section class="lesson">
+        <div class="lesson-number">3</div>
+        <h2><span class="tag">&lt;img&gt;</span> adds an image</h2>
+        <div class="rule"><span class="tag">src</span> = where the image is. <span class="tag">alt</span> = what the image is.</div>
+
+        <div class="code-card preview-card">
+            <div class="code-top"><span>Use an RBS Code image</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>&lt;img
+    src="https://rbscode.com/Student-Portal/images/8.png"
+    alt="Sports car at night"
+&gt;</code></pre>
+            <div class="preview"><iframe title="image preview"></iframe></div>
+        </div>
+
+        <h3>Two ways to set image width</h3>
+
+        <div class="code-card preview-card">
+            <div class="code-top"><span>1. HTML width attribute</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>&lt;img
+    src="https://rbscode.com/Student-Portal/images/8.png"
+    alt="Sports car at night"
+    width="300"
+&gt;</code></pre>
+            <div class="preview"><iframe title="html width preview"></iframe></div>
+        </div>
+
+        <p class="small">Notice: <code>width="300"</code> has no <code>px</code>. In this HTML attribute, the number is treated as pixels.</p>
+
+        <div class="code-card preview-card">
+            <div class="code-top"><span>2. CSS style</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>&lt;img
+    src="https://rbscode.com/Student-Portal/images/8.png"
+    alt="Sports car at night"
+    style="width: 300px;"
+&gt;</code></pre>
+            <div class="preview"><iframe title="css width preview"></iframe></div>
+        </div>
+
+        <p class="small">In CSS, write the unit: <code>width: 300px;</code>. For real projects, CSS is usually the better place for styling.</p>
+
+        <div class="code-card">
+            <div class="code-top"><span>Even better: reuse a class</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>&lt;style&gt;
+.gameImage {
+    width: 300px;
+    border-radius: 14px;
+}
+&lt;/style&gt;
+
+&lt;img
+    class="gameImage"
+    src="https://rbscode.com/Student-Portal/images/8.png"
+    alt="Sports car at night"
+&gt;</code></pre>
+        </div>
+
+        <div class="bonus">
+            <div class="bonus-label">Tiny bonus · not required yet</div>
+            <p><code>width: 100%;</code> means: fill 100% of the width of the parent container.</p>
+            <pre><code>.gameImage {
+    width: 100%;
+}</code></pre>
+            <p class="small">This is extremely useful for cards. We will use percentages properly again in CSS 2. Usually set the image width and let the browser keep its natural height so the image does not get squashed.</p>
+        </div>
+    </section>
+
+    <section class="lesson">
+        <div class="lesson-number">4</div>
+        <h2>Use CSS 1 to make the div into a card</h2>
+        <div class="rule">No new CSS needed. This is practice with CSS 1.</div>
+
+        <div class="code-card preview-card">
+            <div class="code-top"><span>HTML 1 + HTML 2 + CSS 1</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>&lt;style&gt;
+.gameCard {
+    width: 300px;
+    background-color: #111827;
+    color: white;
+    border-width: 3px;
+    border-style: solid;
+    border-color: #536dfe;
+    border-radius: 16px;
+}
+
+.gameImage {
+    width: 300px;
+    border-radius: 12px;
+}
+
+.gameTitle {
+    font-size: 28px;
+    font-weight: bold;
+    font-family: Arial;
+}
+&lt;/style&gt;
+
+&lt;div class="gameCard"&gt;
+
+    &lt;img
+        class="gameImage"
+        src="https://rbscode.com/Student-Portal/images/8.png"
+        alt="Road Racer car"
+    &gt;
+
+    &lt;h2 class="gameTitle"&gt;Road Racer&lt;/h2&gt;
+
+    &lt;p&gt;Race through the city and beat your score!&lt;/p&gt;
+
+    &lt;button&gt;PLAY&lt;/button&gt;
+
+&lt;/div&gt;</code></pre>
+            <div class="preview"><iframe title="styled card preview"></iframe></div>
+        </div>
+
+        <div class="challenge">
+            <h3>Make it yours</h3>
+            <p>Copy the card, then change at least <strong>5 things</strong>.</p>
+            <p>Try the background color, border color, border radius, title font size, title font family, card width or image width.</p>
+        </div>
+
+        <p class="small">The card is still deliberately simple. CSS 2 adds spacing and layout tools that make cards much more polished.</p>
+    </section>
+
+    <section class="lesson">
+        <div class="lesson-number">5</div>
+        <h2><span class="tag">&lt;a&gt;</span> makes a link</h2>
+        <div class="rule"><span class="tag">href</span> = where the link should go.</div>
+
+        <div class="code-card preview-card">
+            <div class="code-top"><span>Link to another page</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>&lt;a href="game.html"&gt;Play Road Racer&lt;/a&gt;</code></pre>
+            <div class="preview"><iframe title="basic link preview"></iframe></div>
+        </div>
+
+        <h3>Open a website in a new tab</h3>
+        <div class="code-card">
+            <div class="code-top"><span>target="_blank"</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>&lt;a href="https://rbscode.com" target="_blank"&gt;
+    Open RBS Code
+&lt;/a&gt;</code></pre>
+        </div>
+
+        <h3>Great trick: link to a place on the SAME page</h3>
+        <div class="code-card">
+            <div class="code-top"><span>href="#id"</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>&lt;a href="#games"&gt;Jump to Games&lt;/a&gt;
+
+...
+
+&lt;div id="games"&gt;
+    &lt;h2&gt;Games&lt;/h2&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+
+        <div class="rule"><code>href="#games"</code> searches this page for <code>id="games"</code> and jumps there.</div>
+        <p>You already used this lesson's real version: <a href="#final-project"><strong>Jump to the final build</strong></a>.</p>
+        <div class="try"><strong>Try it</strong>Give one section <code>id="highScores"</code>, then create a link that jumps to it.</div>
+    </section>
+
+    <section class="lesson">
+        <div class="lesson-number">6</div>
+        <h2><span class="tag">&lt;br&gt;</span> makes a line break</h2>
+        <div class="rule">Use <span class="tag">&lt;br&gt;</span> when text should continue on the next line.</div>
+
+        <div class="code-card preview-card">
+            <div class="code-top"><span>Game stats</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>&lt;p&gt;
+Lives: 3&lt;br&gt;
+Coins: 12&lt;br&gt;
+Level: 2
+&lt;/p&gt;</code></pre>
+            <div class="preview"><iframe title="br preview"></iframe></div>
+        </div>
+
+        <div class="try"><strong>Replicate</strong>Put <strong>Speed: 80</strong>, <strong>Score: 1200</strong> and <strong>Best: 3000</strong> on separate lines.</div>
+    </section>
+
+    <section class="lesson">
+        <div class="lesson-number">7</div>
+        <h2><span class="tag">&lt;input&gt;</span> lets the player enter something</h2>
+
+        <div class="code-card preview-card">
+            <div class="code-top"><span>Player name</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>&lt;p&gt;Player name:&lt;/p&gt;
+&lt;input type="text" placeholder="Type your name"&gt;</code></pre>
+            <div class="preview"><iframe title="input preview"></iframe></div>
+        </div>
+
+        <div class="grid">
+            <div class="mini"><strong>placeholder</strong>A hint shown when the input is empty.<br>It disappears when the user types.</div>
+            <div class="mini"><strong>value</strong>The actual starting content already inside the input.<br>The user can edit it.</div>
+        </div>
+
+        <div class="code-card preview-card">
+            <div class="code-top"><span>Compare placeholder and value</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>&lt;input
+    type="text"
+    placeholder="Type your name"
+&gt;
+
+&lt;br&gt;&lt;br&gt;
+
+&lt;input
+    type="text"
+    value="Player 1"
+&gt;</code></pre>
+            <div class="preview"><iframe title="placeholder value preview"></iframe></div>
+        </div>
+
+        <p class="small">Tomorrow's JavaScript can read what is really inside an input using <code>input.value</code>.</p>
+        <div class="try"><strong>Quick build</strong>Make one text input for a player name and one number input for a player's level.</div>
+
+        <details class="hint">
+            <summary>Need the number input?</summary>
+            <div class="hint-body"><pre><code>&lt;input type="number" placeholder="Level"&gt;</code></pre></div>
+        </details>
+    </section>
+
+    <section class="lesson" id="final-project">
+        <div class="kicker">MAIN BUILD</div>
+        <h2>Build the Road Racer card</h2>
+        <p>This is the important part. Try to build it from the target first. Look back and copy tags or CSS only when you need them.</p>
+
+        <div class="preview">
+            <iframe
+                title="final target"
+                style="min-height:430px"
+                srcdoc='<!DOCTYPE html>
+                <html>
+                <head>
+                <style>
+                body{font-family:Arial;padding:20px;background:#f1f4f9;}
+                .gameCard{width:320px;background-color:#111827;color:white;border-width:3px;border-style:solid;border-color:#536dfe;border-radius:18px;}
+                .gameImage{width:320px;border-radius:15px;}
+                .gameTitle{font-size:30px;font-weight:bold;font-family:Arial;}
+                a{color:#9fb0ff;}
+                </style>
+                </head>
+                <body>
+                    <a href="#roadRacer">Jump to Road Racer</a>
+                    <br><br>
+                    <div id="roadRacer" class="gameCard">
+                        <img class="gameImage" src="https://rbscode.com/Student-Portal/images/8.png" alt="Road Racer car">
+                        <h2 class="gameTitle">ROAD RACER</h2>
+                        <p>Race through the city.<br>Beat your best score.</p>
+                        <p>Player name:</p>
+                        <input type="text" placeholder="Type your name">
+                        <br><br>
+                        <a href="game.html">PLAY GAME</a>
+                    </div>
+                </body>
+                </html>'>
+            </iframe>
+        </div>
+
+        <div class="challenge">
+            <h3>Requirements</h3>
+            <p>Use all of these:</p>
+            <p><code>div</code> · <code>id</code> · <code>class</code> · <code>img</code> · <code>src</code> · <code>alt</code> · <code>a</code> · <code>href</code> · <code>br</code> · <code>input</code> · <code>placeholder</code></p>
+            <p>Also use CSS 1 to style the card, image and title.</p>
+        </div>
+
+        <details class="hint">
+            <summary>Need the basic page shell?</summary>
+            <div class="hint-body"><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+
+&lt;head&gt;
+    &lt;title&gt;Road Racer&lt;/title&gt;
+
+    &lt;style&gt;
+        /* CSS here */
+    &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+    &lt;!-- Build here --&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre></div>
+        </details>
+    </section>
+
+    <section class="lesson">
+        <div class="kicker">IF YOU NEED MORE PRACTICE</div>
+        <h2>Short drills</h2>
+        <div class="grid">
+            <div class="mini"><strong>1. Fix it</strong>What is wrong?<br><code>&lt;img href="8.png"&gt;</code></div>
+            <div class="mini"><strong>2. Fill the gap</strong><code>&lt;a ____="game.html"&gt;Play&lt;/a&gt;</code></div>
+            <div class="mini"><strong>3. Same-page link</strong>Link to <code>id="scores"</code>.</div>
+            <div class="mini"><strong>4. Choose</strong>Twenty enemies sharing one style: id or class?</div>
+            <div class="mini"><strong>5. Explain</strong>What is the difference between placeholder and value?</div>
+            <div class="mini"><strong>6. Style</strong>Give a div a width, background color, border and rounded corners.</div>
+        </div>
+    </section>
+
+    <section class="lesson">
+        <div class="kicker">HTML 2 CHECKPOINT</div>
+        <h2>Can you actually use it?</h2>
+        <div class="checklist">
+            <div class="check"><span class="box"></span><span>Group a game card using <code>&lt;div&gt;</code>.</span></div>
+            <div class="check"><span class="box"></span><span>Use <code>id</code> for one unique element and <code>class</code> for a reusable group.</span></div>
+            <div class="check"><span class="box"></span><span>Add an image with <code>src</code> and useful <code>alt</code> text.</span></div>
+            <div class="check"><span class="box"></span><span>Set image width using HTML <code>width="300"</code> or CSS <code>width: 300px;</code>.</span></div>
+            <div class="check"><span class="box"></span><span>Style a simple card using CSS 1.</span></div>
+            <div class="check"><span class="box"></span><span>Create a normal link using <code>href</code>.</span></div>
+            <div class="check"><span class="box"></span><span>Create a same-page link using <code>href="#id"</code>.</span></div>
+            <div class="check"><span class="box"></span><span>Use <code>&lt;br&gt;</code> for a line break.</span></div>
+            <div class="check"><span class="box"></span><span>Create an input and explain <code>placeholder</code> vs <code>value</code>.</span></div>
+            <div class="check"><span class="box"></span><span>Build the final card with minimal help.</span></div>
+        </div>
+        <p class="small">Recognition is not mastery. The checkpoint is passed when you can build with the skill.</p>
+    </section>
+
+    <section class="lesson fast">
+        <div class="kicker">FAST TRACK · EXPERIENCED CODERS</div>
+        <h2>Know it already? Prove it, then build.</h2>
+        <p>Complete the checkpoint without notes. If it is easy, skip the repetition and build the larger challenge.</p>
+
+        <div class="challenge">
+            <h3>Game Gallery Challenge</h3>
+            <p>Create three game cards using the same reusable classes.</p>
+            <p>Each card needs an image, title, description and play link. Give every game its own unique id.</p>
+            <p>At the top, create three same-page links that jump directly to each game. Add a player-name input too.</p>
+            <p>Use CSS 1 to make the three cards visibly consistent.</p>
+        </div>
+
+        <p class="small">Finish cleanly and independently? Move on to CSS 2 or begin connecting the card to JavaScript.</p>
+    </section>
+</main>
+
+<footer>RBS CODE · HTML 2 · Learn it. Use it. Prove it.</footer>
+
+<script>
+function copyCode(button){
+    const card = button.closest(".code-card");
+    const code = card.querySelector("code").innerText;
+    navigator.clipboard.writeText(code).then(() => {
+        const original = button.innerText;
+        button.innerText = "Copied!";
+        setTimeout(() => button.innerText = original, 1200);
+    });
+}
+
+function makePreview(code){
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+body{font-family:Arial, Helvetica, sans-serif;padding:16px;color:#172033;}
+img{max-width:100%;}
+button,input{font:inherit;}
+button{padding:7px 12px;}
+input{padding:7px 9px;}
+a{color:#315efb;}
+</style>
+</head>
+<body>
+${code}
+</body>
+</html>`;
+}
+
+document.querySelectorAll(".preview-card").forEach(card => {
+    const code = card.querySelector("code").innerText;
+    const frame = card.querySelector("iframe");
+    frame.srcdoc = makePreview(code);
+});
+</script>
+</body>
+</html>
