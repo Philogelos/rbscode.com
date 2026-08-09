@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RBS CODE · JavaScript 2</title>
+<style>
+:root{
+  --page-bg:#f6f7fb;
+  --surface:#fff;
+  --surface-soft:#fafbfe;
+  --text:#172033;
+  --muted:#68768a;
+  --border:#dfe5ee;
+  --accent:#4f46e5;
+  --accent-dark:#3730a3;
+  --accent-soft:#eef2ff;
+  --good:#0f766e;
+  --good-soft:#ecfdf5;
+  --code-bg:#0d1526;
+  --code-text:#eef3ff;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--page-bg);
+  color:var(--text);
+  font-family:Inter,Arial,sans-serif;
+  font-size:17px;
+  line-height:1.55;
+}
+button,textarea{font:inherit}
+button{cursor:pointer}
+code{font-family:Consolas,"Courier New",monospace}
+.page{width:min(1080px,calc(100% - 32px));margin:0 auto;padding:30px 0 80px}
+.top-links{display:flex;justify-content:space-between;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+.text-link{color:var(--accent-dark);font-weight:850;text-decoration:none}
+.lesson-header{margin-bottom:34px}
+.lesson-label,.section-kicker,.try-label{color:var(--accent-dark);font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.lesson-header h1{margin:5px 0 8px;font-size:clamp(38px,6vw,64px);line-height:1;letter-spacing:-.04em}
+.lesson-header p{max-width:820px;margin:0;color:var(--muted);font-size:19px}
+.progress{display:flex;gap:8px;margin-top:20px;flex-wrap:wrap}
+.progress span{padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:white;color:var(--muted);font-size:13px;font-weight:800}
+.progress span.core{border-color:#bbf7d0;background:#f0fdf4;color:#166534}
+.lesson-section{margin-top:48px;padding-top:4px}
+.lesson-section h2{margin:4px 0 6px;font-size:30px;line-height:1.15;letter-spacing:-.025em}
+.lesson-section h3{margin:22px 0 8px;font-size:22px}
+.section-intro{max-width:820px;margin:0 0 18px;color:var(--muted)}
+.code-result{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.panel{overflow:hidden;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface)}
+.panel-title{min-height:42px;padding:0 12px;border-bottom:1px solid var(--border);background:var(--surface-soft);display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--muted);font-size:13px;font-weight:850}
+.panel-title strong{color:var(--text)}
+.panel-actions{display:flex;gap:6px;flex-wrap:wrap}
+.small-button{border:1px solid var(--border);border-radius:8px;background:white;color:var(--text);padding:5px 8px;font-size:12px;font-weight:900}
+.small-button.primary{border-color:var(--accent);background:var(--accent);color:white}
+.code-box{display:block;width:100%;min-height:340px;resize:vertical;border:0;outline:0;padding:16px;background:var(--code-bg);color:var(--code-text);font-family:Consolas,"Courier New",monospace;font-size:16px;line-height:1.55}
+.result-box{width:100%;min-height:340px;border:0;background:white}
+.explain-box{margin-top:14px;padding:14px 16px;border-left:4px solid var(--accent);border-radius:0 12px 12px 0;background:var(--accent-soft)}
+.explain-box.good{border-left-color:var(--good);background:var(--good-soft)}
+.explain-box strong{display:block;margin-bottom:3px}
+.try-box{margin-top:12px;padding:14px 16px;border:1px solid var(--border);border-radius:12px;background:white}
+.memory-grid,.reference-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.memory-card,.reference-card{padding:14px;border:1px solid var(--border);border-radius:12px;background:white}
+.memory-card code,.reference-card code{display:block;margin-bottom:4px;color:var(--accent-dark);font-family:Consolas,monospace;font-weight:800}
+.memory-card span,.reference-card span{color:var(--muted);font-size:14px}
+.memory-card strong{display:block;margin-bottom:4px}
+.template-box{margin-top:16px;overflow:hidden;border:1px solid var(--border);border-radius:var(--radius);background:white}
+.template-box pre{margin:0;padding:16px;overflow:auto;background:var(--code-bg);color:var(--code-text);font:16px/1.55 Consolas,"Courier New",monospace;white-space:pre-wrap}
+.checkpoint{margin-top:52px;padding:22px;border:2px solid #86efac;border-radius:var(--radius);background:#f0fdf4}
+.checkpoint h2{margin:3px 0 8px}
+.checkpoint ul{margin:10px 0 0;padding-left:22px}
+.skill-list{columns:2;column-gap:30px;margin:12px 0 0;padding-left:22px}
+.skill-list li{margin:5px 0;break-inside:avoid}
+.challenge{margin-top:46px;padding:22px;border:1px solid var(--border);border-radius:var(--radius);background:white}
+.challenge h2{margin:4px 0 7px}
+.practice-cta{margin-top:50px;padding:24px;border:1px solid var(--border);border-radius:var(--radius);background:var(--accent-soft);display:flex;justify-content:space-between;align-items:center;gap:18px}
+.practice-cta h2{margin:4px 0 5px}
+.practice-cta p{margin:0;color:var(--muted)}
+.practice-button{flex:0 0 auto;display:inline-block;padding:11px 16px;border-radius:10px;background:var(--accent);color:white;text-decoration:none;font-weight:900}
+.next-box{margin-top:28px;padding:20px;border:1px solid var(--border);border-radius:var(--radius);background:white}
+.next-box p{margin:3px 0 0;color:var(--muted)}
+@media(max-width:800px){
+  .code-result,.memory-grid,.reference-grid{grid-template-columns:1fr}
+  .practice-cta{align-items:flex-start;flex-direction:column}
+  .skill-list{columns:1}
+}
+</style>
+</head>
+<body>
+<main class="page">
+
+<div class="top-links">
+  <a class="text-link" href="index.html">← Camp Home</a>
+  <a class="text-link" href="js1-guide-revised.html">Review JS 1</a>
+</div>
+
+<header class="lesson-header">
+  <div class="lesson-label">JavaScript 2</div>
+  <h1>Move Game Objects</h1>
+  <p>You already know variables and maths. Now use JavaScript to change where something is on the screen.</p>
+  <div class="progress">
+    <span class="core">1 · Function</span>
+    <span class="core">2 · onclick</span>
+    <span class="core">3 · Find an Element</span>
+    <span class="core">4 · Change left</span>
+    <span class="core">5 · Move Both Ways</span>
+    <span class="core">6 · Move Up & Down</span>
+  </div>
+</header>
+
+<section class="lesson-section">
+  <div class="section-kicker">Before JS 2</div>
+  <h2>CSS 3.1 Gives Us a Movable Player</h2>
+  <p class="section-intro">For JavaScript movement, the player needs <code>position: absolute</code>. Then <code>left</code> and <code>top</code> tell us where it is.</p>
+
+  <div class="template-box">
+    <div class="panel-title"><strong>The CSS you need</strong></div>
+    <pre>.game {
+    position: relative;
+    width: 600px;
+    height: 260px;
+}
+
+#player {
+    position: absolute;
+    left: 20px;
+    top: 90px;
+}</pre>
+  </div>
+
+  <div class="explain-box good">
+    <strong>Movement idea</strong>
+    CSS gives the player a position. JavaScript will change that position.
+  </div>
+</section>
+
+<section class="lesson-section">
+  <div class="section-kicker">JS 2.1</div>
+  <h2>1. A Function = Code You Can Run</h2>
+  <p class="section-intro">A function gives a group of code a name. Later, a button can run it.</p>
+
+  <div class="code-result" data-code-result>
+    <div class="panel">
+      <div class="panel-title"><strong>Code</strong><div class="panel-actions"><button class="small-button primary" data-run-button>RUN</button><button class="small-button" data-copy-button>COPY</button><button class="small-button" data-reset-button>RESET</button></div></div>
+      <textarea class="code-box" data-code-editor><!DOCTYPE html>
+<html>
+<body>
+
+<button onclick="sayHi()">RUN FUNCTION</button>
+
+<script>
+function sayHi() {
+    alert("Hi!");
+}
+</script>
+
+</body>
+</html></textarea>
+    </div>
+    <div class="panel">
+      <div class="panel-title"><strong>Result</strong><span>Click the button</span></div>
+      <iframe class="result-box" data-code-result-frame></iframe>
+    </div>
+  </div>
+
+  <div class="memory-grid">
+    <div class="memory-card"><strong>Create it</strong><code>function sayHi() { }</code><span>Give some code a name.</span></div>
+    <div class="memory-card"><strong>Run it</strong><code>sayHi()</code><span>The brackets mean: run this function.</span></div>
+    <div class="memory-card"><strong>Button click</strong><code>onclick="sayHi()"</code><span>Run it when the button is clicked.</span></div>
+  </div>
+</section>
+
+<section class="lesson-section">
+  <div class="section-kicker">JS 2.2</div>
+  <h2>2. Find the Player</h2>
+  <p class="section-intro">Before JavaScript can move an HTML element, it needs to find it. Give the element an <code>id</code>, then use <code>getElementById</code>.</p>
+
+  <div class="code-result" data-code-result>
+    <div class="panel">
+      <div class="panel-title"><strong>Code</strong><div class="panel-actions"><button class="small-button primary" data-run-button>RUN</button><button class="small-button" data-copy-button>COPY</button><button class="small-button" data-reset-button>RESET</button></div></div>
+      <textarea class="code-box" data-code-editor><h2 id="player">PLAYER</h2>
+
+<button onclick="changePlayer()">CHANGE PLAYER</button>
+
+<script>
+function changePlayer() {
+    let player = document.getElementById("player");
+
+    player.style.color = "red";
+}
+</script></textarea>
+    </div>
+    <div class="panel">
+      <div class="panel-title"><strong>Result</strong><span>JavaScript finds #player</span></div>
+      <iframe class="result-box" data-code-result-frame></iframe>
+    </div>
+  </div>
+
+  <div class="explain-box good">
+    <strong>Remember</strong>
+    <code>document.getElementById("player")</code> means: find the HTML element whose <code>id="player"</code>.
+  </div>
+</section>
+
+<section class="lesson-section">
+  <div class="section-kicker">JS 2.3</div>
+  <h2>3. Change <code>left</code> With JavaScript</h2>
+  <p class="section-intro">If CSS can say <code>left: 20px</code>, JavaScript can change it to <code>left: 100px</code>.</p>
+
+  <div class="code-result" data-code-result>
+    <div class="panel">
+      <div class="panel-title"><strong>Code</strong><div class="panel-actions"><button class="small-button primary" data-run-button>RUN</button><button class="small-button" data-copy-button>COPY</button><button class="small-button" data-reset-button>RESET</button></div></div>
+      <textarea class="code-box" data-code-editor><!DOCTYPE html>
+<html>
+<head>
+<style>
+.game {
+    position: relative;
+    width: 600px;
+    height: 260px;
+    background-color: lightblue;
+    border: 3px solid navy;
+    overflow: hidden;
+}
+
+#player {
+    position: absolute;
+    left: 20px;
+    top: 90px;
+    width: 70px;
+}
+</style>
+</head>
+<body>
+
+<div class="game">
+    <img id="player" src="../rocket.png">
+</div>
+
+<button onclick="movePlayer()">MOVE RIGHT</button>
+
+<script>
+function movePlayer() {
+    let player = document.getElementById("player");
+
+    player.style.left = "100px";
+}
+</script>
+
+</body>
+</html></textarea>
+    </div>
+    <div class="panel">
+      <div class="panel-title"><strong>Result</strong><span>Click MOVE RIGHT</span></div>
+      <iframe class="result-box" data-code-result-frame></iframe>
+    </div>
+  </div>
+
+  <div class="explain-box">
+    <strong>The important line</strong>
+    <code>player.style.left = "100px";</code> means: change the player's CSS <code>left</code> value to <code>100px</code>.
+  </div>
+
+  <div class="try-box"><div class="try-label">Try it</div>Change <code>"100px"</code> to <code>"200px"</code>, RUN, then click the button.</div>
+</section>
+
+<section class="lesson-section">
+  <div class="section-kicker">JS 2.4</div>
+  <h2>4. Move Again and Again</h2>
+  <p class="section-intro">A real movement button should move a little farther every time you click it. Store the position in a variable.</p>
+
+  <div class="code-result" data-code-result>
+    <div class="panel">
+      <div class="panel-title"><strong>Code</strong><div class="panel-actions"><button class="small-button primary" data-run-button>RUN</button><button class="small-button" data-copy-button>COPY</button><button class="small-button" data-reset-button>RESET</button></div></div>
+      <textarea class="code-box" data-code-editor><!DOCTYPE html>
+<html>
+<head>
+<style>
+.game {
+    position: relative;
+    width: 600px;
+    height: 260px;
+    background-color: lightblue;
+    border: 3px solid navy;
+    overflow: hidden;
+}
+
+#player {
+    position: absolute;
+    left: 20px;
+    top: 90px;
+    width: 70px;
+}
+</style>
+</head>
+<body>
+
+<div class="game">
+    <img id="player" src="../rocket.png">
+</div>
+
+<button onclick="moveRight()">RIGHT →</button>
+
+<script>
+let x = 20;
+
+function moveRight() {
+    let player = document.getElementById("player");
+
+    x = x + 20;
+
+    player.style.left = x + "px";
+}
+</script>
+
+</body>
+</html></textarea>
+    </div>
+    <div class="panel">
+      <div class="panel-title"><strong>Result</strong><span>Click RIGHT several times</span></div>
+      <iframe class="result-box" data-code-result-frame></iframe>
+    </div>
+  </div>
+
+  <div class="memory-grid">
+    <div class="memory-card"><strong>Remember position</strong><code>let x = 20;</code><span>The player starts 20px from the left.</span></div>
+    <div class="memory-card"><strong>Add movement</strong><code>x = x + 20;</code><span>Add 20 every click.</span></div>
+    <div class="memory-card"><strong>Put it on screen</strong><code>player.style.left = x + "px";</code><span>Turn the number into a CSS value.</span></div>
+  </div>
+
+  <div class="explain-box good">
+    <strong>Why add <code>"px"</code>?</strong>
+    JavaScript's <code>x</code> is a number such as <code>60</code>. CSS needs a value such as <code>60px</code>.
+  </div>
+</section>
+
+<section class="lesson-section">
+  <div class="section-kicker">JS 2.5</div>
+  <h2>5. Right AND Left</h2>
+  <p class="section-intro">Right adds to <code>x</code>. Left subtracts from <code>x</code>.</p>
+
+  <div class="code-result" data-code-result>
+    <div class="panel">
+      <div class="panel-title"><strong>Code</strong><div class="panel-actions"><button class="small-button primary" data-run-button>RUN</button><button class="small-button" data-copy-button>COPY</button><button class="small-button" data-reset-button>RESET</button></div></div>
+      <textarea class="code-box" data-code-editor><style>
+.game {
+    position: relative;
+    width: 600px;
+    height: 260px;
+    background-color: lightblue;
+    border: 3px solid navy;
+    overflow: hidden;
+}
+
+#player {
+    position: absolute;
+    left: 20px;
+    top: 90px;
+    width: 70px;
+}
+</style>
+
+<div class="game">
+    <img id="player" src="../rocket.png">
+</div>
+
+<button onclick="moveLeft()">← LEFT</button>
+<button onclick="moveRight()">RIGHT →</button>
+
+<script>
+let x = 20;
+
+function moveRight() {
+    let player = document.getElementById("player");
+
+    x = x + 20;
+    player.style.left = x + "px";
+}
+
+function moveLeft() {
+    let player = document.getElementById("player");
+
+    x = x - 20;
+    player.style.left = x + "px";
+}
+</script></textarea>
+    </div>
+    <div class="panel">
+      <div class="panel-title"><strong>Result</strong><span>Control the rocket</span></div>
+      <iframe class="result-box" data-code-result-frame></iframe>
+    </div>
+  </div>
+
+  <div class="try-box"><div class="try-label">Challenge</div>Make the rocket move <strong>40px</strong> each click instead of 20px.</div>
+</section>
+
+<section class="lesson-section">
+  <div class="section-kicker">JS 2.6</div>
+  <h2>6. Add Up & Down</h2>
+  <p class="section-intro">Horizontal movement uses <code>left</code>. Vertical movement uses <code>top</code>. So we need one more variable: <code>y</code>.</p>
+
+  <div class="code-result" data-code-result>
+    <div class="panel">
+      <div class="panel-title"><strong>Code</strong><div class="panel-actions"><button class="small-button primary" data-run-button>RUN</button><button class="small-button" data-copy-button>COPY</button><button class="small-button" data-reset-button>RESET</button></div></div>
+      <textarea class="code-box" data-code-editor><style>
+.game {
+    position: relative;
+    width: 600px;
+    height: 300px;
+    background-color: lightblue;
+    border: 3px solid navy;
+    overflow: hidden;
+}
+
+#player {
+    position: absolute;
+    left: 20px;
+    top: 100px;
+    width: 70px;
+}
+</style>
+
+<div class="game">
+    <img id="player" src="../rocket.png">
+</div>
+
+<button onclick="moveUp()">↑ UP</button>
+<button onclick="moveLeft()">← LEFT</button>
+<button onclick="moveRight()">RIGHT →</button>
+<button onclick="moveDown()">↓ DOWN</button>
+
+<script>
+let x = 20;
+let y = 100;
+
+function moveRight() {
+    x = x + 20;
+    document.getElementById("player").style.left = x + "px";
+}
+
+function moveLeft() {
+    x = x - 20;
+    document.getElementById("player").style.left = x + "px";
+}
+
+function moveDown() {
+    y = y + 20;
+    document.getElementById("player").style.top = y + "px";
+}
+
+function moveUp() {
+    y = y - 20;
+    document.getElementById("player").style.top = y + "px";
+}
+</script></textarea>
+    </div>
+    <div class="panel">
+      <div class="panel-title"><strong>Result</strong><span>Four-direction movement</span></div>
+      <iframe class="result-box" data-code-result-frame></iframe>
+    </div>
+  </div>
+
+  <div class="memory-grid">
+    <div class="memory-card"><strong>Horizontal</strong><code>x → left</code><span>Change x to move left/right.</span></div>
+    <div class="memory-card"><strong>Vertical</strong><code>y → top</code><span>Change y to move up/down.</span></div>
+    <div class="memory-card"><strong>Same pattern</strong><code>number + "px"</code><span>Both directions use the same idea.</span></div>
+  </div>
+</section>
+
+<section class="checkpoint">
+  <div class="section-kicker">Core checkpoint</div>
+  <h2>JS 2 Core Complete ✓</h2>
+  <p>If you can make an object move with buttons, you have the main JS 2 skill.</p>
+  <ul class="skill-list">
+    <li><code>function</code></li>
+    <li><code>onclick</code></li>
+    <li><code>document.getElementById()</code></li>
+    <li><code>element.style.left</code></li>
+    <li><code>element.style.top</code></li>
+    <li>use <code>x</code> and <code>y</code> variables</li>
+    <li>add/subtract movement</li>
+    <li>add <code>"px"</code> to a number</li>
+  </ul>
+</section>
+
+<section class="challenge">
+  <div class="section-kicker">Build It</div>
+  <h2>Mini Challenge: Reach the Target</h2>
+  <p class="section-intro">Make a player and a target. Use your four movement buttons to move the player toward the target.</p>
+
+  <div class="template-box">
+    <div class="panel-title"><strong>Starter</strong><button class="small-button" data-copy-pre>COPY</button></div>
+    <pre>&lt;div class="game"&gt;
+    &lt;img id="player" src="../rocket.png"&gt;
+    &lt;div id="target"&gt;⭐&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;button onclick="moveUp()"&gt;UP&lt;/button&gt;
+&lt;button onclick="moveLeft()"&gt;LEFT&lt;/button&gt;
+&lt;button onclick="moveRight()"&gt;RIGHT&lt;/button&gt;
+&lt;button onclick="moveDown()"&gt;DOWN&lt;/button&gt;</pre>
+  </div>
+
+  <div class="explain-box">
+    <strong>Goal</strong>
+    Do not worry about detecting the win yet. JS 3 will teach collisions. For now, just make the controls work.
+  </div>
+</section>
+
+<section class="lesson-section">
+  <div class="section-kicker">Remember</div>
+  <h2>JS 2 Memory Map</h2>
+
+  <div class="reference-grid">
+    <div class="reference-card"><code>function move() { }</code><span>Create code you can run.</span></div>
+    <div class="reference-card"><code>onclick="move()"</code><span>Run a function on click.</span></div>
+    <div class="reference-card"><code>getElementById("player")</code><span>Find an HTML element.</span></div>
+    <div class="reference-card"><code>let x = 20;</code><span>Remember horizontal position.</span></div>
+    <div class="reference-card"><code>x = x + 20;</code><span>Move right.</span></div>
+    <div class="reference-card"><code>x = x - 20;</code><span>Move left.</span></div>
+    <div class="reference-card"><code>style.left</code><span>Change horizontal CSS position.</span></div>
+    <div class="reference-card"><code>style.top</code><span>Change vertical CSS position.</span></div>
+    <div class="reference-card"><code>x + "px"</code><span>Turn a number into a CSS size.</span></div>
+  </div>
+
+  <div class="explain-box good">
+    <strong>The big memory rule</strong>
+    <strong>Remember the position → change the number → put the new number back into CSS.</strong>
+  </div>
+</section>
+
+<div class="next-box">
+  <div class="section-kicker">Next</div>
+  <strong>JavaScript 3: Game Logic & Collisions</strong>
+  <p>Next: detect when the player reaches something, keep score and start turning movement into a real game.</p>
+</div>
+
+</main>
+
+<script>
+document.querySelectorAll('[data-code-result]').forEach(component=>{
+  const editor=component.querySelector('[data-code-editor]');
+  const frame=component.querySelector('[data-code-result-frame]');
+  const run=component.querySelector('[data-run-button]');
+  const copy=component.querySelector('[data-copy-button]');
+  const reset=component.querySelector('[data-reset-button]');
+  const original=editor.value;
+
+  function runCode(){ frame.srcdoc=editor.value; }
+
+  run.addEventListener('click',runCode);
+  copy.addEventListener('click',async()=>{
+    await navigator.clipboard.writeText(editor.value);
+    const old=copy.textContent;
+    copy.textContent='COPIED';
+    setTimeout(()=>copy.textContent=old,800);
+  });
+  reset.addEventListener('click',()=>{
+    editor.value=original;
+    runCode();
+  });
+  runCode();
+});
+
+document.querySelectorAll('[data-copy-pre]').forEach(button=>{
+  button.addEventListener('click',async()=>{
+    const pre=button.closest('.template-box').querySelector('pre');
+    await navigator.clipboard.writeText(pre.innerText);
+    const old=button.textContent;
+    button.textContent='COPIED';
+    setTimeout(()=>button.textContent=old,800);
+  });
+});
+</script>
+</body>
+</html>

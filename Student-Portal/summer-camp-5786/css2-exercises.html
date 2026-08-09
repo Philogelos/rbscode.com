@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RBS CODE · CSS 2 Practice</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--soft:#fafbfe;--text:#172033;--muted:#68768a;--border:#dfe5ee;--accent:#4f46e5;--accent-dark:#3730a3;--accent-soft:#eef2ff;--code:#0d1526;--code-text:#eef3ff;--good:#166534;--good-soft:#f0fdf4;--radius:14px}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif;font-size:17px;line-height:1.55}.page{width:min(1080px,calc(100% - 32px));margin:0 auto;padding:30px 0 80px}.top-links{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:28px}.text-link{color:var(--accent-dark);text-decoration:none;font-weight:850}.hero{margin-bottom:30px}.kicker{color:var(--accent-dark);font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.hero h1{margin:5px 0 8px;font-size:clamp(38px,6vw,62px);line-height:1}.hero p{max-width:780px;margin:0;color:var(--muted);font-size:19px}.section{margin-top:46px}.section h2{margin:4px 0 7px;font-size:30px}.intro{margin:0 0 16px;color:var(--muted);max-width:800px}.challenge{margin-top:18px;padding:18px;border:1px solid var(--border);border-radius:var(--radius);background:var(--card)}.challenge-title{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}.challenge-title h3{margin:0;font-size:22px}.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent-dark);font-size:12px;font-weight:850}.goal{margin:8px 0 14px;color:var(--muted)}.code-result{display:grid;grid-template-columns:1fr 1fr;gap:14px}.panel{overflow:hidden;border:1px solid var(--border);border-radius:12px;background:white}.panel-title{min-height:42px;padding:0 12px;border-bottom:1px solid var(--border);background:var(--soft);display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--muted);font-size:13px;font-weight:850}.panel-actions{display:flex;gap:6px;flex-wrap:wrap}.small-button{border:1px solid var(--border);border-radius:8px;background:white;color:var(--text);padding:5px 8px;font-size:12px;font-weight:900;cursor:pointer}.small-button.primary{background:var(--accent);color:white;border-color:var(--accent)}.code-box{display:block;width:100%;min-height:330px;border:0;outline:0;resize:vertical;padding:16px;background:var(--code);color:var(--code-text);font:16px/1.55 Consolas,"Courier New",monospace}.result-box{width:100%;min-height:330px;border:0;background:white}.task-list{margin:12px 0 0;padding-left:22px}.hint{margin-top:12px}.hint summary{cursor:pointer;font-weight:850;color:var(--accent-dark)}.hint div{margin-top:8px;padding:12px 14px;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0}.final{border:2px solid #86efac;background:var(--good-soft)}.final .badge{background:#dcfce7;color:var(--good)}.remember{margin-top:46px;padding:20px;border-radius:var(--radius);background:var(--accent-soft);border:1px solid #c7d2fe}.remember h2{margin:0 0 10px}.remember-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.remember-card{background:white;border:1px solid var(--border);border-radius:10px;padding:12px}.remember-card code{display:block;font-weight:850;color:var(--accent-dark)}
+@media(max-width:800px){.code-result,.remember-grid{grid-template-columns:1fr}.result-box,.code-box{min-height:290px}}
+</style>
+</head>
+<body>
+<main class="page">
+<div class="top-links"><a class="text-link" href="css-2.html">← CSS 2 Guide</a><a class="text-link" href="templates.html">RBS Code Templates →</a></div>
+<header class="hero"><div class="kicker">CSS 2 Practice</div><h1>Use It Yourself</h1><p>Start by changing working code, then rebuild familiar patterns, then finish with a mini website. Use the hints only when you need them.</p></header>
+
+<section class="section">
+<div class="kicker">Warm-up</div><h2>1. Fix the cramped card</h2><p class="intro">The card works, but the text is stuck against the border. Add one CSS property to give it breathing room.</p>
+<div class="challenge">
+<div class="challenge-title"><h3>Add space inside</h3><span class="badge">CSS 2 · padding</span></div>
+<p class="goal">Goal: make the content sit comfortably inside the card.</p>
+<div class="code-result" data-code-result><div class="panel"><div class="panel-title"><strong>Starter code</strong><div class="panel-actions"><button class="small-button primary" data-run>RUN</button><button class="small-button" data-reset>RESET</button></div></div><textarea class="code-box" data-editor><style>
+.card {
+    width: 260px;
+    border: 3px solid navy;
+    border-radius: 15px;
+
+    /* ADD CSS 2 HERE */
+}
+</style>
+
+<div class="card">
+    <h2>Dino Runner</h2>
+    <p>Jump over the obstacles!</p>
+    <button>PLAY</button>
+</div></textarea></div><div class="panel"><div class="panel-title"><strong>Result</strong><span>Make it less cramped</span></div><iframe class="result-box" data-frame></iframe></div></div>
+<details class="hint"><summary>Need a hint?</summary><div>Use <code>padding</code>. Try <code>20px</code>.</div></details>
+</div>
+</section>
+
+<section class="section">
+<div class="kicker">Spacing</div><h2>2. Separate the cards</h2><p class="intro">These cards need space between them. Add margin to the card class.</p>
+<div class="challenge">
+<div class="challenge-title"><h3>Space outside</h3><span class="badge">CSS 2 · margin</span></div>
+<div class="code-result" data-code-result><div class="panel"><div class="panel-title"><strong>Starter code</strong><div class="panel-actions"><button class="small-button primary" data-run>RUN</button><button class="small-button" data-reset>RESET</button></div></div><textarea class="code-box" data-editor><style>
+.card {
+    width: 220px;
+    padding: 18px;
+    border: 3px solid navy;
+    border-radius: 15px;
+
+    /* ADD MARGIN */
+}
+</style>
+
+<div class="card"><h2>Game One</h2><p>My first game.</p></div>
+<div class="card"><h2>Game Two</h2><p>My next game.</p></div></textarea></div><div class="panel"><div class="panel-title"><strong>Result</strong><span>Separate the boxes</span></div><iframe class="result-box" data-frame></iframe></div></div>
+<details class="hint"><summary>Need a hint?</summary><div><code>margin: 20px;</code> adds outside space on every side.</div></details>
+</div>
+</section>
+
+<section class="section">
+<div class="kicker">Rebuild</div><h2>3. Make the navbar</h2><p class="intro">The HTML is ready. Rebuild the simple navbar from the lesson.</p>
+<div class="challenge">
+<div class="challenge-title"><h3>Recognisable website structure</h3><span class="badge">HTML 2 + CSS 2</span></div>
+<ul class="task-list"><li>Remove the body margin.</li><li>Give the nav a dark background and padding.</li><li>Center the links.</li><li>Make the links white, spaced apart and remove the underline.</li></ul>
+<div class="code-result" data-code-result><div class="panel"><div class="panel-title"><strong>Starter code</strong><div class="panel-actions"><button class="small-button primary" data-run>RUN</button><button class="small-button" data-reset>RESET</button></div></div><textarea class="code-box" data-editor><style>
+body {
+    font-family: Arial;
+    /* YOUR CSS */
+}
+
+nav {
+    /* YOUR CSS */
+}
+
+.nav-link {
+    /* YOUR CSS */
+}
+</style>
+
+<nav>
+    <a class="nav-link" href="#">HOME</a>
+    <a class="nav-link" href="#">GAMES</a>
+    <a class="nav-link" href="#">ABOUT</a>
+</nav>
+
+<h1>My Game Website</h1></textarea></div><div class="panel"><div class="panel-title"><strong>Result</strong><span>Make it look like a navbar</span></div><iframe class="result-box" data-frame></iframe></div></div>
+<details class="hint"><summary>Show useful properties</summary><div><code>margin: 0;</code> · <code>background-color</code> · <code>padding</code> · <code>text-align: center</code> · <code>color</code> · <code>margin</code> · <code>text-decoration: none</code></div></details>
+</div>
+</section>
+
+<section class="section">
+<div class="kicker">Replicate</div><h2>4. Rebuild the Road Racer card</h2><p class="intro">Use the image, heading, paragraph and button. Your version does not have to be pixel-perfect. It should look clean and intentional.</p>
+<div class="challenge">
+<div class="challenge-title"><h3>Game card</h3><span class="badge">HTML 2 + CSS 1–2</span></div>
+<ul class="task-list"><li>Center the card on the page.</li><li>Add padding inside.</li><li>Make the image fill the card.</li><li>Center the content.</li><li>Style the PLAY button.</li></ul>
+<div class="code-result" data-code-result><div class="panel"><div class="panel-title"><strong>Starter code</strong><div class="panel-actions"><button class="small-button primary" data-run>RUN</button><button class="small-button" data-reset>RESET</button></div></div><textarea class="code-box" data-editor><style>
+body {
+    background-color: #eef2ff;
+    font-family: Arial;
+}
+
+.game-card {
+    width: 300px;
+    /* FINISH THE CARD */
+}
+
+.game-image {
+    /* MAKE THE IMAGE FIT */
+}
+
+.game-button {
+    /* STYLE THE BUTTON */
+}
+</style>
+
+<div class="game-card">
+    <img class="game-image" src="../../demos/road-racer/thumbnail.jpg">
+    <h2>Road Racer</h2>
+    <p>Dodge the traffic and beat your score!</p>
+    <button class="game-button">PLAY</button>
+</div></textarea></div><div class="panel"><div class="panel-title"><strong>Result</strong><span>Build a clean card</span></div><iframe class="result-box" data-frame></iframe></div></div>
+<details class="hint"><summary>Need a starting point?</summary><div>Card: <code>margin: 30px auto</code>, <code>padding: 18px</code>, <code>text-align: center</code>, border + radius. Image: <code>width: 100%</code>. Button: reuse your CSS 1 button skills.</div></details>
+</div>
+</section>
+
+<section class="section">
+<div class="kicker">Shortcuts</div><h2>5. Read the shorthand</h2><p class="intro">Say what each line means before opening the answer.</p>
+<div class="challenge"><div class="challenge-title"><h3>Clockwise challenge</h3><span class="badge">Top → Right → Bottom → Left</span></div>
+<details class="hint"><summary><code>padding: 10px 20px;</code></summary><div>Top/bottom = 10px. Left/right = 20px.</div></details>
+<details class="hint"><summary><code>margin: 10px 20px 30px;</code></summary><div>Top = 10px. Left/right = 20px. Bottom = 30px.</div></details>
+<details class="hint"><summary><code>padding: 10px 20px 30px 40px;</code></summary><div>Top 10px → Right 20px → Bottom 30px → Left 40px.</div></details>
+</div></section>
+
+<section class="section">
+<div class="kicker">Final challenge</div><h2>6. Build a mini games website</h2><p class="intro">This is the important one. Combine the structures you already know instead of following one finished answer.</p>
+<div class="challenge final"><div class="challenge-title"><h3>My Games</h3><span class="badge">CSS 2 CHECKPOINT</span></div>
+<p class="goal">Build a page with a navbar, heading, short intro, and one Road Racer card. If you finish quickly, duplicate the card and use <code>../images/8.png</code>, <code>9.png</code> or another image.</p>
+<ul class="task-list"><li>Use <code>padding</code> inside the card.</li><li>Use <code>margin</code> for outside spacing.</li><li>Use <code>margin: auto</code> to center the card.</li><li>Use <code>text-align</code> where appropriate.</li><li>Remove navbar link underlines.</li><li>Style the button using CSS 1.</li></ul>
+<details class="hint"><summary>Want a starter structure?</summary><div><code>&lt;nav&gt;...links...&lt;/nav&gt;<br>&lt;h1&gt;My Games&lt;/h1&gt;<br>&lt;p&gt;...&lt;/p&gt;<br>&lt;div class="game-card"&gt;...&lt;/div&gt;</code></div></details>
+</div></section>
+
+<section class="remember"><h2>CSS 2 memory check</h2><div class="remember-grid"><div class="remember-card"><code>padding</code><span>space inside</span></div><div class="remember-card"><code>margin</code><span>space outside</span></div><div class="remember-card"><code>margin: auto</code><span>center the box</span></div><div class="remember-card"><code>text-align: center</code><span>center what's inside</span></div></div></section>
+</main>
+<script>
+document.querySelectorAll('[data-code-result]').forEach(component=>{const editor=component.querySelector('[data-editor]');const frame=component.querySelector('[data-frame]');const run=component.querySelector('[data-run]');const reset=component.querySelector('[data-reset]');const original=editor.value;function go(){frame.srcdoc=editor.value}run.addEventListener('click',go);reset.addEventListener('click',()=>{editor.value=original;go()});go()});
+</script>
+</body>
+</html>
