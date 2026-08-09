@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RGB Color in CSS</title>
+<style>
+  :root{
+    --r: 217; --g: 90; --b: 60;
+    --ink: #1c1a17;
+    --paper: #f6f3ee;
+    --panel: #ffffff;
+    --line: #e3ddd2;
+    --mono: 'JetBrains Mono', 'Courier New', monospace;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    font-family: var(--sans);
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  a{ color: inherit; }
+  .wrap{ max-width: 880px; margin: 0 auto; padding: 0 28px; }
+
+  header.hero{
+    background: rgb(var(--r), var(--g), var(--b));
+    color: #fff;
+    padding: 72px 0 56px;
+    transition: background 0.15s ease;
+  }
+  header.hero .wrap{ display:flex; flex-direction:column; gap:22px; }
+  .eyebrow{
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+  h1{
+    font-size: clamp(38px, 6vw, 58px);
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  header.hero p{
+    max-width: 54ch;
+    font-size: 17px;
+    opacity: 0.95;
+  }
+  .live-value{
+    font-family: var(--mono);
+    font-size: 16px;
+    background: rgba(0,0,0,0.18);
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 6px;
+    width: fit-content;
+  }
+
+  main{ padding: 56px 0 90px; }
+  section{ margin-bottom: 64px; }
+  h2{
+    font-size: 26px;
+    margin: 0 0 8px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+  .section-note{
+    color: #6b6459;
+    font-size: 15px;
+    margin: 0 0 22px;
+    max-width: 62ch;
+  }
+
+  code, .inline-code{
+    font-family: var(--mono);
+    background: #ece6d8;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.92em;
+  }
+
+  pre{
+    font-family: var(--mono);
+    background: var(--ink);
+    color: #f1ede4;
+    padding: 18px 20px;
+    border-radius: 10px;
+    overflow-x: auto;
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+  pre .cm{ color: #9a9186; }
+  pre .kv{ color: rgb(217, 140, 90); }
+  pre .st{ color: rgb(140, 180, 150); }
+
+  /* Interactive mixer */
+  .mixer{
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 28px;
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    gap: 28px;
+  }
+  @media (max-width: 620px){
+    .mixer{ grid-template-columns: 1fr; }
+  }
+  .sliders label{
+    display:block;
+    font-family: var(--mono);
+    font-size: 13px;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .slider-row{ margin-bottom: 18px; }
+  .slider-row:last-child{ margin-bottom: 0; }
+  input[type=range]{
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+  }
+  #r-slider{ accent-color: rgb(200,60,60); background: linear-gradient(to right, #000, #f00); }
+  #g-slider{ accent-color: rgb(50,150,70); background: linear-gradient(to right, #000, #0f0); }
+  #b-slider{ accent-color: rgb(60,90,200); background: linear-gradient(to right, #000, #00f); }
+  .val{ font-family: var(--mono); color: #6b6459; }
+
+  .swatch-box{
+    display:flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .swatch{
+    flex: 1;
+    min-height: 110px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+  }
+  .swatch-code{
+    font-family: var(--mono);
+    font-size: 13px;
+    text-align:center;
+    background: #ece6d8;
+    border-radius: 6px;
+    padding: 8px;
+  }
+
+  /* Shade grid */
+  .shade-grid{
+    display:grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+  }
+  @media (max-width: 620px){ .shade-grid{ grid-template-columns: repeat(3, 1fr); } }
+  .shade{
+    border-radius: 8px;
+    height: 70px;
+    display:flex;
+    align-items:flex-end;
+    padding: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: rgba(255,255,255,0.9);
+  }
+
+  /* Alpha demo */
+  .alpha-demo{
+    position:relative;
+    height: 140px;
+    border-radius: 10px;
+    overflow:hidden;
+    background:
+      linear-gradient(45deg, #ddd 25%, transparent 25%) 0 0/20px 20px,
+      linear-gradient(-45deg, #ddd 25%, transparent 25%) 0 0/20px 20px,
+      linear-gradient(45deg, transparent 75%, #ddd 75%) 0 0/20px 20px,
+      linear-gradient(-45deg, transparent 75%, #ddd 75%) 0 0/20px 20px,
+      #fff;
+  }
+  .alpha-demo div{
+    position:absolute;
+    top:20px; bottom:20px; width: 30%;
+    border-radius: 8px;
+  }
+  .a1{ left: 8%; background: rgba(217,90,60,0.25); }
+  .a2{ left: 36%; background: rgba(217,90,60,0.6); }
+  .a3{ left: 64%; background: rgba(217,90,60,1); }
+
+  table{
+    width:100%;
+    border-collapse: collapse;
+    font-size: 14.5px;
+  }
+  th, td{
+    text-align:left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  th{ font-family: var(--mono); font-size: 12px; text-transform:uppercase; letter-spacing:0.05em; color:#6b6459; }
+  td code{ background: #ece6d8; }
+
+  footer{
+    border-top: 1px solid var(--line);
+    padding: 28px 0 60px;
+    color: #857c6e;
+    font-size: 13.5px;
+    font-family: var(--mono);
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">CSS Color Reference</span>
+    <h1>RGB Color</h1>
+    <p>Every color a screen can show is three light values stacked on top of each other &mdash; red, green, and blue &mdash; each dialed from 0 (off) to 255 (full brightness). This page's own background is the color you're mixing below.</p>
+    <span class="live-value" id="live-rgb-label">rgb(217, 90, 60)</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section>
+    <h2>Mix it yourself</h2>
+    <p class="section-note">Drag a channel and watch the header above change. This <em>is</em> the <code>rgb()</code> function &mdash; three numbers, nothing more.</p>
+
+    <div class="mixer">
+      <div class="sliders">
+        <div class="slider-row">
+          <label for="r-slider">RED &nbsp;<span class="val" id="r-val">217</span></label>
+          <input type="range" id="r-slider" min="0" max="255" value="217">
+        </div>
+        <div class="slider-row">
+          <label for="g-slider">GREEN &nbsp;<span class="val" id="g-val">90</span></label>
+          <input type="range" id="g-slider" min="0" max="255" value="90">
+        </div>
+        <div class="slider-row">
+          <label for="b-slider">BLUE &nbsp;<span class="val" id="b-val">60</span></label>
+          <input type="range" id="b-slider" min="0" max="255" value="60">
+        </div>
+      </div>
+      <div class="swatch-box">
+        <div class="swatch" id="mixer-swatch"></div>
+        <div class="swatch-code" id="mixer-code">rgb(217, 90, 60)</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The syntax</h2>
+    <p class="section-note">Set <code>color</code> for text or <code>background-color</code> for a fill. Both take the same three numbers.</p>
+    <pre><span class="cm">/* three integers, 0 to 255, comma-separated */</span>
+h1 {
+  <span class="kv">color</span>: rgb(217, 90, 60);
+}
+
+p {
+  <span class="kv">background-color</span>: rgb(30, 30, 30);
+}</pre>
+  </section>
+
+  <section>
+    <h2>Black, white, and gray</h2>
+    <p class="section-note">Gray happens whenever all three channels match &mdash; the lower the number, the darker the result.</p>
+    <div class="shade-grid" id="gray-grid"></div>
+  </section>
+
+  <section>
+    <h2>Adding transparency: rgba()</h2>
+    <p class="section-note"><code>rgba()</code> takes the same three channels plus a fourth value, alpha, from 0 (invisible) to 1 (solid). It's the difference between paint and stained glass.</p>
+    <div class="alpha-demo">
+      <div class="a1"></div>
+      <div class="a2"></div>
+      <div class="a3"></div>
+    </div>
+    <pre>rgba(217, 90, 60, <span class="st">0.25</span>)   <span class="cm">/* barely there */</span>
+rgba(217, 90, 60, <span class="st">0.6</span>)    <span class="cm">/* translucent */</span>
+rgba(217, 90, 60, <span class="st">1</span>)      <span class="cm">/* fully opaque */</span></pre>
+  </section>
+
+  <section>
+    <h2>A few named reference points</h2>
+    <p class="section-note">Not something to memorize &mdash; just a sense of where common colors sit on the 0&ndash;255 scale.</p>
+    <table>
+      <tr><th>Color</th><th>Value</th><th>Preview</th></tr>
+      <tr><td>Pure red</td><td><code>rgb(255, 0, 0)</code></td><td><span style="display:inline-block;width:60px;height:16px;border-radius:4px;background:rgb(255,0,0);vertical-align:middle;"></span></td></tr>
+      <tr><td>Pure green</td><td><code>rgb(0, 255, 0)</code></td><td><span style="display:inline-block;width:60px;height:16px;border-radius:4px;background:rgb(0,255,0);vertical-align:middle;"></span></td></tr>
+      <tr><td>Pure blue</td><td><code>rgb(0, 0, 255)</code></td><td><span style="display:inline-block;width:60px;height:16px;border-radius:4px;background:rgb(0,0,255);vertical-align:middle;"></span></td></tr>
+      <tr><td>White</td><td><code>rgb(255, 255, 255)</code></td><td><span style="display:inline-block;width:60px;height:16px;border-radius:4px;background:rgb(255,255,255);border:1px solid #ddd;vertical-align:middle;"></span></td></tr>
+      <tr><td>Black</td><td><code>rgb(0, 0, 0)</code></td><td><span style="display:inline-block;width:60px;height:16px;border-radius:4px;background:rgb(0,0,0);vertical-align:middle;"></span></td></tr>
+    </table>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">rgb() and rgba() &middot; every value here computed in the browser, no images</div>
+</footer>
+
+<script>
+  const rSlider = document.getElementById('r-slider');
+  const gSlider = document.getElementById('g-slider');
+  const bSlider = document.getElementById('b-slider');
+  const hero = document.querySelector('header.hero');
+  const label = document.getElementById('live-rgb-label');
+  const swatch = document.getElementById('mixer-swatch');
+  const swatchCode = document.getElementById('mixer-code');
+  const rVal = document.getElementById('r-val');
+  const gVal = document.getElementById('g-val');
+  const bVal = document.getElementById('b-val');
+
+  function update(){
+    const r = rSlider.value, g = gSlider.value, b = bSlider.value;
+    const css = `rgb(${r}, ${g}, ${b})`;
+    hero.style.background = css;
+    label.textContent = css;
+    swatch.style.background = css;
+    swatchCode.textContent = css;
+    rVal.textContent = r; gVal.textContent = g; bVal.textContent = b;
+  }
+  [rSlider, gSlider, bSlider].forEach(s => s.addEventListener('input', update));
+
+  const grayGrid = document.getElementById('gray-grid');
+  [0, 40, 80, 120, 170, 220].forEach(v => {
+    const div = document.createElement('div');
+    div.className = 'shade';
+    div.style.background = `rgb(${v}, ${v}, ${v})`;
+    div.textContent = `${v},${v},${v}`;
+    grayGrid.appendChild(div);
+  });
+</script>
+
+</body>
+</html>
