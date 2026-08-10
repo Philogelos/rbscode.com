@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sound Lab | RBScode Game Dev</title>
-<meta name="description" content="RBScode Sound Lab — 500+ retro game sound effects, generated live in the browser. Click to preview, copy the code.">
+<meta name="description" content="RBScode Sound Lab — hundreds of sound effects for games, apps, videos, or any project. Generated live in the browser. Search, preview, copy the code.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
@@ -17,6 +17,7 @@
     --yellow: #ffd23f;
     --green: #5cff7a;
     --purple: #b98bff;
+    --orange: #ff7a45;
     --slate: #8fa0c9;
     --ink: #eaf2ff;
     --ink-dim: #8fa0c9;
@@ -181,9 +182,9 @@
 
 <header>
   <div class="wrap">
-    <span class="eyebrow pixel">GAME DEV · LEVEL 2 EXTRA</span>
+    <span class="eyebrow pixel">GAME DEV · SOUND TOOLKIT</span>
     <h1>Sound <span>Lab</span></h1>
-    <p>Over 500 retro game sounds, all generated live in your browser — no audio files. Click any card to hear it, then copy the code that made it. Part of <a href="https://rbscode.com/">RBScode Game Development</a>.</p>
+    <p>Hundreds of sound effects — for games, apps, videos, presentations, or whatever you're building. Jumps and lasers, but also doorbells, rain, applause, cameras, and more. All generated live in your browser, no audio files. Search for what you need, click to preview, copy the code. Part of <a href="https://rbscode.com/">RBScode Game Development</a>.</p>
 
     <div class="console">
       <div class="console-top">
@@ -220,7 +221,7 @@
 
     <div class="code-panel">
       <h2 class="pixel">How it works</h2>
-      <p>Nothing here is an audio file. Each sound is math: an oscillator or a burst of noise, shaped by a volume envelope. The "pitch" and "speed" in every name just scale those numbers up or down — that's the whole trick behind 500+ sounds from 14 recipes. This is the code for whichever sound you played last: <span class="cur-name" id="curName">Classic Jump — Quick</span>.</p>
+      <p>Nothing here is an audio file. Each sound is math: an oscillator, a chord of oscillators, a wobbling siren, or a burst of filtered noise — shaped by a volume envelope. The "pitch" and "speed" in every name just scale those numbers up or down — that's the whole trick behind hundreds of sounds from 26 recipes. This is the code for whichever sound you played last: <span class="cur-name" id="curName">Classic Jump — Quick</span>.</p>
       <pre id="exampleCode"></pre>
     </div>
   </div>
@@ -281,6 +282,40 @@ function melody(wave, freqs, noteDur, gapMs, peak){
   freqs.forEach((f,i)=> setTimeout(()=> tone(wave, f, undefined, noteDur, peak), i*gapMs));
 }
 
+function chordPlay(wave, freqs, dur, peak){
+  const c = getCtx(); const an = getAnalyser(); const now = c.currentTime;
+  const per = peak / freqs.length;
+  freqs.forEach(f=>{
+    const osc = c.createOscillator(); const gain = c.createGain();
+    osc.type = wave;
+    osc.frequency.setValueAtTime(Math.max(f,20), now);
+    gain.gain.setValueAtTime(Math.max(per,0.001), now);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+    osc.connect(gain); gain.connect(an);
+    osc.start(now); osc.stop(now + dur + 0.05);
+  });
+}
+
+function sirenPlay(wave, freqLow, freqHigh, dur, cycles, peak){
+  const c = getCtx(); const an = getAnalyser(); const now = c.currentTime;
+  const osc = c.createOscillator(); const gain = c.createGain();
+  osc.type = wave;
+  const segDur = dur / (cycles*2);
+  let t = now;
+  osc.frequency.setValueAtTime(Math.max(freqLow,20), t);
+  for(let i=0;i<cycles;i++){
+    osc.frequency.exponentialRampToValueAtTime(Math.max(freqHigh,20), t + segDur);
+    t += segDur;
+    osc.frequency.exponentialRampToValueAtTime(Math.max(freqLow,20), t + segDur);
+    t += segDur;
+  }
+  gain.gain.setValueAtTime(peak, now);
+  gain.gain.setValueAtTime(peak, Math.max(now, now + dur - 0.03));
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+  osc.connect(gain); gain.connect(an);
+  osc.start(now); osc.stop(now + dur + 0.05);
+}
+
 function dispatchPlay(s){
   const p = s.params;
   if(s.type === 'sweep'){ tone(p.wave, p.freqStart, p.freqEnd, p.dur, p.peak); return p.dur; }
@@ -290,6 +325,8 @@ function dispatchPlay(s){
     melody(p.wave, p.freqs, p.noteDur, p.gapMs, p.peak);
     return (p.freqs.length-1)*p.gapMs/1000 + p.noteDur;
   }
+  if(s.type === 'chord'){ chordPlay(p.wave, p.freqs, p.dur, p.peak); return p.dur; }
+  if(s.type === 'siren'){ sirenPlay(p.wave, p.freqLow, p.freqHigh, p.dur, p.cycles, p.peak); return p.dur; }
   return 0.2;
 }
 
@@ -360,6 +397,92 @@ const CATEGORIES = [
   { id:'note', label:'Chiptune Note', icon:'🎵', accent:'var(--cyan)', glow:'rgba(0,229,255,0.4)',
     musical:true,
     make(scaleNote,sp){ return { type:'note', params:{ wave:'triangle', freq:scaleNote.f, dur:0.25*sp.m, peak:0.3 }, noteLabel:scaleNote.n }; } },
+
+  { id:'splash', label:'Splash & Water', icon:'💦', accent:'var(--cyan)', glow:'rgba(0,229,255,0.4)',
+    make(p,sp){ return { type:'noise', params:{ dur:0.35*sp.m, filterFreq:800*p.m, filterEnd:1600*p.m, decayPow:2, peak:0.45, filterType:'bandpass' } }; } },
+
+  { id:'fire', label:'Fire & Crackle', icon:'🔥', accent:'var(--orange)', glow:'rgba(255,122,69,0.4)',
+    make(p,sp){ return { type:'noise', params:{ dur:0.7*sp.m, filterFreq:2500*p.m, filterEnd:Math.max(600*p.m,150), decayPow:1.8, peak:0.4, filterType:'lowpass' } }; } },
+
+  { id:'wind', label:'Wind & Whoosh', icon:'🌬️', accent:'var(--slate)', glow:'rgba(143,160,201,0.35)',
+    make(p,sp){ return { type:'noise', params:{ dur:0.8*sp.m, filterFreq:Math.max(150*p.m,50), filterEnd:2500*p.m, decayPow:1, peak:0.35, filterType:'bandpass' } }; } },
+
+  { id:'bell', label:'Bell & Chime', icon:'🔔', accent:'var(--purple)', glow:'rgba(185,139,255,0.4)',
+    make(p,sp){ return { type:'note', params:{ wave:'sine', freq:700*p.m, dur:0.9*sp.m, peak:0.22 } }; } },
+
+  { id:'siren', label:'Siren & Alarm', icon:'🚨', accent:'var(--magenta)', glow:'rgba(255,46,142,0.4)',
+    make(p,sp){ return { type:'siren', params:{ wave:'sawtooth', freqLow:400*p.m, freqHigh:900*p.m, dur:1.2*sp.m, cycles:3, peak:0.3 } }; } },
+
+  { id:'door', label:'Door & Creak', icon:'🚪', accent:'var(--orange)', glow:'rgba(255,122,69,0.4)',
+    make(p,sp){ return { type:'sweep', params:{ wave:'sawtooth', freqStart:180*p.m, freqEnd:90*p.m, dur:0.6*sp.m, peak:0.22 } }; } },
+
+  { id:'zap', label:'Zap & Spark', icon:'🌩️', accent:'var(--cyan)', glow:'rgba(0,229,255,0.4)',
+    make(p,sp){ return { type:'chord', params:{ wave:'sawtooth', freqs:[440*p.m,466*p.m,622*p.m], dur:0.2*sp.m, peak:0.35 } }; } },
+
+  { id:'bubble', label:'Bubble & Pop', icon:'🫧', accent:'var(--cyan)', glow:'rgba(0,229,255,0.4)',
+    make(p,sp){ return { type:'sweep', params:{ wave:'sine', freqStart:300*p.m, freqEnd:900*p.m, dur:0.1*sp.m, peak:0.28 } }; } },
+
+  { id:'drum', label:'Drum & Percussion', icon:'🥁', accent:'var(--orange)', glow:'rgba(255,122,69,0.4)',
+    make(p,sp){ return { type:'noise', params:{ dur:0.12*sp.m, filterFreq:200*p.m, filterEnd:Math.max(60*p.m,30), decayPow:4, peak:0.6, filterType:'lowpass' } }; } },
+
+  { id:'notify', label:'Notification & Ding', icon:'📳', accent:'var(--yellow)', glow:'rgba(255,210,63,0.4)',
+    make(p,sp){ return { type:'note', params:{ wave:'sine', freq:1200*p.m, dur:0.15*sp.m, peak:0.25 } }; } },
+
+  { id:'teleport', label:'Teleport & Warp', icon:'🌀', accent:'var(--purple)', glow:'rgba(185,139,255,0.4)',
+    make(p,sp){ return { type:'melody', params:{ wave:'triangle', freqs:[300*p.m,600*p.m,300*p.m,700*p.m,300*p.m], noteDur:0.05*sp.m, gapMs:45*sp.m, peak:0.28 } }; } },
+
+  { id:'chiptunechord', label:'Chiptune Chord', icon:'🎹', accent:'var(--green)', glow:'rgba(92,255,122,0.35)',
+    musical:true,
+    make(scaleNote,sp){ return { type:'chord', params:{ wave:'triangle', freqs:[scaleNote.f, scaleNote.f*1.25, scaleNote.f*1.5], dur:0.4*sp.m, peak:0.3 }, noteLabel:scaleNote.n }; } },
+
+  // ---- everyday / non-game sounds ----
+  { id:'clock', label:'Clock & Tick', icon:'⏰', accent:'var(--slate)', glow:'rgba(143,160,201,0.35)',
+    make(p,sp){ return { type:'note', params:{ wave:'square', freq:1000*p.m, dur:Math.max(0.04*sp.m,0.02), peak:0.22 } }; } },
+
+  { id:'typewriter', label:'Typewriter & Type', icon:'⌨️', accent:'var(--slate)', glow:'rgba(143,160,201,0.35)',
+    make(p,sp){ return { type:'note', params:{ wave:'square', freq:2200*p.m, dur:Math.max(0.03*sp.m,0.015), peak:0.2 } }; } },
+
+  { id:'phonering', label:'Phone & Ring', icon:'☎️', accent:'var(--yellow)', glow:'rgba(255,210,63,0.4)',
+    make(p,sp){ return { type:'siren', params:{ wave:'sine', freqLow:480*p.m, freqHigh:620*p.m, dur:0.9*sp.m, cycles:4, peak:0.28 } }; } },
+
+  { id:'camera', label:'Camera & Shutter', icon:'📷', accent:'var(--slate)', glow:'rgba(143,160,201,0.35)',
+    make(p,sp){ return { type:'noise', params:{ dur:Math.max(0.05*sp.m,0.03), filterFreq:5000*p.m, filterEnd:Math.max(1500*p.m,400), decayPow:2.5, peak:0.45, filterType:'highpass' } }; } },
+
+  { id:'applause', label:'Applause & Cheer', icon:'👏', accent:'var(--orange)', glow:'rgba(255,122,69,0.4)',
+    make(p,sp){ return { type:'noise', params:{ dur:1.0*sp.m, filterFreq:2200*p.m, filterEnd:1800*p.m, decayPow:0.6, peak:0.4, filterType:'lowpass' } }; } },
+
+  { id:'whistle', label:'Whistle & Referee', icon:'📣', accent:'var(--cyan)', glow:'rgba(0,229,255,0.4)',
+    make(p,sp){ return { type:'siren', params:{ wave:'sine', freqLow:1600*p.m, freqHigh:1900*p.m, dur:0.6*sp.m, cycles:6, peak:0.3 } }; } },
+
+  { id:'carhorn', label:'Car & Horn', icon:'🚗', accent:'var(--magenta)', glow:'rgba(255,46,142,0.4)',
+    make(p,sp){ return { type:'chord', params:{ wave:'sawtooth', freqs:[300*p.m,375*p.m], dur:0.4*sp.m, peak:0.35 } }; } },
+
+  { id:'register', label:'Cash & Register', icon:'💰', accent:'var(--yellow)', glow:'rgba(255,210,63,0.4)',
+    make(p,sp){ return { type:'melody', params:{ wave:'square', freqs:[1046*p.m,1568*p.m], noteDur:0.08*sp.m, gapMs:70*sp.m, peak:0.25 } }; } },
+
+  { id:'rain', label:'Rain & Drizzle', icon:'🌧️', accent:'var(--slate)', glow:'rgba(143,160,201,0.35)',
+    make(p,sp){ return { type:'noise', params:{ dur:1.2*sp.m, filterFreq:3500*p.m, filterEnd:3000*p.m, decayPow:0.3, peak:0.32, filterType:'highpass' } }; } },
+
+  { id:'thunder', label:'Thunder & Rumble', icon:'⛈️', accent:'var(--slate)', glow:'rgba(143,160,201,0.35)',
+    make(p,sp){ return { type:'noise', params:{ dur:1.4*sp.m, filterFreq:Math.max(150*p.m,40), filterEnd:Math.max(50*p.m,20), decayPow:0.7, peak:0.5, filterType:'lowpass' } }; } },
+
+  { id:'pageturn', label:'Page & Rustle', icon:'📄', accent:'var(--slate)', glow:'rgba(143,160,201,0.35)',
+    make(p,sp){ return { type:'noise', params:{ dur:0.25*sp.m, filterFreq:2600*p.m, filterEnd:1800*p.m, decayPow:2, peak:0.3, filterType:'bandpass' } }; } },
+
+  { id:'glass', label:'Glass & Clink', icon:'🥂', accent:'var(--cyan)', glow:'rgba(0,229,255,0.4)',
+    make(p,sp){ return { type:'chord', params:{ wave:'sine', freqs:[2093*p.m,2637*p.m,3136*p.m], dur:0.5*sp.m, peak:0.25 } }; } },
+
+  { id:'metal', label:'Metal & Clang', icon:'🔧', accent:'var(--orange)', glow:'rgba(255,122,69,0.4)',
+    make(p,sp){ return { type:'noise', params:{ dur:0.6*sp.m, filterFreq:1800*p.m, filterEnd:1400*p.m, decayPow:1, peak:0.4, filterType:'bandpass' } }; } },
+
+  { id:'doorbell', label:'Doorbell & Buzzer', icon:'🔘', accent:'var(--purple)', glow:'rgba(185,139,255,0.4)',
+    make(p,sp){ return { type:'melody', params:{ wave:'sine', freqs:[784*p.m,659*p.m], noteDur:0.3*sp.m, gapMs:320*sp.m, peak:0.28 } }; } },
+
+  { id:'birdchirp', label:'Bird & Chirp', icon:'🐦', accent:'var(--green)', glow:'rgba(92,255,122,0.35)',
+    make(p,sp){ return { type:'sweep', params:{ wave:'sine', freqStart:2400*p.m, freqEnd:3600*p.m, dur:0.12*sp.m, peak:0.25 } }; } },
+
+  { id:'waterdrip', label:'Water & Drip', icon:'💧', accent:'var(--cyan)', glow:'rgba(0,229,255,0.4)',
+    make(p,sp){ return { type:'note', params:{ wave:'sine', freq:1600*p.m, dur:Math.max(0.06*sp.m,0.03), peak:0.22 } }; } },
 ];
 
 // ===================== Generate ~500 sounds =====================
@@ -371,7 +494,7 @@ CATEGORIES.forEach(cat=>{
       const built = cat.make(p, sp);
       const pitchName = cat.musical ? built.noteLabel : p.n;
       const name = cat.musical
-        ? `${pitchName} Note — ${sp.n}`
+        ? `${pitchName} ${cat.label.split(' & ')[1] || cat.label} — ${sp.n}`
         : `${p.n} ${cat.label.split(' & ')[0]} — ${sp.n}`;
       ALL_SOUNDS.push({
         id: cat.id + '-' + pitchName + '-' + sp.n,
@@ -436,6 +559,37 @@ const notes = [${p.freqs.map(fmt).join(', ')}];
 notes.forEach((freq, i) =&gt; {
   setTimeout(() =&gt; beep(freq, <span class="num">${fmt(p.noteDur)}</span>), i * <span class="num">${fmt(p.gapMs)}</span>);
 });`;
+  }
+  if(s.type === 'chord'){
+    return `<span class="cm">// ${s.name} — notes played all at once</span>
+const freqs = [${p.freqs.map(fmt).join(', ')}];
+freqs.forEach(freq =&gt; {
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = <span class="kw">'${p.wave}'</span>;
+  osc.frequency.setValueAtTime(freq, ctx.currentTime);
+  gain.gain.setValueAtTime(<span class="num">${fmt(p.peak/p.freqs.length)}</span>, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(<span class="num">0.0001</span>, ctx.currentTime + <span class="num">${fmt(p.dur)}</span>);
+  osc.connect(gain).connect(ctx.destination);
+  osc.start(); osc.stop(ctx.currentTime + <span class="num">${fmt(p.dur+0.05)}</span>);
+});`;
+  }
+  if(s.type === 'siren'){
+    return `<span class="cm">// ${s.name} — frequency wobbles between two notes</span>
+const osc = ctx.createOscillator();
+const gain = ctx.createGain();
+osc.type = <span class="kw">'${p.wave}'</span>;
+let t = ctx.currentTime;
+const seg = <span class="num">${fmt(p.dur/(p.cycles*2))}</span>;
+osc.frequency.setValueAtTime(<span class="num">${fmt(p.freqLow)}</span>, t);
+for (let i = 0; i &lt; <span class="num">${p.cycles}</span>; i++) {
+  osc.frequency.exponentialRampToValueAtTime(<span class="num">${fmt(p.freqHigh)}</span>, t += seg);
+  osc.frequency.exponentialRampToValueAtTime(<span class="num">${fmt(p.freqLow)}</span>, t += seg);
+}
+gain.gain.setValueAtTime(<span class="num">${p.peak}</span>, ctx.currentTime);
+gain.gain.exponentialRampToValueAtTime(<span class="num">0.0001</span>, ctx.currentTime + <span class="num">${fmt(p.dur)}</span>);
+osc.connect(gain).connect(ctx.destination);
+osc.start(); osc.stop(ctx.currentTime + <span class="num">${fmt(p.dur+0.05)}</span>);`;
   }
 }
 
