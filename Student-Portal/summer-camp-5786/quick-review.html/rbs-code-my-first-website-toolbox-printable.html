@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RBS Code - My First Website Toolbox</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #eef2f7;
+  color: #172033;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.28;
+}
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  text-align: center;
+  background: #111827;
+  padding: 9px;
+}
+.toolbar button {
+  border: 0;
+  border-radius: 8px;
+  background: white;
+  color: #111827;
+  padding: 9px 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.sheet {
+  width: 94%;
+  max-width: 920px;
+  margin: 22px auto;
+  background: white;
+  border: 1px solid #d8deea;
+  border-radius: 16px;
+  padding: 25px;
+}
+.hero {
+  background: #111827;
+  color: white;
+  border-radius: 12px;
+  text-align: center;
+  padding: 15px 18px;
+  margin-bottom: 12px;
+}
+.hero h1 { margin: 0; font-size: 31px; }
+.hero p { margin: 4px 0 0; font-size: 15px; }
+.note {
+  background: #fff8dc;
+  border: 1px solid #ead889;
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin: 8px 0 12px;
+}
+h2 {
+  font-size: 20px;
+  margin: 15px 0 7px;
+  padding: 6px 9px;
+  background: #e8edff;
+  border-left: 5px solid #3e5dd7;
+  border-radius: 6px;
+}
+h3 {
+  font-size: 15px;
+  color: #29417f;
+  margin: 10px 0 5px;
+}
+.grid2, .grid3, .grid4 {
+  display: grid;
+  gap: 6px;
+}
+.grid2 { grid-template-columns: 1fr 1fr; }
+.grid3 { grid-template-columns: repeat(3, 1fr); }
+.grid4 { grid-template-columns: repeat(4, 1fr); }
+.card {
+  border: 1px solid #cfd7e5;
+  border-radius: 7px;
+  padding: 6px 8px;
+  background: white;
+  break-inside: avoid;
+}
+.card strong { font-size: 14px; }
+.small { color: #4e5b70; font-size: 12px; margin-top: 2px; }
+code {
+  font-family: Consolas, "Courier New", monospace;
+  background: #eef1f6;
+  padding: 1px 3px;
+  border-radius: 3px;
+}
+.syntax {
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 12px;
+  background: #f5f7fb;
+  border-left: 4px solid #8aa0d8;
+  border-radius: 6px;
+  padding: 6px 8px;
+  margin: 6px 0;
+  white-space: pre-wrap;
+  break-inside: avoid;
+}
+.memory {
+  background: #edf8f0;
+  border: 1px solid #afd3b7;
+  border-radius: 7px;
+  padding: 7px 9px;
+  margin: 7px 0;
+  break-inside: avoid;
+}
+.position-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin: 6px 0;
+}
+.position-grid > div {
+  background: #f6f8ff;
+  border: 1px solid #9cb0e3;
+  border-radius: 7px;
+  padding: 7px 8px;
+  break-inside: avoid;
+}
+.position-grid strong { color: #274181; }
+.page2 { margin-top: 20px; }
+.footer {
+  margin-top: 9px;
+  text-align: center;
+  color: #667084;
+  font-size: 11px;
+}
+@media (max-width: 720px) {
+  .grid2, .grid3, .grid4, .position-grid { grid-template-columns: 1fr; }
+  .sheet { width: 100%; margin: 0; border: 0; border-radius: 0; padding: 16px; }
+}
+@page { size: A4 portrait; margin: 7mm; }
+@media print {
+  body { background: white; font-size: 9.5pt; line-height: 1.2; }
+  .toolbar { display: none; }
+  .sheet {
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+  }
+  .hero { padding: 7px 10px; margin-bottom: 5px; border-radius: 5px; }
+  .hero h1 { font-size: 20pt; }
+  .hero p { font-size: 9.2pt; margin-top: 2px; }
+  .note { padding: 4px 6px; margin: 4px 0 5px; }
+  h2 { font-size: 13pt; margin: 6px 0 3px; padding: 3px 5px; border-radius: 3px; }
+  h3 { font-size: 10pt; margin: 5px 0 2px; }
+  .grid2, .grid3, .grid4, .position-grid { gap: 3px; }
+  .card { padding: 3px 5px; border-radius: 3px; }
+  .card strong { font-size: 9.3pt; }
+  .small { font-size: 8.1pt; margin-top: 1px; }
+  .syntax { font-size: 8pt; padding: 3px 5px; margin: 3px 0; }
+  .memory { padding: 4px 6px; margin: 3px 0; }
+  .position-grid > div { padding: 4px 5px; border-radius: 3px; }
+  .page2 { break-before: page; page-break-before: always; margin-top: 0; }
+  .footer { font-size: 7.8pt; margin-top: 4px; }
+}
+</style>
+</head>
+<body>
+<div class="toolbar"><button onclick="window.print()">Print / Save as PDF</button></div>
+<div class="sheet">
+
+<section>
+  <div class="hero">
+    <h1>MY FIRST WEBSITE TOOLBOX</h1>
+    <p>HTML + CSS quick reference - find the tool you need and use it</p>
+  </div>
+
+  <div class="note"><strong>You do not need to memorize everything.</strong> Know what the tools do and where to find them.</div>
+
+  <h2>HTML - What Goes on the Page?</h2>
+  <div class="grid3">
+    <div class="card"><strong><code>&lt;html&gt;</code></strong><div class="small">Container around the whole page.</div></div>
+    <div class="card"><strong><code>&lt;head&gt;</code></strong><div class="small">Browser information, usually not visible.</div></div>
+    <div class="card"><strong><code>&lt;title&gt;</code></strong><div class="small">Text on the browser tab.</div></div>
+    <div class="card"><strong><code>&lt;style&gt;</code></strong><div class="small">Write CSS inside the HTML file.</div></div>
+    <div class="card"><strong><code>&lt;body&gt;</code></strong><div class="small">Everything visible on the page.</div></div>
+    <div class="card"><strong><code>&lt;h1&gt;...&lt;h6&gt;</code></strong><div class="small">Headings. h1 is most important.</div></div>
+    <div class="card"><strong><code>&lt;p&gt;</code></strong><div class="small">Paragraph text.</div></div>
+    <div class="card"><strong><code>&lt;br&gt;</code></strong><div class="small">New line.</div></div>
+    <div class="card"><strong><code>&lt;button&gt;</code></strong><div class="small">Clickable button.</div></div>
+    <div class="card"><strong><code>&lt;a href="..."&gt;</code></strong><div class="small">Link. href = where it goes.</div></div>
+    <div class="card"><strong><code>&lt;img src="..."&gt;</code></strong><div class="small">Image. src = where it comes from.</div></div>
+    <div class="card"><strong><code>&lt;div&gt;</code></strong><div class="small">General-purpose box.</div></div>
+  </div>
+
+  <h3>Named website boxes</h3>
+  <div class="grid4">
+    <div class="card"><strong><code>&lt;header&gt;</code></strong><div class="small">Top/header box.</div></div>
+    <div class="card"><strong><code>&lt;nav&gt;</code></strong><div class="small">Box for navigation links.</div></div>
+    <div class="card"><strong><code>&lt;main&gt;</code></strong><div class="small">Main page-content box.</div></div>
+    <div class="card"><strong><code>&lt;section&gt;</code></strong><div class="small">Box for one topic/section.</div></div>
+    <div class="card"><strong><code>&lt;footer&gt;</code></strong><div class="small">Bottom/footer box.</div></div>
+    <div class="card"><strong><code>class</code></strong><div class="small">Reusable name for CSS.</div></div>
+    <div class="card"><strong><code>id</code></strong><div class="small">Name for one special element.</div></div>
+    <div class="card"><strong>Think:</strong><div class="small">header/nav/main/section/footer are meaningful boxes, similar to div.</div></div>
+  </div>
+
+  <h2>CSS 1 - Make It Look Good</h2>
+  <div class="grid4">
+    <div class="card"><strong><code>color</code></strong><div class="small">Text colour.</div></div>
+    <div class="card"><strong><code>background-color</code></strong><div class="small">Background colour.</div></div>
+    <div class="card"><strong><code>width</code></strong><div class="small">Width.</div></div>
+    <div class="card"><strong><code>height</code></strong><div class="small">Height.</div></div>
+    <div class="card"><strong><code>font-size</code></strong><div class="small">Text size.</div></div>
+    <div class="card"><strong><code>font-family</code></strong><div class="small">Font.</div></div>
+    <div class="card"><strong><code>font-weight</code></strong><div class="small">Normal / bold.</div></div>
+    <div class="card"><strong><code>text-align</code></strong><div class="small">Left / center / right.</div></div>
+    <div class="card"><strong><code>border-width</code></strong><div class="small">Border thickness.</div></div>
+    <div class="card"><strong><code>border-style</code></strong><div class="small">Usually solid.</div></div>
+    <div class="card"><strong><code>border-color</code></strong><div class="small">Border colour.</div></div>
+    <div class="card"><strong><code>border-radius</code></strong><div class="small">Rounded corners.</div></div>
+  </div>
+
+  <h3>Selectors</h3>
+  <div class="grid3">
+    <div class="card"><strong><code>h1 { }</code></strong><div class="small">Style every h1.</div></div>
+    <div class="card"><strong><code>.card { }</code></strong><div class="small">Style every element with class="card".</div></div>
+    <div class="card"><strong><code>#score { }</code></strong><div class="small">Style the element with id="score".</div></div>
+  </div>
+
+  <h2>CSS 2 - Space + Website Skills</h2>
+  <div class="grid3">
+    <div class="card"><strong><code>padding</code></strong><div class="small">Space inside the element.</div></div>
+    <div class="card"><strong><code>margin</code></strong><div class="small">Space outside the element.</div></div>
+    <div class="card"><strong><code>-top / -right / -bottom / -left</code></strong><div class="small">Change one side only.</div></div>
+    <div class="card"><strong><code>margin: auto</code></strong><div class="small">Center a box that has a width.</div></div>
+    <div class="card"><strong><code>margin: 0</code></strong><div class="small">Remove margin, often from body.</div></div>
+    <div class="card"><strong><code>width: 80%</code></strong><div class="small">Percentage of available width.</div></div>
+    <div class="card"><strong><code>text-align: center</code></strong><div class="small">Center text/content inside.</div></div>
+    <div class="card"><strong><code>text-decoration: none</code></strong><div class="small">Remove link underline.</div></div>
+    <div class="card"><strong><code>cursor: pointer</code></strong><div class="small">Hand cursor for clickable items.</div></div>
+  </div>
+
+  <div class="syntax">padding: 10px 20px 30px 40px;   /* top, right, bottom, left */
+margin: 20px auto;                /* vertical space + centered box */</div>
+
+  <div class="memory"><strong>Memory:</strong> Padding = inside. Margin = outside. <code>margin: auto</code> centers the box. <code>text-align: center</code> centers what is inside.</div>
+</section>
+
+<section class="page2">
+  <div class="hero">
+    <h1>CSS 3 POWER TOOLS</h1>
+    <p>Useful layout skills for better websites and simple games</p>
+  </div>
+
+  <h2>Display</h2>
+  <div class="grid4">
+    <div class="card"><strong><code>display: block</code></strong><div class="small">Own line. div is block by default.</div></div>
+    <div class="card"><strong><code>display: inline</code></strong><div class="small">Stays in the line with text.</div></div>
+    <div class="card"><strong><code>display: inline-block</code></strong><div class="small">Sits beside others but can have width/height.</div></div>
+    <div class="card"><strong><code>display: none</code></strong><div class="small">Completely hides an element.</div></div>
+  </div>
+
+  <h2>Flexbox - Easy Rows and Columns</h2>
+  <div class="grid3">
+    <div class="card"><strong><code>display: flex</code></strong><div class="small">Turn a box into a flex layout.</div></div>
+    <div class="card"><strong><code>gap</code></strong><div class="small">Space between flex items.</div></div>
+    <div class="card"><strong><code>flex-direction</code></strong><div class="small">row = side by side; column = top to bottom.</div></div>
+    <div class="card"><strong><code>justify-content</code></strong><div class="small">Move items along the main direction.</div></div>
+    <div class="card"><strong><code>align-items</code></strong><div class="small">Line items up across the other direction.</div></div>
+    <div class="card"><strong><code>flex-wrap: wrap</code></strong><div class="small">Move items to a new row when needed.</div></div>
+  </div>
+  <div class="syntax">.cards { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }</div>
+
+  <h2>Position - Move Things Precisely</h2>
+  <div class="position-grid">
+    <div><strong><code>static</code></strong><div class="small">Normal/default flow. The element stays where HTML naturally puts it.</div></div>
+    <div><strong><code>relative</code></strong><div class="small">Starts in its normal place, then <code>left/top/right/bottom</code> shift it relative to that place.</div></div>
+    <div><strong><code>absolute</code></strong><div class="small">Leaves normal flow and uses exact coordinates. Usually measured from a positioned parent.</div></div>
+  </div>
+
+  <div class="syntax">.box { position: relative; left: 30px; top: 10px; }
+.player { position: absolute; left: 50px; top: 200px; }</div>
+
+  <div class="memory"><strong>Quick position review:</strong> <code>static</code> = normal place. <code>relative</code> = normal place + shift. <code>absolute</code> = exact coordinates outside normal flow.</div>
+
+  <h3>Coordinates</h3>
+  <div class="grid4">
+    <div class="card"><strong><code>left</code></strong><div class="small">Distance from the left.</div></div>
+    <div class="card"><strong><code>top</code></strong><div class="small">Distance from the top.</div></div>
+    <div class="card"><strong><code>right</code></strong><div class="small">Distance from the right.</div></div>
+    <div class="card"><strong><code>bottom</code></strong><div class="small">Distance from the bottom.</div></div>
+  </div>
+
+  <h2>One Useful Extra</h2>
+  <div class="card"><strong><code>overflow: hidden</code></strong><div class="small">Hide anything that sticks outside a box. Useful for game areas and image cards.</div></div>
+
+  <h2>Mini Website Shape</h2>
+  <div class="syntax">&lt;header&gt;...&lt;/header&gt;
+&lt;nav&gt;...&lt;/nav&gt;
+&lt;main&gt;
+  &lt;section class="card"&gt;...&lt;/section&gt;
+&lt;/main&gt;
+&lt;footer&gt;...&lt;/footer&gt;</div>
+
+  <div class="memory"><strong>For today:</strong> Build with normal HTML flow first. Use Flexbox when you want a row/column layout. Use <code>position</code> when something really needs to move or sit at exact coordinates.</div>
+
+  <div class="footer">RBS Code - My First Website Toolbox - Build first. Look things up when you need them.</div>
+</section>
+
+</div>
+</body>
+</html>

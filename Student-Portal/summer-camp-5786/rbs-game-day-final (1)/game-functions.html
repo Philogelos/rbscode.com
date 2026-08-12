@@ -1,0 +1,677 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Game Functions Lab</title><style>
+:root{--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#66758b;--line:#dfe5ee;--accent:#4f46e5;--soft:#eef2ff;--code:#0b1220;--codeText:#e7eefc;--green:#0f766e;--orange:#b45309;--purple:#7c3aed;--red:#b91c1c}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif;line-height:1.5}main{width:min(1140px,calc(100% - 28px));margin:auto;padding:28px 0 80px}h1{font-size:clamp(34px,6vw,58px);line-height:1;margin:8px 0 10px}h2{font-size:28px;margin:0 0 7px}h3{margin:0 0 6px}p{margin:6px 0}.lead{font-size:19px;color:var(--muted);max-width:850px}.kicker{font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:#3730a3}.note{padding:13px 15px;background:#fff;border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:12px;margin:18px 0}.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:var(--soft);color:#3730a3;font-size:12px;font-weight:850;margin:2px 4px 2px 0}.small{font-size:13px;color:var(--muted)}button,.btn{font:800 13px Inter,Arial;border:0;border-radius:8px;padding:8px 10px;cursor:pointer}.btn{display:inline-block;text-decoration:none}.primary{background:var(--accent);color:white}.secondary{background:#e8ebf2;color:#172033}.toplink{color:#3730a3;font-weight:800;text-decoration:none}.backtop{font-size:12px;color:#4f46e5;text-decoration:none;font-weight:800}.level-core{background:#e0f2fe;color:#075985}.level-timer{background:#fef3c7;color:#92400e}.level-array{background:#dcfce7;color:#166534}.level-physics{background:#f3e8ff;color:#6b21a8}.level-dom{background:#fee2e2;color:#991b1b}
+.code{background:var(--code);color:var(--codeText);border-radius:10px;padding:13px;overflow:auto;font:14px/1.5 Consolas,monospace;white-space:pre-wrap;tab-size:4}.tok-kw{color:#c084fc}.tok-str{color:#86efac}.tok-num{color:#fde68a}.tok-com{color:#94a3b8}.tok-fn{color:#7dd3fc}.tok-op{color:#fda4af}.tok-tag{color:#7dd3fc}.tok-attr{color:#fde68a}.tok-prop{color:#93c5fd}.tok-val{color:#86efac}
+@media(max-width:800px){main{width:min(100% - 18px,1140px)}}
+
+.toc{background:#fff;border:1px solid var(--line);border-radius:14px;margin:18px 0}.toc summary{cursor:pointer;padding:14px 16px;font-weight:900}.toc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:0 16px 16px}.toc a{padding:7px 9px;background:#f8fafc;border-radius:8px;text-decoration:none;color:#312e81;font-size:13px;font-weight:750}.func{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;margin:16px 0}.func-head{padding:17px}.func-head-row{display:flex;justify-content:space-between;gap:12px}.req{font-size:13px;color:#0f766e;font-weight:850}.try{padding:9px 11px;background:#fffbeb;border-radius:9px;margin-top:10px;color:#78350f;font-size:14px}.work{display:grid;grid-template-columns:1.05fr .95fr;border-top:1px solid var(--line)}.left,.right{padding:13px}.left{border-right:1px solid var(--line)}.codeblock{margin-bottom:13px}.bar{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:7px;font-size:11px;font-weight:900;letter-spacing:.05em}.view{min-height:110px}.edit{width:100%;min-height:150px;background:var(--code);color:white;border:1px solid #334155;border-radius:10px;padding:12px;font:14px/1.5 Consolas,monospace;display:none}.preview{width:100%;height:345px;border:1px solid var(--line);border-radius:10px;background:white}.later-title{margin-top:42px;padding:13px;background:#ede9fe;border-radius:11px;font-weight:900}.float-top{position:fixed;right:16px;bottom:16px;background:#111827;color:#fff;text-decoration:none;padding:9px 11px;border-radius:10px;font-weight:800;font-size:12px;z-index:10}@media(max-width:860px){.work{grid-template-columns:1fr}.left{border-right:0;border-bottom:1px solid var(--line)}.toc-grid{grid-template-columns:1fr 1fr}}</style></head><body><main id="top"><a class="toplink" href="index.html">← Camp Home</a><div class="kicker" style="margin-top:20px">RBS CODE · GAME TOOLBOX</div><h1>Game Functions Lab</h1><p class="lead">No magic. See the function, see how it is used, change it, run it.</p><div class="note"><b>Today:</b> start with the blue Core functions. Timers come next. Arrays, loops and platformer tools are later unlocks.</div><details class="toc"><summary>☰ TABLE OF CONTENTS — jump to a function</summary><div class="toc-grid"><a href="#f0">move(item, xChange, yChange)</a><a href="#f1">place(item, x, y)</a><a href="#f2">hide(item) / show(item)</a><a href="#f3">setText(textBox, text)</a><a href="#f4">changeNumber(number, amount, display)</a><a href="#f5">keepInside(item, gameArea)</a><a href="#f6">touching(item1, item2)</a><a href="#f7">randomPosition(item, gameArea)</a><a href="#f8">randomX(item, gameArea)</a><a href="#f9">moveWithKeys(item, speed, up, down, left, right)</a><a href="#f10">atEdge(item, gameArea, side)</a><a href="#f11">moveToward(enemy, target, speed)</a><a href="#f12">startCountdown(seconds, display, whenFinished)</a><a href="#f13">randomItem(items)</a><a href="#f14">countItem(items, itemName)</a><a href="#f15">removeItems(items, itemName, amount)</a><a href="#f16">hasAllItems(inventory, neededItems)</a><a href="#f17">findTouching(item, items)</a><a href="#f18">moveIfClear(item, dx, dy, walls, gameArea)</a><a href="#f19">trackKeys() / keyDown(keys, key)</a><a href="#f20">applyGravity(item, ySpeed, gravity)</a><a href="#f21">standingOnAny() / landOnPlatforms()</a><a href="#f22">createSprite(gameArea, picture, x, y, size)</a></div></details>
+<div class="later-title" style="background:#dbeafe">CORE · likely this week</div><section class="func" id="f0"><div class="func-head"><div class="func-head-row"><div><span class="pill level-core">CORE</span><h2>move(item, xChange, yChange)</h2></div><a class="backtop" href="#top">↑ TOP</a></div><div class="req">YOU NEED: JS2 · function + style.left/top</div><p>Move any object in any direction. Positive/negative numbers choose the direction.</p><div class="try"><b>TRY CHANGING:</b> Change <code>25</code> to <code>5</code>, <code>50</code> or <code>-25</code>.</div></div><div class="work" data-demo="f0"><div class="left">
+<div class="codeblock"><div class="bar"><span>1 · UNDER THE HOOD</span><span><button class="secondary" onclick="toggleEdit('f0','fn')">EDIT</button> <button class="secondary" onclick="copyPart('f0','fn')">COPY</button></span></div><pre class="code view" id="f0-fn-view"></pre><textarea class="edit" id="f0-fn-edit">function move(item, xChange, yChange) {
+    let x = item.offsetLeft;
+    let y = item.offsetTop;
+    item.style.left = (x + xChange) + &quot;px&quot;;
+    item.style.top = (y + yChange) + &quot;px&quot;;
+}</textarea></div>
+<div class="codeblock"><div class="bar"><span>2 · USE THE FUNCTION</span><span><button class="secondary" onclick="toggleEdit('f0','use')">EDIT</button> <button class="secondary" onclick="copyPart('f0','use')">COPY</button></span></div><pre class="code view" id="f0-use-view"></pre><textarea class="edit" id="f0-use-edit">let player = document.getElementById(&quot;player&quot;);
+function go() {
+    move(player, 25, 0);
+    console.log(&quot;x =&quot;, player.offsetLeft);
+}</textarea></div>
+<button class="primary" onclick="runDemo('f0')">RUN</button> <button class="secondary" onclick="resetDemo('f0')">RESET</button>
+<textarea hidden id="f0-fn-original">function move(item, xChange, yChange) {
+    let x = item.offsetLeft;
+    let y = item.offsetTop;
+    item.style.left = (x + xChange) + &quot;px&quot;;
+    item.style.top = (y + yChange) + &quot;px&quot;;
+}</textarea><textarea hidden id="f0-use-original">let player = document.getElementById(&quot;player&quot;);
+function go() {
+    move(player, 25, 0);
+    console.log(&quot;x =&quot;, player.offsetLeft);
+}</textarea><template id="f0-body"><div class="game"><div id="player" class="sprite" style="left:30px;top:85px">🤖</div></div><button onclick="go()">MOVE →</button></template>
+</div><div class="right"><div class="bar"><span>RESULT + CONSOLE</span><span class="small">click result for keyboard demos</span></div><iframe class="preview" id="f0-frame" sandbox="allow-scripts"></iframe></div></div></section><section class="func" id="f1"><div class="func-head"><div class="func-head-row"><div><span class="pill level-core">CORE</span><h2>place(item, x, y)</h2></div><a class="backtop" href="#top">↑ TOP</a></div><div class="req">YOU NEED: JS2 · parameters + style.left/top</div><p>Put an object at an exact position.</p><div class="try"><b>TRY CHANGING:</b> Try changing both coordinates.</div></div><div class="work" data-demo="f1"><div class="left">
+<div class="codeblock"><div class="bar"><span>1 · UNDER THE HOOD</span><span><button class="secondary" onclick="toggleEdit('f1','fn')">EDIT</button> <button class="secondary" onclick="copyPart('f1','fn')">COPY</button></span></div><pre class="code view" id="f1-fn-view"></pre><textarea class="edit" id="f1-fn-edit">function place(item, x, y) {
+    item.style.left = x + &quot;px&quot;;
+    item.style.top = y + &quot;px&quot;;
+}</textarea></div>
+<div class="codeblock"><div class="bar"><span>2 · USE THE FUNCTION</span><span><button class="secondary" onclick="toggleEdit('f1','use')">EDIT</button> <button class="secondary" onclick="copyPart('f1','use')">COPY</button></span></div><pre class="code view" id="f1-use-view"></pre><textarea class="edit" id="f1-use-edit">let rocket = document.getElementById(&quot;rocket&quot;);
+function middle() {
+    place(rocket, 220, 80);
+    console.log(&quot;Placed at 220, 80&quot;);
+}</textarea></div>
+<button class="primary" onclick="runDemo('f1')">RUN</button> <button class="secondary" onclick="resetDemo('f1')">RESET</button>
+<textarea hidden id="f1-fn-original">function place(item, x, y) {
+    item.style.left = x + &quot;px&quot;;
+    item.style.top = y + &quot;px&quot;;
+}</textarea><textarea hidden id="f1-use-original">let rocket = document.getElementById(&quot;rocket&quot;);
+function middle() {
+    place(rocket, 220, 80);
+    console.log(&quot;Placed at 220, 80&quot;);
+}</textarea><template id="f1-body"><div class="game"><div id="rocket" class="sprite" style="left:20px;top:20px">🚀</div></div><button onclick="middle()">PLACE</button></template>
+</div><div class="right"><div class="bar"><span>RESULT + CONSOLE</span><span class="small">click result for keyboard demos</span></div><iframe class="preview" id="f1-frame" sandbox="allow-scripts"></iframe></div></div></section><section class="func" id="f2"><div class="func-head"><div class="func-head-row"><div><span class="pill level-core">CORE</span><h2>hide(item) / show(item)</h2></div><a class="backtop" href="#top">↑ TOP</a></div><div class="req">YOU NEED: JS2 · style.display</div><p>Hide or show keys, treasure, doors and story objects.</p><div class="try"><b>TRY CHANGING:</b> Use this later for a locked-door game.</div></div><div class="work" data-demo="f2"><div class="left">
+<div class="codeblock"><div class="bar"><span>1 · UNDER THE HOOD</span><span><button class="secondary" onclick="toggleEdit('f2','fn')">EDIT</button> <button class="secondary" onclick="copyPart('f2','fn')">COPY</button></span></div><pre class="code view" id="f2-fn-view"></pre><textarea class="edit" id="f2-fn-edit">function hide(item) {
+    item.style.display = &quot;none&quot;;
+}
+function show(item) {
+    item.style.display = &quot;block&quot;;
+}</textarea></div>
+<div class="codeblock"><div class="bar"><span>2 · USE THE FUNCTION</span><span><button class="secondary" onclick="toggleEdit('f2','use')">EDIT</button> <button class="secondary" onclick="copyPart('f2','use')">COPY</button></span></div><pre class="code view" id="f2-use-view"></pre><textarea class="edit" id="f2-use-edit">let key = document.getElementById(&quot;key&quot;);
+function takeKey() {
+    hide(key);
+    console.log(&quot;Key collected&quot;);
+}
+function resetKey() { show(key); }</textarea></div>
+<button class="primary" onclick="runDemo('f2')">RUN</button> <button class="secondary" onclick="resetDemo('f2')">RESET</button>
+<textarea hidden id="f2-fn-original">function hide(item) {
+    item.style.display = &quot;none&quot;;
+}
+function show(item) {
+    item.style.display = &quot;block&quot;;
+}</textarea><textarea hidden id="f2-use-original">let key = document.getElementById(&quot;key&quot;);
+function takeKey() {
+    hide(key);
+    console.log(&quot;Key collected&quot;);
+}
+function resetKey() { show(key); }</textarea><template id="f2-body"><div id="key" style="font-size:64px">🗝️</div><button onclick="takeKey()">TAKE KEY</button><button onclick="resetKey()">SHOW AGAIN</button></template>
+</div><div class="right"><div class="bar"><span>RESULT + CONSOLE</span><span class="small">click result for keyboard demos</span></div><iframe class="preview" id="f2-frame" sandbox="allow-scripts"></iframe></div></div></section><section class="func" id="f3"><div class="func-head"><div class="func-head-row"><div><span class="pill level-core">CORE</span><h2>setText(textBox, text)</h2></div><a class="backtop" href="#top">↑ TOP</a></div><div class="req">YOU NEED: JS2 · innerText</div><p>Change any message box.</p><div class="try"><b>TRY CHANGING:</b> Change the message.</div></div><div class="work" data-demo="f3"><div class="left">
+<div class="codeblock"><div class="bar"><span>1 · UNDER THE HOOD</span><span><button class="secondary" onclick="toggleEdit('f3','fn')">EDIT</button> <button class="secondary" onclick="copyPart('f3','fn')">COPY</button></span></div><pre class="code view" id="f3-fn-view"></pre><textarea class="edit" id="f3-fn-edit">function setText(textBox, text) {
+    textBox.innerText = text;
+}</textarea></div>
+<div class="codeblock"><div class="bar"><span>2 · USE THE FUNCTION</span><span><button class="secondary" onclick="toggleEdit('f3','use')">EDIT</button> <button class="secondary" onclick="copyPart('f3','use')">COPY</button></span></div><pre class="code view" id="f3-use-view"></pre><textarea class="edit" id="f3-use-edit">let message = document.getElementById(&quot;message&quot;);
+function foundIt() {
+    setText(message, &quot;You found the treasure!&quot;);
+    console.log(&quot;Message changed&quot;);
+}</textarea></div>
+<button class="primary" onclick="runDemo('f3')">RUN</button> <button class="secondary" onclick="resetDemo('f3')">RESET</button>
+<textarea hidden id="f3-fn-original">function setText(textBox, text) {
+    textBox.innerText = text;
+}</textarea><textarea hidden id="f3-use-original">let message = document.getElementById(&quot;message&quot;);
+function foundIt() {
+    setText(message, &quot;You found the treasure!&quot;);
+    console.log(&quot;Message changed&quot;);
+}</textarea><template id="f3-body"><h2 id="message">Explore the cave...</h2><button onclick="foundIt()">FIND TREASURE</button></template>
+</div><div class="right"><div class="bar"><span>RESULT + CONSOLE</span><span class="small">click result for keyboard demos</span></div><iframe class="preview" id="f3-frame" sandbox="allow-scripts"></iframe></div></div></section><section class="func" id="f4"><div class="func-head"><div class="func-head-row"><div><span class="pill level-core">CORE</span><h2>changeNumber(number, amount, display)</h2></div><a class="backtop" href="#top">↑ TOP</a></div><div class="req">YOU NEED: JS3 · maths + return + innerText</div><p>One function for score, health, gold, lives or energy.</p><div class="try"><b>TRY CHANGING:</b> Try <code>1</code>, <code>5</code> or <code>-1</code>.</div></div><div class="work" data-demo="f4"><div class="left">
+<div class="codeblock"><div class="bar"><span>1 · UNDER THE HOOD</span><span><button class="secondary" onclick="toggleEdit('f4','fn')">EDIT</button> <button class="secondary" onclick="copyPart('f4','fn')">COPY</button></span></div><pre class="code view" id="f4-fn-view"></pre><textarea class="edit" id="f4-fn-edit">function changeNumber(number, amount, display) {
+    number = number + amount;
+    display.innerText = number;
+    return number;
+}</textarea></div>
+<div class="codeblock"><div class="bar"><span>2 · USE THE FUNCTION</span><span><button class="secondary" onclick="toggleEdit('f4','use')">EDIT</button> <button class="secondary" onclick="copyPart('f4','use')">COPY</button></span></div><pre class="code view" id="f4-use-view"></pre><textarea class="edit" id="f4-use-edit">let score = 0;
+let scoreText = document.getElementById(&quot;score&quot;);
+function coin() {
+    score = changeNumber(score, 1, scoreText);
+    console.log(&quot;score =&quot;, score);
+}</textarea></div>
+<button class="primary" onclick="runDemo('f4')">RUN</button> <button class="secondary" onclick="resetDemo('f4')">RESET</button>
+<textarea hidden id="f4-fn-original">function changeNumber(number, amount, display) {
+    number = number + amount;
+    display.innerText = number;
+    return number;
+}</textarea><textarea hidden id="f4-use-original">let score = 0;
+let scoreText = document.getElementById(&quot;score&quot;);
+function coin() {
+    score = changeNumber(score, 1, scoreText);
+    console.log(&quot;score =&quot;, score);
+}</textarea><template id="f4-body"><h2>Score: <span id="score">0</span></h2><button onclick="coin()">GET COIN</button></template>
+</div><div class="right"><div class="bar"><span>RESULT + CONSOLE</span><span class="small">click result for keyboard demos</span></div><iframe class="preview" id="f4-frame" sandbox="allow-scripts"></iframe></div></div></section><section class="func" id="f5"><div class="func-head"><div class="func-head-row"><div><span class="pill level-core">CORE</span><h2>keepInside(item, gameArea)</h2></div><a class="backtop" href="#top">↑ TOP</a></div><div class="req">YOU NEED: JS3 · if + comparisons + sizes</div><p>Stop a player leaving the game.</p><div class="try"><b>TRY CHANGING:</b> Press several times. It should stop at the edge.</div></div><div class="work" data-demo="f5"><div class="left">
+<div class="codeblock"><div class="bar"><span>1 · UNDER THE HOOD</span><span><button class="secondary" onclick="toggleEdit('f5','fn')">EDIT</button> <button class="secondary" onclick="copyPart('f5','fn')">COPY</button></span></div><pre class="code view" id="f5-fn-view"></pre><textarea class="edit" id="f5-fn-edit">function keepInside(item, gameArea) {
+    let maxX = gameArea.clientWidth - item.offsetWidth;
+    let maxY = gameArea.clientHeight - item.offsetHeight;
+    if (item.offsetLeft &lt; 0) item.style.left = &quot;0px&quot;;
+    if (item.offsetLeft &gt; maxX) item.style.left = maxX + &quot;px&quot;;
+    if (item.offsetTop &lt; 0) item.style.top = &quot;0px&quot;;
+    if (item.offsetTop &gt; maxY) item.style.top = maxY + &quot;px&quot;;
+}</textarea></div>
+<div class="codeblock"><div class="bar"><span>2 · USE THE FUNCTION</span><span><button class="secondary" onclick="toggleEdit('f5','use')">EDIT</button> <button class="secondary" onclick="copyPart('f5','use')">COPY</button></span></div><pre class="code view" id="f5-use-view"></pre><textarea class="edit" id="f5-use-edit">let player = document.getElementById(&quot;player&quot;);
+let game = document.getElementById(&quot;game&quot;);
+function push() {
+    move(player, 140, 0);
+    keepInside(player, game);
+    console.log(&quot;x =&quot;, player.offsetLeft);
+}</textarea></div>
+<button class="primary" onclick="runDemo('f5')">RUN</button> <button class="secondary" onclick="resetDemo('f5')">RESET</button>
+<textarea hidden id="f5-fn-original">function keepInside(item, gameArea) {
+    let maxX = gameArea.clientWidth - item.offsetWidth;
+    let maxY = gameArea.clientHeight - item.offsetHeight;
+    if (item.offsetLeft &lt; 0) item.style.left = &quot;0px&quot;;
+    if (item.offsetLeft &gt; maxX) item.style.left = maxX + &quot;px&quot;;
+    if (item.offsetTop &lt; 0) item.style.top = &quot;0px&quot;;
+    if (item.offsetTop &gt; maxY) item.style.top = maxY + &quot;px&quot;;
+}</textarea><textarea hidden id="f5-use-original">let player = document.getElementById(&quot;player&quot;);
+let game = document.getElementById(&quot;game&quot;);
+function push() {
+    move(player, 140, 0);
+    keepInside(player, game);
+    console.log(&quot;x =&quot;, player.offsetLeft);
+}</textarea><template id="f5-body"><div id="game" class="game"><div id="player" class="sprite" style="left:20px;top:80px">🏎️</div></div><button onclick="push()">PUSH →</button></template>
+</div><div class="right"><div class="bar"><span>RESULT + CONSOLE</span><span class="small">click result for keyboard demos</span></div><iframe class="preview" id="f5-frame" sandbox="allow-scripts"></iframe></div></div></section><section class="func" id="f6"><div class="func-head"><div class="func-head-row"><div><span class="pill level-core">CORE</span><h2>touching(item1, item2)</h2></div><a class="backtop" href="#top">↑ TOP</a></div><div class="req">YOU NEED: JS3 · rectangles + &amp;&amp; + return</div><p>The core collision helper: are two rectangles overlapping?</p><div class="try"><b>TRY CHANGING:</b> This is worth drawing as two rectangles on the board.</div></div><div class="work" data-demo="f6"><div class="left">
+<div class="codeblock"><div class="bar"><span>1 · UNDER THE HOOD</span><span><button class="secondary" onclick="toggleEdit('f6','fn')">EDIT</button> <button class="secondary" onclick="copyPart('f6','fn')">COPY</button></span></div><pre class="code view" id="f6-fn-view"></pre><textarea class="edit" id="f6-fn-edit">function touching(item1, item2) {
+    let box1 = item1.getBoundingClientRect();
+    let box2 = item2.getBoundingClientRect();
+    return box1.left &lt; box2.right &amp;&amp;
+           box1.right &gt; box2.left &amp;&amp;
+           box1.top &lt; box2.bottom &amp;&amp;
+           box1.bottom &gt; box2.top;
+}</textarea></div>
+<div class="codeblock"><div class="bar"><span>2 · USE THE FUNCTION</span><span><button class="secondary" onclick="toggleEdit('f6','use')">EDIT</button> <button class="secondary" onclick="copyPart('f6','use')">COPY</button></span></div><pre class="code view" id="f6-use-view"></pre><textarea class="edit" id="f6-use-edit">let player = document.getElementById(&quot;player&quot;);
+let coin = document.getElementById(&quot;coin&quot;);
+function step() {
+    move(player, 35, 0);
+    console.log(&quot;touching =&quot;, touching(player, coin));
+    if (touching(player, coin)) setText(answer, &quot;TOUCHING! ✓&quot;);
+}</textarea></div>
+<button class="primary" onclick="runDemo('f6')">RUN</button> <button class="secondary" onclick="resetDemo('f6')">RESET</button>
+<textarea hidden id="f6-fn-original">function touching(item1, item2) {
+    let box1 = item1.getBoundingClientRect();
+    let box2 = item2.getBoundingClientRect();
+    return box1.left &lt; box2.right &amp;&amp;
+           box1.right &gt; box2.left &amp;&amp;
+           box1.top &lt; box2.bottom &amp;&amp;
+           box1.bottom &gt; box2.top;
+}</textarea><textarea hidden id="f6-use-original">let player = document.getElementById(&quot;player&quot;);
+let coin = document.getElementById(&quot;coin&quot;);
+function step() {
+    move(player, 35, 0);
+    console.log(&quot;touching =&quot;, touching(player, coin));
+    if (touching(player, coin)) setText(answer, &quot;TOUCHING! ✓&quot;);
+}</textarea><template id="f6-body"><div class="game"><div id="player" class="sprite" style="left:20px;top:80px">🤖</div><div id="coin" class="sprite" style="left:300px;top:80px">🪙</div></div><div id="answer"><b>Not touching yet</b></div><button onclick="step()">STEP →</button></template>
+</div><div class="right"><div class="bar"><span>RESULT + CONSOLE</span><span class="small">click result for keyboard demos</span></div><iframe class="preview" id="f6-frame" sandbox="allow-scripts"></iframe></div></div></section><section class="func" id="f7"><div class="func-head"><div class="func-head-row"><div><span class="pill level-core">CORE</span><h2>randomPosition(item, gameArea)</h2></div><a class="backtop" href="#top">↑ TOP</a></div><div class="req">YOU NEED: JS3 · Math.random() + sizes</div><p>Put treasure somewhere random inside the game.</p><div class="try"><b>TRY CHANGING:</b> Run it repeatedly.</div></div><div class="work" data-demo="f7"><div class="left">
+<div class="codeblock"><div class="bar"><span>1 · UNDER THE HOOD</span><span><button class="secondary" onclick="toggleEdit('f7','fn')">EDIT</button> <button class="secondary" onclick="copyPart('f7','fn')">COPY</button></span></div><pre class="code view" id="f7-fn-view"></pre><textarea class="edit" id="f7-fn-edit">function randomPosition(item, gameArea) {
+    let maxX = gameArea.clientWidth - item.offsetWidth;
+    let maxY = gameArea.clientHeight - item.offsetHeight;
+    let newX = Math.floor(Math.random() * maxX);
+    let newY = Math.floor(Math.random() * maxY);
+    place(item, newX, newY);
+}</textarea></div>
+<div class="codeblock"><div class="bar"><span>2 · USE THE FUNCTION</span><span><button class="secondary" onclick="toggleEdit('f7','use')">EDIT</button> <button class="secondary" onclick="copyPart('f7','use')">COPY</button></span></div><pre class="code view" id="f7-use-view"></pre><textarea class="edit" id="f7-use-edit">let treasure = document.getElementById(&quot;treasure&quot;);
+let game = document.getElementById(&quot;game&quot;);
+function jump() {
+    randomPosition(treasure, game);
+    console.log(treasure.offsetLeft, treasure.offsetTop);
+}</textarea></div>
+<button class="primary" onclick="runDemo('f7')">RUN</button> <button class="secondary" onclick="resetDemo('f7')">RESET</button>
+<textarea hidden id="f7-fn-original">function randomPosition(item, gameArea) {
+    let maxX = gameArea.clientWidth - item.offsetWidth;
+    let maxY = gameArea.clientHeight - item.offsetHeight;
+    let newX = Math.floor(Math.random() * maxX);
+    let newY = Math.floor(Math.random() * maxY);
+    place(item, newX, newY);
+}</textarea><textarea hidden id="f7-use-original">let treasure = document.getElementById(&quot;treasure&quot;);
+let game = document.getElementById(&quot;game&quot;);
+function jump() {
+    randomPosition(treasure, game);
+    console.log(treasure.offsetLeft, treasure.offsetTop);
+}</textarea><template id="f7-body"><div id="game" class="game"><div id="treasure" class="sprite" style="left:100px;top:80px">💎</div></div><button onclick="jump()">RANDOM PLACE</button></template>
+</div><div class="right"><div class="bar"><span>RESULT + CONSOLE</span><span class="small">click result for keyboard demos</span></div><iframe class="preview" id="f7-frame" sandbox="allow-scripts"></iframe></div></div></section><section class="func" id="f8"><div class="func-head"><div class="func-head-row"><div><span class="pill level-core">CORE</span><h2>randomX(item, gameArea)</h2></div><a class="backtop" href="#top">↑ TOP</a></div><div class="req">YOU NEED: JS3 · Math.random() + width</div><p>Choose a random lane for falling rocks, cars or stars.</p><div class="try"><b>TRY CHANGING:</b> Useful before Dodge and Road Racer.</div></div><div class="work" data-demo="f8"><div class="left">
+<div class="codeblock"><div class="bar"><span>1 · UNDER THE HOOD</span><span><button class="secondary" onclick="toggleEdit('f8','fn')">EDIT</button> <button class="secondary" onclick="copyPart('f8','fn')">COPY</button></span></div><pre class="code view" id="f8-fn-view"></pre><textarea class="edit" id="f8-fn-edit">function randomX(item, gameArea) {
+    let maxX = gameArea.clientWidth - item.offsetWidth;
+    let newX = Math.floor(Math.random() * maxX);
+    item.style.left = newX + &quot;px&quot;;
+}</textarea></div>
+<div class="codeblock"><div class="bar"><span>2 · USE THE FUNCTION</span><span><button class="secondary" onclick="toggleEdit('f8','use')">EDIT</button> <button class="secondary" onclick="copyPart('f8','use')">COPY</button></span></div><pre class="code view" id="f8-use-view"></pre><textarea class="edit" id="f8-use-edit">let rock = document.getElementById(&quot;rock&quot;);
+let game = document.getElementById(&quot;game&quot;);
+function lane() {
+    randomX(rock, game);
+    console.log(&quot;new x =&quot;, rock.offsetLeft);
+}</textarea></div>
+<button class="primary" onclick="runDemo('f8')">RUN</button> <button class="secondary" onclick="resetDemo('f8')">RESET</button>
+<textarea hidden id="f8-fn-original">function randomX(item, gameArea) {
+    let maxX = gameArea.clientWidth - item.offsetWidth;
+    let newX = Math.floor(Math.random() * maxX);
+    item.style.left = newX + &quot;px&quot;;
+}</textarea><textarea hidden id="f8-use-original">let rock = document.getElementById(&quot;rock&quot;);
+let game = document.getElementById(&quot;game&quot;);
+function lane() {
+    randomX(rock, game);
+    console.log(&quot;new x =&quot;, rock.offsetLeft);
+}</textarea><template id="f8-body"><div id="game" class="game"><div id="rock" class="sprite" style="left:20px;top:20px">☄️</div></div><button onclick="lane()">NEW LANE</button></template>
+</div><div class="right"><div class="bar"><span>RESULT + CONSOLE</span><span class="small">click result for keyboard demos</span></div><iframe class="preview" id="f8-frame" sandbox="allow-scripts"></iframe></div></div></section><section class="func" id="f9"><div class="func-head"><div class="func-head-row"><div><span class="pill level-core">CORE</span><h2>moveWithKeys(item, speed, up, down, left, right)</h2></div><a class="backtop" href="#top">↑ TOP</a></div><div class="req">YOU NEED: JS3 · keydown + event.key + parameters</div><p>One keyboard helper. You choose the keys.</p><div class="try"><b>TRY CHANGING:</b> Change <code>15</code> to <code>30</code>, or use <code>w s a d</code>.</div></div><div class="work" data-demo="f9"><div class="left">
+<div class="codeblock"><div class="bar"><span>1 · UNDER THE HOOD</span><span><button class="secondary" onclick="toggleEdit('f9','fn')">EDIT</button> <button class="secondary" onclick="copyPart('f9','fn')">COPY</button></span></div><pre class="code view" id="f9-fn-view"></pre><textarea class="edit" id="f9-fn-edit">function moveWithKeys(item, speed, upKey, downKey, leftKey, rightKey) {
+    document.addEventListener(&quot;keydown&quot;, function(event) {
+        if (upKey &amp;&amp; event.key == upKey) move(item, 0, -speed);
+        if (downKey &amp;&amp; event.key == downKey) move(item, 0, speed);
+        if (leftKey &amp;&amp; event.key == leftKey) move(item, -speed, 0);
+        if (rightKey &amp;&amp; event.key == rightKey) move(item, speed, 0);
+    });
+}</textarea></div>
+<div class="codeblock"><div class="bar"><span>2 · USE THE FUNCTION</span><span><button class="secondary" onclick="toggleEdit('f9','use')">EDIT</button> <button class="secondary" onclick="copyPart('f9','use')">COPY</button></span></div><pre class="code view" id="f9-use-view"></pre><textarea class="edit" id="f9-use-edit">let player = document.getElementById(&quot;player&quot;);
+moveWithKeys(player, 15,
+    &quot;ArrowUp&quot;, &quot;ArrowDown&quot;,
+    &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+console.log(&quot;Click Result, then use arrow keys&quot;);</textarea></div>
+<button class="primary" onclick="runDemo('f9')">RUN</button> <button class="secondary" onclick="resetDemo('f9')">RESET</button>
+<textarea hidden id="f9-fn-original">function moveWithKeys(item, speed, upKey, downKey, leftKey, rightKey) {
+    document.addEventListener(&quot;keydown&quot;, function(event) {
+        if (upKey &amp;&amp; event.key == upKey) move(item, 0, -speed);
+        if (downKey &amp;&amp; event.key == downKey) move(item, 0, speed);
+        if (leftKey &amp;&amp; event.key == leftKey) move(item, -speed, 0);
+        if (rightKey &amp;&amp; event.key == rightKey) move(item, speed, 0);
+    });
+}</textarea><textarea hidden id="f9-use-original">let player = document.getElementById(&quot;player&quot;);
+moveWithKeys(player, 15,
+    &quot;ArrowUp&quot;, &quot;ArrowDown&quot;,
+    &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+console.log(&quot;Click Result, then use arrow keys&quot;);</textarea><template id="f9-body"><div class="info">Click here, then use arrow keys.</div><div class="game"><div id="player" class="sprite" style="left:200px;top:80px">🚀</div></div></template>
+</div><div class="right"><div class="bar"><span>RESULT + CONSOLE</span><span class="small">click result for keyboard demos</span></div><iframe class="preview" id="f9-frame" sandbox="allow-scripts"></iframe></div></div></section><section class="func" id="f10"><div class="func-head"><div class="func-head-row"><div><span class="pill level-core">CORE</span><h2>atEdge(item, gameArea, side)</h2></div><a class="backtop" href="#top">↑ TOP</a></div><div class="req">YOU NEED: JS3 · comparisons + return</div><p>Ask whether an object reached an edge.</p><div class="try"><b>TRY CHANGING:</b> Try <code>left</code>, <code>top</code>, <code>bottom</code>.</div></div><div class="work" data-demo="f10"><div class="left">
+<div class="codeblock"><div class="bar"><span>1 · UNDER THE HOOD</span><span><button class="secondary" onclick="toggleEdit('f10','fn')">EDIT</button> <button class="secondary" onclick="copyPart('f10','fn')">COPY</button></span></div><pre class="code view" id="f10-fn-view"></pre><textarea class="edit" id="f10-fn-edit">function atEdge(item, gameArea, side) {
+    if (side == &quot;left&quot;) return item.offsetLeft &lt;= 0;
+    if (side == &quot;right&quot;) return item.offsetLeft + item.offsetWidth &gt;= gameArea.clientWidth;
+    if (side == &quot;top&quot;) return item.offsetTop &lt;= 0;
+    if (side == &quot;bottom&quot;) return item.offsetTop + item.offsetHeight &gt;= gameArea.clientHeight;
+    return false;
+}</textarea></div>
+<div class="codeblock"><div class="bar"><span>2 · USE THE FUNCTION</span><span><button class="secondary" onclick="toggleEdit('f10','use')">EDIT</button> <button class="secondary" onclick="copyPart('f10','use')">COPY</button></span></div><pre class="code view" id="f10-use-view"></pre><textarea class="edit" id="f10-use-edit">let car = document.getElementById(&quot;car&quot;);
+let road = document.getElementById(&quot;road&quot;);
+function drive() {
+    move(car, 80, 0);
+    console.log(&quot;right edge =&quot;, atEdge(car, road, &quot;right&quot;));
+}</textarea></div>
+<button class="primary" onclick="runDemo('f10')">RUN</button> <button class="secondary" onclick="resetDemo('f10')">RESET</button>
+<textarea hidden id="f10-fn-original">function atEdge(item, gameArea, side) {
+    if (side == &quot;left&quot;) return item.offsetLeft &lt;= 0;
+    if (side == &quot;right&quot;) return item.offsetLeft + item.offsetWidth &gt;= gameArea.clientWidth;
+    if (side == &quot;top&quot;) return item.offsetTop &lt;= 0;
+    if (side == &quot;bottom&quot;) return item.offsetTop + item.offsetHeight &gt;= gameArea.clientHeight;
+    return false;
+}</textarea><textarea hidden id="f10-use-original">let car = document.getElementById(&quot;car&quot;);
+let road = document.getElementById(&quot;road&quot;);
+function drive() {
+    move(car, 80, 0);
+    console.log(&quot;right edge =&quot;, atEdge(car, road, &quot;right&quot;));
+}</textarea><template id="f10-body"><div id="road" class="game"><div id="car" class="sprite" style="left:20px;top:80px">🏎️</div></div><button onclick="drive()">DRIVE →</button></template>
+</div><div class="right"><div class="bar"><span>RESULT + CONSOLE</span><span class="small">click result for keyboard demos</span></div><iframe class="preview" id="f10-frame" sandbox="allow-scripts"></iframe></div></div></section><section class="func" id="f11"><div class="func-head"><div class="func-head-row"><div><span class="pill level-core">CORE</span><h2>moveToward(enemy, target, speed)</h2></div><a class="backtop" href="#top">↑ TOP</a></div><div class="req">YOU NEED: JS3 BONUS · subtraction + Math.abs()</div><p>Make a simple enemy chase a target.</p><div class="try"><b>TRY CHANGING:</b> Bonus only; not needed for Treasure Rush.</div></div><div class="work" data-demo="f11"><div class="left">
+<div class="codeblock"><div class="bar"><span>1 · UNDER THE HOOD</span><span><button class="secondary" onclick="toggleEdit('f11','fn')">EDIT</button> <button class="secondary" onclick="copyPart('f11','fn')">COPY</button></span></div><pre class="code view" id="f11-fn-view"></pre><textarea class="edit" id="f11-fn-edit">function moveToward(enemy, target, speed) {
+    let xGap = target.offsetLeft - enemy.offsetLeft;
+    let yGap = target.offsetTop - enemy.offsetTop;
+    if (Math.abs(xGap) &gt; speed) {
+        if (xGap &gt; 0) move(enemy, speed, 0);
+        else move(enemy, -speed, 0);
+    }
+    if (Math.abs(yGap) &gt; speed) {
+        if (yGap &gt; 0) move(enemy, 0, speed);
+        else move(enemy, 0, -speed);
+    }
+}</textarea></div>
+<div class="codeblock"><div class="bar"><span>2 · USE THE FUNCTION</span><span><button class="secondary" onclick="toggleEdit('f11','use')">EDIT</button> <button class="secondary" onclick="copyPart('f11','use')">COPY</button></span></div><pre class="code view" id="f11-use-view"></pre><textarea class="edit" id="f11-use-edit">let enemy = document.getElementById(&quot;enemy&quot;);
+let player = document.getElementById(&quot;player&quot;);
+function chase() {
+    moveToward(enemy, player, 15);
+    console.log(&quot;Enemy moved closer&quot;);
+}</textarea></div>
+<button class="primary" onclick="runDemo('f11')">RUN</button> <button class="secondary" onclick="resetDemo('f11')">RESET</button>
+<textarea hidden id="f11-fn-original">function moveToward(enemy, target, speed) {
+    let xGap = target.offsetLeft - enemy.offsetLeft;
+    let yGap = target.offsetTop - enemy.offsetTop;
+    if (Math.abs(xGap) &gt; speed) {
+        if (xGap &gt; 0) move(enemy, speed, 0);
+        else move(enemy, -speed, 0);
+    }
+    if (Math.abs(yGap) &gt; speed) {
+        if (yGap &gt; 0) move(enemy, 0, speed);
+        else move(enemy, 0, -speed);
+    }
+}</textarea><textarea hidden id="f11-use-original">let enemy = document.getElementById(&quot;enemy&quot;);
+let player = document.getElementById(&quot;player&quot;);
+function chase() {
+    moveToward(enemy, player, 15);
+    console.log(&quot;Enemy moved closer&quot;);
+}</textarea><template id="f11-body"><div class="game"><div id="enemy" class="sprite" style="left:20px;top:20px">👾</div><div id="player" class="sprite" style="left:400px;top:150px">🚀</div></div><button onclick="chase()">CHASE STEP</button></template>
+</div><div class="right"><div class="bar"><span>RESULT + CONSOLE</span><span class="small">click result for keyboard demos</span></div><iframe class="preview" id="f11-frame" sandbox="allow-scripts"></iframe></div></div></section><section class="func" id="f12"><div class="func-head"><div class="func-head-row"><div><span class="pill level-timer">TIMERS</span><h2>startCountdown(seconds, display, whenFinished)</h2></div><a class="backtop" href="#top">↑ TOP</a></div><div class="req">YOU NEED: TIMERS · setInterval + clearInterval + callback</div><p>Reusable countdown for timed games.</p><div class="try"><b>TRY CHANGING:</b> Teach the idea of <code>setInterval()</code> before expecting them to write this helper.</div></div><div class="work" data-demo="f12"><div class="left">
+<div class="codeblock"><div class="bar"><span>1 · UNDER THE HOOD</span><span><button class="secondary" onclick="toggleEdit('f12','fn')">EDIT</button> <button class="secondary" onclick="copyPart('f12','fn')">COPY</button></span></div><pre class="code view" id="f12-fn-view"></pre><textarea class="edit" id="f12-fn-edit">function startCountdown(seconds, display, whenFinished) {
+    display.innerText = seconds;
+    let timer = setInterval(function() {
+        seconds = seconds - 1;
+        display.innerText = seconds;
+        if (seconds &lt;= 0) {
+            clearInterval(timer);
+            whenFinished();
+        }
+    }, 1000);
+    return timer;
+}</textarea></div>
+<div class="codeblock"><div class="bar"><span>2 · USE THE FUNCTION</span><span><button class="secondary" onclick="toggleEdit('f12','use')">EDIT</button> <button class="secondary" onclick="copyPart('f12','use')">COPY</button></span></div><pre class="code view" id="f12-use-view"></pre><textarea class="edit" id="f12-use-edit">let timeText = document.getElementById(&quot;time&quot;);
+let message = document.getElementById(&quot;message&quot;);
+function begin() {
+    startCountdown(5, timeText, function() {
+        setText(message, &quot;TIME!&quot;);
+        console.log(&quot;Finished&quot;);
+    });
+}</textarea></div>
+<button class="primary" onclick="runDemo('f12')">RUN</button> <button class="secondary" onclick="resetDemo('f12')">RESET</button>
+<textarea hidden id="f12-fn-original">function startCountdown(seconds, display, whenFinished) {
+    display.innerText = seconds;
+    let timer = setInterval(function() {
+        seconds = seconds - 1;
+        display.innerText = seconds;
+        if (seconds &lt;= 0) {
+            clearInterval(timer);
+            whenFinished();
+        }
+    }, 1000);
+    return timer;
+}</textarea><textarea hidden id="f12-use-original">let timeText = document.getElementById(&quot;time&quot;);
+let message = document.getElementById(&quot;message&quot;);
+function begin() {
+    startCountdown(5, timeText, function() {
+        setText(message, &quot;TIME!&quot;);
+        console.log(&quot;Finished&quot;);
+    });
+}</textarea><template id="f12-body"><h2>Time: <span id="time">5</span></h2><h2 id="message">Ready</h2><button onclick="begin()">START</button></template>
+</div><div class="right"><div class="bar"><span>RESULT + CONSOLE</span><span class="small">click result for keyboard demos</span></div><iframe class="preview" id="f12-frame" sandbox="allow-scripts"></iframe></div></div></section>
+<div class="later-title">LATER UNLOCKS · arrays, mazes, Pong, platformers, bullets</div><section class="func" id="f13"><div class="func-head"><div class="func-head-row"><div><span class="pill level-array">ARRAYS + LOOPS</span><h2>randomItem(items)</h2></div><a class="backtop" href="#top">↑ TOP</a></div><div class="req">YOU NEED: ARRAY · length + random index</div><p>Pick random loot, questions or story events.</p><div class="try"><b>TRY CHANGING:</b> A very natural first array function.</div></div><div class="work" data-demo="f13"><div class="left">
+<div class="codeblock"><div class="bar"><span>1 · UNDER THE HOOD</span><span><button class="secondary" onclick="toggleEdit('f13','fn')">EDIT</button> <button class="secondary" onclick="copyPart('f13','fn')">COPY</button></span></div><pre class="code view" id="f13-fn-view"></pre><textarea class="edit" id="f13-fn-edit">function randomItem(items) {
+    let position = Math.floor(Math.random() * items.length);
+    return items[position];
+}</textarea></div>
+<div class="codeblock"><div class="bar"><span>2 · USE THE FUNCTION</span><span><button class="secondary" onclick="toggleEdit('f13','use')">EDIT</button> <button class="secondary" onclick="copyPart('f13','use')">COPY</button></span></div><pre class="code view" id="f13-use-view"></pre><textarea class="edit" id="f13-use-edit">let loot = [&quot;gold&quot;, &quot;map&quot;, &quot;key&quot;, &quot;crystal&quot;];
+function chest() {
+    let prize = randomItem(loot);
+    setText(result, &quot;You found: &quot; + prize);
+    console.log(&quot;prize =&quot;, prize);
+}</textarea></div>
+<button class="primary" onclick="runDemo('f13')">RUN</button> <button class="secondary" onclick="resetDemo('f13')">RESET</button>
+<textarea hidden id="f13-fn-original">function randomItem(items) {
+    let position = Math.floor(Math.random() * items.length);
+    return items[position];
+}</textarea><textarea hidden id="f13-use-original">let loot = [&quot;gold&quot;, &quot;map&quot;, &quot;key&quot;, &quot;crystal&quot;];
+function chest() {
+    let prize = randomItem(loot);
+    setText(result, &quot;You found: &quot; + prize);
+    console.log(&quot;prize =&quot;, prize);
+}</textarea><template id="f13-body"><h2 id="result">Open the chest...</h2><button onclick="chest()">OPEN CHEST</button></template>
+</div><div class="right"><div class="bar"><span>RESULT + CONSOLE</span><span class="small">click result for keyboard demos</span></div><iframe class="preview" id="f13-frame" sandbox="allow-scripts"></iframe></div></div></section><section class="func" id="f14"><div class="func-head"><div class="func-head-row"><div><span class="pill level-array">ARRAYS + LOOPS</span><h2>countItem(items, itemName)</h2></div><a class="backtop" href="#top">↑ TOP</a></div><div class="req">YOU NEED: ARRAY + LOOP</div><p>Count repeated items, such as 3 crystals.</p><div class="try"><b>TRY CHANGING:</b> Use before the mystery trader game.</div></div><div class="work" data-demo="f14"><div class="left">
+<div class="codeblock"><div class="bar"><span>1 · UNDER THE HOOD</span><span><button class="secondary" onclick="toggleEdit('f14','fn')">EDIT</button> <button class="secondary" onclick="copyPart('f14','fn')">COPY</button></span></div><pre class="code view" id="f14-fn-view"></pre><textarea class="edit" id="f14-fn-edit">function countItem(items, itemName) {
+    let total = 0;
+    for (let i = 0; i &lt; items.length; i++) {
+        if (items[i] == itemName) total = total + 1;
+    }
+    return total;
+}</textarea></div>
+<div class="codeblock"><div class="bar"><span>2 · USE THE FUNCTION</span><span><button class="secondary" onclick="toggleEdit('f14','use')">EDIT</button> <button class="secondary" onclick="copyPart('f14','use')">COPY</button></span></div><pre class="code view" id="f14-use-view"></pre><textarea class="edit" id="f14-use-edit">let inventory = [&quot;crystal&quot;, &quot;gold&quot;, &quot;crystal&quot;, &quot;crystal&quot;];
+let total = countItem(inventory, &quot;crystal&quot;);
+setText(answer, &quot;Crystals: &quot; + total);
+console.log(&quot;Crystals =&quot;, total);</textarea></div>
+<button class="primary" onclick="runDemo('f14')">RUN</button> <button class="secondary" onclick="resetDemo('f14')">RESET</button>
+<textarea hidden id="f14-fn-original">function countItem(items, itemName) {
+    let total = 0;
+    for (let i = 0; i &lt; items.length; i++) {
+        if (items[i] == itemName) total = total + 1;
+    }
+    return total;
+}</textarea><textarea hidden id="f14-use-original">let inventory = [&quot;crystal&quot;, &quot;gold&quot;, &quot;crystal&quot;, &quot;crystal&quot;];
+let total = countItem(inventory, &quot;crystal&quot;);
+setText(answer, &quot;Crystals: &quot; + total);
+console.log(&quot;Crystals =&quot;, total);</textarea><template id="f14-body"><h2 id="answer">Crystals: ?</h2></template>
+</div><div class="right"><div class="bar"><span>RESULT + CONSOLE</span><span class="small">click result for keyboard demos</span></div><iframe class="preview" id="f14-frame" sandbox="allow-scripts"></iframe></div></div></section><section class="func" id="f15"><div class="func-head"><div class="func-head-row"><div><span class="pill level-array">ARRAYS + LOOPS</span><h2>removeItems(items, itemName, amount)</h2></div><a class="backtop" href="#top">↑ TOP</a></div><div class="req">YOU NEED: ARRAY + LOOP + splice()</div><p>Trade or spend several copies of an item.</p><div class="try"><b>TRY CHANGING:</b> Perfect for shops and NPC trades.</div></div><div class="work" data-demo="f15"><div class="left">
+<div class="codeblock"><div class="bar"><span>1 · UNDER THE HOOD</span><span><button class="secondary" onclick="toggleEdit('f15','fn')">EDIT</button> <button class="secondary" onclick="copyPart('f15','fn')">COPY</button></span></div><pre class="code view" id="f15-fn-view"></pre><textarea class="edit" id="f15-fn-edit">function removeItems(items, itemName, amount) {
+    if (countItem(items, itemName) &lt; amount) return false;
+    for (let i = 0; i &lt; amount; i++) {
+        let position = items.indexOf(itemName);
+        items.splice(position, 1);
+    }
+    return true;
+}</textarea></div>
+<div class="codeblock"><div class="bar"><span>2 · USE THE FUNCTION</span><span><button class="secondary" onclick="toggleEdit('f15','use')">EDIT</button> <button class="secondary" onclick="copyPart('f15','use')">COPY</button></span></div><pre class="code view" id="f15-use-view"></pre><textarea class="edit" id="f15-use-edit">let inventory = [&quot;crystal&quot;, &quot;crystal&quot;, &quot;gold&quot;, &quot;crystal&quot;];
+function trade() {
+    let worked = removeItems(inventory, &quot;crystal&quot;, 3);
+    console.log(&quot;Trade =&quot;, worked);
+    console.log(&quot;Inventory =&quot;, inventory.join(&quot;, &quot;));
+}</textarea></div>
+<button class="primary" onclick="runDemo('f15')">RUN</button> <button class="secondary" onclick="resetDemo('f15')">RESET</button>
+<textarea hidden id="f15-fn-original">function removeItems(items, itemName, amount) {
+    if (countItem(items, itemName) &lt; amount) return false;
+    for (let i = 0; i &lt; amount; i++) {
+        let position = items.indexOf(itemName);
+        items.splice(position, 1);
+    }
+    return true;
+}</textarea><textarea hidden id="f15-use-original">let inventory = [&quot;crystal&quot;, &quot;crystal&quot;, &quot;gold&quot;, &quot;crystal&quot;];
+function trade() {
+    let worked = removeItems(inventory, &quot;crystal&quot;, 3);
+    console.log(&quot;Trade =&quot;, worked);
+    console.log(&quot;Inventory =&quot;, inventory.join(&quot;, &quot;));
+}</textarea><template id="f15-body"><button onclick="trade()">TRADE 3 CRYSTALS</button></template>
+</div><div class="right"><div class="bar"><span>RESULT + CONSOLE</span><span class="small">click result for keyboard demos</span></div><iframe class="preview" id="f15-frame" sandbox="allow-scripts"></iframe></div></div></section><section class="func" id="f16"><div class="func-head"><div class="func-head-row"><div><span class="pill level-array">ARRAYS + LOOPS</span><h2>hasAllItems(inventory, neededItems)</h2></div><a class="backtop" href="#top">↑ TOP</a></div><div class="req">YOU NEED: ARRAY + LOOP + includes()</div><p>Check a recipe that needs several different items.</p><div class="try"><b>TRY CHANGING:</b> Useful for recipe/story quests.</div></div><div class="work" data-demo="f16"><div class="left">
+<div class="codeblock"><div class="bar"><span>1 · UNDER THE HOOD</span><span><button class="secondary" onclick="toggleEdit('f16','fn')">EDIT</button> <button class="secondary" onclick="copyPart('f16','fn')">COPY</button></span></div><pre class="code view" id="f16-fn-view"></pre><textarea class="edit" id="f16-fn-edit">function hasAllItems(inventory, neededItems) {
+    for (let i = 0; i &lt; neededItems.length; i++) {
+        if (!inventory.includes(neededItems[i])) return false;
+    }
+    return true;
+}</textarea></div>
+<div class="codeblock"><div class="bar"><span>2 · USE THE FUNCTION</span><span><button class="secondary" onclick="toggleEdit('f16','use')">EDIT</button> <button class="secondary" onclick="copyPart('f16','use')">COPY</button></span></div><pre class="code view" id="f16-use-view"></pre><textarea class="edit" id="f16-use-edit">let inventory = [&quot;leaf&quot;, &quot;mushroom&quot;, &quot;crystal&quot;];
+let recipe = [&quot;leaf&quot;, &quot;mushroom&quot;, &quot;crystal&quot;];
+let ready = hasAllItems(inventory, recipe);
+setText(answer, ready ? &quot;Potion ready!&quot; : &quot;Missing items&quot;);
+console.log(&quot;ready =&quot;, ready);</textarea></div>
+<button class="primary" onclick="runDemo('f16')">RUN</button> <button class="secondary" onclick="resetDemo('f16')">RESET</button>
+<textarea hidden id="f16-fn-original">function hasAllItems(inventory, neededItems) {
+    for (let i = 0; i &lt; neededItems.length; i++) {
+        if (!inventory.includes(neededItems[i])) return false;
+    }
+    return true;
+}</textarea><textarea hidden id="f16-use-original">let inventory = [&quot;leaf&quot;, &quot;mushroom&quot;, &quot;crystal&quot;];
+let recipe = [&quot;leaf&quot;, &quot;mushroom&quot;, &quot;crystal&quot;];
+let ready = hasAllItems(inventory, recipe);
+setText(answer, ready ? &quot;Potion ready!&quot; : &quot;Missing items&quot;);
+console.log(&quot;ready =&quot;, ready);</textarea><template id="f16-body"><h2 id="answer">Checking...</h2></template>
+</div><div class="right"><div class="bar"><span>RESULT + CONSOLE</span><span class="small">click result for keyboard demos</span></div><iframe class="preview" id="f16-frame" sandbox="allow-scripts"></iframe></div></div></section><section class="func" id="f17"><div class="func-head"><div class="func-head-row"><div><span class="pill level-array">ARRAYS + LOOPS</span><h2>findTouching(item, items)</h2></div><a class="backtop" href="#top">↑ TOP</a></div><div class="req">YOU NEED: ARRAY + LOOP + touching()</div><p>Check one object against a whole list.</p><div class="try"><b>TRY CHANGING:</b> Great for bullets or many collectibles.</div></div><div class="work" data-demo="f17"><div class="left">
+<div class="codeblock"><div class="bar"><span>1 · UNDER THE HOOD</span><span><button class="secondary" onclick="toggleEdit('f17','fn')">EDIT</button> <button class="secondary" onclick="copyPart('f17','fn')">COPY</button></span></div><pre class="code view" id="f17-fn-view"></pre><textarea class="edit" id="f17-fn-edit">function findTouching(item, items) {
+    for (let i = 0; i &lt; items.length; i++) {
+        if (touching(item, items[i])) return items[i];
+    }
+    return null;
+}</textarea></div>
+<div class="codeblock"><div class="bar"><span>2 · USE THE FUNCTION</span><span><button class="secondary" onclick="toggleEdit('f17','use')">EDIT</button> <button class="secondary" onclick="copyPart('f17','use')">COPY</button></span></div><pre class="code view" id="f17-use-view"></pre><textarea class="edit" id="f17-use-edit">let player = document.getElementById(&quot;player&quot;);
+let treasures = [t1, t2, t3];
+function check() {
+    let hit = findTouching(player, treasures);
+    console.log(hit == null ? &quot;Nothing&quot; : &quot;Hit &quot; + hit.id);
+}</textarea></div>
+<button class="primary" onclick="runDemo('f17')">RUN</button> <button class="secondary" onclick="resetDemo('f17')">RESET</button>
+<textarea hidden id="f17-fn-original">function findTouching(item, items) {
+    for (let i = 0; i &lt; items.length; i++) {
+        if (touching(item, items[i])) return items[i];
+    }
+    return null;
+}</textarea><textarea hidden id="f17-use-original">let player = document.getElementById(&quot;player&quot;);
+let treasures = [t1, t2, t3];
+function check() {
+    let hit = findTouching(player, treasures);
+    console.log(hit == null ? &quot;Nothing&quot; : &quot;Hit &quot; + hit.id);
+}</textarea><template id="f17-body"><div class="game"><div id="player" class="sprite" style="left:20px;top:80px">🤖</div><div id="t1" class="sprite" style="left:20px;top:80px">💎</div><div id="t2" class="sprite" style="left:230px;top:30px">🪙</div><div id="t3" class="sprite" style="left:380px;top:140px">⭐</div></div><button onclick="check()">CHECK</button></template>
+</div><div class="right"><div class="bar"><span>RESULT + CONSOLE</span><span class="small">click result for keyboard demos</span></div><iframe class="preview" id="f17-frame" sandbox="allow-scripts"></iframe></div></div></section><section class="func" id="f18"><div class="func-head"><div class="func-head-row"><div><span class="pill level-array">ARRAYS + LOOPS</span><h2>moveIfClear(item, dx, dy, walls, gameArea)</h2></div><a class="backtop" href="#top">↑ TOP</a></div><div class="req">YOU NEED: MAZE · ARRAY + LOOP</div><p>Try a move; if any wall is hit, undo it.</p><div class="try"><b>TRY CHANGING:</b> This is where arrays become obviously useful.</div></div><div class="work" data-demo="f18"><div class="left">
+<div class="codeblock"><div class="bar"><span>1 · UNDER THE HOOD</span><span><button class="secondary" onclick="toggleEdit('f18','fn')">EDIT</button> <button class="secondary" onclick="copyPart('f18','fn')">COPY</button></span></div><pre class="code view" id="f18-fn-view"></pre><textarea class="edit" id="f18-fn-edit">function moveIfClear(item, xChange, yChange, walls, gameArea) {
+    let oldX = item.offsetLeft;
+    let oldY = item.offsetTop;
+    move(item, xChange, yChange);
+    keepInside(item, gameArea);
+    for (let i = 0; i &lt; walls.length; i++) {
+        if (touching(item, walls[i])) {
+            place(item, oldX, oldY);
+            return false;
+        }
+    }
+    return true;
+}</textarea></div>
+<div class="codeblock"><div class="bar"><span>2 · USE THE FUNCTION</span><span><button class="secondary" onclick="toggleEdit('f18','use')">EDIT</button> <button class="secondary" onclick="copyPart('f18','use')">COPY</button></span></div><pre class="code view" id="f18-use-view"></pre><textarea class="edit" id="f18-use-edit">let walls = [wall1, wall2];
+function right() {
+    let moved = moveIfClear(player, 30, 0, walls, game);
+    console.log(&quot;moved =&quot;, moved);
+}</textarea></div>
+<button class="primary" onclick="runDemo('f18')">RUN</button> <button class="secondary" onclick="resetDemo('f18')">RESET</button>
+<textarea hidden id="f18-fn-original">function moveIfClear(item, xChange, yChange, walls, gameArea) {
+    let oldX = item.offsetLeft;
+    let oldY = item.offsetTop;
+    move(item, xChange, yChange);
+    keepInside(item, gameArea);
+    for (let i = 0; i &lt; walls.length; i++) {
+        if (touching(item, walls[i])) {
+            place(item, oldX, oldY);
+            return false;
+        }
+    }
+    return true;
+}</textarea><textarea hidden id="f18-use-original">let walls = [wall1, wall2];
+function right() {
+    let moved = moveIfClear(player, 30, 0, walls, game);
+    console.log(&quot;moved =&quot;, moved);
+}</textarea><template id="f18-body"><div id="game" class="game"><div id="player" class="sprite" style="left:20px;top:80px">🤖</div><div id="wall1" class="wall" style="left:180px;top:0;width:30px;height:150px"></div><div id="wall2" class="wall" style="left:330px;top:80px;width:30px;height:140px"></div></div><button onclick="right()">RIGHT →</button></template>
+</div><div class="right"><div class="bar"><span>RESULT + CONSOLE</span><span class="small">click result for keyboard demos</span></div><iframe class="preview" id="f18-frame" sandbox="allow-scripts"></iframe></div></div></section><section class="func" id="f19"><div class="func-head"><div class="func-head-row"><div><span class="pill level-physics">PONG / PLATFORMER</span><h2>trackKeys() / keyDown(keys, key)</h2></div><a class="backtop" href="#top">↑ TOP</a></div><div class="req">YOU NEED: SMOOTH KEYS · ARRAY + keyup</div><p>Know which keys are being HELD, needed for Pong/platformers.</p><div class="try"><b>TRY CHANGING:</b> Later unlock: this is different from one key press.</div></div><div class="work" data-demo="f19"><div class="left">
+<div class="codeblock"><div class="bar"><span>1 · UNDER THE HOOD</span><span><button class="secondary" onclick="toggleEdit('f19','fn')">EDIT</button> <button class="secondary" onclick="copyPart('f19','fn')">COPY</button></span></div><pre class="code view" id="f19-fn-view"></pre><textarea class="edit" id="f19-fn-edit">function trackKeys() {
+    let keys = [];
+    document.addEventListener(&quot;keydown&quot;, function(event) {
+        if (!keys.includes(event.key)) keys.push(event.key);
+    });
+    document.addEventListener(&quot;keyup&quot;, function(event) {
+        let position = keys.indexOf(event.key);
+        if (position != -1) keys.splice(position, 1);
+    });
+    return keys;
+}
+function keyDown(keys, key) {
+    return keys.includes(key);
+}</textarea></div>
+<div class="codeblock"><div class="bar"><span>2 · USE THE FUNCTION</span><span><button class="secondary" onclick="toggleEdit('f19','use')">EDIT</button> <button class="secondary" onclick="copyPart('f19','use')">COPY</button></span></div><pre class="code view" id="f19-use-view"></pre><textarea class="edit" id="f19-use-edit">let keys = trackKeys();
+function gameLoop() {
+    if (keyDown(keys, &quot;ArrowLeft&quot;)) move(player, -4, 0);
+    if (keyDown(keys, &quot;ArrowRight&quot;)) move(player, 4, 0);
+}
+setInterval(gameLoop, 20);
+console.log(&quot;Hold left or right&quot;);</textarea></div>
+<button class="primary" onclick="runDemo('f19')">RUN</button> <button class="secondary" onclick="resetDemo('f19')">RESET</button>
+<textarea hidden id="f19-fn-original">function trackKeys() {
+    let keys = [];
+    document.addEventListener(&quot;keydown&quot;, function(event) {
+        if (!keys.includes(event.key)) keys.push(event.key);
+    });
+    document.addEventListener(&quot;keyup&quot;, function(event) {
+        let position = keys.indexOf(event.key);
+        if (position != -1) keys.splice(position, 1);
+    });
+    return keys;
+}
+function keyDown(keys, key) {
+    return keys.includes(key);
+}</textarea><textarea hidden id="f19-use-original">let keys = trackKeys();
+function gameLoop() {
+    if (keyDown(keys, &quot;ArrowLeft&quot;)) move(player, -4, 0);
+    if (keyDown(keys, &quot;ArrowRight&quot;)) move(player, 4, 0);
+}
+setInterval(gameLoop, 20);
+console.log(&quot;Hold left or right&quot;);</textarea><template id="f19-body"><div class="info">Click here, then HOLD ← or →</div><div class="game"><div id="player" class="sprite" style="left:200px;top:80px">🏃</div></div></template>
+</div><div class="right"><div class="bar"><span>RESULT + CONSOLE</span><span class="small">click result for keyboard demos</span></div><iframe class="preview" id="f19-frame" sandbox="allow-scripts"></iframe></div></div></section><section class="func" id="f20"><div class="func-head"><div class="func-head-row"><div><span class="pill level-physics">PONG / PLATFORMER</span><h2>applyGravity(item, ySpeed, gravity)</h2></div><a class="backtop" href="#top">↑ TOP</a></div><div class="req">YOU NEED: PLATFORMER · speed variable + return</div><p>Gravity makes vertical speed increase every game loop.</p><div class="try"><b>TRY CHANGING:</b> This is what “platformer physics” means: a speed number changes, gravity changes it, jump makes it negative.</div></div><div class="work" data-demo="f20"><div class="left">
+<div class="codeblock"><div class="bar"><span>1 · UNDER THE HOOD</span><span><button class="secondary" onclick="toggleEdit('f20','fn')">EDIT</button> <button class="secondary" onclick="copyPart('f20','fn')">COPY</button></span></div><pre class="code view" id="f20-fn-view"></pre><textarea class="edit" id="f20-fn-edit">function applyGravity(item, ySpeed, gravity) {
+    ySpeed = ySpeed + gravity;
+    move(item, 0, ySpeed);
+    return ySpeed;
+}</textarea></div>
+<div class="codeblock"><div class="bar"><span>2 · USE THE FUNCTION</span><span><button class="secondary" onclick="toggleEdit('f20','use')">EDIT</button> <button class="secondary" onclick="copyPart('f20','use')">COPY</button></span></div><pre class="code view" id="f20-use-view"></pre><textarea class="edit" id="f20-use-edit">let ySpeed = 0;
+function gameLoop() {
+    ySpeed = applyGravity(player, ySpeed, 0.6);
+    console.log(&quot;ySpeed =&quot;, ySpeed.toFixed(1));
+}
+setInterval(gameLoop, 30);</textarea></div>
+<button class="primary" onclick="runDemo('f20')">RUN</button> <button class="secondary" onclick="resetDemo('f20')">RESET</button>
+<textarea hidden id="f20-fn-original">function applyGravity(item, ySpeed, gravity) {
+    ySpeed = ySpeed + gravity;
+    move(item, 0, ySpeed);
+    return ySpeed;
+}</textarea><textarea hidden id="f20-use-original">let ySpeed = 0;
+function gameLoop() {
+    ySpeed = applyGravity(player, ySpeed, 0.6);
+    console.log(&quot;ySpeed =&quot;, ySpeed.toFixed(1));
+}
+setInterval(gameLoop, 30);</textarea><template id="f20-body"><div class="game"><div id="player" class="sprite" style="left:220px;top:15px">🔵</div></div></template>
+</div><div class="right"><div class="bar"><span>RESULT + CONSOLE</span><span class="small">click result for keyboard demos</span></div><iframe class="preview" id="f20-frame" sandbox="allow-scripts"></iframe></div></div></section><section class="func" id="f21"><div class="func-head"><div class="func-head-row"><div><span class="pill level-physics">PONG / PLATFORMER</span><h2>standingOnAny() / landOnPlatforms()</h2></div><a class="backtop" href="#top">↑ TOP</a></div><div class="req">YOU NEED: PLATFORMER · ARRAY + LOOP + rectangles</div><p>Check whether the player can jump, and stop falling on platforms.</p><div class="try"><b>TRY CHANGING:</b> The full Platform Escape example uses both helpers.</div></div><div class="work" data-demo="f21"><div class="left">
+<div class="codeblock"><div class="bar"><span>1 · UNDER THE HOOD</span><span><button class="secondary" onclick="toggleEdit('f21','fn')">EDIT</button> <button class="secondary" onclick="copyPart('f21','fn')">COPY</button></span></div><pre class="code view" id="f21-fn-view"></pre><textarea class="edit" id="f21-fn-edit">function standingOnAny(player, platforms) {
+    let playerBox = player.getBoundingClientRect();
+    for (let i = 0; i &lt; platforms.length; i++) {
+        let box = platforms[i].getBoundingClientRect();
+        let feetNearTop = Math.abs(playerBox.bottom - box.top) &lt;= 4;
+        let xOverlap = playerBox.right &gt; box.left &amp;&amp; playerBox.left &lt; box.right;
+        if (feetNearTop &amp;&amp; xOverlap) return true;
+    }
+    return false;
+}</textarea></div>
+<div class="codeblock"><div class="bar"><span>2 · USE THE FUNCTION</span><span><button class="secondary" onclick="toggleEdit('f21','use')">EDIT</button> <button class="secondary" onclick="copyPart('f21','use')">COPY</button></span></div><pre class="code view" id="f21-use-view"></pre><textarea class="edit" id="f21-use-edit">let platforms = [ground];
+console.log(&quot;standing =&quot;, standingOnAny(player, platforms));</textarea></div>
+<button class="primary" onclick="runDemo('f21')">RUN</button> <button class="secondary" onclick="resetDemo('f21')">RESET</button>
+<textarea hidden id="f21-fn-original">function standingOnAny(player, platforms) {
+    let playerBox = player.getBoundingClientRect();
+    for (let i = 0; i &lt; platforms.length; i++) {
+        let box = platforms[i].getBoundingClientRect();
+        let feetNearTop = Math.abs(playerBox.bottom - box.top) &lt;= 4;
+        let xOverlap = playerBox.right &gt; box.left &amp;&amp; playerBox.left &lt; box.right;
+        if (feetNearTop &amp;&amp; xOverlap) return true;
+    }
+    return false;
+}</textarea><textarea hidden id="f21-use-original">let platforms = [ground];
+console.log(&quot;standing =&quot;, standingOnAny(player, platforms));</textarea><template id="f21-body"><div class="game"><div id="player" class="sprite" style="left:160px;top:122px">🏃</div><div id="ground" class="wall" style="left:0;top:170px;width:100%;height:50px"></div></div></template>
+</div><div class="right"><div class="bar"><span>RESULT + CONSOLE</span><span class="small">click result for keyboard demos</span></div><iframe class="preview" id="f21-frame" sandbox="allow-scripts"></iframe></div></div></section><section class="func" id="f22"><div class="func-head"><div class="func-head-row"><div><span class="pill level-dom">DOM+ BONUS</span><h2>createSprite(gameArea, picture, x, y, size)</h2></div><a class="backtop" href="#top">↑ TOP</a></div><div class="req">YOU NEED: DOM+ · createElement + appendChild</div><p>Create bullets, coins or enemies while the game is running.</p><div class="try"><b>TRY CHANGING:</b> Later bonus for shooting games.</div></div><div class="work" data-demo="f22"><div class="left">
+<div class="codeblock"><div class="bar"><span>1 · UNDER THE HOOD</span><span><button class="secondary" onclick="toggleEdit('f22','fn')">EDIT</button> <button class="secondary" onclick="copyPart('f22','fn')">COPY</button></span></div><pre class="code view" id="f22-fn-view"></pre><textarea class="edit" id="f22-fn-edit">function createSprite(gameArea, picture, x, y, size) {
+    let sprite = document.createElement(&quot;div&quot;);
+    sprite.innerText = picture;
+    sprite.style.position = &quot;absolute&quot;;
+    sprite.style.left = x + &quot;px&quot;;
+    sprite.style.top = y + &quot;px&quot;;
+    sprite.style.fontSize = size + &quot;px&quot;;
+    gameArea.appendChild(sprite);
+    return sprite;
+}</textarea></div>
+<div class="codeblock"><div class="bar"><span>2 · USE THE FUNCTION</span><span><button class="secondary" onclick="toggleEdit('f22','use')">EDIT</button> <button class="secondary" onclick="copyPart('f22','use')">COPY</button></span></div><pre class="code view" id="f22-use-view"></pre><textarea class="edit" id="f22-use-edit">function makeStar() {
+    let star = createSprite(game, &quot;⭐&quot;, 220, 80, 40);
+    console.log(&quot;Created a star&quot;, star);
+}</textarea></div>
+<button class="primary" onclick="runDemo('f22')">RUN</button> <button class="secondary" onclick="resetDemo('f22')">RESET</button>
+<textarea hidden id="f22-fn-original">function createSprite(gameArea, picture, x, y, size) {
+    let sprite = document.createElement(&quot;div&quot;);
+    sprite.innerText = picture;
+    sprite.style.position = &quot;absolute&quot;;
+    sprite.style.left = x + &quot;px&quot;;
+    sprite.style.top = y + &quot;px&quot;;
+    sprite.style.fontSize = size + &quot;px&quot;;
+    gameArea.appendChild(sprite);
+    return sprite;
+}</textarea><textarea hidden id="f22-use-original">function makeStar() {
+    let star = createSprite(game, &quot;⭐&quot;, 220, 80, 40);
+    console.log(&quot;Created a star&quot;, star);
+}</textarea><template id="f22-body"><div id="game" class="game"></div><button onclick="makeStar()">MAKE STAR</button></template>
+</div><div class="right"><div class="bar"><span>RESULT + CONSOLE</span><span class="small">click result for keyboard demos</span></div><iframe class="preview" id="f22-frame" sandbox="allow-scripts"></iframe></div></div></section>
+<div class="note"><b>Next:</b> open <a href="game-lab.html">Complete Game Lab</a> to see these functions inside complete HTML + CSS + JavaScript games.</div></main><a class="float-top" href="#top">↑ TOP</a>
+<script>
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function highlightJS(code){
+  const kw=new Set(['let','const','var','function','if','else','return','for','while','true','false','null','new','break','continue']);
+  let out='',i=0;
+  while(i<code.length){
+    let c=code[i];
+    if(c==='/'&&code[i+1]==='/'){let j=i;while(j<code.length&&code[j]!='\n')j++;out+='<span class="tok-com">'+esc(code.slice(i,j))+'</span>';i=j;continue;}
+    if(c==='"'||c==="'"||c==='`'){let q=c,j=i+1;while(j<code.length){if(code[j]==='\\'){j+=2;continue}if(code[j]===q){j++;break}j++}out+='<span class="tok-str">'+esc(code.slice(i,j))+'</span>';i=j;continue;}
+    if(/[0-9]/.test(c)){let j=i+1;while(j<code.length&&/[0-9.]/.test(code[j]))j++;out+='<span class="tok-num">'+code.slice(i,j)+'</span>';i=j;continue;}
+    if(/[A-Za-z_$]/.test(c)){let j=i+1;while(j<code.length&&/[A-Za-z0-9_$]/.test(code[j]))j++;let w=code.slice(i,j);let k=j;while(k<code.length&&/\s/.test(code[k]))k++;let cls=kw.has(w)?'tok-kw':(code[k]==='('?'tok-fn':'');out+=cls?'<span class="'+cls+'">'+w+'</span>':w;i=j;continue;}
+    if('=+-*/!<>&|'.includes(c)){out+='<span class="tok-op">'+esc(c)+'</span>';i++;continue;}
+    out+=esc(c);i++;
+  }
+  return out;
+}
+function highlightHTML(code){
+  let e=esc(code);
+  e=e.replace(/(&lt;\/?)([\w-]+)/g,'$1<span class="tok-tag">$2</span>');
+  return e;
+}
+function highlightCSS(code){
+  let e=esc(code);
+  e=e.replace(/(^|\n)(\s*)([\w.#-]+)(\s*\{)/g,'$1$2<span class="tok-tag">$3</span>$4');
+  e=e.replace(/([\w-]+)(\s*:)/g,'<span class="tok-prop">$1</span>$2');
+  return e;
+}
+function hi(code,lang){if(lang==='html')return highlightHTML(code);if(lang==='css')return highlightCSS(code);return highlightJS(code);}
+
+const TOOLS="/* RBS CODE \u00b7 GAME TOOLS \u00b7 readable student helpers */\n\nfunction move(item, xChange, yChange) {\n    let x = item.offsetLeft;\n    let y = item.offsetTop;\n    item.style.left = (x + xChange) + \"px\";\n    item.style.top = (y + yChange) + \"px\";\n}\n\nfunction place(item, x, y) {\n    item.style.left = x + \"px\";\n    item.style.top = y + \"px\";\n}\n\nfunction hide(item) {\n    item.style.display = \"none\";\n}\n\nfunction show(item) {\n    item.style.display = \"block\";\n}\n\nfunction setText(textBox, text) {\n    textBox.innerText = text;\n}\n\nfunction changeNumber(number, amount, display) {\n    number = number + amount;\n    display.innerText = number;\n    return number;\n}\n\nfunction keepInside(item, gameArea) {\n    let maxX = gameArea.clientWidth - item.offsetWidth;\n    let maxY = gameArea.clientHeight - item.offsetHeight;\n\n    if (item.offsetLeft < 0) item.style.left = \"0px\";\n    if (item.offsetLeft > maxX) item.style.left = maxX + \"px\";\n    if (item.offsetTop < 0) item.style.top = \"0px\";\n    if (item.offsetTop > maxY) item.style.top = maxY + \"px\";\n}\n\nfunction touching(item1, item2) {\n    let box1 = item1.getBoundingClientRect();\n    let box2 = item2.getBoundingClientRect();\n\n    return box1.left < box2.right &&\n           box1.right > box2.left &&\n           box1.top < box2.bottom &&\n           box1.bottom > box2.top;\n}\n\nfunction randomPosition(item, gameArea) {\n    let maxX = gameArea.clientWidth - item.offsetWidth;\n    let maxY = gameArea.clientHeight - item.offsetHeight;\n    let newX = Math.floor(Math.random() * maxX);\n    let newY = Math.floor(Math.random() * maxY);\n    place(item, newX, newY);\n}\n\nfunction randomX(item, gameArea) {\n    let maxX = gameArea.clientWidth - item.offsetWidth;\n    let newX = Math.floor(Math.random() * maxX);\n    item.style.left = newX + \"px\";\n}\n\nfunction atEdge(item, gameArea, side) {\n    if (side == \"left\") return item.offsetLeft <= 0;\n    if (side == \"right\") return item.offsetLeft + item.offsetWidth >= gameArea.clientWidth;\n    if (side == \"top\") return item.offsetTop <= 0;\n    if (side == \"bottom\") return item.offsetTop + item.offsetHeight >= gameArea.clientHeight;\n    return false;\n}\n\nfunction moveWithKeys(item, speed, upKey, downKey, leftKey, rightKey) {\n    document.addEventListener(\"keydown\", function(event) {\n        let used = false;\n        if (upKey && event.key == upKey) { move(item, 0, -speed); used = true; }\n        if (downKey && event.key == downKey) { move(item, 0, speed); used = true; }\n        if (leftKey && event.key == leftKey) { move(item, -speed, 0); used = true; }\n        if (rightKey && event.key == rightKey) { move(item, speed, 0); used = true; }\n        if (used) event.preventDefault();\n    });\n}\n\nfunction moveToward(enemy, target, speed) {\n    let xGap = target.offsetLeft - enemy.offsetLeft;\n    let yGap = target.offsetTop - enemy.offsetTop;\n\n    if (Math.abs(xGap) > speed) {\n        if (xGap > 0) move(enemy, speed, 0);\n        else move(enemy, -speed, 0);\n    }\n\n    if (Math.abs(yGap) > speed) {\n        if (yGap > 0) move(enemy, 0, speed);\n        else move(enemy, 0, -speed);\n    }\n}\n\nfunction startCountdown(seconds, display, whenFinished) {\n    display.innerText = seconds;\n    let timer = setInterval(function() {\n        seconds = seconds - 1;\n        display.innerText = seconds;\n        if (seconds <= 0) {\n            clearInterval(timer);\n            whenFinished();\n        }\n    }, 1000);\n    return timer;\n}\n\nfunction randomItem(items) {\n    let position = Math.floor(Math.random() * items.length);\n    return items[position];\n}\n\nfunction countItem(items, itemName) {\n    let total = 0;\n    for (let i = 0; i < items.length; i++) {\n        if (items[i] == itemName) total = total + 1;\n    }\n    return total;\n}\n\nfunction removeItems(items, itemName, amount) {\n    if (countItem(items, itemName) < amount) return false;\n    for (let i = 0; i < amount; i++) {\n        let position = items.indexOf(itemName);\n        items.splice(position, 1);\n    }\n    return true;\n}\n\nfunction hasAllItems(inventory, neededItems) {\n    for (let i = 0; i < neededItems.length; i++) {\n        if (!inventory.includes(neededItems[i])) return false;\n    }\n    return true;\n}\n\nfunction findTouching(item, items) {\n    for (let i = 0; i < items.length; i++) {\n        if (touching(item, items[i])) return items[i];\n    }\n    return null;\n}\n\nfunction moveIfClear(item, xChange, yChange, walls, gameArea) {\n    let oldX = item.offsetLeft;\n    let oldY = item.offsetTop;\n    move(item, xChange, yChange);\n    keepInside(item, gameArea);\n\n    for (let i = 0; i < walls.length; i++) {\n        if (touching(item, walls[i])) {\n            place(item, oldX, oldY);\n            return false;\n        }\n    }\n    return true;\n}\n\nfunction trackKeys() {\n    let keys = [];\n    document.addEventListener(\"keydown\", function(event) {\n        if (!keys.includes(event.key)) keys.push(event.key);\n    });\n    document.addEventListener(\"keyup\", function(event) {\n        let position = keys.indexOf(event.key);\n        if (position != -1) keys.splice(position, 1);\n    });\n    return keys;\n}\n\nfunction keyDown(keys, key) {\n    return keys.includes(key);\n}\n\nfunction applyGravity(item, ySpeed, gravity) {\n    ySpeed = ySpeed + gravity;\n    move(item, 0, ySpeed);\n    return ySpeed;\n}\n\nfunction standingOnAny(player, platforms) {\n    let playerBox = player.getBoundingClientRect();\n    for (let i = 0; i < platforms.length; i++) {\n        let platformBox = platforms[i].getBoundingClientRect();\n        let feetNearTop = Math.abs(playerBox.bottom - platformBox.top) <= 4;\n        let xOverlap = playerBox.right > platformBox.left && playerBox.left < platformBox.right;\n        if (feetNearTop && xOverlap) return true;\n    }\n    return false;\n}\n\nfunction landOnPlatforms(player, ySpeed, platforms) {\n    if (ySpeed < 0) return ySpeed;\n    let playerBox = player.getBoundingClientRect();\n\n    for (let i = 0; i < platforms.length; i++) {\n        let platform = platforms[i];\n        let platformBox = platform.getBoundingClientRect();\n        let wasAbove = playerBox.bottom - ySpeed <= platformBox.top + 3;\n        let reached = playerBox.bottom >= platformBox.top;\n        let xOverlap = playerBox.right > platformBox.left && playerBox.left < platformBox.right;\n\n        if (wasAbove && reached && xOverlap) {\n            player.style.top = (platform.offsetTop - player.offsetHeight) + \"px\";\n            return 0;\n        }\n    }\n    return ySpeed;\n}\n\nfunction createSprite(gameArea, picture, x, y, size) {\n    let sprite = document.createElement(\"div\");\n    sprite.innerText = picture;\n    sprite.style.position = \"absolute\";\n    sprite.style.left = x + \"px\";\n    sprite.style.top = y + \"px\";\n    sprite.style.width = size + \"px\";\n    sprite.style.height = size + \"px\";\n    sprite.style.fontSize = size + \"px\";\n    sprite.style.lineHeight = size + \"px\";\n    sprite.style.textAlign = \"center\";\n    gameArea.appendChild(sprite);\n    return sprite;\n}\n";const STAGE="<style>body{font-family:Arial;margin:0;padding:12px;background:#f8fafc;color:#172033}.game{position:relative;width:100%;max-width:520px;height:220px;overflow:hidden;background:#e0f2fe;border:3px solid #0f172a;border-radius:12px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.info{margin:7px 0;font-weight:700}button{font:700 14px Arial;padding:7px 10px;margin:6px 4px 0 0}.console{margin-top:10px;min-height:78px;max-height:110px;overflow:auto;background:#08101f;color:#dce7ff;border-radius:8px;padding:9px;font:12px/1.4 Consolas,monospace;white-space:pre-wrap}.console:before{content:\"CONSOLE\";display:block;color:#93c5fd;font-weight:bold;margin-bottom:5px}</style>";
+function current(id,part){return document.getElementById(id+'-'+part+'-edit').value;}
+function paint(id,part){document.getElementById(id+'-'+part+'-view').innerHTML=hi(current(id,part),'js');}
+function toggleEdit(id,part){let e=document.getElementById(id+'-'+part+'-edit'),v=document.getElementById(id+'-'+part+'-view');if(e.style.display==='block'){e.style.display='none';v.style.display='block';paint(id,part)}else{e.style.display='block';v.style.display='none';e.focus();}}
+async function copyPart(id,part){await navigator.clipboard.writeText(current(id,part));}
+function resetDemo(id){for(const part of ['fn','use']){document.getElementById(id+'-'+part+'-edit').value=document.getElementById(id+'-'+part+'-original').value;paint(id,part)}runDemo(id)}
+function runDemo(id){let body=document.getElementById(id+'-body').innerHTML,fn=current(id,'fn'),use=current(id,'use');let logger=`<div id="console" class="console"></div><script>(function(){let c=document.getElementById('console');function w(a){c.textContent+=(c.textContent?'\\n':'')+a.map(x=>{try{return typeof x==='object'?JSON.stringify(x):String(x)}catch(e){return String(x)}}).join(' ')}console.log=(...a)=>w(a);console.warn=(...a)=>w(a);console.error=(...a)=>w(a);window.onerror=(m,s,l)=>w(['ERROR:',m,'line',l]);})();<\/script>`;document.getElementById(id+'-frame').srcdoc='<!doctype html><html><head>'+STAGE+'</head><body>'+body+logger+'<script>'+TOOLS+'\n'+fn+'\n'+use+'<\/script></body></html>';}
+document.querySelectorAll('[data-demo]').forEach(x=>{let id=x.dataset.demo;paint(id,'fn');paint(id,'use');runDemo(id)});
+</script></body></html>

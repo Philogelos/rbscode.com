@@ -1,0 +1,697 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Game Recipe Book</title><style>
+:root{--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#66758b;--line:#dfe5ee;--accent:#4f46e5;--soft:#eef2ff;--code:#0b1220;--codeText:#e7eefc;--green:#0f766e;--orange:#b45309;--purple:#7c3aed;--red:#b91c1c}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif;line-height:1.5}main{width:min(1140px,calc(100% - 28px));margin:auto;padding:28px 0 80px}h1{font-size:clamp(34px,6vw,58px);line-height:1;margin:8px 0 10px}h2{font-size:28px;margin:0 0 7px}h3{margin:0 0 6px}p{margin:6px 0}.lead{font-size:19px;color:var(--muted);max-width:850px}.kicker{font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:#3730a3}.note{padding:13px 15px;background:#fff;border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:12px;margin:18px 0}.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:var(--soft);color:#3730a3;font-size:12px;font-weight:850;margin:2px 4px 2px 0}.small{font-size:13px;color:var(--muted)}button,.btn{font:800 13px Inter,Arial;border:0;border-radius:8px;padding:8px 10px;cursor:pointer}.btn{display:inline-block;text-decoration:none}.primary{background:var(--accent);color:white}.secondary{background:#e8ebf2;color:#172033}.toplink{color:#3730a3;font-weight:800;text-decoration:none}.backtop{font-size:12px;color:#4f46e5;text-decoration:none;font-weight:800}.level-core{background:#e0f2fe;color:#075985}.level-timer{background:#fef3c7;color:#92400e}.level-array{background:#dcfce7;color:#166534}.level-physics{background:#f3e8ff;color:#6b21a8}.level-dom{background:#fee2e2;color:#991b1b}
+.code{background:var(--code);color:var(--codeText);border-radius:10px;padding:13px;overflow:auto;font:14px/1.5 Consolas,monospace;white-space:pre-wrap;tab-size:4}.tok-kw{color:#c084fc}.tok-str{color:#86efac}.tok-num{color:#fde68a}.tok-com{color:#94a3b8}.tok-fn{color:#7dd3fc}.tok-op{color:#fda4af}.tok-tag{color:#7dd3fc}.tok-attr{color:#fde68a}.tok-prop{color:#93c5fd}.tok-val{color:#86efac}
+@media(max-width:800px){main{width:min(100% - 18px,1140px)}}
+
+.gamecard{background:#fff;border:1px solid var(--line);border-radius:16px;margin:16px 0;overflow:hidden}.ghead{padding:16px}.grow{display:flex;justify-content:space-between;gap:12px}.count{min-width:112px;background:#111827;color:white;border-radius:11px;text-align:center;padding:8px}.count strong{display:block;font-size:25px}.tabs{display:flex;gap:5px;flex-wrap:wrap;border-top:1px solid var(--line);padding:10px 12px;background:#f8fafc}.tab{background:#e9edf5}.tab.active{background:var(--accent);color:#fff}.panel{display:none;padding:12px}.panel.active{display:block}.codepanel{position:relative}.codepanel .code{min-height:210px;max-height:420px}.editor{display:none;width:100%;min-height:260px;background:var(--code);color:white;border:0;border-radius:10px;padding:12px;font:14px/1.5 Consolas,monospace}.resultframe{width:100%;height:500px;border:1px solid var(--line);border-radius:10px;background:white}.sideinfo{padding:10px 12px;background:#fffbeb;border-top:1px solid #fde68a}.up{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px}.up span{font-size:12px;background:#fff;border:1px solid #fde68a;padding:5px 7px;border-radius:999px}@media(max-width:700px){.grow{display:block}.count{margin-top:9px;width:120px}}</style></head><body><main id="top"><a class="toplink" href="index.html">← Camp Home</a><div class="kicker" style="margin-top:20px">RBS CODE · PROJECT CHOOSER</div><h1>20 Game Recipes</h1><p class="lead">Click HTML, CSS, JavaScript or Result. Nothing is hidden backwards anymore.</p><div class="note"><b>All games use <code>game-tools.js</code>.</b> Put it in the same folder, then place <code>&lt;script src="game-tools.js"&gt;&lt;/script&gt;</code> before your own JavaScript. The Result tab injects it automatically.</div><div class="note"><b>Student JS lines</b> ignores blank lines, comments and lines that are only closing braces. It is a rough measure of how much meaningful game logic the student reads/writes.</div><section class="gamecard" id="g0"><div class="ghead"><div class="grow"><div><span class="pill">JS3</span><h2>1. Move the Robot</h2><span class="pill">NEW: Reusable keyboard movement</span><span class="pill">TOOLS: moveWithKeys, keepInside</span></div><div class="count"><strong>6</strong>Student JS lines</div></div></div><div class="tabs"><button class="tab active" onclick="showTab('g0','html',this)">HTML</button><button class="tab" onclick="showTab('g0','css',this)">CSS</button><button class="tab" onclick="showTab('g0','js',this)">JAVASCRIPT</button><button class="tab" onclick="showTab('g0','result',this)">▶ RESULT + CONSOLE</button></div>
+<div class="panel active" data-panel="html"><div class="codepanel"><div class="bar"><b>HTML</b><span><button class="secondary" onclick="editGame('g0','html')">EDIT</button> <button class="secondary" onclick="copyGame('g0','html')">COPY</button></span></div><pre class="code" id="g0-html-view"></pre><textarea class="editor" id="g0-html-edit">&lt;div class=&quot;hud&quot;&gt;Click the game, then use arrow keys&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:130px&quot;&gt;🤖&lt;/div&gt;&lt;/div&gt;</textarea></div></div>
+<div class="panel" data-panel="css"><div class="codepanel"><div class="bar"><b>CSS</b><span><button class="secondary" onclick="editGame('g0','css')">EDIT</button> <button class="secondary" onclick="copyGame('g0','css')">COPY</button></span></div><pre class="code" id="g0-css-view"></pre><textarea class="editor" id="g0-css-edit">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea></div></div>
+<div class="panel" data-panel="js"><div class="codepanel"><div class="bar"><b>YOUR JAVASCRIPT</b><span><button class="secondary" onclick="editGame('g0','js')">EDIT</button> <button class="secondary" onclick="copyGame('g0','js')">COPY</button></span></div><pre class="code" id="g0-js-view"></pre><textarea class="editor" id="g0-js-edit">let player = document.getElementById(&quot;player&quot;);
+let game = document.getElementById(&quot;game&quot;);
+moveWithKeys(player, 15, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+document.addEventListener(&quot;keydown&quot;, function() {
+    keepInside(player, game);
+});
+console.log(&quot;Use the arrow keys&quot;);</textarea></div></div>
+<div class="panel" data-panel="result"><div class="bar"><b>LIVE GAME</b><span><button class="primary" onclick="runGame('g0')">RUN / RESTART</button> <button class="secondary" onclick="resetGame('g0')">RESET CODE</button></span></div><iframe class="resultframe" id="g0-frame" sandbox="allow-scripts"></iframe></div>
+<div class="sideinfo"><b>Easy upgrades:</b><div class="up"><span>Change speed 15 → 30</span><span>Use WASD</span><span>Add a finish target</span></div></div><textarea hidden id="g0-html-original">&lt;div class=&quot;hud&quot;&gt;Click the game, then use arrow keys&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:130px&quot;&gt;🤖&lt;/div&gt;&lt;/div&gt;</textarea><textarea hidden id="g0-css-original">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea><textarea hidden id="g0-js-original">let player = document.getElementById(&quot;player&quot;);
+let game = document.getElementById(&quot;game&quot;);
+moveWithKeys(player, 15, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+document.addEventListener(&quot;keydown&quot;, function() {
+    keepInside(player, game);
+});
+console.log(&quot;Use the arrow keys&quot;);</textarea></section><section class="gamecard" id="g1"><div class="ghead"><div class="grow"><div><span class="pill">JS3</span><h2>2. Coin Collector</h2><span class="pill">NEW: Collision + score + random</span><span class="pill">TOOLS: moveWithKeys, touching, changeNumber, randomPosition</span></div><div class="count"><strong>12</strong>Student JS lines</div></div></div><div class="tabs"><button class="tab active" onclick="showTab('g1','html',this)">HTML</button><button class="tab" onclick="showTab('g1','css',this)">CSS</button><button class="tab" onclick="showTab('g1','js',this)">JAVASCRIPT</button><button class="tab" onclick="showTab('g1','result',this)">▶ RESULT + CONSOLE</button></div>
+<div class="panel active" data-panel="html"><div class="codepanel"><div class="bar"><b>HTML</b><span><button class="secondary" onclick="editGame('g1','html')">EDIT</button> <button class="secondary" onclick="copyGame('g1','html')">COPY</button></span></div><pre class="code" id="g1-html-view"></pre><textarea class="editor" id="g1-html-edit">&lt;div class=&quot;hud&quot;&gt;Score: &lt;span id=&quot;scoreText&quot;&gt;0&lt;/span&gt;&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:130px&quot;&gt;🤖&lt;/div&gt;&lt;div id=&quot;coin&quot; class=&quot;sprite&quot; style=&quot;left:420px;top:80px&quot;&gt;🪙&lt;/div&gt;&lt;/div&gt;</textarea></div></div>
+<div class="panel" data-panel="css"><div class="codepanel"><div class="bar"><b>CSS</b><span><button class="secondary" onclick="editGame('g1','css')">EDIT</button> <button class="secondary" onclick="copyGame('g1','css')">COPY</button></span></div><pre class="code" id="g1-css-view"></pre><textarea class="editor" id="g1-css-edit">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea></div></div>
+<div class="panel" data-panel="js"><div class="codepanel"><div class="bar"><b>YOUR JAVASCRIPT</b><span><button class="secondary" onclick="editGame('g1','js')">EDIT</button> <button class="secondary" onclick="copyGame('g1','js')">COPY</button></span></div><pre class="code" id="g1-js-view"></pre><textarea class="editor" id="g1-js-edit">let player = document.getElementById(&quot;player&quot;);
+let coin = document.getElementById(&quot;coin&quot;);
+let game = document.getElementById(&quot;game&quot;);
+let scoreText = document.getElementById(&quot;scoreText&quot;);
+let score = 0;
+moveWithKeys(player, 14, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+document.addEventListener(&quot;keydown&quot;, function() {
+    keepInside(player, game);
+    if (touching(player, coin)) {
+        score = changeNumber(score, 1, scoreText);
+        randomPosition(coin, game);
+        console.log(&quot;Coin! score =&quot;, score);
+    }
+});</textarea></div></div>
+<div class="panel" data-panel="result"><div class="bar"><b>LIVE GAME</b><span><button class="primary" onclick="runGame('g1')">RUN / RESTART</button> <button class="secondary" onclick="resetGame('g1')">RESET CODE</button></span></div><iframe class="resultframe" id="g1-frame" sandbox="allow-scripts"></iframe></div>
+<div class="sideinfo"><b>Easy upgrades:</b><div class="up"><span>Win at 10</span><span>Coin worth 5</span><span>Add a trap</span></div></div><textarea hidden id="g1-html-original">&lt;div class=&quot;hud&quot;&gt;Score: &lt;span id=&quot;scoreText&quot;&gt;0&lt;/span&gt;&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:130px&quot;&gt;🤖&lt;/div&gt;&lt;div id=&quot;coin&quot; class=&quot;sprite&quot; style=&quot;left:420px;top:80px&quot;&gt;🪙&lt;/div&gt;&lt;/div&gt;</textarea><textarea hidden id="g1-css-original">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea><textarea hidden id="g1-js-original">let player = document.getElementById(&quot;player&quot;);
+let coin = document.getElementById(&quot;coin&quot;);
+let game = document.getElementById(&quot;game&quot;);
+let scoreText = document.getElementById(&quot;scoreText&quot;);
+let score = 0;
+moveWithKeys(player, 14, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+document.addEventListener(&quot;keydown&quot;, function() {
+    keepInside(player, game);
+    if (touching(player, coin)) {
+        score = changeNumber(score, 1, scoreText);
+        randomPosition(coin, game);
+        console.log(&quot;Coin! score =&quot;, score);
+    }
+});</textarea></section><section class="gamecard" id="g2"><div class="ghead"><div class="grow"><div><span class="pill">JS3</span><h2>3. Treasure Rush</h2><span class="pill">NEW: Treasure + danger + win rule</span><span class="pill">TOOLS: touching, randomPosition, changeNumber, setText</span></div><div class="count"><strong>9</strong>Student JS lines</div></div></div><div class="tabs"><button class="tab active" onclick="showTab('g2','html',this)">HTML</button><button class="tab" onclick="showTab('g2','css',this)">CSS</button><button class="tab" onclick="showTab('g2','js',this)">JAVASCRIPT</button><button class="tab" onclick="showTab('g2','result',this)">▶ RESULT + CONSOLE</button></div>
+<div class="panel active" data-panel="html"><div class="codepanel"><div class="bar"><b>HTML</b><span><button class="secondary" onclick="editGame('g2','html')">EDIT</button> <button class="secondary" onclick="copyGame('g2','html')">COPY</button></span></div><pre class="code" id="g2-html-view"></pre><textarea class="editor" id="g2-html-edit">&lt;div class=&quot;hud&quot;&gt;Treasure: &lt;span id=&quot;scoreText&quot;&gt;0&lt;/span&gt;&lt;/div&gt;&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;Collect 10. Avoid 💥&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:130px&quot;&gt;🏃&lt;/div&gt;&lt;div id=&quot;treasure&quot; class=&quot;sprite&quot; style=&quot;left:430px;top:70px&quot;&gt;💎&lt;/div&gt;&lt;div id=&quot;trap&quot; class=&quot;sprite&quot; style=&quot;left:290px;top:210px&quot;&gt;💥&lt;/div&gt;&lt;/div&gt;</textarea></div></div>
+<div class="panel" data-panel="css"><div class="codepanel"><div class="bar"><b>CSS</b><span><button class="secondary" onclick="editGame('g2','css')">EDIT</button> <button class="secondary" onclick="copyGame('g2','css')">COPY</button></span></div><pre class="code" id="g2-css-view"></pre><textarea class="editor" id="g2-css-edit">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea></div></div>
+<div class="panel" data-panel="js"><div class="codepanel"><div class="bar"><b>YOUR JAVASCRIPT</b><span><button class="secondary" onclick="editGame('g2','js')">EDIT</button> <button class="secondary" onclick="copyGame('g2','js')">COPY</button></span></div><pre class="code" id="g2-js-view"></pre><textarea class="editor" id="g2-js-edit">let score = 0;
+moveWithKeys(player, 14, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+document.addEventListener(&quot;keydown&quot;, function() {
+    keepInside(player, game);
+    if (touching(player, treasure)) {
+        score = changeNumber(score, 1, scoreText);
+        randomPosition(treasure, game);
+    }
+    if (touching(player, trap)) setText(message, &quot;BOOM! GAME OVER&quot;);
+    if (score &gt;= 10) setText(message, &quot;YOU WIN!&quot;);
+});</textarea></div></div>
+<div class="panel" data-panel="result"><div class="bar"><b>LIVE GAME</b><span><button class="primary" onclick="runGame('g2')">RUN / RESTART</button> <button class="secondary" onclick="resetGame('g2')">RESET CODE</button></span></div><iframe class="resultframe" id="g2-frame" sandbox="allow-scripts"></iframe></div>
+<div class="sideinfo"><b>Easy upgrades:</b><div class="up"><span>Move the trap</span><span>20-second timer</span><span>Gold gem worth 5</span></div></div><textarea hidden id="g2-html-original">&lt;div class=&quot;hud&quot;&gt;Treasure: &lt;span id=&quot;scoreText&quot;&gt;0&lt;/span&gt;&lt;/div&gt;&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;Collect 10. Avoid 💥&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:130px&quot;&gt;🏃&lt;/div&gt;&lt;div id=&quot;treasure&quot; class=&quot;sprite&quot; style=&quot;left:430px;top:70px&quot;&gt;💎&lt;/div&gt;&lt;div id=&quot;trap&quot; class=&quot;sprite&quot; style=&quot;left:290px;top:210px&quot;&gt;💥&lt;/div&gt;&lt;/div&gt;</textarea><textarea hidden id="g2-css-original">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea><textarea hidden id="g2-js-original">let score = 0;
+moveWithKeys(player, 14, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+document.addEventListener(&quot;keydown&quot;, function() {
+    keepInside(player, game);
+    if (touching(player, treasure)) {
+        score = changeNumber(score, 1, scoreText);
+        randomPosition(treasure, game);
+    }
+    if (touching(player, trap)) setText(message, &quot;BOOM! GAME OVER&quot;);
+    if (score &gt;= 10) setText(message, &quot;YOU WIN!&quot;);
+});</textarea></section><section class="gamecard" id="g3"><div class="ghead"><div class="grow"><div><span class="pill">JS3</span><h2>4. Key + Locked Door</h2><span class="pill">NEW: Remember game state with true/false</span><span class="pill">TOOLS: touching, hide, setText</span></div><div class="count"><strong>11</strong>Student JS lines</div></div></div><div class="tabs"><button class="tab active" onclick="showTab('g3','html',this)">HTML</button><button class="tab" onclick="showTab('g3','css',this)">CSS</button><button class="tab" onclick="showTab('g3','js',this)">JAVASCRIPT</button><button class="tab" onclick="showTab('g3','result',this)">▶ RESULT + CONSOLE</button></div>
+<div class="panel active" data-panel="html"><div class="codepanel"><div class="bar"><b>HTML</b><span><button class="secondary" onclick="editGame('g3','html')">EDIT</button> <button class="secondary" onclick="copyGame('g3','html')">COPY</button></span></div><pre class="code" id="g3-html-view"></pre><textarea class="editor" id="g3-html-edit">&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;Find the key.&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:130px&quot;&gt;🏃&lt;/div&gt;&lt;div id=&quot;key&quot; class=&quot;sprite&quot; style=&quot;left:250px;top:70px&quot;&gt;🗝️&lt;/div&gt;&lt;div id=&quot;door&quot; class=&quot;sprite&quot; style=&quot;left:510px;top:130px&quot;&gt;🚪&lt;/div&gt;&lt;/div&gt;</textarea></div></div>
+<div class="panel" data-panel="css"><div class="codepanel"><div class="bar"><b>CSS</b><span><button class="secondary" onclick="editGame('g3','css')">EDIT</button> <button class="secondary" onclick="copyGame('g3','css')">COPY</button></span></div><pre class="code" id="g3-css-view"></pre><textarea class="editor" id="g3-css-edit">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea></div></div>
+<div class="panel" data-panel="js"><div class="codepanel"><div class="bar"><b>YOUR JAVASCRIPT</b><span><button class="secondary" onclick="editGame('g3','js')">EDIT</button> <button class="secondary" onclick="copyGame('g3','js')">COPY</button></span></div><pre class="code" id="g3-js-view"></pre><textarea class="editor" id="g3-js-edit">let hasKey = false;
+moveWithKeys(player, 14, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+document.addEventListener(&quot;keydown&quot;, function() {
+    keepInside(player, game);
+    if (touching(player, key) &amp;&amp; hasKey == false) {
+        hasKey = true;
+        hide(key);
+        setText(message, &quot;You found the key!&quot;);
+    }
+    if (touching(player, door)) {
+        if (hasKey) setText(message, &quot;THE DOOR OPENS!&quot;);
+        else setText(message, &quot;You need the key.&quot;);
+    }
+});</textarea></div></div>
+<div class="panel" data-panel="result"><div class="bar"><b>LIVE GAME</b><span><button class="primary" onclick="runGame('g3')">RUN / RESTART</button> <button class="secondary" onclick="resetGame('g3')">RESET CODE</button></span></div><iframe class="resultframe" id="g3-frame" sandbox="allow-scripts"></iframe></div>
+<div class="sideinfo"><b>Easy upgrades:</b><div class="up"><span>Two keys</span><span>Fake key</span><span>Door opens level 2</span></div></div><textarea hidden id="g3-html-original">&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;Find the key.&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:130px&quot;&gt;🏃&lt;/div&gt;&lt;div id=&quot;key&quot; class=&quot;sprite&quot; style=&quot;left:250px;top:70px&quot;&gt;🗝️&lt;/div&gt;&lt;div id=&quot;door&quot; class=&quot;sprite&quot; style=&quot;left:510px;top:130px&quot;&gt;🚪&lt;/div&gt;&lt;/div&gt;</textarea><textarea hidden id="g3-css-original">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea><textarea hidden id="g3-js-original">let hasKey = false;
+moveWithKeys(player, 14, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+document.addEventListener(&quot;keydown&quot;, function() {
+    keepInside(player, game);
+    if (touching(player, key) &amp;&amp; hasKey == false) {
+        hasKey = true;
+        hide(key);
+        setText(message, &quot;You found the key!&quot;);
+    }
+    if (touching(player, door)) {
+        if (hasKey) setText(message, &quot;THE DOOR OPENS!&quot;);
+        else setText(message, &quot;You need the key.&quot;);
+    }
+});</textarea></section><section class="gamecard" id="g4"><div class="ghead"><div class="grow"><div><span class="pill">TIMERS</span><h2>5. Dodge!</h2><span class="pill">NEW: Visible game loop</span><span class="pill">TOOLS: move, randomX, atEdge, touching</span></div><div class="count"><strong>9</strong>Student JS lines</div></div></div><div class="tabs"><button class="tab active" onclick="showTab('g4','html',this)">HTML</button><button class="tab" onclick="showTab('g4','css',this)">CSS</button><button class="tab" onclick="showTab('g4','js',this)">JAVASCRIPT</button><button class="tab" onclick="showTab('g4','result',this)">▶ RESULT + CONSOLE</button></div>
+<div class="panel active" data-panel="html"><div class="codepanel"><div class="bar"><b>HTML</b><span><button class="secondary" onclick="editGame('g4','html')">EDIT</button> <button class="secondary" onclick="copyGame('g4','html')">COPY</button></span></div><pre class="code" id="g4-html-view"></pre><textarea class="editor" id="g4-html-edit">&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;Dodge the meteor!&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:270px;top:270px&quot;&gt;🛸&lt;/div&gt;&lt;div id=&quot;rock&quot; class=&quot;sprite&quot; style=&quot;left:130px;top:-40px&quot;&gt;☄️&lt;/div&gt;&lt;/div&gt;</textarea></div></div>
+<div class="panel" data-panel="css"><div class="codepanel"><div class="bar"><b>CSS</b><span><button class="secondary" onclick="editGame('g4','css')">EDIT</button> <button class="secondary" onclick="copyGame('g4','css')">COPY</button></span></div><pre class="code" id="g4-css-view"></pre><textarea class="editor" id="g4-css-edit">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea></div></div>
+<div class="panel" data-panel="js"><div class="codepanel"><div class="bar"><b>YOUR JAVASCRIPT</b><span><button class="secondary" onclick="editGame('g4','js')">EDIT</button> <button class="secondary" onclick="copyGame('g4','js')">COPY</button></span></div><pre class="code" id="g4-js-view"></pre><textarea class="editor" id="g4-js-edit">moveWithKeys(player, 13, null, null, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+function gameLoop() {
+    move(rock, 0, 7);
+    keepInside(player, game);
+    if (atEdge(rock, game, &quot;bottom&quot;)) {
+        place(rock, 0, -40);
+        randomX(rock, game);
+    }
+    if (touching(player, rock)) setText(message, &quot;CRASH!&quot;);
+}
+setInterval(gameLoop, 30);</textarea></div></div>
+<div class="panel" data-panel="result"><div class="bar"><b>LIVE GAME</b><span><button class="primary" onclick="runGame('g4')">RUN / RESTART</button> <button class="secondary" onclick="resetGame('g4')">RESET CODE</button></span></div><iframe class="resultframe" id="g4-frame" sandbox="allow-scripts"></iframe></div>
+<div class="sideinfo"><b>Easy upgrades:</b><div class="up"><span>Speed 7 → 10</span><span>Add survival score</span><span>Add another rock</span></div></div><textarea hidden id="g4-html-original">&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;Dodge the meteor!&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:270px;top:270px&quot;&gt;🛸&lt;/div&gt;&lt;div id=&quot;rock&quot; class=&quot;sprite&quot; style=&quot;left:130px;top:-40px&quot;&gt;☄️&lt;/div&gt;&lt;/div&gt;</textarea><textarea hidden id="g4-css-original">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea><textarea hidden id="g4-js-original">moveWithKeys(player, 13, null, null, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+function gameLoop() {
+    move(rock, 0, 7);
+    keepInside(player, game);
+    if (atEdge(rock, game, &quot;bottom&quot;)) {
+        place(rock, 0, -40);
+        randomX(rock, game);
+    }
+    if (touching(player, rock)) setText(message, &quot;CRASH!&quot;);
+}
+setInterval(gameLoop, 30);</textarea></section><section class="gamecard" id="g5"><div class="ghead"><div class="grow"><div><span class="pill">TIMERS</span><h2>6. Road Racer</h2><span class="pill">NEW: Falling traffic</span><span class="pill">TOOLS: move, randomX, atEdge, touching</span></div><div class="count"><strong>9</strong>Student JS lines</div></div></div><div class="tabs"><button class="tab active" onclick="showTab('g5','html',this)">HTML</button><button class="tab" onclick="showTab('g5','css',this)">CSS</button><button class="tab" onclick="showTab('g5','js',this)">JAVASCRIPT</button><button class="tab" onclick="showTab('g5','result',this)">▶ RESULT + CONSOLE</button></div>
+<div class="panel active" data-panel="html"><div class="codepanel"><div class="bar"><b>HTML</b><span><button class="secondary" onclick="editGame('g5','html')">EDIT</button> <button class="secondary" onclick="copyGame('g5','html')">COPY</button></span></div><pre class="code" id="g5-html-view"></pre><textarea class="editor" id="g5-html-edit">&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;Avoid the traffic!&lt;/div&gt;&lt;div id=&quot;road&quot; class=&quot;game road&quot;&gt;&lt;div id=&quot;car&quot; class=&quot;sprite&quot; style=&quot;left:270px;top:270px&quot;&gt;🏎️&lt;/div&gt;&lt;div id=&quot;enemy&quot; class=&quot;sprite&quot; style=&quot;left:120px;top:-50px&quot;&gt;🚙&lt;/div&gt;&lt;/div&gt;</textarea></div></div>
+<div class="panel" data-panel="css"><div class="codepanel"><div class="bar"><b>CSS</b><span><button class="secondary" onclick="editGame('g5','css')">EDIT</button> <button class="secondary" onclick="copyGame('g5','css')">COPY</button></span></div><pre class="code" id="g5-css-view"></pre><textarea class="editor" id="g5-css-edit">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+.road{background:#475569;border-color:#111827}</textarea></div></div>
+<div class="panel" data-panel="js"><div class="codepanel"><div class="bar"><b>YOUR JAVASCRIPT</b><span><button class="secondary" onclick="editGame('g5','js')">EDIT</button> <button class="secondary" onclick="copyGame('g5','js')">COPY</button></span></div><pre class="code" id="g5-js-view"></pre><textarea class="editor" id="g5-js-edit">moveWithKeys(car, 14, null, null, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+function gameLoop() {
+    move(enemy, 0, 8);
+    keepInside(car, road);
+    if (atEdge(enemy, road, &quot;bottom&quot;)) {
+        place(enemy, 0, -50);
+        randomX(enemy, road);
+    }
+    if (touching(car, enemy)) setText(message, &quot;CRASH!&quot;);
+}
+setInterval(gameLoop, 30);</textarea></div></div>
+<div class="panel" data-panel="result"><div class="bar"><b>LIVE GAME</b><span><button class="primary" onclick="runGame('g5')">RUN / RESTART</button> <button class="secondary" onclick="resetGame('g5')">RESET CODE</button></span></div><iframe class="resultframe" id="g5-frame" sandbox="allow-scripts"></iframe></div>
+<div class="sideinfo"><b>Easy upgrades:</b><div class="up"><span>Count cars passed</span><span>Faster every 5 points</span><span>Two enemy cars</span></div></div><textarea hidden id="g5-html-original">&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;Avoid the traffic!&lt;/div&gt;&lt;div id=&quot;road&quot; class=&quot;game road&quot;&gt;&lt;div id=&quot;car&quot; class=&quot;sprite&quot; style=&quot;left:270px;top:270px&quot;&gt;🏎️&lt;/div&gt;&lt;div id=&quot;enemy&quot; class=&quot;sprite&quot; style=&quot;left:120px;top:-50px&quot;&gt;🚙&lt;/div&gt;&lt;/div&gt;</textarea><textarea hidden id="g5-css-original">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+.road{background:#475569;border-color:#111827}</textarea><textarea hidden id="g5-js-original">moveWithKeys(car, 14, null, null, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+function gameLoop() {
+    move(enemy, 0, 8);
+    keepInside(car, road);
+    if (atEdge(enemy, road, &quot;bottom&quot;)) {
+        place(enemy, 0, -50);
+        randomX(enemy, road);
+    }
+    if (touching(car, enemy)) setText(message, &quot;CRASH!&quot;);
+}
+setInterval(gameLoop, 30);</textarea></section><section class="gamecard" id="g6"><div class="ghead"><div class="grow"><div><span class="pill">TIMERS</span><h2>7. Timed Treasure Rush</h2><span class="pill">NEW: Countdown</span><span class="pill">TOOLS: startCountdown + JS3 core</span></div><div class="count"><strong>11</strong>Student JS lines</div></div></div><div class="tabs"><button class="tab active" onclick="showTab('g6','html',this)">HTML</button><button class="tab" onclick="showTab('g6','css',this)">CSS</button><button class="tab" onclick="showTab('g6','js',this)">JAVASCRIPT</button><button class="tab" onclick="showTab('g6','result',this)">▶ RESULT + CONSOLE</button></div>
+<div class="panel active" data-panel="html"><div class="codepanel"><div class="bar"><b>HTML</b><span><button class="secondary" onclick="editGame('g6','html')">EDIT</button> <button class="secondary" onclick="copyGame('g6','html')">COPY</button></span></div><pre class="code" id="g6-html-view"></pre><textarea class="editor" id="g6-html-edit">&lt;div class=&quot;hud&quot;&gt;Time: &lt;span id=&quot;timeText&quot;&gt;20&lt;/span&gt; · Score: &lt;span id=&quot;scoreText&quot;&gt;0&lt;/span&gt;&lt;/div&gt;&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;GO!&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:130px&quot;&gt;🏃&lt;/div&gt;&lt;div id=&quot;treasure&quot; class=&quot;sprite&quot; style=&quot;left:420px;top:90px&quot;&gt;💎&lt;/div&gt;&lt;/div&gt;</textarea></div></div>
+<div class="panel" data-panel="css"><div class="codepanel"><div class="bar"><b>CSS</b><span><button class="secondary" onclick="editGame('g6','css')">EDIT</button> <button class="secondary" onclick="copyGame('g6','css')">COPY</button></span></div><pre class="code" id="g6-css-view"></pre><textarea class="editor" id="g6-css-edit">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea></div></div>
+<div class="panel" data-panel="js"><div class="codepanel"><div class="bar"><b>YOUR JAVASCRIPT</b><span><button class="secondary" onclick="editGame('g6','js')">EDIT</button> <button class="secondary" onclick="copyGame('g6','js')">COPY</button></span></div><pre class="code" id="g6-js-view"></pre><textarea class="editor" id="g6-js-edit">let score = 0;
+let playing = true;
+moveWithKeys(player, 14, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+startCountdown(20, timeText, function() {
+    playing = false;
+    setText(message, &quot;TIME! Score: &quot; + score);
+});
+document.addEventListener(&quot;keydown&quot;, function() {
+    keepInside(player, game);
+    if (playing &amp;&amp; touching(player, treasure)) {
+        score = changeNumber(score, 1, scoreText);
+        randomPosition(treasure, game);
+    }
+});</textarea></div></div>
+<div class="panel" data-panel="result"><div class="bar"><b>LIVE GAME</b><span><button class="primary" onclick="runGame('g6')">RUN / RESTART</button> <button class="secondary" onclick="resetGame('g6')">RESET CODE</button></span></div><iframe class="resultframe" id="g6-frame" sandbox="allow-scripts"></iframe></div>
+<div class="sideinfo"><b>Easy upgrades:</b><div class="up"><span>10-second sprint</span><span>Trap removes time</span><span>Bonus gem</span></div></div><textarea hidden id="g6-html-original">&lt;div class=&quot;hud&quot;&gt;Time: &lt;span id=&quot;timeText&quot;&gt;20&lt;/span&gt; · Score: &lt;span id=&quot;scoreText&quot;&gt;0&lt;/span&gt;&lt;/div&gt;&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;GO!&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:130px&quot;&gt;🏃&lt;/div&gt;&lt;div id=&quot;treasure&quot; class=&quot;sprite&quot; style=&quot;left:420px;top:90px&quot;&gt;💎&lt;/div&gt;&lt;/div&gt;</textarea><textarea hidden id="g6-css-original">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea><textarea hidden id="g6-js-original">let score = 0;
+let playing = true;
+moveWithKeys(player, 14, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+startCountdown(20, timeText, function() {
+    playing = false;
+    setText(message, &quot;TIME! Score: &quot; + score);
+});
+document.addEventListener(&quot;keydown&quot;, function() {
+    keepInside(player, game);
+    if (playing &amp;&amp; touching(player, treasure)) {
+        score = changeNumber(score, 1, scoreText);
+        randomPosition(treasure, game);
+    }
+});</textarea></section><section class="gamecard" id="g7"><div class="ghead"><div class="grow"><div><span class="pill">TIMERS</span><h2>8. Monster Chase</h2><span class="pill">NEW: Enemy follows you</span><span class="pill">TOOLS: moveToward, touching</span></div><div class="count"><strong>6</strong>Student JS lines</div></div></div><div class="tabs"><button class="tab active" onclick="showTab('g7','html',this)">HTML</button><button class="tab" onclick="showTab('g7','css',this)">CSS</button><button class="tab" onclick="showTab('g7','js',this)">JAVASCRIPT</button><button class="tab" onclick="showTab('g7','result',this)">▶ RESULT + CONSOLE</button></div>
+<div class="panel active" data-panel="html"><div class="codepanel"><div class="bar"><b>HTML</b><span><button class="secondary" onclick="editGame('g7','html')">EDIT</button> <button class="secondary" onclick="copyGame('g7','html')">COPY</button></span></div><pre class="code" id="g7-html-view"></pre><textarea class="editor" id="g7-html-edit">&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;RUN!&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:480px;top:230px&quot;&gt;🏃&lt;/div&gt;&lt;div id=&quot;monster&quot; class=&quot;sprite&quot; style=&quot;left:30px;top:30px&quot;&gt;👾&lt;/div&gt;&lt;/div&gt;</textarea></div></div>
+<div class="panel" data-panel="css"><div class="codepanel"><div class="bar"><b>CSS</b><span><button class="secondary" onclick="editGame('g7','css')">EDIT</button> <button class="secondary" onclick="copyGame('g7','css')">COPY</button></span></div><pre class="code" id="g7-css-view"></pre><textarea class="editor" id="g7-css-edit">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea></div></div>
+<div class="panel" data-panel="js"><div class="codepanel"><div class="bar"><b>YOUR JAVASCRIPT</b><span><button class="secondary" onclick="editGame('g7','js')">EDIT</button> <button class="secondary" onclick="copyGame('g7','js')">COPY</button></span></div><pre class="code" id="g7-js-view"></pre><textarea class="editor" id="g7-js-edit">moveWithKeys(player, 14, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+function gameLoop() {
+    keepInside(player, game);
+    moveToward(monster, player, 2);
+    if (touching(monster, player)) setText(message, &quot;CAUGHT!&quot;);
+}
+setInterval(gameLoop, 30);</textarea></div></div>
+<div class="panel" data-panel="result"><div class="bar"><b>LIVE GAME</b><span><button class="primary" onclick="runGame('g7')">RUN / RESTART</button> <button class="secondary" onclick="resetGame('g7')">RESET CODE</button></span></div><iframe class="resultframe" id="g7-frame" sandbox="allow-scripts"></iframe></div>
+<div class="sideinfo"><b>Easy upgrades:</b><div class="up"><span>Monster speed 2 → 4</span><span>Collect gems while escaping</span><span>Safe zone</span></div></div><textarea hidden id="g7-html-original">&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;RUN!&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:480px;top:230px&quot;&gt;🏃&lt;/div&gt;&lt;div id=&quot;monster&quot; class=&quot;sprite&quot; style=&quot;left:30px;top:30px&quot;&gt;👾&lt;/div&gt;&lt;/div&gt;</textarea><textarea hidden id="g7-css-original">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea><textarea hidden id="g7-js-original">moveWithKeys(player, 14, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+function gameLoop() {
+    keepInside(player, game);
+    moveToward(monster, player, 2);
+    if (touching(monster, player)) setText(message, &quot;CAUGHT!&quot;);
+}
+setInterval(gameLoop, 30);</textarea></section><section class="gamecard" id="g8"><div class="ghead"><div class="grow"><div><span class="pill">ARRAY + LOOP</span><h2>9. Maze Escape</h2><span class="pill">NEW: Many walls</span><span class="pill">TOOLS: moveIfClear</span></div><div class="count"><strong>7</strong>Student JS lines</div></div></div><div class="tabs"><button class="tab active" onclick="showTab('g8','html',this)">HTML</button><button class="tab" onclick="showTab('g8','css',this)">CSS</button><button class="tab" onclick="showTab('g8','js',this)">JAVASCRIPT</button><button class="tab" onclick="showTab('g8','result',this)">▶ RESULT + CONSOLE</button></div>
+<div class="panel active" data-panel="html"><div class="codepanel"><div class="bar"><b>HTML</b><span><button class="secondary" onclick="editGame('g8','html')">EDIT</button> <button class="secondary" onclick="copyGame('g8','html')">COPY</button></span></div><pre class="code" id="g8-html-view"></pre><textarea class="editor" id="g8-html-edit">&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;Reach 🚪&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:20px;top:20px&quot;&gt;🏃&lt;/div&gt;&lt;div id=&quot;door&quot; class=&quot;sprite&quot; style=&quot;left:525px;top:255px&quot;&gt;🚪&lt;/div&gt;&lt;div id=&quot;w1&quot; class=&quot;wall&quot; style=&quot;left:130px;top:0;width:28px;height:230px&quot;&gt;&lt;/div&gt;&lt;div id=&quot;w2&quot; class=&quot;wall&quot; style=&quot;left:290px;top:100px;width:28px;height:230px&quot;&gt;&lt;/div&gt;&lt;div id=&quot;w3&quot; class=&quot;wall&quot; style=&quot;left:445px;top:0;width:28px;height:230px&quot;&gt;&lt;/div&gt;&lt;/div&gt;</textarea></div></div>
+<div class="panel" data-panel="css"><div class="codepanel"><div class="bar"><b>CSS</b><span><button class="secondary" onclick="editGame('g8','css')">EDIT</button> <button class="secondary" onclick="copyGame('g8','css')">COPY</button></span></div><pre class="code" id="g8-css-view"></pre><textarea class="editor" id="g8-css-edit">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea></div></div>
+<div class="panel" data-panel="js"><div class="codepanel"><div class="bar"><b>YOUR JAVASCRIPT</b><span><button class="secondary" onclick="editGame('g8','js')">EDIT</button> <button class="secondary" onclick="copyGame('g8','js')">COPY</button></span></div><pre class="code" id="g8-js-view"></pre><textarea class="editor" id="g8-js-edit">let walls = [w1, w2, w3];
+document.addEventListener(&quot;keydown&quot;, function(event) {
+    if (event.key == &quot;ArrowRight&quot;) moveIfClear(player, 12, 0, walls, game);
+    if (event.key == &quot;ArrowLeft&quot;) moveIfClear(player, -12, 0, walls, game);
+    if (event.key == &quot;ArrowUp&quot;) moveIfClear(player, 0, -12, walls, game);
+    if (event.key == &quot;ArrowDown&quot;) moveIfClear(player, 0, 12, walls, game);
+    if (touching(player, door)) setText(message, &quot;ESCAPED!&quot;);
+});</textarea></div></div>
+<div class="panel" data-panel="result"><div class="bar"><b>LIVE GAME</b><span><button class="primary" onclick="runGame('g8')">RUN / RESTART</button> <button class="secondary" onclick="resetGame('g8')">RESET CODE</button></span></div><iframe class="resultframe" id="g8-frame" sandbox="allow-scripts"></iframe></div>
+<div class="sideinfo"><b>Easy upgrades:</b><div class="up"><span>Key inside maze</span><span>Timer</span><span>Moving enemy</span></div></div><textarea hidden id="g8-html-original">&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;Reach 🚪&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:20px;top:20px&quot;&gt;🏃&lt;/div&gt;&lt;div id=&quot;door&quot; class=&quot;sprite&quot; style=&quot;left:525px;top:255px&quot;&gt;🚪&lt;/div&gt;&lt;div id=&quot;w1&quot; class=&quot;wall&quot; style=&quot;left:130px;top:0;width:28px;height:230px&quot;&gt;&lt;/div&gt;&lt;div id=&quot;w2&quot; class=&quot;wall&quot; style=&quot;left:290px;top:100px;width:28px;height:230px&quot;&gt;&lt;/div&gt;&lt;div id=&quot;w3&quot; class=&quot;wall&quot; style=&quot;left:445px;top:0;width:28px;height:230px&quot;&gt;&lt;/div&gt;&lt;/div&gt;</textarea><textarea hidden id="g8-css-original">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea><textarea hidden id="g8-js-original">let walls = [w1, w2, w3];
+document.addEventListener(&quot;keydown&quot;, function(event) {
+    if (event.key == &quot;ArrowRight&quot;) moveIfClear(player, 12, 0, walls, game);
+    if (event.key == &quot;ArrowLeft&quot;) moveIfClear(player, -12, 0, walls, game);
+    if (event.key == &quot;ArrowUp&quot;) moveIfClear(player, 0, -12, walls, game);
+    if (event.key == &quot;ArrowDown&quot;) moveIfClear(player, 0, 12, walls, game);
+    if (touching(player, door)) setText(message, &quot;ESCAPED!&quot;);
+});</textarea></section><section class="gamecard" id="g9"><div class="ghead"><div class="grow"><div><span class="pill">ARRAY + LOOP</span><h2>10. 3 Crystals → Mystery Key</h2><span class="pill">NEW: Inventory + trade</span><span class="pill">TOOLS: countItem, removeItems, findTouching</span></div><div class="count"><strong>15</strong>Student JS lines</div></div></div><div class="tabs"><button class="tab active" onclick="showTab('g9','html',this)">HTML</button><button class="tab" onclick="showTab('g9','css',this)">CSS</button><button class="tab" onclick="showTab('g9','js',this)">JAVASCRIPT</button><button class="tab" onclick="showTab('g9','result',this)">▶ RESULT + CONSOLE</button></div>
+<div class="panel active" data-panel="html"><div class="codepanel"><div class="bar"><b>HTML</b><span><button class="secondary" onclick="editGame('g9','html')">EDIT</button> <button class="secondary" onclick="copyGame('g9','html')">COPY</button></span></div><pre class="code" id="g9-html-view"></pre><textarea class="editor" id="g9-html-edit">&lt;div class=&quot;hud&quot;&gt;Crystals: &lt;span id=&quot;crystalText&quot;&gt;0&lt;/span&gt;&lt;/div&gt;&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;Find 3 crystals, then visit 🕵️&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:130px&quot;&gt;🏃&lt;/div&gt;&lt;div id=&quot;c1&quot; class=&quot;sprite&quot; style=&quot;left:180px;top:50px&quot;&gt;💎&lt;/div&gt;&lt;div id=&quot;c2&quot; class=&quot;sprite&quot; style=&quot;left:330px;top:230px&quot;&gt;💎&lt;/div&gt;&lt;div id=&quot;c3&quot; class=&quot;sprite&quot; style=&quot;left:460px;top:70px&quot;&gt;💎&lt;/div&gt;&lt;div id=&quot;man&quot; class=&quot;sprite&quot; style=&quot;left:520px;top:240px&quot;&gt;🕵️&lt;/div&gt;&lt;/div&gt;</textarea></div></div>
+<div class="panel" data-panel="css"><div class="codepanel"><div class="bar"><b>CSS</b><span><button class="secondary" onclick="editGame('g9','css')">EDIT</button> <button class="secondary" onclick="copyGame('g9','css')">COPY</button></span></div><pre class="code" id="g9-css-view"></pre><textarea class="editor" id="g9-css-edit">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea></div></div>
+<div class="panel" data-panel="js"><div class="codepanel"><div class="bar"><b>YOUR JAVASCRIPT</b><span><button class="secondary" onclick="editGame('g9','js')">EDIT</button> <button class="secondary" onclick="copyGame('g9','js')">COPY</button></span></div><pre class="code" id="g9-js-view"></pre><textarea class="editor" id="g9-js-edit">let inventory = [];
+let crystals = [c1, c2, c3];
+moveWithKeys(player, 14, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+document.addEventListener(&quot;keydown&quot;, function() {
+    keepInside(player, game);
+    let crystal = findTouching(player, crystals);
+    if (crystal &amp;&amp; crystal.style.display != &quot;none&quot;) {
+        inventory.push(&quot;crystal&quot;);
+        hide(crystal);
+        crystalText.innerText = countItem(inventory, &quot;crystal&quot;);
+    }
+    if (touching(player, man) &amp;&amp; !inventory.includes(&quot;gold key&quot;)) {
+        if (removeItems(inventory, &quot;crystal&quot;, 3)) {
+            inventory.push(&quot;gold key&quot;);
+            setText(message, &quot;He gives you the GOLD KEY!&quot;);
+        } else setText(message, &quot;Bring me 3 crystals.&quot;);
+    }
+});</textarea></div></div>
+<div class="panel" data-panel="result"><div class="bar"><b>LIVE GAME</b><span><button class="primary" onclick="runGame('g9')">RUN / RESTART</button> <button class="secondary" onclick="resetGame('g9')">RESET CODE</button></span></div><iframe class="resultframe" id="g9-frame" sandbox="allow-scripts"></iframe></div>
+<div class="sideinfo"><b>Easy upgrades:</b><div class="up"><span>Door that needs gold key</span><span>4 crystals but only need 3</span><span>Different trader prices</span></div></div><textarea hidden id="g9-html-original">&lt;div class=&quot;hud&quot;&gt;Crystals: &lt;span id=&quot;crystalText&quot;&gt;0&lt;/span&gt;&lt;/div&gt;&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;Find 3 crystals, then visit 🕵️&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:130px&quot;&gt;🏃&lt;/div&gt;&lt;div id=&quot;c1&quot; class=&quot;sprite&quot; style=&quot;left:180px;top:50px&quot;&gt;💎&lt;/div&gt;&lt;div id=&quot;c2&quot; class=&quot;sprite&quot; style=&quot;left:330px;top:230px&quot;&gt;💎&lt;/div&gt;&lt;div id=&quot;c3&quot; class=&quot;sprite&quot; style=&quot;left:460px;top:70px&quot;&gt;💎&lt;/div&gt;&lt;div id=&quot;man&quot; class=&quot;sprite&quot; style=&quot;left:520px;top:240px&quot;&gt;🕵️&lt;/div&gt;&lt;/div&gt;</textarea><textarea hidden id="g9-css-original">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea><textarea hidden id="g9-js-original">let inventory = [];
+let crystals = [c1, c2, c3];
+moveWithKeys(player, 14, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+document.addEventListener(&quot;keydown&quot;, function() {
+    keepInside(player, game);
+    let crystal = findTouching(player, crystals);
+    if (crystal &amp;&amp; crystal.style.display != &quot;none&quot;) {
+        inventory.push(&quot;crystal&quot;);
+        hide(crystal);
+        crystalText.innerText = countItem(inventory, &quot;crystal&quot;);
+    }
+    if (touching(player, man) &amp;&amp; !inventory.includes(&quot;gold key&quot;)) {
+        if (removeItems(inventory, &quot;crystal&quot;, 3)) {
+            inventory.push(&quot;gold key&quot;);
+            setText(message, &quot;He gives you the GOLD KEY!&quot;);
+        } else setText(message, &quot;Bring me 3 crystals.&quot;);
+    }
+});</textarea></section><section class="gamecard" id="g10"><div class="ghead"><div class="grow"><div><span class="pill">ARRAY + LOOP</span><h2>11. Potion Ingredient Quest</h2><span class="pill">NEW: Different quest items</span><span class="pill">TOOLS: hasAllItems, findTouching</span></div><div class="count"><strong>13</strong>Student JS lines</div></div></div><div class="tabs"><button class="tab active" onclick="showTab('g10','html',this)">HTML</button><button class="tab" onclick="showTab('g10','css',this)">CSS</button><button class="tab" onclick="showTab('g10','js',this)">JAVASCRIPT</button><button class="tab" onclick="showTab('g10','result',this)">▶ RESULT + CONSOLE</button></div>
+<div class="panel active" data-panel="html"><div class="codepanel"><div class="bar"><b>HTML</b><span><button class="secondary" onclick="editGame('g10','html')">EDIT</button> <button class="secondary" onclick="copyGame('g10','html')">COPY</button></span></div><pre class="code" id="g10-html-view"></pre><textarea class="editor" id="g10-html-edit">&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;Collect 🌿 🍄 💎 then visit 🧪&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:130px&quot;&gt;🏃&lt;/div&gt;&lt;div id=&quot;leaf&quot; class=&quot;sprite&quot; style=&quot;left:180px;top:50px&quot;&gt;🌿&lt;/div&gt;&lt;div id=&quot;mushroom&quot; class=&quot;sprite&quot; style=&quot;left:340px;top:220px&quot;&gt;🍄&lt;/div&gt;&lt;div id=&quot;crystal&quot; class=&quot;sprite&quot; style=&quot;left:460px;top:70px&quot;&gt;💎&lt;/div&gt;&lt;div id=&quot;maker&quot; class=&quot;sprite&quot; style=&quot;left:520px;top:240px&quot;&gt;🧪&lt;/div&gt;&lt;/div&gt;</textarea></div></div>
+<div class="panel" data-panel="css"><div class="codepanel"><div class="bar"><b>CSS</b><span><button class="secondary" onclick="editGame('g10','css')">EDIT</button> <button class="secondary" onclick="copyGame('g10','css')">COPY</button></span></div><pre class="code" id="g10-css-view"></pre><textarea class="editor" id="g10-css-edit">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea></div></div>
+<div class="panel" data-panel="js"><div class="codepanel"><div class="bar"><b>YOUR JAVASCRIPT</b><span><button class="secondary" onclick="editGame('g10','js')">EDIT</button> <button class="secondary" onclick="copyGame('g10','js')">COPY</button></span></div><pre class="code" id="g10-js-view"></pre><textarea class="editor" id="g10-js-edit">let inventory = [];
+let items = [leaf, mushroom, crystal];
+let names = [&quot;leaf&quot;, &quot;mushroom&quot;, &quot;crystal&quot;];
+moveWithKeys(player, 14, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+document.addEventListener(&quot;keydown&quot;, function() {
+    keepInside(player, game);
+    for (let i = 0; i &lt; items.length; i++) {
+        if (touching(player, items[i]) &amp;&amp; items[i].style.display != &quot;none&quot;) {
+            inventory.push(names[i]);
+            hide(items[i]);
+        }
+    }
+    if (touching(player, maker)) {
+        if (hasAllItems(inventory, names)) setText(message, &quot;POTION READY!&quot;);
+        else setText(message, &quot;You are missing ingredients.&quot;);
+    }
+});</textarea></div></div>
+<div class="panel" data-panel="result"><div class="bar"><b>LIVE GAME</b><span><button class="primary" onclick="runGame('g10')">RUN / RESTART</button> <button class="secondary" onclick="resetGame('g10')">RESET CODE</button></span></div><iframe class="resultframe" id="g10-frame" sandbox="allow-scripts"></iframe></div>
+<div class="sideinfo"><b>Easy upgrades:</b><div class="up"><span>Two potion recipes</span><span>Rare ingredient</span><span>Potion opens a path</span></div></div><textarea hidden id="g10-html-original">&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;Collect 🌿 🍄 💎 then visit 🧪&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:130px&quot;&gt;🏃&lt;/div&gt;&lt;div id=&quot;leaf&quot; class=&quot;sprite&quot; style=&quot;left:180px;top:50px&quot;&gt;🌿&lt;/div&gt;&lt;div id=&quot;mushroom&quot; class=&quot;sprite&quot; style=&quot;left:340px;top:220px&quot;&gt;🍄&lt;/div&gt;&lt;div id=&quot;crystal&quot; class=&quot;sprite&quot; style=&quot;left:460px;top:70px&quot;&gt;💎&lt;/div&gt;&lt;div id=&quot;maker&quot; class=&quot;sprite&quot; style=&quot;left:520px;top:240px&quot;&gt;🧪&lt;/div&gt;&lt;/div&gt;</textarea><textarea hidden id="g10-css-original">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea><textarea hidden id="g10-js-original">let inventory = [];
+let items = [leaf, mushroom, crystal];
+let names = [&quot;leaf&quot;, &quot;mushroom&quot;, &quot;crystal&quot;];
+moveWithKeys(player, 14, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+document.addEventListener(&quot;keydown&quot;, function() {
+    keepInside(player, game);
+    for (let i = 0; i &lt; items.length; i++) {
+        if (touching(player, items[i]) &amp;&amp; items[i].style.display != &quot;none&quot;) {
+            inventory.push(names[i]);
+            hide(items[i]);
+        }
+    }
+    if (touching(player, maker)) {
+        if (hasAllItems(inventory, names)) setText(message, &quot;POTION READY!&quot;);
+        else setText(message, &quot;You are missing ingredients.&quot;);
+    }
+});</textarea></section><section class="gamecard" id="g11"><div class="ghead"><div class="grow"><div><span class="pill">JS3</span><h2>12. Mini Shop</h2><span class="pill">NEW: Gold economy</span><span class="pill">TOOLS: changeNumber + if</span></div><div class="count"><strong>14</strong>Student JS lines</div></div></div><div class="tabs"><button class="tab active" onclick="showTab('g11','html',this)">HTML</button><button class="tab" onclick="showTab('g11','css',this)">CSS</button><button class="tab" onclick="showTab('g11','js',this)">JAVASCRIPT</button><button class="tab" onclick="showTab('g11','result',this)">▶ RESULT + CONSOLE</button></div>
+<div class="panel active" data-panel="html"><div class="codepanel"><div class="bar"><b>HTML</b><span><button class="secondary" onclick="editGame('g11','html')">EDIT</button> <button class="secondary" onclick="copyGame('g11','html')">COPY</button></span></div><pre class="code" id="g11-html-view"></pre><textarea class="editor" id="g11-html-edit">&lt;div class=&quot;hud&quot;&gt;Gold: &lt;span id=&quot;goldText&quot;&gt;0&lt;/span&gt;&lt;/div&gt;&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;Collect 🪙 then buy a shield.&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:130px&quot;&gt;🏃&lt;/div&gt;&lt;div id=&quot;coin&quot; class=&quot;sprite&quot; style=&quot;left:400px;top:90px&quot;&gt;🪙&lt;/div&gt;&lt;/div&gt;&lt;div style=&quot;text-align:center&quot;&gt;&lt;button class=&quot;shop&quot; onclick=&quot;buyShield()&quot;&gt;BUY SHIELD · 5 GOLD&lt;/button&gt;&lt;/div&gt;</textarea></div></div>
+<div class="panel" data-panel="css"><div class="codepanel"><div class="bar"><b>CSS</b><span><button class="secondary" onclick="editGame('g11','css')">EDIT</button> <button class="secondary" onclick="copyGame('g11','css')">COPY</button></span></div><pre class="code" id="g11-css-view"></pre><textarea class="editor" id="g11-css-edit">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea></div></div>
+<div class="panel" data-panel="js"><div class="codepanel"><div class="bar"><b>YOUR JAVASCRIPT</b><span><button class="secondary" onclick="editGame('g11','js')">EDIT</button> <button class="secondary" onclick="copyGame('g11','js')">COPY</button></span></div><pre class="code" id="g11-js-view"></pre><textarea class="editor" id="g11-js-edit">let gold = 0;
+let hasShield = false;
+moveWithKeys(player, 14, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+document.addEventListener(&quot;keydown&quot;, function() {
+    keepInside(player, game);
+    if (touching(player, coin)) {
+        gold = changeNumber(gold, 1, goldText);
+        randomPosition(coin, game);
+    }
+});
+function buyShield() {
+    if (gold &gt;= 5) {
+        gold = changeNumber(gold, -5, goldText);
+        hasShield = true;
+        setText(message, &quot;SHIELD PURCHASED!&quot;);
+    } else setText(message, &quot;You need 5 gold.&quot;);
+}</textarea></div></div>
+<div class="panel" data-panel="result"><div class="bar"><b>LIVE GAME</b><span><button class="primary" onclick="runGame('g11')">RUN / RESTART</button> <button class="secondary" onclick="resetGame('g11')">RESET CODE</button></span></div><iframe class="resultframe" id="g11-frame" sandbox="allow-scripts"></iframe></div>
+<div class="sideinfo"><b>Easy upgrades:</b><div class="up"><span>Buy speed</span><span>Buy lives</span><span>Prices change</span></div></div><textarea hidden id="g11-html-original">&lt;div class=&quot;hud&quot;&gt;Gold: &lt;span id=&quot;goldText&quot;&gt;0&lt;/span&gt;&lt;/div&gt;&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;Collect 🪙 then buy a shield.&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:130px&quot;&gt;🏃&lt;/div&gt;&lt;div id=&quot;coin&quot; class=&quot;sprite&quot; style=&quot;left:400px;top:90px&quot;&gt;🪙&lt;/div&gt;&lt;/div&gt;&lt;div style=&quot;text-align:center&quot;&gt;&lt;button class=&quot;shop&quot; onclick=&quot;buyShield()&quot;&gt;BUY SHIELD · 5 GOLD&lt;/button&gt;&lt;/div&gt;</textarea><textarea hidden id="g11-css-original">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea><textarea hidden id="g11-js-original">let gold = 0;
+let hasShield = false;
+moveWithKeys(player, 14, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+document.addEventListener(&quot;keydown&quot;, function() {
+    keepInside(player, game);
+    if (touching(player, coin)) {
+        gold = changeNumber(gold, 1, goldText);
+        randomPosition(coin, game);
+    }
+});
+function buyShield() {
+    if (gold &gt;= 5) {
+        gold = changeNumber(gold, -5, goldText);
+        hasShield = true;
+        setText(message, &quot;SHIELD PURCHASED!&quot;);
+    } else setText(message, &quot;You need 5 gold.&quot;);
+}</textarea></section><section class="gamecard" id="g12"><div class="ghead"><div class="grow"><div><span class="pill">ARRAY</span><h2>13. Story Quest: Locked Village</h2><span class="pill">NEW: NPC quest state</span><span class="pill">TOOLS: touching, hide, setText</span></div><div class="count"><strong>12</strong>Student JS lines</div></div></div><div class="tabs"><button class="tab active" onclick="showTab('g12','html',this)">HTML</button><button class="tab" onclick="showTab('g12','css',this)">CSS</button><button class="tab" onclick="showTab('g12','js',this)">JAVASCRIPT</button><button class="tab" onclick="showTab('g12','result',this)">▶ RESULT + CONSOLE</button></div>
+<div class="panel active" data-panel="html"><div class="codepanel"><div class="bar"><b>HTML</b><span><button class="secondary" onclick="editGame('g12','html')">EDIT</button> <button class="secondary" onclick="copyGame('g12','html')">COPY</button></span></div><pre class="code" id="g12-html-view"></pre><textarea class="editor" id="g12-html-edit">&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;Talk to the guard.&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:130px&quot;&gt;🏃&lt;/div&gt;&lt;div id=&quot;guard&quot; class=&quot;sprite&quot; style=&quot;left:170px;top:70px&quot;&gt;🛡️&lt;/div&gt;&lt;div id=&quot;messenger&quot; class=&quot;sprite&quot; style=&quot;left:410px;top:220px&quot;&gt;📜&lt;/div&gt;&lt;div id=&quot;gate&quot; class=&quot;sprite&quot; style=&quot;left:525px;top:120px&quot;&gt;🚧&lt;/div&gt;&lt;/div&gt;</textarea></div></div>
+<div class="panel" data-panel="css"><div class="codepanel"><div class="bar"><b>CSS</b><span><button class="secondary" onclick="editGame('g12','css')">EDIT</button> <button class="secondary" onclick="copyGame('g12','css')">COPY</button></span></div><pre class="code" id="g12-css-view"></pre><textarea class="editor" id="g12-css-edit">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea></div></div>
+<div class="panel" data-panel="js"><div class="codepanel"><div class="bar"><b>YOUR JAVASCRIPT</b><span><button class="secondary" onclick="editGame('g12','js')">EDIT</button> <button class="secondary" onclick="copyGame('g12','js')">COPY</button></span></div><pre class="code" id="g12-js-view"></pre><textarea class="editor" id="g12-js-edit">let inventory = [];
+moveWithKeys(player, 14, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+document.addEventListener(&quot;keydown&quot;, function() {
+    keepInside(player, game);
+    if (touching(player, guard)) {
+        if (inventory.includes(&quot;letter&quot;)) {
+            setText(message, &quot;Thank you. The gate is open!&quot;);
+            hide(gate);
+        } else setText(message, &quot;Find the messenger.&quot;);
+    }
+    if (touching(player, messenger) &amp;&amp; !inventory.includes(&quot;letter&quot;)) {
+        inventory.push(&quot;letter&quot;);
+        setText(message, &quot;Take this letter to the guard.&quot;);
+    }
+});</textarea></div></div>
+<div class="panel" data-panel="result"><div class="bar"><b>LIVE GAME</b><span><button class="primary" onclick="runGame('g12')">RUN / RESTART</button> <button class="secondary" onclick="resetGame('g12')">RESET CODE</button></span></div><iframe class="resultframe" id="g12-frame" sandbox="allow-scripts"></iframe></div>
+<div class="sideinfo"><b>Easy upgrades:</b><div class="up"><span>More NPCs</span><span>Choice of routes</span><span>Several quest stages</span></div></div><textarea hidden id="g12-html-original">&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;Talk to the guard.&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:130px&quot;&gt;🏃&lt;/div&gt;&lt;div id=&quot;guard&quot; class=&quot;sprite&quot; style=&quot;left:170px;top:70px&quot;&gt;🛡️&lt;/div&gt;&lt;div id=&quot;messenger&quot; class=&quot;sprite&quot; style=&quot;left:410px;top:220px&quot;&gt;📜&lt;/div&gt;&lt;div id=&quot;gate&quot; class=&quot;sprite&quot; style=&quot;left:525px;top:120px&quot;&gt;🚧&lt;/div&gt;&lt;/div&gt;</textarea><textarea hidden id="g12-css-original">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea><textarea hidden id="g12-js-original">let inventory = [];
+moveWithKeys(player, 14, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+document.addEventListener(&quot;keydown&quot;, function() {
+    keepInside(player, game);
+    if (touching(player, guard)) {
+        if (inventory.includes(&quot;letter&quot;)) {
+            setText(message, &quot;Thank you. The gate is open!&quot;);
+            hide(gate);
+        } else setText(message, &quot;Find the messenger.&quot;);
+    }
+    if (touching(player, messenger) &amp;&amp; !inventory.includes(&quot;letter&quot;)) {
+        inventory.push(&quot;letter&quot;);
+        setText(message, &quot;Take this letter to the guard.&quot;);
+    }
+});</textarea></section><section class="gamecard" id="g13"><div class="ghead"><div class="grow"><div><span class="pill">JS3</span><h2>14. Two-Player Race</h2><span class="pill">NEW: Two control sets</span><span class="pill">TOOLS: moveWithKeys, touching</span></div><div class="count"><strong>7</strong>Student JS lines</div></div></div><div class="tabs"><button class="tab active" onclick="showTab('g13','html',this)">HTML</button><button class="tab" onclick="showTab('g13','css',this)">CSS</button><button class="tab" onclick="showTab('g13','js',this)">JAVASCRIPT</button><button class="tab" onclick="showTab('g13','result',this)">▶ RESULT + CONSOLE</button></div>
+<div class="panel active" data-panel="html"><div class="codepanel"><div class="bar"><b>HTML</b><span><button class="secondary" onclick="editGame('g13','html')">EDIT</button> <button class="secondary" onclick="copyGame('g13','html')">COPY</button></span></div><pre class="code" id="g13-html-view"></pre><textarea class="editor" id="g13-html-edit">&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;P1 WASD · P2 ARROWS&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;p1&quot; class=&quot;sprite&quot; style=&quot;left:20px;top:70px&quot;&gt;🔵&lt;/div&gt;&lt;div id=&quot;p2&quot; class=&quot;sprite&quot; style=&quot;left:20px;top:220px&quot;&gt;🔴&lt;/div&gt;&lt;div id=&quot;finish&quot; style=&quot;position:absolute;left:545px;top:0;width:20px;height:100%;background:#fff;border-left:8px dashed #111&quot;&gt;&lt;/div&gt;&lt;/div&gt;</textarea></div></div>
+<div class="panel" data-panel="css"><div class="codepanel"><div class="bar"><b>CSS</b><span><button class="secondary" onclick="editGame('g13','css')">EDIT</button> <button class="secondary" onclick="copyGame('g13','css')">COPY</button></span></div><pre class="code" id="g13-css-view"></pre><textarea class="editor" id="g13-css-edit">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea></div></div>
+<div class="panel" data-panel="js"><div class="codepanel"><div class="bar"><b>YOUR JAVASCRIPT</b><span><button class="secondary" onclick="editGame('g13','js')">EDIT</button> <button class="secondary" onclick="copyGame('g13','js')">COPY</button></span></div><pre class="code" id="g13-js-view"></pre><textarea class="editor" id="g13-js-edit">moveWithKeys(p1, 12, &quot;w&quot;, &quot;s&quot;, &quot;a&quot;, &quot;d&quot;);
+moveWithKeys(p2, 12, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+document.addEventListener(&quot;keydown&quot;, function() {
+    keepInside(p1, game);
+    keepInside(p2, game);
+    if (touching(p1, finish)) setText(message, &quot;PLAYER 1 WINS!&quot;);
+    if (touching(p2, finish)) setText(message, &quot;PLAYER 2 WINS!&quot;);
+});</textarea></div></div>
+<div class="panel" data-panel="result"><div class="bar"><b>LIVE GAME</b><span><button class="primary" onclick="runGame('g13')">RUN / RESTART</button> <button class="secondary" onclick="resetGame('g13')">RESET CODE</button></span></div><iframe class="resultframe" id="g13-frame" sandbox="allow-scripts"></iframe></div>
+<div class="sideinfo"><b>Easy upgrades:</b><div class="up"><span>Maze race</span><span>Moving finish</span><span>Best of 3</span></div></div><textarea hidden id="g13-html-original">&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;P1 WASD · P2 ARROWS&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;p1&quot; class=&quot;sprite&quot; style=&quot;left:20px;top:70px&quot;&gt;🔵&lt;/div&gt;&lt;div id=&quot;p2&quot; class=&quot;sprite&quot; style=&quot;left:20px;top:220px&quot;&gt;🔴&lt;/div&gt;&lt;div id=&quot;finish&quot; style=&quot;position:absolute;left:545px;top:0;width:20px;height:100%;background:#fff;border-left:8px dashed #111&quot;&gt;&lt;/div&gt;&lt;/div&gt;</textarea><textarea hidden id="g13-css-original">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea><textarea hidden id="g13-js-original">moveWithKeys(p1, 12, &quot;w&quot;, &quot;s&quot;, &quot;a&quot;, &quot;d&quot;);
+moveWithKeys(p2, 12, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+document.addEventListener(&quot;keydown&quot;, function() {
+    keepInside(p1, game);
+    keepInside(p2, game);
+    if (touching(p1, finish)) setText(message, &quot;PLAYER 1 WINS!&quot;);
+    if (touching(p2, finish)) setText(message, &quot;PLAYER 2 WINS!&quot;);
+});</textarea></section><section class="gamecard" id="g14"><div class="ghead"><div class="grow"><div><span class="pill">JS3</span><h2>15. Two-Player Treasure Battle</h2><span class="pill">NEW: Shared target + two scores</span><span class="pill">TOOLS: moveWithKeys, touching, randomPosition, changeNumber</span></div><div class="count"><strong>13</strong>Student JS lines</div></div></div><div class="tabs"><button class="tab active" onclick="showTab('g14','html',this)">HTML</button><button class="tab" onclick="showTab('g14','css',this)">CSS</button><button class="tab" onclick="showTab('g14','js',this)">JAVASCRIPT</button><button class="tab" onclick="showTab('g14','result',this)">▶ RESULT + CONSOLE</button></div>
+<div class="panel active" data-panel="html"><div class="codepanel"><div class="bar"><b>HTML</b><span><button class="secondary" onclick="editGame('g14','html')">EDIT</button> <button class="secondary" onclick="copyGame('g14','html')">COPY</button></span></div><pre class="code" id="g14-html-view"></pre><textarea class="editor" id="g14-html-edit">&lt;div class=&quot;hud&quot;&gt;Blue: &lt;span id=&quot;s1&quot;&gt;0&lt;/span&gt; · Red: &lt;span id=&quot;s2&quot;&gt;0&lt;/span&gt;&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;p1&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:70px&quot;&gt;🔵&lt;/div&gt;&lt;div id=&quot;p2&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:220px&quot;&gt;🔴&lt;/div&gt;&lt;div id=&quot;treasure&quot; class=&quot;sprite&quot; style=&quot;left:400px;top:130px&quot;&gt;💎&lt;/div&gt;&lt;/div&gt;</textarea></div></div>
+<div class="panel" data-panel="css"><div class="codepanel"><div class="bar"><b>CSS</b><span><button class="secondary" onclick="editGame('g14','css')">EDIT</button> <button class="secondary" onclick="copyGame('g14','css')">COPY</button></span></div><pre class="code" id="g14-css-view"></pre><textarea class="editor" id="g14-css-edit">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea></div></div>
+<div class="panel" data-panel="js"><div class="codepanel"><div class="bar"><b>YOUR JAVASCRIPT</b><span><button class="secondary" onclick="editGame('g14','js')">EDIT</button> <button class="secondary" onclick="copyGame('g14','js')">COPY</button></span></div><pre class="code" id="g14-js-view"></pre><textarea class="editor" id="g14-js-edit">let score1 = 0;
+let score2 = 0;
+moveWithKeys(p1, 12, &quot;w&quot;, &quot;s&quot;, &quot;a&quot;, &quot;d&quot;);
+moveWithKeys(p2, 12, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+document.addEventListener(&quot;keydown&quot;, function() {
+    keepInside(p1, game);
+    keepInside(p2, game);
+    if (touching(p1, treasure)) {
+        score1 = changeNumber(score1, 1, s1);
+        randomPosition(treasure, game);
+    }
+    if (touching(p2, treasure)) {
+        score2 = changeNumber(score2, 1, s2);
+        randomPosition(treasure, game);
+    }
+});</textarea></div></div>
+<div class="panel" data-panel="result"><div class="bar"><b>LIVE GAME</b><span><button class="primary" onclick="runGame('g14')">RUN / RESTART</button> <button class="secondary" onclick="resetGame('g14')">RESET CODE</button></span></div><iframe class="resultframe" id="g14-frame" sandbox="allow-scripts"></iframe></div>
+<div class="sideinfo"><b>Easy upgrades:</b><div class="up"><span>First to 10</span><span>Trap steals a point</span><span>Bonus treasure</span></div></div><textarea hidden id="g14-html-original">&lt;div class=&quot;hud&quot;&gt;Blue: &lt;span id=&quot;s1&quot;&gt;0&lt;/span&gt; · Red: &lt;span id=&quot;s2&quot;&gt;0&lt;/span&gt;&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;p1&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:70px&quot;&gt;🔵&lt;/div&gt;&lt;div id=&quot;p2&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:220px&quot;&gt;🔴&lt;/div&gt;&lt;div id=&quot;treasure&quot; class=&quot;sprite&quot; style=&quot;left:400px;top:130px&quot;&gt;💎&lt;/div&gt;&lt;/div&gt;</textarea><textarea hidden id="g14-css-original">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea><textarea hidden id="g14-js-original">let score1 = 0;
+let score2 = 0;
+moveWithKeys(p1, 12, &quot;w&quot;, &quot;s&quot;, &quot;a&quot;, &quot;d&quot;);
+moveWithKeys(p2, 12, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+document.addEventListener(&quot;keydown&quot;, function() {
+    keepInside(p1, game);
+    keepInside(p2, game);
+    if (touching(p1, treasure)) {
+        score1 = changeNumber(score1, 1, s1);
+        randomPosition(treasure, game);
+    }
+    if (touching(p2, treasure)) {
+        score2 = changeNumber(score2, 1, s2);
+        randomPosition(treasure, game);
+    }
+});</textarea></section><section class="gamecard" id="g15"><div class="ghead"><div class="grow"><div><span class="pill">SMOOTH KEYS</span><h2>16. Pong</h2><span class="pill">NEW: Hold keys + bouncing speed</span><span class="pill">TOOLS: trackKeys, keyDown, move, touching, atEdge</span></div><div class="count"><strong>15</strong>Student JS lines</div></div></div><div class="tabs"><button class="tab active" onclick="showTab('g15','html',this)">HTML</button><button class="tab" onclick="showTab('g15','css',this)">CSS</button><button class="tab" onclick="showTab('g15','js',this)">JAVASCRIPT</button><button class="tab" onclick="showTab('g15','result',this)">▶ RESULT + CONSOLE</button></div>
+<div class="panel active" data-panel="html"><div class="codepanel"><div class="bar"><b>HTML</b><span><button class="secondary" onclick="editGame('g15','html')">EDIT</button> <button class="secondary" onclick="copyGame('g15','html')">COPY</button></span></div><pre class="code" id="g15-html-view"></pre><textarea class="editor" id="g15-html-edit">&lt;div class=&quot;message&quot;&gt;P1 W/S · P2 ↑/↓&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game pong&quot;&gt;&lt;div id=&quot;leftPaddle&quot; class=&quot;paddle&quot; style=&quot;left:20px;top:110px&quot;&gt;&lt;/div&gt;&lt;div id=&quot;rightPaddle&quot; class=&quot;paddle&quot; style=&quot;left:560px;top:110px&quot;&gt;&lt;/div&gt;&lt;div id=&quot;ball&quot; class=&quot;ball&quot; style=&quot;left:290px;top:150px&quot;&gt;&lt;/div&gt;&lt;/div&gt;</textarea></div></div>
+<div class="panel" data-panel="css"><div class="codepanel"><div class="bar"><b>CSS</b><span><button class="secondary" onclick="editGame('g15','css')">EDIT</button> <button class="secondary" onclick="copyGame('g15','css')">COPY</button></span></div><pre class="code" id="g15-css-view"></pre><textarea class="editor" id="g15-css-edit">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+.pong{background:#111827}.paddle{position:absolute;width:16px;height:90px;background:white;border-radius:8px}.ball{position:absolute;width:24px;height:24px;border-radius:50%;background:#facc15}</textarea></div></div>
+<div class="panel" data-panel="js"><div class="codepanel"><div class="bar"><b>YOUR JAVASCRIPT</b><span><button class="secondary" onclick="editGame('g15','js')">EDIT</button> <button class="secondary" onclick="copyGame('g15','js')">COPY</button></span></div><pre class="code" id="g15-js-view"></pre><textarea class="editor" id="g15-js-edit">let keys = trackKeys();
+let xSpeed = 5;
+let ySpeed = 4;
+function gameLoop() {
+    if (keyDown(keys, &quot;w&quot;)) move(leftPaddle, 0, -6);
+    if (keyDown(keys, &quot;s&quot;)) move(leftPaddle, 0, 6);
+    if (keyDown(keys, &quot;ArrowUp&quot;)) move(rightPaddle, 0, -6);
+    if (keyDown(keys, &quot;ArrowDown&quot;)) move(rightPaddle, 0, 6);
+    keepInside(leftPaddle, game);
+    keepInside(rightPaddle, game);
+    move(ball, xSpeed, ySpeed);
+    if (atEdge(ball, game, &quot;top&quot;) || atEdge(ball, game, &quot;bottom&quot;)) ySpeed = -ySpeed;
+    if (touching(ball, leftPaddle) || touching(ball, rightPaddle)) xSpeed = -xSpeed;
+    if (atEdge(ball, game, &quot;left&quot;) || atEdge(ball, game, &quot;right&quot;)) place(ball, 290, 150);
+}
+setInterval(gameLoop, 20);</textarea></div></div>
+<div class="panel" data-panel="result"><div class="bar"><b>LIVE GAME</b><span><button class="primary" onclick="runGame('g15')">RUN / RESTART</button> <button class="secondary" onclick="resetGame('g15')">RESET CODE</button></span></div><iframe class="resultframe" id="g15-frame" sandbox="allow-scripts"></iframe></div>
+<div class="sideinfo"><b>Easy upgrades:</b><div class="up"><span>Add score</span><span>Ball speeds up</span><span>Smaller paddles</span></div></div><textarea hidden id="g15-html-original">&lt;div class=&quot;message&quot;&gt;P1 W/S · P2 ↑/↓&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game pong&quot;&gt;&lt;div id=&quot;leftPaddle&quot; class=&quot;paddle&quot; style=&quot;left:20px;top:110px&quot;&gt;&lt;/div&gt;&lt;div id=&quot;rightPaddle&quot; class=&quot;paddle&quot; style=&quot;left:560px;top:110px&quot;&gt;&lt;/div&gt;&lt;div id=&quot;ball&quot; class=&quot;ball&quot; style=&quot;left:290px;top:150px&quot;&gt;&lt;/div&gt;&lt;/div&gt;</textarea><textarea hidden id="g15-css-original">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+.pong{background:#111827}.paddle{position:absolute;width:16px;height:90px;background:white;border-radius:8px}.ball{position:absolute;width:24px;height:24px;border-radius:50%;background:#facc15}</textarea><textarea hidden id="g15-js-original">let keys = trackKeys();
+let xSpeed = 5;
+let ySpeed = 4;
+function gameLoop() {
+    if (keyDown(keys, &quot;w&quot;)) move(leftPaddle, 0, -6);
+    if (keyDown(keys, &quot;s&quot;)) move(leftPaddle, 0, 6);
+    if (keyDown(keys, &quot;ArrowUp&quot;)) move(rightPaddle, 0, -6);
+    if (keyDown(keys, &quot;ArrowDown&quot;)) move(rightPaddle, 0, 6);
+    keepInside(leftPaddle, game);
+    keepInside(rightPaddle, game);
+    move(ball, xSpeed, ySpeed);
+    if (atEdge(ball, game, &quot;top&quot;) || atEdge(ball, game, &quot;bottom&quot;)) ySpeed = -ySpeed;
+    if (touching(ball, leftPaddle) || touching(ball, rightPaddle)) xSpeed = -xSpeed;
+    if (atEdge(ball, game, &quot;left&quot;) || atEdge(ball, game, &quot;right&quot;)) place(ball, 290, 150);
+}
+setInterval(gameLoop, 20);</textarea></section><section class="gamecard" id="g16"><div class="ghead"><div class="grow"><div><span class="pill">PLATFORMER</span><h2>17. Platform Escape</h2><span class="pill">NEW: Gravity + jump + platforms</span><span class="pill">TOOLS: trackKeys, keyDown, applyGravity, standingOnAny, landOnPlatforms</span></div><div class="count"><strong>12</strong>Student JS lines</div></div></div><div class="tabs"><button class="tab active" onclick="showTab('g16','html',this)">HTML</button><button class="tab" onclick="showTab('g16','css',this)">CSS</button><button class="tab" onclick="showTab('g16','js',this)">JAVASCRIPT</button><button class="tab" onclick="showTab('g16','result',this)">▶ RESULT + CONSOLE</button></div>
+<div class="panel active" data-panel="html"><div class="codepanel"><div class="bar"><b>HTML</b><span><button class="secondary" onclick="editGame('g16','html')">EDIT</button> <button class="secondary" onclick="copyGame('g16','html')">COPY</button></span></div><pre class="code" id="g16-html-view"></pre><textarea class="editor" id="g16-html-edit">&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;Reach 🚪&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game platform&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:252px&quot;&gt;🏃&lt;/div&gt;&lt;div id=&quot;ground&quot; class=&quot;platformBox&quot; style=&quot;left:0;top:300px;width:600px;height:30px&quot;&gt;&lt;/div&gt;&lt;div id=&quot;platform1&quot; class=&quot;platformBox&quot; style=&quot;left:180px;top:230px;width:140px;height:18px&quot;&gt;&lt;/div&gt;&lt;div id=&quot;platform2&quot; class=&quot;platformBox&quot; style=&quot;left:390px;top:155px;width:150px;height:18px&quot;&gt;&lt;/div&gt;&lt;div id=&quot;door&quot; class=&quot;sprite&quot; style=&quot;left:485px;top:107px&quot;&gt;🚪&lt;/div&gt;&lt;/div&gt;</textarea></div></div>
+<div class="panel" data-panel="css"><div class="codepanel"><div class="bar"><b>CSS</b><span><button class="secondary" onclick="editGame('g16','css')">EDIT</button> <button class="secondary" onclick="copyGame('g16','css')">COPY</button></span></div><pre class="code" id="g16-css-view"></pre><textarea class="editor" id="g16-css-edit">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+.platform{background:#bfdbfe}.platformBox{position:absolute;background:#475569;border-radius:8px}</textarea></div></div>
+<div class="panel" data-panel="js"><div class="codepanel"><div class="bar"><b>YOUR JAVASCRIPT</b><span><button class="secondary" onclick="editGame('g16','js')">EDIT</button> <button class="secondary" onclick="copyGame('g16','js')">COPY</button></span></div><pre class="code" id="g16-js-view"></pre><textarea class="editor" id="g16-js-edit">let keys = trackKeys();
+let ySpeed = 0;
+let platforms = [ground, platform1, platform2];
+function gameLoop() {
+    if (keyDown(keys, &quot;ArrowLeft&quot;)) move(player, -5, 0);
+    if (keyDown(keys, &quot;ArrowRight&quot;)) move(player, 5, 0);
+    if (keyDown(keys, &quot;ArrowUp&quot;) &amp;&amp; standingOnAny(player, platforms)) ySpeed = -12;
+    ySpeed = applyGravity(player, ySpeed, 0.7);
+    ySpeed = landOnPlatforms(player, ySpeed, platforms);
+    keepInside(player, game);
+    if (touching(player, door)) setText(message, &quot;YOU ESCAPED!&quot;);
+}
+setInterval(gameLoop, 20);</textarea></div></div>
+<div class="panel" data-panel="result"><div class="bar"><b>LIVE GAME</b><span><button class="primary" onclick="runGame('g16')">RUN / RESTART</button> <button class="secondary" onclick="resetGame('g16')">RESET CODE</button></span></div><iframe class="resultframe" id="g16-frame" sandbox="allow-scripts"></iframe></div>
+<div class="sideinfo"><b>Easy upgrades:</b><div class="up"><span>Coins on platforms</span><span>Moving platforms</span><span>Enemies</span></div></div><textarea hidden id="g16-html-original">&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;Reach 🚪&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game platform&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:252px&quot;&gt;🏃&lt;/div&gt;&lt;div id=&quot;ground&quot; class=&quot;platformBox&quot; style=&quot;left:0;top:300px;width:600px;height:30px&quot;&gt;&lt;/div&gt;&lt;div id=&quot;platform1&quot; class=&quot;platformBox&quot; style=&quot;left:180px;top:230px;width:140px;height:18px&quot;&gt;&lt;/div&gt;&lt;div id=&quot;platform2&quot; class=&quot;platformBox&quot; style=&quot;left:390px;top:155px;width:150px;height:18px&quot;&gt;&lt;/div&gt;&lt;div id=&quot;door&quot; class=&quot;sprite&quot; style=&quot;left:485px;top:107px&quot;&gt;🚪&lt;/div&gt;&lt;/div&gt;</textarea><textarea hidden id="g16-css-original">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+.platform{background:#bfdbfe}.platformBox{position:absolute;background:#475569;border-radius:8px}</textarea><textarea hidden id="g16-js-original">let keys = trackKeys();
+let ySpeed = 0;
+let platforms = [ground, platform1, platform2];
+function gameLoop() {
+    if (keyDown(keys, &quot;ArrowLeft&quot;)) move(player, -5, 0);
+    if (keyDown(keys, &quot;ArrowRight&quot;)) move(player, 5, 0);
+    if (keyDown(keys, &quot;ArrowUp&quot;) &amp;&amp; standingOnAny(player, platforms)) ySpeed = -12;
+    ySpeed = applyGravity(player, ySpeed, 0.7);
+    ySpeed = landOnPlatforms(player, ySpeed, platforms);
+    keepInside(player, game);
+    if (touching(player, door)) setText(message, &quot;YOU ESCAPED!&quot;);
+}
+setInterval(gameLoop, 20);</textarea></section><section class="gamecard" id="g17"><div class="ghead"><div class="grow"><div><span class="pill">DOM+ / ARRAY</span><h2>18. Space Defender</h2><span class="pill">NEW: Create and move bullets</span><span class="pill">TOOLS: createSprite, findTouching, move</span></div><div class="count"><strong>19</strong>Student JS lines</div></div></div><div class="tabs"><button class="tab active" onclick="showTab('g17','html',this)">HTML</button><button class="tab" onclick="showTab('g17','css',this)">CSS</button><button class="tab" onclick="showTab('g17','js',this)">JAVASCRIPT</button><button class="tab" onclick="showTab('g17','result',this)">▶ RESULT + CONSOLE</button></div>
+<div class="panel active" data-panel="html"><div class="codepanel"><div class="bar"><b>HTML</b><span><button class="secondary" onclick="editGame('g17','html')">EDIT</button> <button class="secondary" onclick="copyGame('g17','html')">COPY</button></span></div><pre class="code" id="g17-html-view"></pre><textarea class="editor" id="g17-html-edit">&lt;div class=&quot;message&quot;&gt;ARROWS + SPACE&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game space&quot;&gt;&lt;div id=&quot;ship&quot; class=&quot;sprite&quot; style=&quot;left:270px;top:270px&quot;&gt;🚀&lt;/div&gt;&lt;div id=&quot;alien&quot; class=&quot;sprite&quot; style=&quot;left:270px;top:40px&quot;&gt;👾&lt;/div&gt;&lt;/div&gt;</textarea></div></div>
+<div class="panel" data-panel="css"><div class="codepanel"><div class="bar"><b>CSS</b><span><button class="secondary" onclick="editGame('g17','css')">EDIT</button> <button class="secondary" onclick="copyGame('g17','css')">COPY</button></span></div><pre class="code" id="g17-css-view"></pre><textarea class="editor" id="g17-css-edit">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+.space{background:#0f172a}</textarea></div></div>
+<div class="panel" data-panel="js"><div class="codepanel"><div class="bar"><b>YOUR JAVASCRIPT</b><span><button class="secondary" onclick="editGame('g17','js')">EDIT</button> <button class="secondary" onclick="copyGame('g17','js')">COPY</button></span></div><pre class="code" id="g17-js-view"></pre><textarea class="editor" id="g17-js-edit">let bullets = [];
+moveWithKeys(ship, 12, null, null, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+document.addEventListener(&quot;keydown&quot;, function(event) {
+    if (event.key == &quot; &quot;) {
+        let bullet = createSprite(game, &quot;🔵&quot;, ship.offsetLeft + 16, ship.offsetTop - 18, 18);
+        bullets.push(bullet);
+    }
+});
+function gameLoop() {
+    keepInside(ship, game);
+    for (let i = bullets.length - 1; i &gt;= 0; i--) {
+        move(bullets[i], 0, -8);
+        if (touching(bullets[i], alien)) {
+            bullets[i].remove();
+            bullets.splice(i, 1);
+            randomPosition(alien, game);
+            console.log(&quot;ALIEN HIT!&quot;);
+        } else if (bullets[i].offsetTop &lt; 0) {
+            bullets[i].remove();
+            bullets.splice(i, 1);
+        }
+    }
+}
+setInterval(gameLoop, 20);</textarea></div></div>
+<div class="panel" data-panel="result"><div class="bar"><b>LIVE GAME</b><span><button class="primary" onclick="runGame('g17')">RUN / RESTART</button> <button class="secondary" onclick="resetGame('g17')">RESET CODE</button></span></div><iframe class="resultframe" id="g17-frame" sandbox="allow-scripts"></iframe></div>
+<div class="sideinfo"><b>Easy upgrades:</b><div class="up"><span>Score hits</span><span>Aliens move</span><span>Enemy bullets</span></div></div><textarea hidden id="g17-html-original">&lt;div class=&quot;message&quot;&gt;ARROWS + SPACE&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game space&quot;&gt;&lt;div id=&quot;ship&quot; class=&quot;sprite&quot; style=&quot;left:270px;top:270px&quot;&gt;🚀&lt;/div&gt;&lt;div id=&quot;alien&quot; class=&quot;sprite&quot; style=&quot;left:270px;top:40px&quot;&gt;👾&lt;/div&gt;&lt;/div&gt;</textarea><textarea hidden id="g17-css-original">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+.space{background:#0f172a}</textarea><textarea hidden id="g17-js-original">let bullets = [];
+moveWithKeys(ship, 12, null, null, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+document.addEventListener(&quot;keydown&quot;, function(event) {
+    if (event.key == &quot; &quot;) {
+        let bullet = createSprite(game, &quot;🔵&quot;, ship.offsetLeft + 16, ship.offsetTop - 18, 18);
+        bullets.push(bullet);
+    }
+});
+function gameLoop() {
+    keepInside(ship, game);
+    for (let i = bullets.length - 1; i &gt;= 0; i--) {
+        move(bullets[i], 0, -8);
+        if (touching(bullets[i], alien)) {
+            bullets[i].remove();
+            bullets.splice(i, 1);
+            randomPosition(alien, game);
+            console.log(&quot;ALIEN HIT!&quot;);
+        } else if (bullets[i].offsetTop &lt; 0) {
+            bullets[i].remove();
+            bullets.splice(i, 1);
+        }
+    }
+}
+setInterval(gameLoop, 20);</textarea></section><section class="gamecard" id="g18"><div class="ghead"><div class="grow"><div><span class="pill">ARRAY + LOOP</span><h2>19. Dungeon Key Maze</h2><span class="pill">NEW: Maze + inventory + locked door</span><span class="pill">TOOLS: moveIfClear, touching, hide</span></div><div class="count"><strong>14</strong>Student JS lines</div></div></div><div class="tabs"><button class="tab active" onclick="showTab('g18','html',this)">HTML</button><button class="tab" onclick="showTab('g18','css',this)">CSS</button><button class="tab" onclick="showTab('g18','js',this)">JAVASCRIPT</button><button class="tab" onclick="showTab('g18','result',this)">▶ RESULT + CONSOLE</button></div>
+<div class="panel active" data-panel="html"><div class="codepanel"><div class="bar"><b>HTML</b><span><button class="secondary" onclick="editGame('g18','html')">EDIT</button> <button class="secondary" onclick="copyGame('g18','html')">COPY</button></span></div><pre class="code" id="g18-html-view"></pre><textarea class="editor" id="g18-html-edit">&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;Find 🗝️ then reach 🚪&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:20px;top:20px&quot;&gt;🏃&lt;/div&gt;&lt;div id=&quot;key&quot; class=&quot;sprite&quot; style=&quot;left:230px;top:250px&quot;&gt;🗝️&lt;/div&gt;&lt;div id=&quot;door&quot; class=&quot;sprite&quot; style=&quot;left:525px;top:250px&quot;&gt;🚪&lt;/div&gt;&lt;div id=&quot;w1&quot; class=&quot;wall&quot; style=&quot;left:150px;top:0;width:28px;height:220px&quot;&gt;&lt;/div&gt;&lt;div id=&quot;w2&quot; class=&quot;wall&quot; style=&quot;left:330px;top:110px;width:28px;height:220px&quot;&gt;&lt;/div&gt;&lt;/div&gt;</textarea></div></div>
+<div class="panel" data-panel="css"><div class="codepanel"><div class="bar"><b>CSS</b><span><button class="secondary" onclick="editGame('g18','css')">EDIT</button> <button class="secondary" onclick="copyGame('g18','css')">COPY</button></span></div><pre class="code" id="g18-css-view"></pre><textarea class="editor" id="g18-css-edit">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea></div></div>
+<div class="panel" data-panel="js"><div class="codepanel"><div class="bar"><b>YOUR JAVASCRIPT</b><span><button class="secondary" onclick="editGame('g18','js')">EDIT</button> <button class="secondary" onclick="copyGame('g18','js')">COPY</button></span></div><pre class="code" id="g18-js-view"></pre><textarea class="editor" id="g18-js-edit">let walls = [w1, w2];
+let hasKey = false;
+document.addEventListener(&quot;keydown&quot;, function(event) {
+    if (event.key == &quot;ArrowRight&quot;) moveIfClear(player, 12, 0, walls, game);
+    if (event.key == &quot;ArrowLeft&quot;) moveIfClear(player, -12, 0, walls, game);
+    if (event.key == &quot;ArrowUp&quot;) moveIfClear(player, 0, -12, walls, game);
+    if (event.key == &quot;ArrowDown&quot;) moveIfClear(player, 0, 12, walls, game);
+    if (touching(player, key) &amp;&amp; !hasKey) {
+        hasKey = true;
+        hide(key);
+        setText(message, &quot;KEY FOUND!&quot;);
+    }
+    if (touching(player, door)) {
+        if (hasKey) setText(message, &quot;DUNGEON ESCAPED!&quot;);
+        else setText(message, &quot;The door is locked.&quot;);
+    }
+});</textarea></div></div>
+<div class="panel" data-panel="result"><div class="bar"><b>LIVE GAME</b><span><button class="primary" onclick="runGame('g18')">RUN / RESTART</button> <button class="secondary" onclick="resetGame('g18')">RESET CODE</button></span></div><iframe class="resultframe" id="g18-frame" sandbox="allow-scripts"></iframe></div>
+<div class="sideinfo"><b>Easy upgrades:</b><div class="up"><span>Several keys</span><span>Treasure rooms</span><span>Monster patrol</span></div></div><textarea hidden id="g18-html-original">&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;Find 🗝️ then reach 🚪&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:20px;top:20px&quot;&gt;🏃&lt;/div&gt;&lt;div id=&quot;key&quot; class=&quot;sprite&quot; style=&quot;left:230px;top:250px&quot;&gt;🗝️&lt;/div&gt;&lt;div id=&quot;door&quot; class=&quot;sprite&quot; style=&quot;left:525px;top:250px&quot;&gt;🚪&lt;/div&gt;&lt;div id=&quot;w1&quot; class=&quot;wall&quot; style=&quot;left:150px;top:0;width:28px;height:220px&quot;&gt;&lt;/div&gt;&lt;div id=&quot;w2&quot; class=&quot;wall&quot; style=&quot;left:330px;top:110px;width:28px;height:220px&quot;&gt;&lt;/div&gt;&lt;/div&gt;</textarea><textarea hidden id="g18-css-original">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea><textarea hidden id="g18-js-original">let walls = [w1, w2];
+let hasKey = false;
+document.addEventListener(&quot;keydown&quot;, function(event) {
+    if (event.key == &quot;ArrowRight&quot;) moveIfClear(player, 12, 0, walls, game);
+    if (event.key == &quot;ArrowLeft&quot;) moveIfClear(player, -12, 0, walls, game);
+    if (event.key == &quot;ArrowUp&quot;) moveIfClear(player, 0, -12, walls, game);
+    if (event.key == &quot;ArrowDown&quot;) moveIfClear(player, 0, 12, walls, game);
+    if (touching(player, key) &amp;&amp; !hasKey) {
+        hasKey = true;
+        hide(key);
+        setText(message, &quot;KEY FOUND!&quot;);
+    }
+    if (touching(player, door)) {
+        if (hasKey) setText(message, &quot;DUNGEON ESCAPED!&quot;);
+        else setText(message, &quot;The door is locked.&quot;);
+    }
+});</textarea></section><section class="gamecard" id="g19"><div class="ghead"><div class="grow"><div><span class="pill">ARRAY + LOOP</span><h2>20. Rescue Mission Story Game</h2><span class="pill">NEW: Multi-item quest</span><span class="pill">TOOLS: hasAllItems, findTouching, setText</span></div><div class="count"><strong>14</strong>Student JS lines</div></div></div><div class="tabs"><button class="tab active" onclick="showTab('g19','html',this)">HTML</button><button class="tab" onclick="showTab('g19','css',this)">CSS</button><button class="tab" onclick="showTab('g19','js',this)">JAVASCRIPT</button><button class="tab" onclick="showTab('g19','result',this)">▶ RESULT + CONSOLE</button></div>
+<div class="panel active" data-panel="html"><div class="codepanel"><div class="bar"><b>HTML</b><span><button class="secondary" onclick="editGame('g19','html')">EDIT</button> <button class="secondary" onclick="copyGame('g19','html')">COPY</button></span></div><pre class="code" id="g19-html-view"></pre><textarea class="editor" id="g19-html-edit">&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;Find 🗺️ 🗝️ 🍞 then reach 🚧&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:130px&quot;&gt;🏃&lt;/div&gt;&lt;div id=&quot;map&quot; class=&quot;sprite&quot; style=&quot;left:160px;top:50px&quot;&gt;🗺️&lt;/div&gt;&lt;div id=&quot;key&quot; class=&quot;sprite&quot; style=&quot;left:310px;top:230px&quot;&gt;🗝️&lt;/div&gt;&lt;div id=&quot;food&quot; class=&quot;sprite&quot; style=&quot;left:440px;top:70px&quot;&gt;🍞&lt;/div&gt;&lt;div id=&quot;gate&quot; class=&quot;sprite&quot; style=&quot;left:525px;top:240px&quot;&gt;🚧&lt;/div&gt;&lt;/div&gt;</textarea></div></div>
+<div class="panel" data-panel="css"><div class="codepanel"><div class="bar"><b>CSS</b><span><button class="secondary" onclick="editGame('g19','css')">EDIT</button> <button class="secondary" onclick="copyGame('g19','css')">COPY</button></span></div><pre class="code" id="g19-css-view"></pre><textarea class="editor" id="g19-css-edit">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea></div></div>
+<div class="panel" data-panel="js"><div class="codepanel"><div class="bar"><b>YOUR JAVASCRIPT</b><span><button class="secondary" onclick="editGame('g19','js')">EDIT</button> <button class="secondary" onclick="copyGame('g19','js')">COPY</button></span></div><pre class="code" id="g19-js-view"></pre><textarea class="editor" id="g19-js-edit">let inventory = [];
+let items = [map, key, food];
+let names = [&quot;map&quot;, &quot;key&quot;, &quot;food&quot;];
+moveWithKeys(player, 14, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+document.addEventListener(&quot;keydown&quot;, function() {
+    keepInside(player, game);
+    for (let i = 0; i &lt; items.length; i++) {
+        if (touching(player, items[i]) &amp;&amp; items[i].style.display != &quot;none&quot;) {
+            inventory.push(names[i]);
+            hide(items[i]);
+            console.log(&quot;Inventory:&quot;, inventory.join(&quot;, &quot;));
+        }
+    }
+    if (touching(player, gate)) {
+        if (hasAllItems(inventory, names)) setText(message, &quot;READY FOR THE RESCUE!&quot;);
+        else setText(message, &quot;You still need supplies.&quot;);
+    }
+});</textarea></div></div>
+<div class="panel" data-panel="result"><div class="bar"><b>LIVE GAME</b><span><button class="primary" onclick="runGame('g19')">RUN / RESTART</button> <button class="secondary" onclick="resetGame('g19')">RESET CODE</button></span></div><iframe class="resultframe" id="g19-frame" sandbox="allow-scripts"></iframe></div>
+<div class="sideinfo"><b>Easy upgrades:</b><div class="up"><span>NPC clues</span><span>Shop for food</span><span>Timed final escape</span></div></div><textarea hidden id="g19-html-original">&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;Find 🗺️ 🗝️ 🍞 then reach 🚧&lt;/div&gt;&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;&lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:130px&quot;&gt;🏃&lt;/div&gt;&lt;div id=&quot;map&quot; class=&quot;sprite&quot; style=&quot;left:160px;top:50px&quot;&gt;🗺️&lt;/div&gt;&lt;div id=&quot;key&quot; class=&quot;sprite&quot; style=&quot;left:310px;top:230px&quot;&gt;🗝️&lt;/div&gt;&lt;div id=&quot;food&quot; class=&quot;sprite&quot; style=&quot;left:440px;top:70px&quot;&gt;🍞&lt;/div&gt;&lt;div id=&quot;gate&quot; class=&quot;sprite&quot; style=&quot;left:525px;top:240px&quot;&gt;🚧&lt;/div&gt;&lt;/div&gt;</textarea><textarea hidden id="g19-css-original">.game{position:relative;width:600px;max-width:96vw;height:330px;margin:auto;overflow:hidden;background:#dff4ff;border:4px solid #172033;border-radius:16px}.sprite{position:absolute;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;user-select:none}.wall{position:absolute;background:#334155;border-radius:5px}.hud{font:700 18px Arial;margin:8px 0;text-align:center}.message{font:800 22px Arial;text-align:center;margin:8px 0}.shop{padding:9px 12px;font:700 15px Arial}
+</textarea><textarea hidden id="g19-js-original">let inventory = [];
+let items = [map, key, food];
+let names = [&quot;map&quot;, &quot;key&quot;, &quot;food&quot;];
+moveWithKeys(player, 14, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+document.addEventListener(&quot;keydown&quot;, function() {
+    keepInside(player, game);
+    for (let i = 0; i &lt; items.length; i++) {
+        if (touching(player, items[i]) &amp;&amp; items[i].style.display != &quot;none&quot;) {
+            inventory.push(names[i]);
+            hide(items[i]);
+            console.log(&quot;Inventory:&quot;, inventory.join(&quot;, &quot;));
+        }
+    }
+    if (touching(player, gate)) {
+        if (hasAllItems(inventory, names)) setText(message, &quot;READY FOR THE RESCUE!&quot;);
+        else setText(message, &quot;You still need supplies.&quot;);
+    }
+});</textarea></section></main><a class="float-top" href="#top">↑ TOP</a><script>
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function highlightJS(code){
+  const kw=new Set(['let','const','var','function','if','else','return','for','while','true','false','null','new','break','continue']);
+  let out='',i=0;
+  while(i<code.length){
+    let c=code[i];
+    if(c==='/'&&code[i+1]==='/'){let j=i;while(j<code.length&&code[j]!='\n')j++;out+='<span class="tok-com">'+esc(code.slice(i,j))+'</span>';i=j;continue;}
+    if(c==='"'||c==="'"||c==='`'){let q=c,j=i+1;while(j<code.length){if(code[j]==='\\'){j+=2;continue}if(code[j]===q){j++;break}j++}out+='<span class="tok-str">'+esc(code.slice(i,j))+'</span>';i=j;continue;}
+    if(/[0-9]/.test(c)){let j=i+1;while(j<code.length&&/[0-9.]/.test(code[j]))j++;out+='<span class="tok-num">'+code.slice(i,j)+'</span>';i=j;continue;}
+    if(/[A-Za-z_$]/.test(c)){let j=i+1;while(j<code.length&&/[A-Za-z0-9_$]/.test(code[j]))j++;let w=code.slice(i,j);let k=j;while(k<code.length&&/\s/.test(code[k]))k++;let cls=kw.has(w)?'tok-kw':(code[k]==='('?'tok-fn':'');out+=cls?'<span class="'+cls+'">'+w+'</span>':w;i=j;continue;}
+    if('=+-*/!<>&|'.includes(c)){out+='<span class="tok-op">'+esc(c)+'</span>';i++;continue;}
+    out+=esc(c);i++;
+  }
+  return out;
+}
+function highlightHTML(code){
+  let e=esc(code);
+  e=e.replace(/(&lt;\/?)([\w-]+)/g,'$1<span class="tok-tag">$2</span>');
+  return e;
+}
+function highlightCSS(code){
+  let e=esc(code);
+  e=e.replace(/(^|\n)(\s*)([\w.#-]+)(\s*\{)/g,'$1$2<span class="tok-tag">$3</span>$4');
+  e=e.replace(/([\w-]+)(\s*:)/g,'<span class="tok-prop">$1</span>$2');
+  return e;
+}
+function hi(code,lang){if(lang==='html')return highlightHTML(code);if(lang==='css')return highlightCSS(code);return highlightJS(code);}
+
+const TOOLS="/* RBS CODE \u00b7 GAME TOOLS \u00b7 readable student helpers */\n\nfunction move(item, xChange, yChange) {\n    let x = item.offsetLeft;\n    let y = item.offsetTop;\n    item.style.left = (x + xChange) + \"px\";\n    item.style.top = (y + yChange) + \"px\";\n}\n\nfunction place(item, x, y) {\n    item.style.left = x + \"px\";\n    item.style.top = y + \"px\";\n}\n\nfunction hide(item) {\n    item.style.display = \"none\";\n}\n\nfunction show(item) {\n    item.style.display = \"block\";\n}\n\nfunction setText(textBox, text) {\n    textBox.innerText = text;\n}\n\nfunction changeNumber(number, amount, display) {\n    number = number + amount;\n    display.innerText = number;\n    return number;\n}\n\nfunction keepInside(item, gameArea) {\n    let maxX = gameArea.clientWidth - item.offsetWidth;\n    let maxY = gameArea.clientHeight - item.offsetHeight;\n\n    if (item.offsetLeft < 0) item.style.left = \"0px\";\n    if (item.offsetLeft > maxX) item.style.left = maxX + \"px\";\n    if (item.offsetTop < 0) item.style.top = \"0px\";\n    if (item.offsetTop > maxY) item.style.top = maxY + \"px\";\n}\n\nfunction touching(item1, item2) {\n    let box1 = item1.getBoundingClientRect();\n    let box2 = item2.getBoundingClientRect();\n\n    return box1.left < box2.right &&\n           box1.right > box2.left &&\n           box1.top < box2.bottom &&\n           box1.bottom > box2.top;\n}\n\nfunction randomPosition(item, gameArea) {\n    let maxX = gameArea.clientWidth - item.offsetWidth;\n    let maxY = gameArea.clientHeight - item.offsetHeight;\n    let newX = Math.floor(Math.random() * maxX);\n    let newY = Math.floor(Math.random() * maxY);\n    place(item, newX, newY);\n}\n\nfunction randomX(item, gameArea) {\n    let maxX = gameArea.clientWidth - item.offsetWidth;\n    let newX = Math.floor(Math.random() * maxX);\n    item.style.left = newX + \"px\";\n}\n\nfunction atEdge(item, gameArea, side) {\n    if (side == \"left\") return item.offsetLeft <= 0;\n    if (side == \"right\") return item.offsetLeft + item.offsetWidth >= gameArea.clientWidth;\n    if (side == \"top\") return item.offsetTop <= 0;\n    if (side == \"bottom\") return item.offsetTop + item.offsetHeight >= gameArea.clientHeight;\n    return false;\n}\n\nfunction moveWithKeys(item, speed, upKey, downKey, leftKey, rightKey) {\n    document.addEventListener(\"keydown\", function(event) {\n        let used = false;\n        if (upKey && event.key == upKey) { move(item, 0, -speed); used = true; }\n        if (downKey && event.key == downKey) { move(item, 0, speed); used = true; }\n        if (leftKey && event.key == leftKey) { move(item, -speed, 0); used = true; }\n        if (rightKey && event.key == rightKey) { move(item, speed, 0); used = true; }\n        if (used) event.preventDefault();\n    });\n}\n\nfunction moveToward(enemy, target, speed) {\n    let xGap = target.offsetLeft - enemy.offsetLeft;\n    let yGap = target.offsetTop - enemy.offsetTop;\n\n    if (Math.abs(xGap) > speed) {\n        if (xGap > 0) move(enemy, speed, 0);\n        else move(enemy, -speed, 0);\n    }\n\n    if (Math.abs(yGap) > speed) {\n        if (yGap > 0) move(enemy, 0, speed);\n        else move(enemy, 0, -speed);\n    }\n}\n\nfunction startCountdown(seconds, display, whenFinished) {\n    display.innerText = seconds;\n    let timer = setInterval(function() {\n        seconds = seconds - 1;\n        display.innerText = seconds;\n        if (seconds <= 0) {\n            clearInterval(timer);\n            whenFinished();\n        }\n    }, 1000);\n    return timer;\n}\n\nfunction randomItem(items) {\n    let position = Math.floor(Math.random() * items.length);\n    return items[position];\n}\n\nfunction countItem(items, itemName) {\n    let total = 0;\n    for (let i = 0; i < items.length; i++) {\n        if (items[i] == itemName) total = total + 1;\n    }\n    return total;\n}\n\nfunction removeItems(items, itemName, amount) {\n    if (countItem(items, itemName) < amount) return false;\n    for (let i = 0; i < amount; i++) {\n        let position = items.indexOf(itemName);\n        items.splice(position, 1);\n    }\n    return true;\n}\n\nfunction hasAllItems(inventory, neededItems) {\n    for (let i = 0; i < neededItems.length; i++) {\n        if (!inventory.includes(neededItems[i])) return false;\n    }\n    return true;\n}\n\nfunction findTouching(item, items) {\n    for (let i = 0; i < items.length; i++) {\n        if (touching(item, items[i])) return items[i];\n    }\n    return null;\n}\n\nfunction moveIfClear(item, xChange, yChange, walls, gameArea) {\n    let oldX = item.offsetLeft;\n    let oldY = item.offsetTop;\n    move(item, xChange, yChange);\n    keepInside(item, gameArea);\n\n    for (let i = 0; i < walls.length; i++) {\n        if (touching(item, walls[i])) {\n            place(item, oldX, oldY);\n            return false;\n        }\n    }\n    return true;\n}\n\nfunction trackKeys() {\n    let keys = [];\n    document.addEventListener(\"keydown\", function(event) {\n        if (!keys.includes(event.key)) keys.push(event.key);\n    });\n    document.addEventListener(\"keyup\", function(event) {\n        let position = keys.indexOf(event.key);\n        if (position != -1) keys.splice(position, 1);\n    });\n    return keys;\n}\n\nfunction keyDown(keys, key) {\n    return keys.includes(key);\n}\n\nfunction applyGravity(item, ySpeed, gravity) {\n    ySpeed = ySpeed + gravity;\n    move(item, 0, ySpeed);\n    return ySpeed;\n}\n\nfunction standingOnAny(player, platforms) {\n    let playerBox = player.getBoundingClientRect();\n    for (let i = 0; i < platforms.length; i++) {\n        let platformBox = platforms[i].getBoundingClientRect();\n        let feetNearTop = Math.abs(playerBox.bottom - platformBox.top) <= 4;\n        let xOverlap = playerBox.right > platformBox.left && playerBox.left < platformBox.right;\n        if (feetNearTop && xOverlap) return true;\n    }\n    return false;\n}\n\nfunction landOnPlatforms(player, ySpeed, platforms) {\n    if (ySpeed < 0) return ySpeed;\n    let playerBox = player.getBoundingClientRect();\n\n    for (let i = 0; i < platforms.length; i++) {\n        let platform = platforms[i];\n        let platformBox = platform.getBoundingClientRect();\n        let wasAbove = playerBox.bottom - ySpeed <= platformBox.top + 3;\n        let reached = playerBox.bottom >= platformBox.top;\n        let xOverlap = playerBox.right > platformBox.left && playerBox.left < platformBox.right;\n\n        if (wasAbove && reached && xOverlap) {\n            player.style.top = (platform.offsetTop - player.offsetHeight) + \"px\";\n            return 0;\n        }\n    }\n    return ySpeed;\n}\n\nfunction createSprite(gameArea, picture, x, y, size) {\n    let sprite = document.createElement(\"div\");\n    sprite.innerText = picture;\n    sprite.style.position = \"absolute\";\n    sprite.style.left = x + \"px\";\n    sprite.style.top = y + \"px\";\n    sprite.style.width = size + \"px\";\n    sprite.style.height = size + \"px\";\n    sprite.style.fontSize = size + \"px\";\n    sprite.style.lineHeight = size + \"px\";\n    sprite.style.textAlign = \"center\";\n    gameArea.appendChild(sprite);\n    return sprite;\n}\n";
+function val(id,p){return document.getElementById(id+'-'+p+'-edit').value}
+function paintGame(id,p){document.getElementById(id+'-'+p+'-view').innerHTML=hi(val(id,p),p)}
+function showTab(id,p,btn){let card=document.getElementById(id);card.querySelectorAll('.panel').forEach(x=>x.classList.toggle('active',x.dataset.panel===p));card.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));btn.classList.add('active');if(p==='result')runGame(id)}
+function editGame(id,p){let e=document.getElementById(id+'-'+p+'-edit'),v=document.getElementById(id+'-'+p+'-view');if(e.style.display==='block'){e.style.display='none';v.style.display='block';paintGame(id,p)}else{e.style.display='block';v.style.display='none';e.focus()}}
+async function copyGame(id,p){await navigator.clipboard.writeText(val(id,p))}
+function runGame(id){let logger=`<div id="console" style="width:min(600px,96vw);margin:10px auto;background:#08101f;color:#dce7ff;border-radius:8px;padding:9px;min-height:70px;max-height:110px;overflow:auto;font:12px/1.4 Consolas,monospace;white-space:pre-wrap"><b style="color:#93c5fd">CONSOLE</b><div id="consoleText"></div></div><script>(function(){let c=document.getElementById('consoleText');function w(a){c.textContent+=(c.textContent?'\\n':'')+a.map(x=>{try{return typeof x==='object'?JSON.stringify(x):String(x)}catch(e){return String(x)}}).join(' ')}console.log=(...a)=>w(a);console.error=(...a)=>w(a);window.onerror=(m,s,l)=>w(['ERROR:',m,'line',l]);})();<\/script>`;document.getElementById(id+'-frame').srcdoc='<!doctype html><html><head><meta charset="utf-8"><style>body{font-family:Arial;background:#f8fafc;margin:0;padding:12px;text-align:center}'+val(id,'css')+'</style></head><body>'+val(id,'html')+logger+'<script>'+TOOLS+'\n'+val(id,'js')+'<\/script></body></html>'}
+function resetGame(id){for(const p of ['html','css','js']){document.getElementById(id+'-'+p+'-edit').value=document.getElementById(id+'-'+p+'-original').value;paintGame(id,p)}runGame(id)}
+document.querySelectorAll('.gamecard').forEach(c=>{for(const p of ['html','css','js'])paintGame(c.id,p)});
+</script></body></html>
