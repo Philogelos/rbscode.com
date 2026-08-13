@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Enemy Wave · Arrays</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#eef2f7;color:#172033}
+.wrap{width:760px;max-width:calc(100% - 24px);margin:22px auto}
+h1{margin:0 0 8px}
+.help{margin:0 0 12px;color:#536174}
+.hud{background:#fff;padding:11px 14px;border-radius:12px 12px 0 0;display:flex;justify-content:space-between;font-weight:800}
+.message{background:#172033;color:#fff;padding:9px 14px;text-align:center;font-weight:800}
+.game{position:relative;width:100%;height:430px;overflow:hidden;border:4px solid #172033;background:linear-gradient(#dff4ff,#dff7df)}
+.sprite{position:absolute;user-select:none;text-align:center}
+button{margin-top:10px;padding:9px 14px;border:0;border-radius:9px;background:#4f46e5;color:white;font-weight:800;cursor:pointer}
+
+#player{font-size:42px;width:48px;height:48px;line-height:48px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Enemy Wave</h1>
+<p class="help">Arrow keys move. Survive the falling enemies. Watch the array grow and shrink.</p>
+<div class="hud"><span>Enemies: <span id="enemyCount">0</span></span><span>Dodged: <span id="scoreText">0</span></span></div>
+<div id="message" class="message">GO!</div>
+<div id="game" class="game">
+  <div id="player" class="sprite" style="left:350px;top:360px">🚀</div>
+</div>
+<button onclick="restartGame()">RESTART</button>
+</div>
+<script src="rbs-game-library.js"></script>
+<script>
+let enemies = [];
+let score = 0;
+
+moveWithKeys("player", 14, "game");
+
+function makeEnemy() {
+    if (RBS_GAME_ENDED) return;
+
+    let enemy = addSprite(enemies, game, "👾", 0, -48, 40);
+    randomX(enemy, game);
+}
+
+function gameLoop() {
+    if (RBS_GAME_ENDED) return;
+
+    moveAll(enemies, 0, 4);
+
+    let escaped = removeOffscreen(enemies, game);
+    score = score + escaped;
+
+    enemyCount.innerText = enemies.length;
+    scoreText.innerText = score;
+
+    if (touchingAny(player, enemies)) {
+        gameOver(message, "GAME OVER · You dodged " + score);
+        player.innerText = "💥";
+    }
+}
+
+makeEnemy();
+every(700, makeEnemy);
+every(25, gameLoop);
+</script>
+</body>
+</html>

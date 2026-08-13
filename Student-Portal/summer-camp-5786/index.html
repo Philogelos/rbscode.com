@@ -1,8 +1,707 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Summer Coding Camp | RBS Code</title><style>
-:root{--bg:linear-gradient(135deg,#f7f3ec,#e9e2ff);--card:#fff;--text:#2d2959;--subtle:#62627a;--border:#e4def7;--shadow:rgba(0,0,0,.10);--accent:#5a3cc4;--accent-soft:rgba(90,60,196,.10);--game:#0f766e;--game-soft:#ecfdf5}*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}a{color:inherit;text-decoration:none}.wrapper{max-width:1000px;margin:auto;padding:36px 20px 60px}.hero{text-align:center;margin-bottom:24px}.kicker{display:inline-block;padding:6px 12px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-size:13px;font-weight:900}.hero h1{font-size:clamp(2rem,6vw,3.4rem);margin:12px 0 6px}.hero p{color:var(--subtle);max-width:680px;margin:auto}.today{background:var(--card);border:2px solid var(--game);border-radius:22px;padding:24px;box-shadow:0 10px 28px var(--shadow);margin:25px 0}.today .label{color:var(--game);font-weight:900;font-size:13px;text-transform:uppercase}.today h2{margin:4px 0 7px}.path{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.path span{padding:7px 9px;background:var(--game-soft);border-radius:8px;font-size:13px;font-weight:800}.primary{display:inline-block;background:var(--game);color:#fff;padding:10px 15px;border-radius:9px;font-weight:850}.section{margin:36px 0}.section h2{margin-bottom:4px}.intro{color:var(--subtle);margin-top:0}.group{margin:22px 0}.group h3{margin-bottom:9px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:13px}.card{display:block;background:var(--card);border:1px solid var(--border);border-radius:15px;padding:16px;min-height:125px;box-shadow:0 5px 14px var(--shadow);transition:.2s}.card:hover{transform:translateY(-3px);border-color:var(--accent)}.card.game{border-top:5px solid var(--game)}.tag{font-size:12px;font-weight:900;color:var(--accent)}.card.game .tag{color:var(--game)}.card h4{margin:4px 0 6px}.card p{margin:0;color:var(--subtle);font-size:.92rem}.tools{display:flex;gap:10px;flex-wrap:wrap}.tool{background:#fff;border:1px solid var(--border);padding:10px 12px;border-radius:10px;font-weight:800}@media(max-width:600px){.wrapper{padding:28px 13px 50px}}
-</style></head><body><main class="wrapper"><header class="hero"><span class="kicker">RBS Code · Summer Coding Camp</span><h1>Build. Test. Create.</h1><p>Your lessons, game tools and projects — in one place.</p></header>
-<section class="today"><div class="label">TODAY · GAME DAY</div><h2>Start Here</h2><p>Quick review, learn the small game functions, then build Treasure Rush.</p><div class="path"><span>1 · Skills Map</span><span>2 · Game Functions</span><span>3 · Treasure Rush</span><span>4 · Choose a Challenge</span></div><a class="primary" href="js-skills-map.html">START GAME DAY →</a></section>
-<section class="section"><h2>Game Day Toolbox</h2><p class="intro">These four pages are designed to work together.</p><div class="grid"><a class="card game" href="js-skills-map.html"><span class="tag">QUICK REFERENCE</span><h4>JavaScript Skills Map</h4><p>JS1, JS2, JS3 and what unlocks later.</p></a><a class="card game" href="game-functions.html"><span class="tag">LEARN THE TOOLS</span><h4>Game Functions Lab</h4><p>Under the hood, examples, Run, Reset and console.</p></a><a class="card game" href="game-lab.html"><span class="tag">BUILD TODAY</span><h4>Complete Game Lab</h4><p>Treasure Rush, 2-player, platformer, bonus danger and challenges.</p></a><a class="card game" href="game-recipes.html"><span class="tag">CHOOSE A PROJECT</span><h4>20 Game Recipes</h4><p>HTML, CSS, JavaScript and a live result for every game.</p></a></div></section>
-<section class="section"><h2>Your Course</h2><p class="intro">The lessons you already completed remain easy to find.</p><div class="group"><h3>HTML</h3><div class="grid"><a class="card" href="html-1.html"><span class="tag">HTML 1</span><h4>Page Basics</h4><p>Headings, paragraphs, buttons and page structure.</p></a><a class="card" href="html-2.html"><span class="tag">HTML 2</span><h4>More Building Blocks</h4><p>Divs, images, links and useful attributes.</p></a></div></div><div class="group"><h3>CSS</h3><div class="grid"><a class="card" href="css1-guide.html"><span class="tag">CSS 1</span><h4>Make It Look Good</h4><p>Colors, sizes, borders and fonts.</p></a><a class="card" href="css-2.html"><span class="tag">CSS 2</span><h4>Space & Website Design</h4><p>Padding, margin, centering, navbars and cards.</p></a></div></div><div class="group"><h3>JavaScript</h3><div class="grid"><a class="card" href="js1-guide-revised.html"><span class="tag">JS 1</span><h4>Think with JavaScript</h4><p>Variables, prompts, maths and decisions.</p></a><a class="card" href="js2-guide.html"><span class="tag">JS 2</span><h4>Move Game Objects</h4><p>Functions, buttons, left/top and x/y movement.</p></a><a class="card game" href="game-functions.html"><span class="tag">JS 3 · GAME SKILLS</span><h4>Game Rules</h4><p>Keyboard, collision, score, random positions and reusable functions.</p></a></div></div></section>
-<section class="section"><h2>Projects & Challenges</h2><div class="grid"><a class="card" href="../div-art/index.html"><span class="tag">CSS PROJECT</span><h4>🎨 Div Art</h4><p>Create pictures with HTML divs and CSS.</p></a><a class="card" href="../dice-game/index.html"><span class="tag">JS PROJECT</span><h4>🎲 Dice Game</h4><p>Random numbers and simple game rules.</p></a><a class="card game" href="game-lab.html"><span class="tag">GAME PROJECTS</span><h4>🎮 Game Challenges</h4><p>Guided challenges, two-player ideas and platformer.</p></a></div></section>
-<section class="section"><h2>Tools</h2><div class="tools"><a class="tool" href="../code-studio-new.html" target="_blank">💻 Code Studio</a><a class="tool" href="../gallery.html">🖼️ Resources</a><a class="tool" href="../eyedropper.html" target="_blank">🎨 Color Finder</a><a class="tool" href="../css-rgb-colors.html" target="_blank">🔵 RGB Studio</a><a class="tool" href="Sound Lab.html" target="_blank">🔊 Sound Studio</a></div></section></main></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Summer Coding Camp | RBS Code</title>
+
+<style>
+:root{
+  --bg:linear-gradient(135deg,#f7f3ec,#e9e2ff);
+  --card:#fff;
+  --text:#2d2959;
+  --subtle:#62627a;
+  --border:#e4def7;
+  --shadow:rgba(0,0,0,.10);
+  --accent:#5a3cc4;
+  --accent-soft:rgba(90,60,196,.10);
+
+  --game:#0f766e;
+  --game-soft:#ecfdf5;
+  --web:#2563eb;
+  --web-soft:#eff6ff;
+  --level:#7c3aed;
+  --level-soft:#f5f3ff;
+  --tool:#334155;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Inter,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.5;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+.wrapper{
+  max-width:1050px;
+  margin:auto;
+  padding:34px 20px 65px;
+}
+
+.hero{
+  text-align:center;
+  margin-bottom:24px;
+}
+
+.kicker{
+  display:inline-block;
+  padding:6px 12px;
+  border-radius:999px;
+  background:var(--accent-soft);
+  color:var(--accent);
+  font-size:13px;
+  font-weight:900;
+}
+
+.hero h1{
+  font-size:clamp(2.1rem,6vw,3.7rem);
+  line-height:1;
+  margin:12px 0 7px;
+}
+
+.hero p{
+  color:var(--subtle);
+  max-width:720px;
+  margin:auto;
+  font-size:1.04rem;
+}
+
+/* TODAY */
+.today{
+  background:var(--card);
+  border:2px solid var(--game);
+  border-radius:24px;
+  padding:25px;
+  box-shadow:0 12px 30px var(--shadow);
+  margin:25px 0 30px;
+}
+
+.today .label{
+  color:var(--game);
+  font-weight:900;
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+}
+
+.today h2{
+  margin:4px 0 5px;
+  font-size:clamp(1.7rem,4vw,2.5rem);
+}
+
+.today > p{
+  color:var(--subtle);
+  margin:0 0 16px;
+}
+
+.choice-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin:16px 0 14px;
+}
+
+.choice{
+  display:block;
+  border-radius:16px;
+  padding:18px;
+  color:#fff;
+  min-height:145px;
+  transition:.18s;
+}
+
+.choice:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 22px rgba(0,0,0,.15);
+}
+
+.choice.game-choice{background:linear-gradient(135deg,#0f766e,#115e59)}
+.choice.web-choice{background:linear-gradient(135deg,#2563eb,#1d4ed8)}
+
+.choice .big{
+  font-size:33px;
+  display:block;
+  margin-bottom:4px;
+}
+
+.choice h3{
+  font-size:25px;
+  margin:0 0 5px;
+}
+
+.choice p{
+  margin:0;
+  color:rgba(255,255,255,.9);
+}
+
+.path{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+
+.path span{
+  padding:7px 9px;
+  background:var(--game-soft);
+  border-radius:8px;
+  font-size:13px;
+  font-weight:800;
+}
+
+/* SECTIONS */
+.section{
+  margin:39px 0;
+}
+
+.section h2{
+  margin:0 0 4px;
+  font-size:29px;
+}
+
+.intro{
+  color:var(--subtle);
+  margin:0 0 15px;
+}
+
+.group{
+  margin:24px 0;
+}
+
+.group h3{
+  margin:0 0 10px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(215px,1fr));
+  gap:13px;
+}
+
+.card{
+  display:block;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:16px;
+  min-height:132px;
+  box-shadow:0 5px 14px var(--shadow);
+  transition:.18s;
+}
+
+.card:hover{
+  transform:translateY(-3px);
+  border-color:var(--accent);
+}
+
+.card.game{border-top:5px solid var(--game)}
+.card.web{border-top:5px solid var(--web)}
+.card.level{border-top:5px solid var(--level)}
+
+.tag{
+  font-size:11px;
+  font-weight:900;
+  color:var(--accent);
+  letter-spacing:.03em;
+}
+
+.card.game .tag{color:var(--game)}
+.card.web .tag{color:var(--web)}
+.card.level .tag{color:var(--level)}
+
+.card h4{
+  margin:5px 0 6px;
+  font-size:18px;
+}
+
+.card p{
+  margin:0;
+  color:var(--subtle);
+  font-size:.91rem;
+}
+
+/* FAST REFERENCE BAR */
+.quickbar{
+  background:#111827;
+  color:white;
+  border-radius:16px;
+  padding:17px;
+  margin:18px 0;
+}
+
+.quickbar h3{
+  margin:0 0 10px;
+}
+
+.quicklinks{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.quicklinks a{
+  display:inline-block;
+  background:#ffffff16;
+  border:1px solid #ffffff25;
+  padding:8px 10px;
+  border-radius:9px;
+  font-weight:800;
+  font-size:13px;
+}
+
+.quicklinks a:hover{
+  background:#ffffff25;
+}
+
+/* PERMANENT TOOLS */
+.tools-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+  gap:10px;
+}
+
+.tool{
+  min-height:102px;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:13px 9px;
+  text-align:center;
+  box-shadow:0 4px 12px var(--shadow);
+  font-weight:850;
+  transition:.18s;
+}
+
+.tool:hover{
+  transform:translateY(-3px);
+  border-color:var(--accent);
+}
+
+.tool-icon{
+  display:block;
+  font-size:30px;
+  margin-bottom:5px;
+}
+
+.footer{
+  text-align:center;
+  color:var(--subtle);
+  margin-top:48px;
+  font-size:13px;
+}
+
+@media(max-width:650px){
+  .wrapper{padding:27px 13px 50px}
+  .choice-grid{grid-template-columns:1fr}
+  .tools-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+
+<body>
+<main class="wrapper">
+
+<header class="hero">
+  <span class="kicker">RBS Code · Summer Coding Camp · Final Day</span>
+  <h1>Build. Test. Create.</h1>
+  <p>
+    Everything from the week stays here.
+    Today, use it to build something that is yours.
+  </p>
+</header>
+
+<!-- ======================================================
+     TODAY
+======================================================= -->
+<section class="today">
+  <div class="label">TODAY · FINAL DAY</div>
+  <h2>What are you building?</h2>
+  <p>
+    Choose a direction. Start from a working example when useful.
+    Change it, test it, then keep adding your own ideas.
+  </p>
+
+  <div class="choice-grid">
+    <a class="choice game-choice" href="game-builder.html">
+      <span class="big">🎮</span>
+      <h3>Build a Game</h3>
+      <p>
+        Plan the rules, choose your game blocks,
+        use an example and make it your own.
+      </p>
+    </a>
+
+    <a class="choice web-choice" href="rbs-code-website-builder-toolbox.html">
+      <span class="big">🌐</span>
+      <h3>Build Your Website</h3>
+      <p>
+        Use your HTML + CSS skills, templates,
+        cards, images and layout tools.
+      </p>
+    </a>
+  </div>
+
+  <div class="path">
+    <span>1 · Choose an idea</span>
+    <span>2 · Get a working start</span>
+    <span>3 · Change it</span>
+    <span>4 · Test it</span>
+    <span>5 · Add your own feature</span>
+  </div>
+</section>
+
+<!-- ======================================================
+     TODAY'S GAME BUILDER
+======================================================= -->
+<section class="section">
+  <h2>Final Day Game Builder</h2>
+  <p class="intro">
+    Start simple. Use the next tool only when you need it.
+  </p>
+
+  <div class="grid">
+
+    <a class="card game" href="game-builder.html">
+      <span class="tag">START HERE</span>
+      <h4>🧠 Game Builder</h4>
+      <p>Idea → objects → rules → game blocks → code.</p>
+    </a>
+
+    <a class="card game" href="10-complete-games.html">
+      <span class="tag">FASTEST START</span>
+      <h4>🎮 10 Complete Games</h4>
+      <p>Play one, copy the whole working game, then remix it.</p>
+    </a>
+
+    <a class="card game" href="game-blocks-dictionary.html">
+      <span class="tag">FIND A BLOCK</span>
+      <h4>📖 Game Block Dictionary</h4>
+      <p>What each function does, what HTML it needs and a worked example.</p>
+    </a>
+
+    <a class="card game" href="game-toolbox-core.html">
+      <span class="tag">I WANT TO...</span>
+      <h4>🧰 Core Game Toolbox</h4>
+      <p>Find code by what you want your game to do.</p>
+    </a>
+
+    <a class="card level" href="arrays-real-games.html">
+      <span class="tag">LEVEL UP</span>
+      <h4>👾 Arrays in Real Games</h4>
+      <p>Many enemies, platforms and bullets. Copyable complete games included.</p>
+    </a>
+
+    <a class="card level" href="gamepad-mechanics.html">
+      <span class="tag">CONTROLLERS</span>
+      <h4>🎮 Gamepad Lab</h4>
+      <p>Sticks, buttons, triggers, axes and vibration.</p>
+    </a>
+
+    <a class="card level" href="two-player-gamepad.html">
+      <span class="tag">2 PLAYERS</span>
+      <h4>👥 Two Gamepads</h4>
+      <p>Controller 1 controls one player; controller 2 controls another.</p>
+    </a>
+
+    <a class="card level" href="audio-mechanics.html">
+      <span class="tag">POLISH</span>
+      <h4>🔊 Sound & Music</h4>
+      <p>Add collect sounds, crashes, music and audio feedback.</p>
+    </a>
+
+    <a class="card level" href="library-setup.html">
+      <span class="tag">SETUP / DOWNLOAD</span>
+      <h4>📦 Game Libraries</h4>
+      <p>Download or copy the final game, gamepad and audio libraries.</p>
+    </a>
+
+  </div>
+
+  <div class="quickbar">
+    <h3>Need something while building?</h3>
+    <div class="quicklinks">
+      <a href="game-blocks-dictionary.html">Function?</a>
+      <a href="10-complete-games.html">Working game?</a>
+      <a href="arrays-real-games.html">Many objects?</a>
+      <a href="gamepad-mechanics.html">Controller?</a>
+      <a href="audio-mechanics.html">Sound?</a>
+      <a href="../resources/emoji.html">Emoji?</a>
+      <a href="../gallery.html">Image / resource?</a>
+      <a href="../eyedropper.html" target="_blank">Colour?</a>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     WEBSITE BUILDER
+======================================================= -->
+<section class="section">
+  <h2>Website Builder</h2>
+  <p class="intro">
+    Build your own site, then put your games and projects on it.
+  </p>
+
+  <div class="grid">
+
+    <a class="card web" href="rbs-code-website-builder-toolbox.html">
+      <span class="tag">WEBSITE REFERENCE</span>
+      <h4>🌐 Website Builder Toolbox</h4>
+      <p>HTML, CSS, flex, cards, images and the most useful website patterns.</p>
+    </a>
+
+    <a class="card web" href="templates-gallery.html">
+      <span class="tag">START FROM A DESIGN</span>
+      <h4>🖼️ Website Templates</h4>
+      <p>Choose a style, copy it and turn it into your own site.</p>
+    </a>
+
+    <a class="card web" href="css-2.html">
+      <span class="tag">CSS REVIEW</span>
+      <h4>🎨 CSS 2</h4>
+      <p>Padding, margin, centering, navbars, cards and clean spacing.</p>
+    </a>
+
+    <a class="card web" href="../gallery.html">
+      <span class="tag">ASSETS</span>
+      <h4>📸 Resources</h4>
+      <p>Find images and other resources for your website and games.</p>
+    </a>
+
+  </div>
+</section>
+
+<!-- ======================================================
+     YESTERDAY'S GAME DAY MATERIAL
+======================================================= -->
+<section class="section">
+  <h2>Game Lessons & Practice</h2>
+  <p class="intro">
+    Yesterday's pages are still here when you want to understand a skill more deeply.
+  </p>
+
+  <div class="grid">
+
+    <a class="card game" href="js-skills-map.html">
+      <span class="tag">QUICK REVIEW</span>
+      <h4>JavaScript Skills Map</h4>
+      <p>JS1, JS2, JS3 and what each level unlocks.</p>
+    </a>
+
+    <a class="card game" href="game-functions.html">
+      <span class="tag">UNDER THE HOOD</span>
+      <h4>Game Functions Lab</h4>
+      <p>See functions, edit them, run them and use the console.</p>
+    </a>
+
+    <a class="card game" href="game-lab.html">
+      <span class="tag">COMPLETE EXAMPLES</span>
+      <h4>Complete Game Lab</h4>
+      <p>Treasure Rush, two-player, platformer and bonus challenges.</p>
+    </a>
+
+    <a class="card game" href="game-recipes.html">
+      <span class="tag">MORE PROJECT IDEAS</span>
+      <h4>20 Game Recipes</h4>
+      <p>HTML, CSS, JavaScript and a live result for each project.</p>
+    </a>
+
+  </div>
+</section>
+
+<!-- ======================================================
+     COURSE
+======================================================= -->
+<section class="section">
+  <h2>Your Course</h2>
+  <p class="intro">
+    Everything you learned this week stays easy to find.
+  </p>
+
+  <div class="group">
+    <h3>HTML</h3>
+    <div class="grid">
+      <a class="card" href="html-1.html">
+        <span class="tag">HTML 1</span>
+        <h4>Page Basics</h4>
+        <p>Headings, paragraphs, buttons and page structure.</p>
+      </a>
+
+      <a class="card" href="html-2.html">
+        <span class="tag">HTML 2</span>
+        <h4>More Building Blocks</h4>
+        <p>Divs, images, links, inputs and useful attributes.</p>
+      </a>
+    </div>
+  </div>
+
+  <div class="group">
+    <h3>CSS</h3>
+    <div class="grid">
+      <a class="card" href="css1-guide.html">
+        <span class="tag">CSS 1</span>
+        <h4>Make It Look Good</h4>
+        <p>Colors, sizes, borders and fonts.</p>
+      </a>
+
+      <a class="card" href="css-2.html">
+        <span class="tag">CSS 2</span>
+        <h4>Space & Website Design</h4>
+        <p>Padding, margin, centering, navbars and cards.</p>
+      </a>
+    </div>
+  </div>
+
+  <div class="group">
+    <h3>JavaScript</h3>
+    <div class="grid">
+      <a class="card" href="js1-guide-revised.html">
+        <span class="tag">JS 1</span>
+        <h4>Think with JavaScript</h4>
+        <p>Variables, prompts, maths and decisions.</p>
+      </a>
+
+      <a class="card" href="js2-guide.html">
+        <span class="tag">JS 2</span>
+        <h4>Control the Page</h4>
+        <p>Functions, buttons, elements, styles and movement.</p>
+      </a>
+
+      <a class="card game" href="js-skills-map.html">
+        <span class="tag">JS 3 · GAME SKILLS</span>
+        <h4>Game Rules</h4>
+        <p>Keyboard input, collisions, timers, score and game loops.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     PROJECTS
+======================================================= -->
+<section class="section">
+  <h2>Projects & Challenges</h2>
+
+  <div class="grid">
+    <a class="card" href="../div-art/index.html">
+      <span class="tag">CSS PROJECT</span>
+      <h4>🎨 Div Art</h4>
+      <p>Create pictures using HTML divs and CSS.</p>
+    </a>
+
+    <a class="card" href="../dice-game/index.html">
+      <span class="tag">JS PROJECT</span>
+      <h4>🎲 Dice Game</h4>
+      <p>Random numbers and simple game rules.</p>
+    </a>
+
+    <a class="card game" href="10-complete-games.html">
+      <span class="tag">GAME PROJECTS</span>
+      <h4>🎮 Complete Games</h4>
+      <p>Choose a working game and turn it into your own project.</p>
+    </a>
+
+    <a class="card web" href="templates-gallery.html">
+      <span class="tag">WEBSITE PROJECT</span>
+      <h4>🌐 Website Templates</h4>
+      <p>Start a portfolio, game site, magazine or themed website.</p>
+    </a>
+  </div>
+</section>
+
+<!-- ======================================================
+     ALL ORIGINAL / PERMANENT TOOLS
+======================================================= -->
+<section class="section">
+  <h2>Tools</h2>
+  <p class="intro">
+    Your permanent coding tools and resources.
+  </p>
+
+  <div class="tools-grid">
+
+    <a class="tool"
+       href="https://code.visualstudio.com/download"
+       target="_blank">
+      <span class="tool-icon">⌨️</span>
+      VS Code
+    </a>
+
+    <a class="tool"
+       href="../code-studio-new.html"
+       target="_blank">
+      <span class="tool-icon">💻</span>
+      Code Studio
+    </a>
+
+    <a class="tool"
+       href="../codepen.html">
+      <span class="tool-icon">🧪</span>
+      CodePen
+    </a>
+
+    <a class="tool"
+       href="https://mail.jerusalemtechlab.org/"
+       target="_blank">
+      <span class="tool-icon">✉️</span>
+      Email
+    </a>
+
+    <a class="tool"
+       href="../gallery.html">
+      <span class="tool-icon">🖼️</span>
+      Resources
+    </a>
+
+    <a class="tool"
+       href="../resources/emoji.html">
+      <span class="tool-icon">😀</span>
+      Emoji
+    </a>
+
+    <a class="tool"
+       href="../eyedropper.html"
+       target="_blank">
+      <span class="tool-icon">🎨</span>
+      Color Finder
+    </a>
+
+    <a class="tool"
+       href="../css-rgb-colors.html"
+       target="_blank">
+      <span class="tool-icon">🔵</span>
+      RGB Studio
+    </a>
+
+    <a class="tool"
+       href="../css-tools-basic-11.html">
+      <span class="tool-icon">🧰</span>
+      Toolbox
+    </a>
+
+  
+    <a class="tool"
+       href="Sound Lab.html"
+       target="_blank">
+      <span class="tool-icon">🔊</span>
+      Sound Studio
+    </a>
+
+  </div>
+</section>
+
+<div class="footer">
+  RBS Code · The Tech Lab · Keep building after camp.
+</div>
+
+</main>
+</body>
+</html>

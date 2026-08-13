@@ -1,0 +1,43 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Game Studio</title><style>
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f4f7fb;color:#172033;font-family:Arial,sans-serif;line-height:1.5}main{width:min(1120px,calc(100% - 28px));margin:auto;padding:28px 0 80px}h1{font-size:clamp(36px,6vw,62px);line-height:1;margin:8px 0 12px}h2{margin:0 0 9px}h3{margin:0 0 7px}.lead{font-size:19px;color:#64748b;max-width:900px}.card{background:white;border:1px solid #dfe5ee;border-radius:16px;padding:17px;margin:14px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.three{grid-template-columns:repeat(3,1fr)}.codewrap{position:relative;margin:10px 0}.code{background:#0b1220;color:#edf4ff;border-radius:11px;padding:14px 14px 14px;font:14px/1.55 Consolas,monospace;white-space:pre;overflow:auto;margin:0}.copy{position:absolute;right:8px;top:8px;border:0;border-radius:8px;padding:7px 10px;font-weight:900;background:#facc15;color:#422006;cursor:pointer;transition:.18s}.copy.copied{background:#22c55e;color:white;transform:scale(1.08)}.copy.copied:after{content:' ✓'}.btn{display:inline-block;text-decoration:none;border:0;border-radius:9px;padding:9px 12px;font-weight:900;background:#4f46e5;color:white;cursor:pointer;margin:3px}.btn.alt{background:#0f766e}.btn.orange{background:#b45309}.btn.gray{background:#475569}.note{background:#fff;border-left:5px solid #4f46e5;border-radius:10px;padding:12px 14px;margin:13px 0}.warn{border-left-color:#ea580c}.toc{background:#111827;color:white;border-radius:15px;padding:14px;margin:15px 0}.toc a{color:#bfdbfe;text-decoration:none;font-weight:800;display:inline-block;margin:5px 10px 5px 0}.pill{display:inline-block;border-radius:999px;padding:5px 9px;background:#eef2ff;color:#3730a3;font-size:12px;font-weight:900;margin:2px}.block{display:flex;align-items:center;gap:10px;border-radius:10px;padding:10px 12px;margin:8px 0;color:white;font:700 15px Consolas,monospace;box-shadow:inset 0 -3px rgba(0,0,0,.13)}.b-move{background:#2563eb}.b-sense{background:#7c3aed}.b-state{background:#0f766e}.b-look{background:#ea580c}.b-time{background:#ca8a04}.b-input{background:#db2777}.b-util{background:#475569}.block small{font:13px Arial,sans-serif;margin-left:auto;color:#fff}.steps{counter-reset:s}.steps>div{counter-increment:s;padding:12px 12px 12px 52px;position:relative;border-bottom:1px solid #e5e7eb}.steps>div:before{content:counter(s);position:absolute;left:7px;top:9px;background:#4f46e5;color:white;width:31px;height:31px;border-radius:50%;display:grid;place-items:center;font-weight:900}.mini{font-size:13px;color:#64748b}.good{background:#ecfdf5;border-left:5px solid #0f766e;padding:12px;border-radius:10px}.bad{background:#fff7ed;border-left:5px solid #ea580c;padding:12px;border-radius:10px}@media(max-width:800px){.grid,.three{grid-template-columns:1fr}}
+</style></head><body><main><a class="btn gray" href="final-day.html">← FINAL DAY</a><a class="btn" href="game-builder.html">GAME BUILDER</a><a class="btn alt" href="library-setup.html">LIBRARY SETUP</a><h1>💻 Game Studio</h1><p class="lead">This is a real code area. Edit the whole page, press RUN, and see your game immediately.</p><div class="grid"><div class="card"><h2>CODE</h2><button class="btn" onclick="runStudio()">▶ RUN</button><button class="btn alt" onclick="copyCode(this,'editor')">COPY ALL CODE</button><button class="btn orange" onclick="downloadText('index.html',document.getElementById('editor').value)">DOWNLOAD index.html</button><textarea id="editor" spellcheck="false" style="width:100%;height:620px;background:#0b1220;color:#edf4ff;border:0;border-radius:12px;padding:14px;font:14px/1.5 Consolas;tab-size:4">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;style&gt;
+body { font-family: Arial; text-align: center; }
+.game { position: relative; width: 600px; height: 340px; margin: auto; overflow: hidden; background: #dff4ff; border: 4px solid #172033; border-radius: 16px; }
+.sprite { position: absolute; width: 48px; height: 48px; font-size: 38px; line-height: 48px; text-align: center; }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;My Game&lt;/h1&gt;
+&lt;div&gt;Score: &lt;span id=&quot;scoreText&quot;&gt;0&lt;/span&gt;&lt;/div&gt;
+&lt;h2 id=&quot;message&quot;&gt;Collect 5 ⭐. Avoid 👾.&lt;/h2&gt;
+&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;
+    &lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px; top:130px&quot;&gt;🚀&lt;/div&gt;
+    &lt;div id=&quot;star&quot; class=&quot;sprite&quot; style=&quot;left:420px; top:80px&quot;&gt;⭐&lt;/div&gt;
+    &lt;div id=&quot;enemy&quot; class=&quot;sprite&quot; style=&quot;left:300px; top:220px&quot;&gt;👾&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script src=&quot;rbs-game-library.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;rbs-gamepad-library.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;rbs-audio-library.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+let score = 0;
+let playing = true;
+
+moveWithKeys(player, 12, &quot;ArrowUp&quot;, &quot;ArrowDown&quot;, &quot;ArrowLeft&quot;, &quot;ArrowRight&quot;);
+
+everyFrame(function() {
+    if (!playing) return;
+    keepInside(player, game);
+
+    // BUILD YOUR RULES HERE
+});
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</textarea></div><div class="card"><h2>RESULT</h2><iframe id="preview" style="width:100%;height:620px;border:1px solid #dfe5ee;border-radius:12px;background:white"></iframe></div></div><div class="note"><b>If your game uses the libraries:</b> keep <code>rbs-game-library.js</code>, <code>rbs-gamepad-library.js</code> and <code>rbs-audio-library.js</code> in the same folder as this <code>index.html</code>.</div></main><script>
+function copyCode(btn,id){let el=document.getElementById(id);let text=(el.value!==undefined?el.value:el.innerText).trim();navigator.clipboard.writeText(text).then(()=>copied(btn));}
+function copied(btn){let old=btn.textContent;btn.textContent='COPIED!';btn.classList.add('copied');setTimeout(()=>{btn.textContent=old;btn.classList.remove('copied')},1200);}
+function downloadText(filename,text){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/plain'}));a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500);}
+function runStudio(){let f=document.getElementById('preview');f.srcdoc=document.getElementById('editor').value;}runStudio();</script></body></html>

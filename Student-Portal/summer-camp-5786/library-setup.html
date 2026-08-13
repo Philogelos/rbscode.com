@@ -1,0 +1,1264 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Library Setup · RBS Code</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#172033;font-family:Arial,sans-serif;line-height:1.5}main{width:min(1080px,calc(100% - 24px));margin:auto;padding:26px 0 70px}h1{font-size:clamp(36px,6vw,60px);margin:5px 0}.lead{color:#64748b;font-size:19px}.card{background:white;border:1px solid #dfe5ee;border-radius:15px;padding:16px;margin:15px 0}pre{background:#0b1220;color:#edf4ff;border-radius:10px;padding:14px;overflow:auto;white-space:pre-wrap;font:14px/1.55 Consolas,monospace}.codewrap{position:relative}button,.btn{border:0;border-radius:9px;background:#4f46e5;color:white;font-weight:900;padding:9px 11px;cursor:pointer;text-decoration:none;display:inline-block;margin:3px}.copy{position:absolute;top:8px;right:8px;background:#facc15;color:#422006}.good{background:#ecfdf5;border-left:5px solid #0f766e;padding:12px;border-radius:10px}details{margin-top:10px}summary{cursor:pointer;font-weight:900;color:#3730a3;background:#eef2ff;padding:9px;border-radius:9px}
+</style>
+</head>
+<body>
+<main>
+<a class="btn" href="final-day.html">← PORTAL</a>
+<h1>Put the Libraries Into Your Game</h1>
+<p class="lead">Use the final versions below. Do not mix them with older copies.</p>
+
+<section class="card">
+<h2>1. Your folder</h2>
+<pre>my-game/
+    index.html
+    rbs-game-library.js
+    rbs-gamepad-library.js
+    rbs-audio-library.js
+    sounds/
+    images/</pre>
+</section>
+
+<section class="card">
+<h2>2. Download the final library files</h2>
+<a class="btn" download href="rbs-game-library.js">DOWNLOAD GAME LIBRARY</a>
+<a class="btn" download href="rbs-gamepad-library.js">DOWNLOAD GAMEPAD LIBRARY</a>
+<a class="btn" download href="rbs-audio-library.js">DOWNLOAD AUDIO LIBRARY</a>
+</section>
+
+<section class="card">
+<h2>3. Add the script tags</h2>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'tags')">COPY</button>
+<pre id="tags">&lt;script src="rbs-game-library.js"&gt;&lt;/script&gt;
+&lt;script src="rbs-gamepad-library.js"&gt;&lt;/script&gt;
+&lt;script src="rbs-audio-library.js"&gt;&lt;/script&gt;
+
+&lt;script&gt;
+    // YOUR GAME CODE
+&lt;/script&gt;</pre>
+</div>
+<div class="good"><b>Order matters:</b> game library first, then gamepad/audio, then your own game code.</div>
+</section>
+
+<section class="card">
+<h2>4. Copy a library instead of downloading</h2>
+<details><summary>GAME LIBRARY · COPY WHOLE FILE</summary><div class="codewrap"><button class="copy" onclick="copyCode(this,'gamelib')">COPY WHOLE LIBRARY</button><pre id="gamelib">/*
+RBS CODE · MASTER GAME LIBRARY · FINAL DAY
+===========================================
+One library for the beginner &quot;power blocks&quot; AND the later building blocks.
+
+IMPORTANT:
+- Functions accept either an element OR its id as text.
+- Old examples such as moveWithKeys(&quot;player&quot;, 7, &quot;game&quot;) keep working.
+- Dynamic sprites are removed from BOTH the webpage and their array.
+*/
+
+let RBS_GAME_ENDED = false;
+
+function get(item) {
+    if (typeof item === &quot;string&quot;) {
+        return document.getElementById(item);
+    }
+    return item;
+}
+
+function getAll(selector) {
+    return Array.from(document.querySelectorAll(selector));
+}
+
+function move(item, xChange, yChange) {
+    item = get(item);
+    if (!item) return;
+    item.style.left = (item.offsetLeft + xChange) + &quot;px&quot;;
+    item.style.top = (item.offsetTop + yChange) + &quot;px&quot;;
+}
+
+function place(item, x, y) {
+    item = get(item);
+    if (!item) return;
+    item.style.left = x + &quot;px&quot;;
+    item.style.top = y + &quot;px&quot;;
+}
+
+function hide(item) {
+    item = get(item);
+    if (item) item.style.display = &quot;none&quot;;
+}
+
+function show(item) {
+    item = get(item);
+    if (item) item.style.display = &quot;block&quot;;
+}
+
+function setText(item, text) {
+    item = get(item);
+    if (item) item.innerText = text;
+}
+
+function setEmoji(item, emoji) {
+    setText(item, emoji);
+}
+
+function setImage(item, src) {
+    item = get(item);
+    if (item) item.src = src;
+}
+
+function changePicture(item, src) {
+    setImage(item, src);
+}
+
+function changeNumber(number, amount, display) {
+    number = number + amount;
+    display = get(display);
+    if (display) display.innerText = number;
+    return number;
+}
+
+function keepInside(item, gameArea) {
+    item = get(item);
+    gameArea = get(gameArea);
+    if (!item || !gameArea) return;
+
+    let maxX = gameArea.clientWidth - item.offsetWidth;
+    let maxY = gameArea.clientHeight - item.offsetHeight;
+
+    if (item.offsetLeft &lt; 0) item.style.left = &quot;0px&quot;;
+    if (item.offsetTop &lt; 0) item.style.top = &quot;0px&quot;;
+    if (item.offsetLeft &gt; maxX) item.style.left = maxX + &quot;px&quot;;
+    if (item.offsetTop &gt; maxY) item.style.top = maxY + &quot;px&quot;;
+}
+
+function touching(a, b) {
+    a = get(a);
+    b = get(b);
+
+    if (!a || !b) return false;
+    if (a.style.display === &quot;none&quot; || b.style.display === &quot;none&quot;) return false;
+
+    let x = a.getBoundingClientRect();
+    let y = b.getBoundingClientRect();
+
+    return x.left &lt; y.right &amp;&amp;
+           x.right &gt; y.left &amp;&amp;
+           x.top &lt; y.bottom &amp;&amp;
+           x.bottom &gt; y.top;
+}
+
+function atEdge(item, gameArea, side) {
+    item = get(item);
+    gameArea = get(gameArea);
+    if (!item || !gameArea) return false;
+
+    if (side === &quot;left&quot;) return item.offsetLeft &lt;= 0;
+    if (side === &quot;right&quot;) return item.offsetLeft + item.offsetWidth &gt;= gameArea.clientWidth;
+    if (side === &quot;top&quot;) return item.offsetTop &lt;= 0;
+    if (side === &quot;bottom&quot;) return item.offsetTop + item.offsetHeight &gt;= gameArea.clientHeight;
+    return false;
+}
+
+function randomPosition(item, gameArea) {
+    item = get(item);
+    gameArea = get(gameArea);
+    if (!item || !gameArea) return;
+
+    let maxX = Math.max(0, gameArea.clientWidth - item.offsetWidth);
+    let maxY = Math.max(0, gameArea.clientHeight - item.offsetHeight);
+
+    place(
+        item,
+        Math.floor(Math.random() * (maxX + 1)),
+        Math.floor(Math.random() * (maxY + 1))
+    );
+}
+
+function randomX(item, gameArea) {
+    item = get(item);
+    gameArea = get(gameArea);
+    if (!item || !gameArea) return;
+
+    let maxX = Math.max(0, gameArea.clientWidth - item.offsetWidth);
+    item.style.left = Math.floor(Math.random() * (maxX + 1)) + &quot;px&quot;;
+}
+
+function moveToward(enemy, target, speed) {
+    enemy = get(enemy);
+    target = get(target);
+    if (!enemy || !target) return;
+
+    let dx = target.offsetLeft - enemy.offsetLeft;
+    let dy = target.offsetTop - enemy.offsetTop;
+    let distance = Math.sqrt(dx * dx + dy * dy);
+    if (distance === 0) return;
+
+    move(enemy, (dx / distance) * speed, (dy / distance) * speed);
+}
+
+/*
+THREE WAYS TO USE moveWithKeys:
+
+1. Default arrows + stay inside game:
+moveWithKeys(&quot;player&quot;, 10, &quot;game&quot;);
+
+2. Custom keys + stay inside game:
+moveWithKeys(&quot;blue&quot;, 10, &quot;game&quot;, &quot;w&quot;, &quot;s&quot;, &quot;a&quot;, &quot;d&quot;);
+
+3. Custom keys without a boundary:
+moveWithKeys(&quot;player&quot;, 10, &quot;w&quot;, &quot;s&quot;, &quot;a&quot;, &quot;d&quot;);
+*/
+function moveWithKeys(item, speed, third, fourth, fifth, sixth, seventh) {
+    item = get(item);
+    if (!item) return;
+
+    let gameArea = null;
+    let upKey = &quot;ArrowUp&quot;;
+    let downKey = &quot;ArrowDown&quot;;
+    let leftKey = &quot;ArrowLeft&quot;;
+    let rightKey = &quot;ArrowRight&quot;;
+
+    if (arguments.length === 3) {
+        gameArea = get(third);
+    } else if (arguments.length &gt;= 7) {
+        gameArea = get(third);
+        upKey = fourth;
+        downKey = fifth;
+        leftKey = sixth;
+        rightKey = seventh;
+    } else if (arguments.length &gt;= 6) {
+        upKey = third;
+        downKey = fourth;
+        leftKey = fifth;
+        rightKey = sixth;
+    }
+
+    document.addEventListener(&quot;keydown&quot;, function(event) {
+        if (RBS_GAME_ENDED) return;
+
+        let moved = false;
+
+        if (event.key === upKey) {
+            move(item, 0, -speed);
+            moved = true;
+        }
+        if (event.key === downKey) {
+            move(item, 0, speed);
+            moved = true;
+        }
+        if (event.key === leftKey) {
+            move(item, -speed, 0);
+            moved = true;
+        }
+        if (event.key === rightKey) {
+            move(item, speed, 0);
+            moved = true;
+        }
+
+        if (moved &amp;&amp; gameArea) keepInside(item, gameArea);
+
+        if (moved &amp;&amp; event.key.startsWith(&quot;Arrow&quot;)) {
+            event.preventDefault();
+        }
+    });
+}
+
+function after(milliseconds, doThis) {
+    return setTimeout(doThis, milliseconds);
+}
+
+function every(milliseconds, doThis) {
+    return setInterval(doThis, milliseconds);
+}
+
+function everyFrame(doThis) {
+    function loop() {
+        doThis();
+        requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+}
+
+function restartGame() {
+    location.reload();
+}
+
+function gameOver(message, text) {
+    RBS_GAME_ENDED = true;
+    setText(message, text || &quot;GAME OVER&quot;);
+}
+
+/* =========================================================
+   BEGINNER POWER BLOCKS
+   ========================================================= */
+
+function collect(player, itemOrInventory, scoreOrName, points, gameArea) {
+    /*
+    Beginner:
+    collect(&quot;player&quot;, &quot;coin&quot;, &quot;scoreText&quot;, 1, &quot;game&quot;);
+
+    Later array lesson:
+    collect(keyElement, inventoryArray, &quot;key&quot;);
+    */
+    if (Array.isArray(itemOrInventory)) {
+        let item = get(player);
+        itemOrInventory.push(scoreOrName);
+        hide(item);
+        return;
+    }
+
+    player = get(player);
+    let item = get(itemOrInventory);
+    let scoreText = get(scoreOrName);
+    gameArea = get(gameArea);
+
+    if (!player || !item || !scoreText || !gameArea) return;
+
+    everyFrame(function() {
+        if (RBS_GAME_ENDED) return;
+
+        if (touching(player, item)) {
+            let score = Number(scoreText.innerText) || 0;
+            score = score + points;
+            scoreText.innerText = score;
+            randomPosition(item, gameArea);
+        }
+    });
+}
+
+function winAtScore(scoreText, target, message) {
+    scoreText = get(scoreText);
+    message = get(message);
+
+    everyFrame(function() {
+        if (RBS_GAME_ENDED || !scoreText) return;
+
+        if ((Number(scoreText.innerText) || 0) &gt;= target) {
+            RBS_GAME_ENDED = true;
+            if (message) message.innerText = &quot;YOU WIN!&quot;;
+        }
+    });
+}
+
+function loseOnTouch(player, enemy, message, playerAfter) {
+    player = get(player);
+    enemy = get(enemy);
+    message = get(message);
+
+    everyFrame(function() {
+        if (RBS_GAME_ENDED) return;
+
+        if (touching(player, enemy)) {
+            RBS_GAME_ENDED = true;
+            if (playerAfter) setEmoji(player, playerAfter);
+            if (message) message.innerText = &quot;GAME OVER&quot;;
+        }
+    });
+}
+
+function winOnTouch(player, goal, message) {
+    player = get(player);
+    goal = get(goal);
+    message = get(message);
+
+    everyFrame(function() {
+        if (RBS_GAME_ENDED) return;
+
+        if (goal &amp;&amp; goal.dataset.locked === &quot;true&quot;) return;
+
+        if (touching(player, goal)) {
+            RBS_GAME_ENDED = true;
+            if (message) message.innerText = &quot;YOU WIN!&quot;;
+        }
+    });
+}
+
+function chase(enemy, player, speed) {
+    enemy = get(enemy);
+    player = get(player);
+
+    everyFrame(function() {
+        if (RBS_GAME_ENDED) return;
+        moveToward(enemy, player, speed);
+    });
+}
+
+function patrol(enemy, xSpeed, ySpeed, gameArea) {
+    enemy = get(enemy);
+    gameArea = get(gameArea);
+    if (!enemy || !gameArea) return;
+
+    let dx = xSpeed;
+    let dy = ySpeed;
+
+    everyFrame(function() {
+        if (RBS_GAME_ENDED) return;
+
+        move(enemy, dx, dy);
+
+        if (atEdge(enemy, gameArea, &quot;left&quot;) || atEdge(enemy, gameArea, &quot;right&quot;)) {
+            dx = -dx;
+        }
+        if (atEdge(enemy, gameArea, &quot;top&quot;) || atEdge(enemy, gameArea, &quot;bottom&quot;)) {
+            dy = -dy;
+        }
+
+        keepInside(enemy, gameArea);
+    });
+}
+
+function keyOpensDoor(player, key, door, message) {
+    player = get(player);
+    key = get(key);
+    door = get(door);
+    message = get(message);
+    if (!player || !key || !door) return;
+
+    door.dataset.locked = &quot;true&quot;;
+    let hasKey = false;
+
+    everyFrame(function() {
+        if (RBS_GAME_ENDED) return;
+
+        if (!hasKey &amp;&amp; touching(player, key)) {
+            hasKey = true;
+            hide(key);
+            door.dataset.locked = &quot;false&quot;;
+            if (message) message.innerText = &quot;KEY FOUND! Reach the door.&quot;;
+        }
+
+        if (hasKey &amp;&amp; touching(player, door)) {
+            RBS_GAME_ENDED = true;
+            if (message) message.innerText = &quot;YOU ESCAPED!&quot;;
+        }
+    });
+}
+
+function countdown(seconds, timeText, message) {
+    timeText = get(timeText);
+    message = get(message);
+    let time = seconds;
+
+    if (timeText) timeText.innerText = time;
+
+    let timer = setInterval(function() {
+        if (RBS_GAME_ENDED) {
+            clearInterval(timer);
+            return;
+        }
+
+        time = time - 1;
+        if (timeText) timeText.innerText = time;
+
+        if (time &lt;= 0) {
+            clearInterval(timer);
+            RBS_GAME_ENDED = true;
+            if (message) message.innerText = &quot;TIME UP!&quot;;
+        }
+    }, 1000);
+
+    return timer;
+}
+
+function startCountdown(seconds, display, whenFinished) {
+    display = get(display);
+    let time = seconds;
+    if (display) display.innerText = time;
+
+    let timer = setInterval(function() {
+        time = time - 1;
+        if (display) display.innerText = time;
+
+        if (time &lt;= 0) {
+            clearInterval(timer);
+            if (whenFinished) whenFinished();
+        }
+    }, 1000);
+
+    return timer;
+}
+
+function survive(seconds, timeText, message, player) {
+    timeText = get(timeText);
+    message = get(message);
+    player = get(player);
+    let time = seconds;
+
+    if (timeText) timeText.innerText = time;
+
+    let timer = setInterval(function() {
+        if (RBS_GAME_ENDED) {
+            clearInterval(timer);
+            return;
+        }
+
+        time = time - 1;
+        if (timeText) timeText.innerText = time;
+
+        if (time &lt;= 0) {
+            clearInterval(timer);
+            RBS_GAME_ENDED = true;
+            if (message) message.innerText = &quot;YOU SURVIVED!&quot;;
+            if (player) player.innerText = &quot;🏆&quot;;
+        }
+    }, 1000);
+
+    return timer;
+}
+
+/* =========================================================
+   ARRAYS
+   ========================================================= */
+
+function hasItem(list, item) {
+    return list.includes(item);
+}
+
+/*
+Overloaded:
+removeItem(array, thing) removes from an array.
+removeItem(element) removes a DOM element.
+*/
+function removeItem(listOrElement, item) {
+    if (Array.isArray(listOrElement)) {
+        let index = listOrElement.indexOf(item);
+        if (index !== -1) {
+            listOrElement.splice(index, 1);
+            return true;
+        }
+        return false;
+    }
+
+    let element = get(listOrElement);
+    if (element) element.remove();
+    return !!element;
+}
+
+function showInventory(list, display) {
+    display = get(display);
+    if (display) display.innerText = list.join(&quot;, &quot;);
+}
+
+function randomItem(list) {
+    if (list.length === 0) return undefined;
+    return list[Math.floor(Math.random() * list.length)];
+}
+
+function countItem(list, item) {
+    let total = 0;
+    for (let i = 0; i &lt; list.length; i++) {
+        if (list[i] === item) total = total + 1;
+    }
+    return total;
+}
+
+function removeItems(list, item, amount) {
+    if (countItem(list, item) &lt; amount) return false;
+
+    for (let i = 0; i &lt; amount; i++) {
+        removeItem(list, item);
+    }
+    return true;
+}
+
+function hasAllItems(list, neededItems) {
+    for (let i = 0; i &lt; neededItems.length; i++) {
+        if (!list.includes(neededItems[i])) return false;
+    }
+    return true;
+}
+
+function touchingAny(item, items) {
+    item = get(item);
+
+    for (let i = 0; i &lt; items.length; i++) {
+        if (touching(item, items[i])) return items[i];
+    }
+    return null;
+}
+
+function touchingIndex(item, items) {
+    item = get(item);
+
+    for (let i = 0; i &lt; items.length; i++) {
+        if (touching(item, items[i])) return i;
+    }
+    return -1;
+}
+
+function moveIfClear(item, xChange, yChange, walls, gameArea) {
+    item = get(item);
+    gameArea = get(gameArea);
+
+    let oldX = item.offsetLeft;
+    let oldY = item.offsetTop;
+
+    move(item, xChange, yChange);
+    if (gameArea) keepInside(item, gameArea);
+
+    for (let i = 0; i &lt; walls.length; i++) {
+        if (touching(item, walls[i])) {
+            place(item, oldX, oldY);
+            return false;
+        }
+    }
+    return true;
+}
+
+function moveAll(items, xChange, yChange) {
+    for (let i = 0; i &lt; items.length; i++) {
+        move(items[i], xChange, yChange);
+    }
+}
+
+/* =========================================================
+   SMOOTH CONTROLS
+   ========================================================= */
+
+let keysDown = [];
+let keyTrackingStarted = false;
+
+function startKeyTracking() {
+    if (keyTrackingStarted) return;
+    keyTrackingStarted = true;
+
+    document.addEventListener(&quot;keydown&quot;, function(event) {
+        if (!keysDown.includes(event.key)) keysDown.push(event.key);
+
+        if (event.key.startsWith(&quot;Arrow&quot;) || event.key === &quot; &quot;) {
+            event.preventDefault();
+        }
+    });
+
+    document.addEventListener(&quot;keyup&quot;, function(event) {
+        let position = keysDown.indexOf(event.key);
+        if (position !== -1) keysDown.splice(position, 1);
+    });
+
+    window.addEventListener(&quot;blur&quot;, function() {
+        keysDown.length = 0;
+    });
+}
+
+function keyIsDown(key) {
+    return keysDown.includes(key);
+}
+
+/* =========================================================
+   PLATFORM PHYSICS
+   ========================================================= */
+
+function applyGravity(item, ySpeed, gravityStrength) {
+    item = get(item);
+    ySpeed = ySpeed + gravityStrength;
+    move(item, 0, ySpeed);
+    return ySpeed;
+}
+
+function standingOnAny(player, platforms) {
+    player = get(player);
+    if (!player) return false;
+
+    let playerBox = player.getBoundingClientRect();
+
+    for (let i = 0; i &lt; platforms.length; i++) {
+        let platformBox = platforms[i].getBoundingClientRect();
+
+        let feetNearTop = Math.abs(playerBox.bottom - platformBox.top) &lt;= 5;
+        let xOverlap =
+            playerBox.right &gt; platformBox.left &amp;&amp;
+            playerBox.left &lt; platformBox.right;
+
+        if (feetNearTop &amp;&amp; xOverlap) return true;
+    }
+
+    return false;
+}
+
+function landOnPlatforms(player, ySpeed, platforms) {
+    player = get(player);
+    if (!player || ySpeed &lt; 0) return ySpeed;
+
+    let playerBox = player.getBoundingClientRect();
+
+    for (let i = 0; i &lt; platforms.length; i++) {
+        let platform = platforms[i];
+        let platformBox = platform.getBoundingClientRect();
+
+        let wasAbove =
+            playerBox.bottom - ySpeed &lt;= platformBox.top + 3;
+
+        let reachedPlatform =
+            playerBox.bottom &gt;= platformBox.top;
+
+        let xOverlap =
+            playerBox.right &gt; platformBox.left &amp;&amp;
+            playerBox.left &lt; platformBox.right;
+
+        if (wasAbove &amp;&amp; reachedPlatform &amp;&amp; xOverlap) {
+            player.style.top =
+                (platform.offsetTop - player.offsetHeight) + &quot;px&quot;;
+            return 0;
+        }
+    }
+
+    return ySpeed;
+}
+
+/* =========================================================
+   DOM + ARRAYS: CREATE AND DELETE REAL GAME OBJECTS
+   ========================================================= */
+
+function createSprite(gameArea, picture, x, y, size) {
+    gameArea = get(gameArea);
+    size = size || 44;
+
+    let sprite = document.createElement(&quot;div&quot;);
+    sprite.className = &quot;sprite&quot;;
+    sprite.innerText = picture;
+    sprite.style.position = &quot;absolute&quot;;
+    sprite.style.left = x + &quot;px&quot;;
+    sprite.style.top = y + &quot;px&quot;;
+    sprite.style.width = size + &quot;px&quot;;
+    sprite.style.height = size + &quot;px&quot;;
+    sprite.style.fontSize = size + &quot;px&quot;;
+    sprite.style.lineHeight = size + &quot;px&quot;;
+    sprite.style.textAlign = &quot;center&quot;;
+    sprite.style.userSelect = &quot;none&quot;;
+
+    gameArea.appendChild(sprite);
+    return sprite;
+}
+
+/* Create a sprite AND remember it in an array. */
+function addSprite(list, gameArea, picture, x, y, size) {
+    let sprite = createSprite(gameArea, picture, x, y, size);
+    list.push(sprite);
+    return sprite;
+}
+
+/*
+Remove a sprite from the PAGE and, if supplied, from its ARRAY too.
+This prevents invisible/dead objects building up in memory.
+*/
+function removeSprite(sprite, list) {
+    sprite = get(sprite);
+    if (!sprite) return false;
+
+    if (Array.isArray(list)) {
+        let index = list.indexOf(sprite);
+        if (index !== -1) list.splice(index, 1);
+    }
+
+    sprite.remove();
+    return true;
+}
+
+function removeAt(list, index) {
+    if (index &lt; 0 || index &gt;= list.length) return false;
+
+    let sprite = list[index];
+    if (sprite &amp;&amp; sprite.remove) sprite.remove();
+    list.splice(index, 1);
+    return true;
+}
+
+function clearSprites(list) {
+    for (let i = list.length - 1; i &gt;= 0; i--) {
+        removeAt(list, i);
+    }
+}
+
+/*
+IMPORTANT CLEANUP:
+Returns how many objects were removed.
+Uses a backwards loop so splice() cannot skip items.
+*/
+function removeOffscreen(items, gameArea) {
+    gameArea = get(gameArea);
+    let removed = 0;
+
+    for (let i = items.length - 1; i &gt;= 0; i--) {
+        let item = items[i];
+
+        let outside =
+            item.offsetLeft + item.offsetWidth &lt; 0 ||
+            item.offsetLeft &gt; gameArea.clientWidth ||
+            item.offsetTop + item.offsetHeight &lt; 0 ||
+            item.offsetTop &gt; gameArea.clientHeight;
+
+        if (outside) {
+            removeAt(items, i);
+            removed = removed + 1;
+        }
+    }
+
+    return removed;
+}
+
+function makeBullet(shooter, gameArea, bullets, picture, size) {
+    shooter = get(shooter);
+    gameArea = get(gameArea);
+    size = size || 18;
+
+    let x =
+        shooter.offsetLeft +
+        shooter.offsetWidth / 2 -
+        size / 2;
+
+    let y = shooter.offsetTop - size;
+
+    return addSprite(bullets, gameArea, picture || &quot;•&quot;, x, y, size);
+}
+
+/*
+Remove every A/B collision from BOTH arrays and BOTH DOM elements.
+Returns number of hits.
+*/
+function removeCollisions(listA, listB) {
+    let hits = 0;
+
+    for (let a = listA.length - 1; a &gt;= 0; a--) {
+        let hitSomething = false;
+
+        for (let b = listB.length - 1; b &gt;= 0; b--) {
+            if (touching(listA[a], listB[b])) {
+                removeAt(listB, b);
+                removeAt(listA, a);
+                hits = hits + 1;
+                hitSomething = true;
+                break;
+            }
+        }
+
+        if (hitSomething) continue;
+    }
+
+    return hits;
+}
+</pre></div></details>
+<details><summary>GAMEPAD LIBRARY · COPY WHOLE FILE</summary><div class="codewrap"><button class="copy" onclick="copyCode(this,'padlib')">COPY WHOLE LIBRARY</button><pre id="padlib">/*
+RBS CODE · GAMEPAD LIBRARY · FINAL DAY
+======================================
+Load AFTER rbs-game-library.js.
+
+padIndex:
+0 = first controller
+1 = second controller
+*/
+
+const PAD = {
+    A: 0,
+    B: 1,
+    X: 2,
+    Y: 3,
+    LB: 4,
+    RB: 5,
+    LT: 6,
+    RT: 7,
+    BACK: 8,
+    START: 9,
+    L3: 10,
+    R3: 11,
+    UP: 12,
+    DOWN: 13,
+    LEFT: 14,
+    RIGHT: 15,
+    HOME: 16
+};
+
+const RBS_PAD = {
+    previousButtons: [],
+    deadZone: 0.15
+};
+
+function getGamepad(index = 0) {
+    let pads = navigator.getGamepads ? navigator.getGamepads() : [];
+    return pads[index] || null;
+}
+
+function gamepadConnected(padIndex = 0) {
+    return getGamepad(padIndex) !== null;
+}
+
+function padButton(number, padIndex = 0) {
+    let pad = getGamepad(padIndex);
+
+    return !!(
+        pad &amp;&amp;
+        pad.buttons[number] &amp;&amp;
+        pad.buttons[number].pressed
+    );
+}
+
+function padButtonValue(number, padIndex = 0) {
+    let pad = getGamepad(padIndex);
+
+    if (!pad || !pad.buttons[number]) {
+        return 0;
+    }
+
+    return pad.buttons[number].value;
+}
+
+function padAxis(
+    number,
+    deadZone = RBS_PAD.deadZone,
+    padIndex = 0
+) {
+    let pad = getGamepad(padIndex);
+
+    if (!pad || pad.axes[number] === undefined) {
+        return 0;
+    }
+
+    let value = pad.axes[number];
+
+    if (Math.abs(value) &lt; deadZone) {
+        return 0;
+    }
+
+    return value;
+}
+
+function leftStick(
+    padIndex = 0,
+    deadZone = RBS_PAD.deadZone
+) {
+    return {
+        x: padAxis(0, deadZone, padIndex),
+        y: padAxis(1, deadZone, padIndex)
+    };
+}
+
+function rightStick(
+    padIndex = 0,
+    deadZone = RBS_PAD.deadZone
+) {
+    return {
+        x: padAxis(2, deadZone, padIndex),
+        y: padAxis(3, deadZone, padIndex)
+    };
+}
+
+function padJustPressed(number, padIndex = 0) {
+    let pad = getGamepad(padIndex);
+
+    if (!pad || !pad.buttons[number]) {
+        return false;
+    }
+
+    let key = padIndex + &quot;:&quot; + number;
+
+    return (
+        pad.buttons[number].pressed &amp;&amp;
+        !RBS_PAD.previousButtons[key]
+    );
+}
+
+function updatePadButtons() {
+    let pads =
+        navigator.getGamepads ?
+        navigator.getGamepads() :
+        [];
+
+    for (let p = 0; p &lt; pads.length; p++) {
+        let pad = pads[p];
+
+        if (!pad) continue;
+
+        for (let b = 0; b &lt; pad.buttons.length; b++) {
+            RBS_PAD.previousButtons[p + &quot;:&quot; + b] =
+                pad.buttons[b].pressed;
+        }
+    }
+}
+
+async function rumble(
+    strong = 1,
+    weak = 0.5,
+    duration = 150,
+    padIndex = 0
+) {
+    let pad = getGamepad(padIndex);
+
+    if (!pad) return false;
+
+    let actuator =
+        pad.vibrationActuator ||
+        (pad.hapticActuators &amp;&amp;
+         pad.hapticActuators[0]);
+
+    if (!actuator) return false;
+
+    try {
+        if (actuator.playEffect) {
+            await actuator.playEffect(
+                &quot;dual-rumble&quot;,
+                {
+                    startDelay: 0,
+                    duration: duration,
+                    strongMagnitude:
+                        Math.max(
+                            0,
+                            Math.min(1, strong)
+                        ),
+                    weakMagnitude:
+                        Math.max(
+                            0,
+                            Math.min(1, weak)
+                        )
+                }
+            );
+
+            return true;
+        }
+
+        if (actuator.pulse) {
+            await actuator.pulse(
+                Math.max(strong, weak),
+                duration
+            );
+
+            return true;
+        }
+    } catch (error) {}
+
+    return false;
+}
+
+async function stopRumble(padIndex = 0) {
+    let pad = getGamepad(padIndex);
+
+    if (!pad) return;
+
+    let actuator =
+        pad.vibrationActuator ||
+        (pad.hapticActuators &amp;&amp;
+         pad.hapticActuators[0]);
+
+    if (!actuator) return;
+
+    try {
+        if (actuator.reset) {
+            await actuator.reset();
+        }
+    } catch (error) {}
+}
+
+/* =========================================================
+   HIGH-LEVEL POWER BLOCKS
+   ========================================================= */
+
+function moveWithGamepad(
+    item,
+    speed,
+    gameArea,
+    padIndex = 0
+) {
+    item = get(item);
+    gameArea = get(gameArea);
+
+    if (!item || !gameArea) return;
+
+    function loop() {
+        if (
+            typeof RBS_GAME_ENDED === &quot;undefined&quot; ||
+            !RBS_GAME_ENDED
+        ) {
+            let stick = leftStick(padIndex);
+
+            move(
+                item,
+                stick.x * speed,
+                stick.y * speed
+            );
+
+            keepInside(item, gameArea);
+        }
+
+        requestAnimationFrame(loop);
+    }
+
+    requestAnimationFrame(loop);
+}
+
+function driveWithGamepad(
+    vehicle,
+    steeringSpeed,
+    driveSpeed,
+    gameArea,
+    padIndex = 0
+) {
+    vehicle = get(vehicle);
+    gameArea = get(gameArea);
+
+    if (!vehicle || !gameArea) return;
+
+    function loop() {
+        if (
+            typeof RBS_GAME_ENDED === &quot;undefined&quot; ||
+            !RBS_GAME_ENDED
+        ) {
+            let stick = leftStick(padIndex);
+
+            let gas =
+                padButtonValue(PAD.RT, padIndex);
+
+            let reverse =
+                padButtonValue(PAD.LT, padIndex);
+
+            move(
+                vehicle,
+                stick.x * steeringSpeed,
+                (reverse - gas) * driveSpeed
+            );
+
+            keepInside(vehicle, gameArea);
+        }
+
+        requestAnimationFrame(loop);
+    }
+
+    requestAnimationFrame(loop);
+}
+
+function rumbleOnTouch(
+    item1,
+    item2,
+    strong = 1,
+    weak = 0.5,
+    duration = 150,
+    padIndex = 0
+) {
+    item1 = get(item1);
+    item2 = get(item2);
+
+    let wasTouching = false;
+
+    function loop() {
+        let isTouching =
+            item1 &amp;&amp;
+            item2 &amp;&amp;
+            touching(item1, item2);
+
+        if (isTouching &amp;&amp; !wasTouching) {
+            rumble(
+                strong,
+                weak,
+                duration,
+                padIndex
+            );
+        }
+
+        wasTouching = isTouching;
+
+        requestAnimationFrame(loop);
+    }
+
+    requestAnimationFrame(loop);
+}
+
+function moveTwoPlayersWithGamepads(
+    player1,
+    player2,
+    speed,
+    gameArea
+) {
+    moveWithGamepad(
+        player1,
+        speed,
+        gameArea,
+        0
+    );
+
+    moveWithGamepad(
+        player2,
+        speed,
+        gameArea,
+        1
+    );
+}
+</pre></div></details>
+<details><summary>AUDIO LIBRARY · COPY WHOLE FILE</summary><div class="codewrap"><button class="copy" onclick="copyCode(this,'audiolib')">COPY WHOLE LIBRARY</button><pre id="audiolib">// RBS CODE — tiny audio helper library
+// Put this file in the SAME folder as your HTML file.
+// Then add: &lt;script src=&quot;rbs-audio-library.js&quot;&gt;&lt;/script&gt;
+
+function makeSound(file, volume = 1, loop = false) {
+    let sound = new Audio(file);
+    sound.volume = volume;
+    sound.loop = loop;
+    return sound;
+}
+
+function playSound(sound) {
+    sound.currentTime = 0;
+    sound.play().catch(function() {});
+}
+
+function playOverlap(file, volume = 1) {
+    let sound = new Audio(file);
+    sound.volume = volume;
+    sound.play().catch(function() {});
+    return sound;
+}
+
+function stopSound(sound) {
+    sound.pause();
+    sound.currentTime = 0;
+}
+
+function pauseSound(sound) {
+    sound.pause();
+}
+
+function setVolume(sound, volume) {
+    sound.volume = Math.max(0, Math.min(1, volume));
+}
+
+function fadeOut(sound, step = 0.05, every = 50) {
+    let timer = setInterval(function() {
+        sound.volume = Math.max(0, sound.volume - step);
+        if (sound.volume &lt;= 0) {
+            clearInterval(timer);
+            sound.pause();
+        }
+    }, every);
+}
+</pre></div></details>
+</section>
+
+<section class="card">
+<h2>5. Tiny test</h2>
+<p>Put this in your page after the libraries:</p>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'test')">COPY</button>
+<pre id="test">moveWithKeys(
+    "player",
+    10,
+    "game"
+);</pre>
+</div>
+<p>Your HTML must contain elements with <code>id="player"</code> and <code>id="game"</code>.</p>
+</section>
+</main>
+<script>
+function copyCode(button,id){
+    navigator.clipboard.writeText(
+        document.getElementById(id).textContent
+    ).then(function(){
+        let old=button.textContent;
+        button.textContent="COPIED!";
+        setTimeout(function(){
+            button.textContent=old;
+        },1000);
+    });
+}
+</script>
+</body>
+</html>

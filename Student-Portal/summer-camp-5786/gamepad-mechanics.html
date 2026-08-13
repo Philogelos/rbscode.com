@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gamepad Mechanics Lab</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#172033;font-family:Arial,sans-serif;line-height:1.5}main{width:min(1120px,calc(100% - 28px));margin:auto;padding:28px 0 70px}h1{font-size:clamp(34px,6vw,58px);margin:8px 0}h2{margin:4px 0 10px}.lead{font-size:19px;color:#5f6f84;max-width:900px}.card{background:#fff;border:1px solid #dfe5ee;border-radius:16px;padding:16px;margin:16px 0}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.three{grid-template-columns:repeat(3,1fr)}.pill{display:inline-block;background:#eef2ff;color:#3730a3;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:800;margin:2px}.code{background:#0b1220;color:#e7eefc;border-radius:10px;padding:13px;overflow:auto;font:14px/1.5 Consolas,monospace;white-space:pre-wrap}.map{width:100%;border-collapse:collapse}.map th,.map td{border-bottom:1px solid #e5e7eb;padding:8px;text-align:left}.map th{background:#f8fafc}.live{display:grid;grid-template-columns:1fr 1fr;gap:12px}.meter{height:14px;background:#e5e7eb;border-radius:999px;overflow:hidden}.meter>span{display:block;height:100%;background:#4f46e5;width:0}.axisbox{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.axis{padding:10px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;text-align:center}.buttons{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}.btnstate{padding:8px 4px;border-radius:9px;background:#f8fafc;border:1px solid #e5e7eb;text-align:center;font-size:12px}.btnstate.on{background:#dcfce7;border-color:#86efac}.btnstate strong{display:block;font-size:16px}button,a.btn{border:0;border-radius:9px;padding:9px 12px;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block;background:#4f46e5;color:white;margin:3px}.secondary{background:#e5e7eb!important;color:#172033!important}.note{border-left:5px solid #4f46e5;background:white;padding:12px 14px;border-radius:10px;margin:14px 0}.warn{border-left-color:#b45309}.recipe{background:#f8fafc;border-radius:12px;padding:12px}.small{font-size:13px;color:#64748b}.status{font-weight:800;padding:9px 12px;background:#eef2ff;border-radius:10px}.toplink{font-weight:800;text-decoration:none;color:#3730a3}@media(max-width:800px){.grid,.three,.live{grid-template-columns:1fr}.buttons{grid-template-columns:repeat(3,1fr)}.axisbox{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body><main>
+<a class="toplink" href="final-day.html">← Final Day Home</a>
+<div style="margin-top:18px;font-size:12px;font-weight:900;letter-spacing:.08em;color:#3730a3">RBS CODE · CONTROLLER LAB</div>
+<h1>🎮 Gamepad Mechanics Lab</h1>
+<p class="lead">Press it. Watch the number. Turn that input into a game mechanic.</p>
+<div class="note"><b>Big idea:</b> keyboards mostly say ON/OFF. Gamepads can also say <b>direction</b> and <b>how much</b>.</div>
+
+<section class="card">
+<h2>1 · Connect + inspect your controller</h2>
+<p>Plug in / pair the controller, then press a button. Some browsers do not expose a pad until the page has received controller input.</p>
+<div id="status" class="status">No gamepad detected yet. Press a controller button.</div>
+<div class="live" style="margin-top:12px">
+<div><h3>Axes</h3><div id="axes" class="axisbox"></div></div>
+<div><h3>Buttons</h3><div id="buttons" class="buttons"></div></div>
+</div>
+<p class="small" id="details"></p>
+</section>
+
+<section class="card">
+<h2>2 · Standard Gamepad map</h2>
+<p>If <code>gamepad.mapping</code> says <b>standard</b>, these are the normal browser indices.</p>
+<div class="grid">
+<table class="map"><tr><th>Button</th><th>Typical control</th></tr>
+<tr><td>0</td><td>A / Cross · bottom face</td></tr><tr><td>1</td><td>B / Circle · right face</td></tr><tr><td>2</td><td>X / Square · left face</td></tr><tr><td>3</td><td>Y / Triangle · top face</td></tr><tr><td>4</td><td>LB / L1</td></tr><tr><td>5</td><td>RB / R1</td></tr><tr><td>6</td><td>LT / L2 trigger</td></tr><tr><td>7</td><td>RT / R2 trigger</td></tr><tr><td>8</td><td>Back / View / Select</td></tr><tr><td>9</td><td>Start / Menu</td></tr><tr><td>10</td><td>Left stick click</td></tr><tr><td>11</td><td>Right stick click</td></tr><tr><td>12–15</td><td>D-pad Up, Down, Left, Right</td></tr><tr><td>16</td><td>Home / center</td></tr></table>
+<table class="map"><tr><th>Axis</th><th>Meaning</th></tr>
+<tr><td>0</td><td>Left stick X · − left / + right</td></tr><tr><td>1</td><td>Left stick Y · − up / + down</td></tr><tr><td>2</td><td>Right stick X · − left / + right</td></tr><tr><td>3</td><td>Right stick Y · − up / + down</td></tr></table>
+</div>
+<div class="note warn"><b>Important:</b> controllers can differ. Check <code>mapping</code>, and use the live tester above whenever something seems wrong.</div>
+</section>
+
+<section class="card">
+<h2>3 · Five kinds of input</h2>
+<div class="grid three">
+<div class="recipe"><b>ON / OFF button</b><p><code>buttons[0].pressed</code></p><p>Jump, fire, pause.</p></div>
+<div class="recipe"><b>Analog button</b><p><code>buttons[7].value</code></p><p>Trigger pressure from 0 to 1 when hardware/browser exposes it.</p></div>
+<div class="recipe"><b>Joystick axis</b><p><code>axes[0]</code></p><p>Direction and amount from −1 to +1.</p></div>
+<div class="recipe"><b>D-pad</b><p><code>buttons[12..15]</code></p><p>Four digital directions.</p></div>
+<div class="recipe"><b>Stick click</b><p><code>buttons[10/11]</code></p><p>Sprint, crouch, lock-on.</p></div>
+<div class="recipe"><b>Haptics</b><p><code>rumble()</code></p><p>Give physical feedback for hits, treasure, explosions.</p></div>
+</div>
+</section>
+
+<section class="card">
+<h2>4 · Held vs pressed once</h2>
+<div class="grid"><div><h3>Held</h3><pre class="code">if (padButton(0)) {
+    move(player, 0, -5);
+}</pre><p>Runs every frame while the button stays down.</p></div><div><h3>Pressed once</h3><pre class="code">if (padJustPressed(0)) {
+    jump();
+}</pre><p>Good for jump, shoot, open, pause — one action per press.</p></div></div>
+</section>
+
+<section class="card">
+<h2>5 · Joystick mechanics</h2>
+<div class="grid">
+<div><h3>Simple 360° movement</h3><pre class="code">let stick = leftStick();
+move(player,
+    stick.x * 7,
+    stick.y * 7
+);</pre><p>Half push ≈ half speed. Full push ≈ full speed.</p></div>
+<div><h3>Dead zone</h3><pre class="code">let x = padAxis(0, 0.15);
+let y = padAxis(1, 0.15);</pre><p>Small accidental values near zero become 0, stopping joystick drift.</p></div>
+</div>
+<div class="grid three">
+<div class="recipe"><b>Left stick</b><p>Move character / car.</p></div><div class="recipe"><b>Right stick</b><p>Aim, camera, turret.</p></div><div class="recipe"><b>Both sticks</b><p>Move with left + aim independently with right.</p></div></div>
+</section>
+
+<section class="card">
+<h2>6 · Analog triggers = pressure</h2>
+<p>On many standard controllers, buttons 6 and 7 are the lower triggers. Their <code>value</code> can range from 0 to 1.</p>
+<div class="grid"><div><h3>Accelerator</h3><pre class="code">let gas = padButtonValue(7);
+move(car, gas * 12, 0);</pre></div><div><h3>Variable power</h3><pre class="code">let power = padButtonValue(7);
+shoot(power * 20);</pre></div></div>
+<p class="small">Hardware and browser mappings vary, so verify trigger values in the live inspector.</p>
+</section>
+
+<section class="card">
+<h2>7 · Haptic vibration lab</h2>
+<p><b>Strong magnitude</b> controls low-frequency/heavier rumble. <b>Weak magnitude</b> controls higher-frequency/lighter rumble. Both normally use 0–1. Duration is milliseconds.</p>
+<div>
+<button onclick="rumble(0.15,0.25,80)">Tiny collect buzz</button>
+<button onclick="rumble(0.75,0.15,120)">Strong hit</button>
+<button onclick="rumble(1,0.7,350)">Explosion</button>
+<button onclick="rumble(0.3,1,180)">Fast / weak motor</button>
+<button class="secondary" onclick="stopRumble()">STOP</button>
+</div>
+<div class="grid" style="margin-top:10px"><div><pre class="code">// tiny pickup
+rumble(0.15, 0.25, 80);</pre></div><div><pre class="code">// crash
+rumble(1.0, 0.35, 300);</pre></div></div>
+<div class="note warn"><b>Browser reality:</b> gamepad input is broadly supported, but haptic support is less consistent across browsers, operating systems and controllers. Treat rumble as a bonus that fails safely.</div>
+</section>
+
+<section class="card">
+<h2>8 · Mechanics you can build</h2>
+<div class="grid three">
+<div class="recipe"><b>Racing</b><p>Left stick = steer<br>RT = accelerate<br>LT = brake<br>Hit wall = strong rumble</p></div>
+<div class="recipe"><b>Twin-stick blaster</b><p>Left stick = move<br>Right stick = aim<br>RB = fire<br>Hit = short rumble</p></div>
+<div class="recipe"><b>Platformer</b><p>Left stick = move<br>A = jump<br>Trigger = run amount<br>Land hard = tiny rumble</p></div>
+<div class="recipe"><b>2-player battle</b><p>Pad 0 = player 1<br>Pad 1 = player 2<br>Each pad read separately</p></div>
+<div class="recipe"><b>Pressure mechanic</b><p>Trigger gently = slow<br>Trigger fully = powerful</p></div>
+<div class="recipe"><b>Charge shot</b><p>Hold trigger<br>Read value / time<br>Release to fire</p></div>
+</div>
+</section>
+
+<section class="card">
+<h2>9 · The complete beginner loop</h2>
+<pre class="code">function gameLoop() {
+    let stick = leftStick();
+    move(player, stick.x * 6, stick.y * 6);
+
+    if (padJustPressed(0)) {
+        console.log("A pressed once!");
+    }
+
+    updatePadButtons();
+    requestAnimationFrame(gameLoop);
+}
+
+gameLoop();</pre>
+<p><b>Why a loop?</b> A gamepad is normally polled continuously. Every frame you ask: “Where is the stick now? Which buttons are down now?”</p>
+</section>
+
+<section class="card">
+<h2>10 · Independence challenges</h2>
+<p><span class="pill">EASY</span> Move a square with the left stick.</p>
+<p><span class="pill">EASY</span> A button teleports the treasure.</p>
+<p><span class="pill">MEDIUM</span> Use RT pressure as car speed.</p>
+<p><span class="pill">MEDIUM</span> Right stick aims while left stick moves.</p>
+<p><span class="pill">MEDIUM</span> Collect treasure → tiny buzz. Hit trap → strong 300ms rumble.</p>
+<p><span class="pill">LEVEL UP</span> Two controllers control two players.</p>
+</section>
+
+<script src="rbs-gamepad-library.js"></script>
+<script>
+function drawInspector(){
+  const pads = navigator.getGamepads ? navigator.getGamepads() : [];
+  const gp = pads && [...pads].find(Boolean);
+  const status=document.getElementById('status'), axes=document.getElementById('axes'), buttons=document.getElementById('buttons'), details=document.getElementById('details');
+  if(!gp){status.textContent='No gamepad detected yet. Press a controller button.';axes.innerHTML='';buttons.innerHTML='';details.textContent='';requestAnimationFrame(drawInspector);return;}
+  status.textContent='Connected: '+gp.id;
+  details.textContent='index '+gp.index+' · mapping: '+(gp.mapping||'(raw / unknown)')+' · '+gp.buttons.length+' buttons · '+gp.axes.length+' axes';
+  axes.innerHTML=gp.axes.map((v,i)=>'<div class="axis"><b>axis '+i+'</b><br>'+v.toFixed(3)+'</div>').join('');
+  buttons.innerHTML=gp.buttons.map((b,i)=>'<div class="btnstate '+(b.pressed?'on':'')+'"><strong>'+i+'</strong>'+b.value.toFixed(2)+(b.pressed?'<br>DOWN':'')+'</div>').join('');
+  requestAnimationFrame(drawInspector);
+}
+window.addEventListener('gamepadconnected',drawInspector);
+drawInspector();
+</script>
+</main></body></html>

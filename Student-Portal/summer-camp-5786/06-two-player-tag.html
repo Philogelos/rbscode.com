@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>6. Two-Player Tag</title>
+
+    <style>
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef2f7;
+    color: #172033;
+}
+.wrap {
+    width: 700px;
+    max-width: calc(100% - 24px);
+    margin: 24px auto;
+}
+h1 {
+    margin: 0 0 8px;
+}
+.hud {
+    background: white;
+    padding: 12px 16px;
+    border-radius: 12px 12px 0 0;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+.message {
+    background: #172033;
+    color: white;
+    padding: 10px 16px;
+    font-weight: bold;
+    text-align: center;
+}
+.game {
+    position: relative;
+    width: 100%;
+    height: 390px;
+    overflow: hidden;
+    border: 4px solid #172033;
+    box-sizing: border-box;
+    background: linear-gradient(#dff4ff, #c9f1d2);
+}
+.sprite {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    font-size: 42px;
+    line-height: 52px;
+    text-align: center;
+    user-select: none;
+}
+.big {
+    width: 68px;
+    height: 68px;
+    font-size: 54px;
+    line-height: 68px;
+}
+button {
+    margin-top: 12px;
+    padding: 10px 15px;
+    border: 0;
+    border-radius: 9px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+    </style>
+</head>
+<body>
+
+<div class="wrap">
+    <h1>6. Two-Player Tag</h1>
+    <p>Blue uses WASD. Red uses arrows. Blue wins by catching Red.</p>
+
+    <div class="hud">
+        <span>Blue: W A S D</span>
+        <span>Red: arrows</span>
+    </div>
+
+    <div id="message" class="message">GO!</div>
+
+    <div id="game" class="game">
+        <div id="blue" class="sprite" style="left:60px;top:170px">🔵</div>
+        <div id="red" class="sprite" style="left:560px;top:170px">🔴</div>
+    </div>
+
+    <button onclick="restartGame()">RESTART</button>
+</div>
+
+<!-- LIBRARIES FIRST -->
+<script src="rbs-game-library.js"></script>
+
+<!-- YOUR GAME CODE -->
+<script>
+moveWithKeys("blue", 7, "game", "w", "s", "a", "d");
+moveWithKeys("red", 7, "game");
+winOnTouch("blue", "red", "message");
+</script>
+
+</body>
+</html>

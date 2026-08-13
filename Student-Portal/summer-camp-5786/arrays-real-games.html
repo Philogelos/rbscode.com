@@ -1,0 +1,625 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Arrays in Real Games · RBS Code</title>
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--ink:#172033;--muted:#64748b;--line:#dfe5ee;--accent:#4f46e5;--green:#0f766e;--orange:#b45309;--code:#0b1220}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,sans-serif;line-height:1.5}
+main{width:min(1160px,calc(100% - 24px));margin:auto;padding:26px 0 70px}
+.hero{background:linear-gradient(135deg,#111827,#303b78);color:white;border-radius:18px;padding:24px}
+.hero h1{font-size:clamp(38px,6vw,62px);margin:5px 0}.hero p{color:#dbe5ff;max-width:900px}
+.nav{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}.nav a{color:white;text-decoration:none;background:#ffffff18;border:1px solid #ffffff2b;padding:7px 9px;border-radius:8px;font-weight:bold;font-size:13px}
+.card{background:white;border:1px solid var(--line);border-radius:15px;padding:17px;margin-top:16px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.three{grid-template-columns:repeat(3,1fr)}
+iframe{width:100%;height:390px;border:1px solid var(--line);border-radius:12px;background:white}
+pre{margin:0;background:var(--code);color:#edf4ff;border-radius:10px;padding:14px;overflow:auto;white-space:pre-wrap;font:14px/1.55 Consolas,monospace}
+.codewrap{position:relative;margin-top:10px}.copy{position:absolute;right:8px;top:8px;border:0;border-radius:8px;background:#facc15;color:#422006;font-weight:900;padding:7px 9px;cursor:pointer}
+.btn{display:inline-block;text-decoration:none;background:var(--accent);color:white;padding:8px 11px;border-radius:9px;font-weight:900;margin:3px}.green{background:var(--green)}.orange{background:var(--orange)}
+.note{background:#ecfdf5;border-left:5px solid var(--green);padding:12px;border-radius:10px}.warn{background:#fff7ed;border-left:5px solid #ea580c;padding:12px;border-radius:10px}
+.badge{display:inline-block;background:#eef2ff;color:#3730a3;padding:4px 7px;border-radius:999px;font-size:12px;font-weight:900}
+.small{font-size:13px;color:var(--muted)}details{margin-top:10px}summary{cursor:pointer;font-weight:900;color:#3730a3;background:#eef2ff;padding:9px;border-radius:9px}
+@media(max-width:850px){.grid,.three{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+<section class="hero">
+<div style="font-weight:900;color:#facc15">RBS CODE · ARRAYS + REAL GAME OBJECTS</div>
+<h1>One Object → Many Objects</h1>
+<p>Arrays are how a game remembers many enemies, platforms, bullets, coins, walls or anything else. These examples show the full bridge from an array to real HTML elements on the screen.</p>
+<div class="nav">
+<a href="#pattern">THE PATTERN</a>
+<a href="#g1">ENEMIES</a>
+<a href="#g2">PLATFORMS</a>
+<a href="#g3">BULLETS</a>
+<a href="#cleanup">CLEANUP</a>
+<a href="game-blocks-dictionary.html">DICTIONARY</a>
+<a href="final-day.html">PORTAL</a>
+</div>
+</section>
+
+<section class="card" id="pattern">
+<h2>The pattern</h2>
+<div class="grid three">
+<div><b>1. Make an array</b><pre>let enemies = [];</pre></div>
+<div><b>2. Create + remember</b><pre>addSprite(
+    enemies,
+    game,
+    "👾",
+    50,
+    0,
+    40
+);</pre></div>
+<div><b>3. Update all</b><pre>moveAll(
+    enemies,
+    0,
+    4
+);</pre></div>
+</div>
+<div class="note" style="margin-top:12px"><b>Important:</b> when an enemy or bullet is gone, remove it from BOTH the webpage and the array. The library functions below do both.</div>
+</section>
+
+
+<section class="card" id="g1">
+<div class="badge">GAME 1</div>
+<h2>Enemy Wave</h2>
+<p>Create new enemies during the game, move the whole array, detect collisions with any enemy, and clean up enemies that leave the screen.</p>
+<p>
+<a class="btn" href="11-enemy-wave-arrays.html" target="_blank">PLAY FULL GAME</a>
+</p>
+<div class="grid">
+<div>
+<h3>Live game</h3>
+<iframe src="11-enemy-wave-arrays.html"></iframe>
+</div>
+<div>
+<h3>Your main JavaScript</h3>
+<p class="small">This is the part to read, copy, change and learn first.</p>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'js1')">COPY GAME CODE</button>
+<pre id="js1">let enemies = [];
+let score = 0;
+
+moveWithKeys(&quot;player&quot;, 14, &quot;game&quot;);
+
+function makeEnemy() {
+    if (RBS_GAME_ENDED) return;
+
+    let enemy = addSprite(enemies, game, &quot;👾&quot;, 0, -48, 40);
+    randomX(enemy, game);
+}
+
+function gameLoop() {
+    if (RBS_GAME_ENDED) return;
+
+    moveAll(enemies, 0, 4);
+
+    let escaped = removeOffscreen(enemies, game);
+    score = score + escaped;
+
+    enemyCount.innerText = enemies.length;
+    scoreText.innerText = score;
+
+    if (touchingAny(player, enemies)) {
+        gameOver(message, &quot;GAME OVER · You dodged &quot; + score);
+        player.innerText = &quot;💥&quot;;
+    }
+}
+
+makeEnemy();
+every(700, makeEnemy);
+every(25, gameLoop);</pre>
+</div>
+</div>
+</div>
+<details>
+<summary>COPY THE COMPLETE WORKING index.html</summary>
+<p class="small">Paste this into a new <code>index.html</code>. Keep <code>rbs-game-library.js</code> beside it.</p>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'full1')">COPY WHOLE GAME</button>
+<pre id="full1">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;
+&lt;title&gt;Enemy Wave · Arrays&lt;/title&gt;
+&lt;style&gt;
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#eef2f7;color:#172033}
+.wrap{width:760px;max-width:calc(100% - 24px);margin:22px auto}
+h1{margin:0 0 8px}
+.help{margin:0 0 12px;color:#536174}
+.hud{background:#fff;padding:11px 14px;border-radius:12px 12px 0 0;display:flex;justify-content:space-between;font-weight:800}
+.message{background:#172033;color:#fff;padding:9px 14px;text-align:center;font-weight:800}
+.game{position:relative;width:100%;height:430px;overflow:hidden;border:4px solid #172033;background:linear-gradient(#dff4ff,#dff7df)}
+.sprite{position:absolute;user-select:none;text-align:center}
+button{margin-top:10px;padding:9px 14px;border:0;border-radius:9px;background:#4f46e5;color:white;font-weight:800;cursor:pointer}
+
+#player{font-size:42px;width:48px;height:48px;line-height:48px}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;wrap&quot;&gt;
+&lt;h1&gt;Enemy Wave&lt;/h1&gt;
+&lt;p class=&quot;help&quot;&gt;Arrow keys move. Survive the falling enemies. Watch the array grow and shrink.&lt;/p&gt;
+&lt;div class=&quot;hud&quot;&gt;&lt;span&gt;Enemies: &lt;span id=&quot;enemyCount&quot;&gt;0&lt;/span&gt;&lt;/span&gt;&lt;span&gt;Dodged: &lt;span id=&quot;scoreText&quot;&gt;0&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;GO!&lt;/div&gt;
+&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;
+  &lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:350px;top:360px&quot;&gt;🚀&lt;/div&gt;
+&lt;/div&gt;
+&lt;button onclick=&quot;restartGame()&quot;&gt;RESTART&lt;/button&gt;
+&lt;/div&gt;
+&lt;script src=&quot;rbs-game-library.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+let enemies = [];
+let score = 0;
+
+moveWithKeys(&quot;player&quot;, 14, &quot;game&quot;);
+
+function makeEnemy() {
+    if (RBS_GAME_ENDED) return;
+
+    let enemy = addSprite(enemies, game, &quot;👾&quot;, 0, -48, 40);
+    randomX(enemy, game);
+}
+
+function gameLoop() {
+    if (RBS_GAME_ENDED) return;
+
+    moveAll(enemies, 0, 4);
+
+    let escaped = removeOffscreen(enemies, game);
+    score = score + escaped;
+
+    enemyCount.innerText = enemies.length;
+    scoreText.innerText = score;
+
+    if (touchingAny(player, enemies)) {
+        gameOver(message, &quot;GAME OVER · You dodged &quot; + score);
+        player.innerText = &quot;💥&quot;;
+    }
+}
+
+makeEnemy();
+every(700, makeEnemy);
+every(25, gameLoop);
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+</div>
+</details>
+</section>
+
+
+
+<section class="card" id="g2">
+<div class="badge">GAME 2</div>
+<h2>Platform Array</h2>
+<p>Turn every .platform element into one array. The same gravity/landing code can then work with every platform instead of one platform at a time.</p>
+<p>
+<a class="btn" href="12-platform-array.html" target="_blank">PLAY FULL GAME</a>
+</p>
+<div class="grid">
+<div>
+<h3>Live game</h3>
+<iframe src="12-platform-array.html"></iframe>
+</div>
+<div>
+<h3>Your main JavaScript</h3>
+<p class="small">This is the part to read, copy, change and learn first.</p>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'js2')">COPY GAME CODE</button>
+<pre id="js2">let platforms = getAll(&quot;.platform&quot;);
+let ySpeed = 0;
+
+platformCount.innerText = platforms.length;
+
+startKeyTracking();
+
+document.addEventListener(&quot;keydown&quot;, function(event) {
+    if ((event.key === &quot; &quot; || event.key === &quot;ArrowUp&quot;) &amp;&amp; standingOnAny(player, platforms)) {
+        ySpeed = -11;
+    }
+});
+
+function gameLoop() {
+    if (RBS_GAME_ENDED) return;
+
+    if (keyIsDown(&quot;ArrowLeft&quot;)) move(player, -5, 0);
+    if (keyIsDown(&quot;ArrowRight&quot;)) move(player, 5, 0);
+
+    ySpeed = applyGravity(player, ySpeed, 0.55);
+    ySpeed = landOnPlatforms(player, ySpeed, platforms);
+
+    if (player.offsetLeft &lt; 0) player.style.left = &quot;0px&quot;;
+    if (player.offsetLeft + player.offsetWidth &gt; game.clientWidth) {
+        player.style.left = (game.clientWidth - player.offsetWidth) + &quot;px&quot;;
+    }
+
+    if (player.offsetTop &gt; game.clientHeight) {
+        place(player, 45, 342);
+        ySpeed = 0;
+    }
+
+    if (touching(player, goal)) {
+        gameOver(message, &quot;YOU WIN!&quot;);
+        player.innerText = &quot;🏆&quot;;
+    }
+}
+
+every(20, gameLoop);</pre>
+</div>
+</div>
+</div>
+<details>
+<summary>COPY THE COMPLETE WORKING index.html</summary>
+<p class="small">Paste this into a new <code>index.html</code>. Keep <code>rbs-game-library.js</code> beside it.</p>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'full2')">COPY WHOLE GAME</button>
+<pre id="full2">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;
+&lt;title&gt;Platform Array · Arrays&lt;/title&gt;
+&lt;style&gt;
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#eef2f7;color:#172033}
+.wrap{width:760px;max-width:calc(100% - 24px);margin:22px auto}
+h1{margin:0 0 8px}
+.help{margin:0 0 12px;color:#536174}
+.hud{background:#fff;padding:11px 14px;border-radius:12px 12px 0 0;display:flex;justify-content:space-between;font-weight:800}
+.message{background:#172033;color:#fff;padding:9px 14px;text-align:center;font-weight:800}
+.game{position:relative;width:100%;height:430px;overflow:hidden;border:4px solid #172033;background:linear-gradient(#dff4ff,#dff7df)}
+.sprite{position:absolute;user-select:none;text-align:center}
+button{margin-top:10px;padding:9px 14px;border:0;border-radius:9px;background:#4f46e5;color:white;font-weight:800;cursor:pointer}
+
+.game{background:linear-gradient(#dff4ff,#fff6cf)}
+#player{font-size:38px;width:42px;height:42px;line-height:42px}
+.platform{position:absolute;height:18px;background:#475569;border-radius:9px}
+.goal{position:absolute;font-size:42px}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;wrap&quot;&gt;
+&lt;h1&gt;Platform Array&lt;/h1&gt;
+&lt;p class=&quot;help&quot;&gt;Left/right arrows move. Space or ↑ jumps. Every platform is stored in one array.&lt;/p&gt;
+&lt;div class=&quot;hud&quot;&gt;&lt;span&gt;Platforms: &lt;span id=&quot;platformCount&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;Goal: reach the flag&lt;/span&gt;&lt;/div&gt;
+&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;GO!&lt;/div&gt;
+&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;
+  &lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:45px;top:342px&quot;&gt;🏃&lt;/div&gt;
+
+  &lt;div class=&quot;platform&quot; style=&quot;left:0;top:390px;width:180px&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;platform&quot; style=&quot;left:215px;top:330px;width:140px&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;platform&quot; style=&quot;left:390px;top:270px;width:145px&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;platform&quot; style=&quot;left:560px;top:205px;width:150px&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;platform&quot; style=&quot;left:390px;top:135px;width:125px&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;platform&quot; style=&quot;left:195px;top:75px;width:145px&quot;&gt;&lt;/div&gt;
+
+  &lt;div id=&quot;goal&quot; class=&quot;goal&quot; style=&quot;left:245px;top:25px&quot;&gt;🚩&lt;/div&gt;
+&lt;/div&gt;
+&lt;button onclick=&quot;restartGame()&quot;&gt;RESTART&lt;/button&gt;
+&lt;/div&gt;
+&lt;script src=&quot;rbs-game-library.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+let platforms = getAll(&quot;.platform&quot;);
+let ySpeed = 0;
+
+platformCount.innerText = platforms.length;
+
+startKeyTracking();
+
+document.addEventListener(&quot;keydown&quot;, function(event) {
+    if ((event.key === &quot; &quot; || event.key === &quot;ArrowUp&quot;) &amp;&amp; standingOnAny(player, platforms)) {
+        ySpeed = -11;
+    }
+});
+
+function gameLoop() {
+    if (RBS_GAME_ENDED) return;
+
+    if (keyIsDown(&quot;ArrowLeft&quot;)) move(player, -5, 0);
+    if (keyIsDown(&quot;ArrowRight&quot;)) move(player, 5, 0);
+
+    ySpeed = applyGravity(player, ySpeed, 0.55);
+    ySpeed = landOnPlatforms(player, ySpeed, platforms);
+
+    if (player.offsetLeft &lt; 0) player.style.left = &quot;0px&quot;;
+    if (player.offsetLeft + player.offsetWidth &gt; game.clientWidth) {
+        player.style.left = (game.clientWidth - player.offsetWidth) + &quot;px&quot;;
+    }
+
+    if (player.offsetTop &gt; game.clientHeight) {
+        place(player, 45, 342);
+        ySpeed = 0;
+    }
+
+    if (touching(player, goal)) {
+        gameOver(message, &quot;YOU WIN!&quot;);
+        player.innerText = &quot;🏆&quot;;
+    }
+}
+
+every(20, gameLoop);
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+</div>
+</details>
+</section>
+
+
+
+<section class="card" id="g3">
+<div class="badge">GAME 3</div>
+<h2>Multi Bullet Blaster</h2>
+<p>Space creates real bullet elements. Bullets and enemies live in arrays. When they collide, both the DOM elements and array entries are deleted.</p>
+<p>
+<a class="btn" href="13-multi-bullet-blaster.html" target="_blank">PLAY FULL GAME</a>
+</p>
+<div class="grid">
+<div>
+<h3>Live game</h3>
+<iframe src="13-multi-bullet-blaster.html"></iframe>
+</div>
+<div>
+<h3>Your main JavaScript</h3>
+<p class="small">This is the part to read, copy, change and learn first.</p>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'js3')">COPY GAME CODE</button>
+<pre id="js3">let bullets = [];
+let enemies = [];
+let score = 0;
+let canShoot = true;
+
+startKeyTracking();
+
+function makeWave() {
+    for (let i = 0; i &lt; 8; i++) {
+        let x = 55 + i * 82;
+        let enemy = addSprite(enemies, game, &quot;👾&quot;, x, 35, 34);
+        enemy.dataset.direction = (i % 2 === 0) ? &quot;1&quot; : &quot;-1&quot;;
+    }
+}
+
+document.addEventListener(&quot;keydown&quot;, function(event) {
+    if (event.key === &quot; &quot; &amp;&amp; canShoot &amp;&amp; !RBS_GAME_ENDED) {
+        makeBullet(player, game, bullets, &quot;🔥&quot;, 18);
+        canShoot = false;
+
+        after(170, function() {
+            canShoot = true;
+        });
+    }
+});
+
+function gameLoop() {
+    if (RBS_GAME_ENDED) return;
+
+    if (keyIsDown(&quot;ArrowLeft&quot;)) move(player, -6, 0);
+    if (keyIsDown(&quot;ArrowRight&quot;)) move(player, 6, 0);
+    keepInside(player, game);
+
+    moveAll(bullets, 0, -8);
+
+    for (let i = 0; i &lt; enemies.length; i++) {
+        let dx = Number(enemies[i].dataset.direction) * 1.2;
+        move(enemies[i], dx, 0);
+
+        if (atEdge(enemies[i], game, &quot;left&quot;) || atEdge(enemies[i], game, &quot;right&quot;)) {
+            enemies[i].dataset.direction = String(-Number(enemies[i].dataset.direction));
+            move(enemies[i], 0, 12);
+        }
+    }
+
+    removeOffscreen(bullets, game);
+
+    let hits = removeCollisions(bullets, enemies);
+    score = score + hits;
+
+    bulletCount.innerText = bullets.length;
+    enemyCount.innerText = enemies.length;
+    scoreText.innerText = score;
+
+    if (enemies.length === 0) {
+        gameOver(message, &quot;YOU WIN! &quot; + score + &quot; HITS&quot;);
+        player.innerText = &quot;🏆&quot;;
+    }
+}
+
+makeWave();
+every(20, gameLoop);</pre>
+</div>
+</div>
+</div>
+<details>
+<summary>COPY THE COMPLETE WORKING index.html</summary>
+<p class="small">Paste this into a new <code>index.html</code>. Keep <code>rbs-game-library.js</code> beside it.</p>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'full3')">COPY WHOLE GAME</button>
+<pre id="full3">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;
+&lt;title&gt;Multi Bullet Blaster · Arrays&lt;/title&gt;
+&lt;style&gt;
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#eef2f7;color:#172033}
+.wrap{width:760px;max-width:calc(100% - 24px);margin:22px auto}
+h1{margin:0 0 8px}
+.help{margin:0 0 12px;color:#536174}
+.hud{background:#fff;padding:11px 14px;border-radius:12px 12px 0 0;display:flex;justify-content:space-between;font-weight:800}
+.message{background:#172033;color:#fff;padding:9px 14px;text-align:center;font-weight:800}
+.game{position:relative;width:100%;height:430px;overflow:hidden;border:4px solid #172033;background:linear-gradient(#dff4ff,#dff7df)}
+.sprite{position:absolute;user-select:none;text-align:center}
+button{margin-top:10px;padding:9px 14px;border:0;border-radius:9px;background:#4f46e5;color:white;font-weight:800;cursor:pointer}
+
+.game{background:radial-gradient(circle at 50% 120%,#21305b,#070b18 68%);color:white}
+#player{font-size:42px;width:46px;height:46px;line-height:46px}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;wrap&quot;&gt;
+&lt;h1&gt;Multi Bullet Blaster&lt;/h1&gt;
+&lt;p class=&quot;help&quot;&gt;← → move. Space shoots. Bullets and enemies are real elements stored in arrays.&lt;/p&gt;
+&lt;div class=&quot;hud&quot;&gt;&lt;span&gt;Bullets: &lt;span id=&quot;bulletCount&quot;&gt;0&lt;/span&gt;&lt;/span&gt;&lt;span&gt;Enemies: &lt;span id=&quot;enemyCount&quot;&gt;0&lt;/span&gt;&lt;/span&gt;&lt;span&gt;Score: &lt;span id=&quot;scoreText&quot;&gt;0&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;DESTROY THE WAVE&lt;/div&gt;
+&lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;
+  &lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:350px;top:365px&quot;&gt;🚀&lt;/div&gt;
+&lt;/div&gt;
+&lt;button onclick=&quot;restartGame()&quot;&gt;RESTART&lt;/button&gt;
+&lt;/div&gt;
+&lt;script src=&quot;rbs-game-library.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+let bullets = [];
+let enemies = [];
+let score = 0;
+let canShoot = true;
+
+startKeyTracking();
+
+function makeWave() {
+    for (let i = 0; i &lt; 8; i++) {
+        let x = 55 + i * 82;
+        let enemy = addSprite(enemies, game, &quot;👾&quot;, x, 35, 34);
+        enemy.dataset.direction = (i % 2 === 0) ? &quot;1&quot; : &quot;-1&quot;;
+    }
+}
+
+document.addEventListener(&quot;keydown&quot;, function(event) {
+    if (event.key === &quot; &quot; &amp;&amp; canShoot &amp;&amp; !RBS_GAME_ENDED) {
+        makeBullet(player, game, bullets, &quot;🔥&quot;, 18);
+        canShoot = false;
+
+        after(170, function() {
+            canShoot = true;
+        });
+    }
+});
+
+function gameLoop() {
+    if (RBS_GAME_ENDED) return;
+
+    if (keyIsDown(&quot;ArrowLeft&quot;)) move(player, -6, 0);
+    if (keyIsDown(&quot;ArrowRight&quot;)) move(player, 6, 0);
+    keepInside(player, game);
+
+    moveAll(bullets, 0, -8);
+
+    for (let i = 0; i &lt; enemies.length; i++) {
+        let dx = Number(enemies[i].dataset.direction) * 1.2;
+        move(enemies[i], dx, 0);
+
+        if (atEdge(enemies[i], game, &quot;left&quot;) || atEdge(enemies[i], game, &quot;right&quot;)) {
+            enemies[i].dataset.direction = String(-Number(enemies[i].dataset.direction));
+            move(enemies[i], 0, 12);
+        }
+    }
+
+    removeOffscreen(bullets, game);
+
+    let hits = removeCollisions(bullets, enemies);
+    score = score + hits;
+
+    bulletCount.innerText = bullets.length;
+    enemyCount.innerText = enemies.length;
+    scoreText.innerText = score;
+
+    if (enemies.length === 0) {
+        gameOver(message, &quot;YOU WIN! &quot; + score + &quot; HITS&quot;);
+        player.innerText = &quot;🏆&quot;;
+    }
+}
+
+makeWave();
+every(20, gameLoop);
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+</div>
+</details>
+</section>
+
+
+<section class="card" id="cleanup">
+<h2>Cleanup: remove BOTH</h2>
+<div class="warn"><b>Not enough:</b> <code>sprite.remove()</code> only removes the HTML. <b>Not enough:</b> <code>array.splice()</code> only removes the array entry. A real game should do both.</div>
+<h3>Use this</h3>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'cleanupcode')">COPY</button>
+<pre id="cleanupcode">function removeAt(list, index) {
+    let sprite = list[index];
+
+    sprite.remove();
+    list.splice(index, 1);
+}</pre>
+</div>
+<p><b>Why loop backwards?</b> Removing an array item makes later items slide left. A backwards loop avoids accidentally skipping the next object.</p>
+</section>
+
+<section class="card">
+<h2>The most useful array game functions</h2>
+<div class="grid three">
+<div><b>getAll()</b><p>Get many HTML elements into one array.</p><pre>let platforms =
+    getAll(".platform");</pre></div>
+<div><b>addSprite()</b><p>Create an element and automatically push it into an array.</p><pre>addSprite(
+    enemies,
+    game,
+    "👾",
+    50, 0, 40
+);</pre></div>
+<div><b>touchingAny()</b><p>Check one thing against every item in an array.</p><pre>if (
+    touchingAny(
+        player,
+        enemies
+    )
+) {
+    gameOver(message);
+}</pre></div>
+<div><b>removeOffscreen()</b><p>Remove dead/outside DOM elements AND array entries.</p><pre>removeOffscreen(
+    bullets,
+    game
+);</pre></div>
+<div><b>removeCollisions()</b><p>Remove colliding pairs from two arrays.</p><pre>score +=
+    removeCollisions(
+        bullets,
+        enemies
+    );</pre></div>
+<div><b>clearSprites()</b><p>Delete every sprite in an array.</p><pre>clearSprites(
+    enemies
+);</pre></div>
+</div>
+</section>
+</main>
+<script>
+function copyCode(button,id){
+    let text =
+        document
+        .getElementById(id)
+        .textContent;
+
+    navigator
+    .clipboard
+    .writeText(text)
+    .then(function(){
+        let old =
+            button.textContent;
+
+        button.textContent =
+            "COPIED!";
+
+        setTimeout(function(){
+            button.textContent =
+                old;
+        },1000);
+    });
+}
+</script>
+</body>
+</html>

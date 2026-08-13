@@ -1,0 +1,999 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Complete Game Blocks Dictionary · RBS Code</title>
+<style>
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f4f7fb;color:#172033;font-family:Arial,sans-serif;line-height:1.5}main{width:min(1120px,calc(100% - 24px));margin:auto;padding:26px 0 70px}h1{font-size:clamp(38px,7vw,68px);line-height:1;margin:7px 0}.lead{font-size:19px;color:#64748b;max-width:900px}.toc{display:flex;gap:7px;flex-wrap:wrap;margin:16px 0}.toc a{background:#111827;color:white;text-decoration:none;padding:7px 9px;border-radius:8px;font-weight:bold;font-size:13px}.group{margin-top:42px}.group>h2{font-size:30px;border-bottom:3px solid #c7d2fe;padding-bottom:8px}.block{background:white;border:1px solid #dfe5ee;border-radius:15px;padding:16px;margin:13px 0}.toprow{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.name{display:inline-block;background:#4f46e5;color:white;border-radius:9px;padding:7px 10px;font:900 16px Consolas,monospace}h3{margin:9px 0;font-size:20px}.lib{border-radius:999px;padding:5px 8px;font-size:11px;font-weight:900;white-space:nowrap}.lib.game{background:#dcfce7;color:#166534}.lib.gamepad{background:#ede9fe;color:#6d28d9}.lib.audio{background:#ffedd5;color:#9a3412}.meta,.need{margin:8px 0;padding:9px 11px;border-radius:9px;background:#f8fafc;border:1px solid #e8edf3}.meta code{display:block;margin-top:4px;color:#312e81;font-weight:bold}.need{background:#fff7ed;border-color:#fed7aa}pre{margin:0;background:#0b1220;color:#edf4ff;border-radius:10px;padding:14px;overflow:auto;white-space:pre-wrap;font:14px/1.55 Consolas,monospace}.codewrap{position:relative;margin-top:10px}.copy{position:absolute;right:8px;top:8px;border:0;border-radius:8px;background:#facc15;color:#422006;font-weight:900;padding:7px 9px;cursor:pointer}.btn{display:inline-block;background:#4f46e5;color:white;text-decoration:none;padding:9px 11px;border-radius:9px;font-weight:900;margin:2px}
+@media(max-width:700px){.toprow{display:block}.lib{display:inline-block;margin-top:4px}}
+</style>
+</head>
+<body>
+<main>
+<a class="btn" href="final-day.html">← PORTAL</a>
+<a class="btn" href="10-complete-games.html">10 GAMES</a>
+<h1>Complete Game Blocks Dictionary</h1>
+<p class="lead">Find a function, see exactly what it does, whether it needs HTML elements, which library it belongs to, and a worked example you can copy.</p>
+<div class="toc"><a href="#power-blocks">POWER BLOCKS</a> <a href="#building-blocks">BUILDING BLOCKS</a> <a href="#arrays-many-objects">ARRAYS + MANY OBJECTS</a> <a href="#platformer">PLATFORMER</a> <a href="#gamepad">GAMEPAD</a> <a href="#audio">AUDIO</a></div>
+<section class="group" id="power-blocks"><h2>POWER BLOCKS</h2>
+<article class="block" id="movewithkeys">
+<div class="toprow">
+<div><div class="name">moveWithKeys(...)</div><h3>Move an object with the keyboard.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>moveWithKeys(object, speed, gameArea);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: object + game area IDs.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-movewithkeys')">COPY EXAMPLE</button>
+<pre id="ex-movewithkeys">&lt;div id=&quot;game&quot;&gt;
+    &lt;div id=&quot;player&quot;&gt;🚀&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+moveWithKeys(
+    &quot;player&quot;,
+    10,
+    &quot;game&quot;
+);
+&lt;/script&gt;</pre>
+</div>
+</article>
+
+<article class="block" id="collect">
+<div class="toprow">
+<div><div class="name">collect(...)</div><h3>Touch an item, add points and move the item somewhere new.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>collect(player, item, scoreDisplay, points, gameArea);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: player, item, score display and game area.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-collect')">COPY EXAMPLE</button>
+<pre id="ex-collect">&lt;div id=&quot;scoreText&quot;&gt;0&lt;/div&gt;
+&lt;div id=&quot;game&quot;&gt;
+    &lt;div id=&quot;player&quot;&gt;😀&lt;/div&gt;
+    &lt;div id=&quot;coin&quot;&gt;🪙&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+collect(
+    &quot;player&quot;,
+    &quot;coin&quot;,
+    &quot;scoreText&quot;,
+    1,
+    &quot;game&quot;
+);
+&lt;/script&gt;</pre>
+</div>
+</article>
+
+<article class="block" id="winatscore">
+<div class="toprow">
+<div><div class="name">winAtScore(...)</div><h3>End the game when a score display reaches a target.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>winAtScore(scoreDisplay, target, message);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: score display + message.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-winatscore')">COPY EXAMPLE</button>
+<pre id="ex-winatscore">&lt;div id=&quot;scoreText&quot;&gt;0&lt;/div&gt;
+&lt;h2 id=&quot;message&quot;&gt;GO!&lt;/h2&gt;
+
+&lt;script&gt;
+winAtScore(
+    &quot;scoreText&quot;,
+    10,
+    &quot;message&quot;
+);
+&lt;/script&gt;</pre>
+</div>
+</article>
+
+<article class="block" id="chase">
+<div class="toprow">
+<div><div class="name">chase(...)</div><h3>Make one object continuously follow another.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>chase(chaser, target, speed);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: chaser + target.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-chase')">COPY EXAMPLE</button>
+<pre id="ex-chase">&lt;div id=&quot;player&quot;&gt;😀&lt;/div&gt;
+&lt;div id=&quot;monster&quot;&gt;👾&lt;/div&gt;
+
+&lt;script&gt;
+chase(
+    &quot;monster&quot;,
+    &quot;player&quot;,
+    1.5
+);
+&lt;/script&gt;</pre>
+</div>
+</article>
+
+<article class="block" id="loseontouch">
+<div class="toprow">
+<div><div class="name">loseOnTouch(...)</div><h3>Lose when two objects touch.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>loseOnTouch(player, danger, message);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: two objects + message.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-loseontouch')">COPY EXAMPLE</button>
+<pre id="ex-loseontouch">&lt;div id=&quot;player&quot;&gt;😀&lt;/div&gt;
+&lt;div id=&quot;enemy&quot;&gt;👾&lt;/div&gt;
+&lt;h2 id=&quot;message&quot;&gt;GO!&lt;/h2&gt;
+
+&lt;script&gt;
+loseOnTouch(
+    &quot;player&quot;,
+    &quot;enemy&quot;,
+    &quot;message&quot;
+);
+&lt;/script&gt;</pre>
+</div>
+</article>
+
+<article class="block" id="patrol">
+<div class="toprow">
+<div><div class="name">patrol(...)</div><h3>Move an object automatically and bounce at the game edges.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>patrol(object, xSpeed, ySpeed, gameArea);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: object + game area.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-patrol')">COPY EXAMPLE</button>
+<pre id="ex-patrol">patrol(
+    &quot;enemy&quot;,
+    4,
+    0,
+    &quot;game&quot;
+);</pre>
+</div>
+</article>
+
+<article class="block" id="keyopensdoor">
+<div class="toprow">
+<div><div class="name">keyOpensDoor(...)</div><h3>Collect a key, unlock a door, then win by reaching it.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>keyOpensDoor(player, key, door, message);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: player, key, door, message.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-keyopensdoor')">COPY EXAMPLE</button>
+<pre id="ex-keyopensdoor">keyOpensDoor(
+    &quot;player&quot;,
+    &quot;key&quot;,
+    &quot;door&quot;,
+    &quot;message&quot;
+);</pre>
+</div>
+</article>
+
+<article class="block" id="winontouch">
+<div class="toprow">
+<div><div class="name">winOnTouch(...)</div><h3>Win when the player touches a goal.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>winOnTouch(player, goal, message);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: player, goal, message.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-winontouch')">COPY EXAMPLE</button>
+<pre id="ex-winontouch">winOnTouch(
+    &quot;player&quot;,
+    &quot;flag&quot;,
+    &quot;message&quot;
+);</pre>
+</div>
+</article>
+
+<article class="block" id="countdown">
+<div class="toprow">
+<div><div class="name">countdown(...)</div><h3>Count down once per second and end when time reaches zero.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>countdown(seconds, timeDisplay, message);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: time display + message.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-countdown')">COPY EXAMPLE</button>
+<pre id="ex-countdown">countdown(
+    20,
+    &quot;timeText&quot;,
+    &quot;message&quot;
+);</pre>
+</div>
+</article>
+
+<article class="block" id="survive">
+<div class="toprow">
+<div><div class="name">survive(...)</div><h3>Win if the player stays alive until the timer ends.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>survive(seconds, timeDisplay, message, player);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: time display, message, player.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-survive')">COPY EXAMPLE</button>
+<pre id="ex-survive">survive(
+    15,
+    &quot;timeText&quot;,
+    &quot;message&quot;,
+    &quot;player&quot;
+);</pre>
+</div>
+</article>
+</section><section class="group" id="building-blocks"><h2>BUILDING BLOCKS</h2>
+<article class="block" id="get">
+<div class="toprow">
+<div><div class="name">get(...)</div><h3>Find an HTML element by ID, or accept an element you already have.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>get(itemOrId);</code></div>
+<div class="need"><b>Needs HTML?</b> YES only if you pass an ID string.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-get')">COPY EXAMPLE</button>
+<pre id="ex-get">let player =
+    get(&quot;player&quot;);</pre>
+</div>
+</article>
+
+<article class="block" id="getall">
+<div class="toprow">
+<div><div class="name">getAll(...)</div><h3>Get every matching HTML element and turn them into an array.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>getAll(cssSelector);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: matching HTML elements.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-getall')">COPY EXAMPLE</button>
+<pre id="ex-getall">let platforms =
+    getAll(&quot;.platform&quot;);</pre>
+</div>
+</article>
+
+<article class="block" id="move">
+<div class="toprow">
+<div><div class="name">move(...)</div><h3>Move an element by x/y pixels.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>move(item, xChange, yChange);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: the object.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-move')">COPY EXAMPLE</button>
+<pre id="ex-move">move(
+    player,
+    5,
+    0
+);</pre>
+</div>
+</article>
+
+<article class="block" id="place">
+<div class="toprow">
+<div><div class="name">place(...)</div><h3>Put an element at an exact x/y position.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>place(item, x, y);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: the object.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-place')">COPY EXAMPLE</button>
+<pre id="ex-place">place(
+    player,
+    40,
+    150
+);</pre>
+</div>
+</article>
+
+<article class="block" id="touching">
+<div class="toprow">
+<div><div class="name">touching(...)</div><h3>Return true when two elements overlap.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>touching(item1, item2);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: both objects.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-touching')">COPY EXAMPLE</button>
+<pre id="ex-touching">if (
+    touching(
+        player,
+        coin
+    )
+) {
+    alert(&quot;GOT IT!&quot;);
+}</pre>
+</div>
+</article>
+
+<article class="block" id="keepinside">
+<div class="toprow">
+<div><div class="name">keepInside(...)</div><h3>Stop an element leaving its game area.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>keepInside(item, gameArea);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: object + game area.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-keepinside')">COPY EXAMPLE</button>
+<pre id="ex-keepinside">keepInside(
+    player,
+    game
+);</pre>
+</div>
+</article>
+
+<article class="block" id="randomposition">
+<div class="toprow">
+<div><div class="name">randomPosition(...)</div><h3>Move an object to a random x/y position inside a game area.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>randomPosition(item, gameArea);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: object + game area.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-randomposition')">COPY EXAMPLE</button>
+<pre id="ex-randomposition">randomPosition(
+    coin,
+    game
+);</pre>
+</div>
+</article>
+
+<article class="block" id="randomx">
+<div class="toprow">
+<div><div class="name">randomX(...)</div><h3>Choose a random horizontal position.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>randomX(item, gameArea);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: object + game area.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-randomx')">COPY EXAMPLE</button>
+<pre id="ex-randomx">randomX(
+    enemy,
+    game
+);</pre>
+</div>
+</article>
+
+<article class="block" id="settext">
+<div class="toprow">
+<div><div class="name">setText(...)</div><h3>Change words shown in an element.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>setText(item, text);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: text/message element.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-settext')">COPY EXAMPLE</button>
+<pre id="ex-settext">setText(
+    message,
+    &quot;YOU WIN!&quot;
+);</pre>
+</div>
+</article>
+
+<article class="block" id="setemoji">
+<div class="toprow">
+<div><div class="name">setEmoji(...)</div><h3>Change an element&#x27;s text/emoji.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>setEmoji(item, emoji);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: the element.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-setemoji')">COPY EXAMPLE</button>
+<pre id="ex-setemoji">setEmoji(
+    player,
+    &quot;💥&quot;
+);</pre>
+</div>
+</article>
+
+<article class="block" id="hide-show">
+<div class="toprow">
+<div><div class="name">hide / show(...)</div><h3>Hide or show an HTML element.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>hide(item); / show(item);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: the element.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-hide-show')">COPY EXAMPLE</button>
+<pre id="ex-hide-show">hide(key);
+show(door);</pre>
+</div>
+</article>
+
+<article class="block" id="changenumber">
+<div class="toprow">
+<div><div class="name">changeNumber(...)</div><h3>Add/subtract a number and update a display.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>changeNumber(number, amount, display);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: display element.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-changenumber')">COPY EXAMPLE</button>
+<pre id="ex-changenumber">score =
+    changeNumber(
+        score,
+        1,
+        scoreText
+    );</pre>
+</div>
+</article>
+
+<article class="block" id="every">
+<div class="toprow">
+<div><div class="name">every(...)</div><h3>Run a function repeatedly using milliseconds.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>every(milliseconds, function);</code></div>
+<div class="need"><b>Needs HTML?</b> NO, unless your function uses HTML.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-every')">COPY EXAMPLE</button>
+<pre id="ex-every">every(
+    1000,
+    function() {
+        console.log(&quot;tick&quot;);
+    }
+);</pre>
+</div>
+</article>
+
+<article class="block" id="after">
+<div class="toprow">
+<div><div class="name">after(...)</div><h3>Run a function once after a delay.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>after(milliseconds, function);</code></div>
+<div class="need"><b>Needs HTML?</b> NO, unless your function uses HTML.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-after')">COPY EXAMPLE</button>
+<pre id="ex-after">after(
+    500,
+    function() {
+        setText(
+            message,
+            &quot;GO!&quot;
+        );
+    }
+);</pre>
+</div>
+</article>
+</section><section class="group" id="arrays-many-objects"><h2>ARRAYS + MANY OBJECTS</h2>
+<article class="block" id="addsprite">
+<div class="toprow">
+<div><div class="name">addSprite(...)</div><h3>Create a real div, append it to the game and push it into an array.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>addSprite(list, gameArea, picture, x, y, size);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: game area. The new sprite is created for you.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-addsprite')">COPY EXAMPLE</button>
+<pre id="ex-addsprite">let enemies = [];
+
+addSprite(
+    enemies,
+    game,
+    &quot;👾&quot;,
+    100,
+    0,
+    40
+);</pre>
+</div>
+</article>
+
+<article class="block" id="createsprite">
+<div class="toprow">
+<div><div class="name">createSprite(...)</div><h3>Create one real sprite element and return it.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>createSprite(gameArea, picture, x, y, size);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: game area. New sprite created automatically.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-createsprite')">COPY EXAMPLE</button>
+<pre id="ex-createsprite">let enemy =
+    createSprite(
+        game,
+        &quot;👾&quot;,
+        100,
+        0,
+        40
+    );</pre>
+</div>
+</article>
+
+<article class="block" id="moveall">
+<div class="toprow">
+<div><div class="name">moveAll(...)</div><h3>Move every DOM element stored in an array.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>moveAll(items, xChange, yChange);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: the array must contain elements.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-moveall')">COPY EXAMPLE</button>
+<pre id="ex-moveall">moveAll(
+    enemies,
+    0,
+    4
+);</pre>
+</div>
+</article>
+
+<article class="block" id="touchingany">
+<div class="toprow">
+<div><div class="name">touchingAny(...)</div><h3>Return the first array item touching another object, or null.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>touchingAny(item, items);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: object + array of elements.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-touchingany')">COPY EXAMPLE</button>
+<pre id="ex-touchingany">let hit =
+    touchingAny(
+        player,
+        enemies
+    );
+
+if (hit) {
+    gameOver(message);
+}</pre>
+</div>
+</article>
+
+<article class="block" id="removeat">
+<div class="toprow">
+<div><div class="name">removeAt(...)</div><h3>Delete one sprite from BOTH the DOM and its array.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>removeAt(list, index);</code></div>
+<div class="need"><b>Needs HTML?</b> NO extra HTML; the array already contains elements.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-removeat')">COPY EXAMPLE</button>
+<pre id="ex-removeat">removeAt(
+    bullets,
+    2
+);</pre>
+</div>
+</article>
+
+<article class="block" id="removesprite">
+<div class="toprow">
+<div><div class="name">removeSprite(...)</div><h3>Delete a sprite and optionally remove it from its array.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>removeSprite(sprite, list);</code></div>
+<div class="need"><b>Needs HTML?</b> NO extra HTML.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-removesprite')">COPY EXAMPLE</button>
+<pre id="ex-removesprite">removeSprite(
+    enemy,
+    enemies
+);</pre>
+</div>
+</article>
+
+<article class="block" id="clearsprites">
+<div class="toprow">
+<div><div class="name">clearSprites(...)</div><h3>Delete every DOM sprite in an array and empty the array.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>clearSprites(list);</code></div>
+<div class="need"><b>Needs HTML?</b> NO extra HTML.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-clearsprites')">COPY EXAMPLE</button>
+<pre id="ex-clearsprites">clearSprites(
+    enemies
+);</pre>
+</div>
+</article>
+
+<article class="block" id="removeoffscreen">
+<div class="toprow">
+<div><div class="name">removeOffscreen(...)</div><h3>Remove sprites that leave the game from BOTH DOM + array.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>removeOffscreen(items, gameArea);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: game area; array contains sprites.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-removeoffscreen')">COPY EXAMPLE</button>
+<pre id="ex-removeoffscreen">removeOffscreen(
+    bullets,
+    game
+);</pre>
+</div>
+</article>
+
+<article class="block" id="makebullet">
+<div class="toprow">
+<div><div class="name">makeBullet(...)</div><h3>Create a bullet at a shooter and push it into a bullets array.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>makeBullet(shooter, gameArea, bullets, picture, size);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: shooter + game area.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-makebullet')">COPY EXAMPLE</button>
+<pre id="ex-makebullet">let bullets = [];
+
+makeBullet(
+    player,
+    game,
+    bullets,
+    &quot;🔥&quot;,
+    18
+);</pre>
+</div>
+</article>
+
+<article class="block" id="removecollisions">
+<div class="toprow">
+<div><div class="name">removeCollisions(...)</div><h3>Remove colliding pairs from two arrays and return number of hits.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>removeCollisions(listA, listB);</code></div>
+<div class="need"><b>Needs HTML?</b> NO extra HTML; arrays contain sprites.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-removecollisions')">COPY EXAMPLE</button>
+<pre id="ex-removecollisions">score +=
+    removeCollisions(
+        bullets,
+        enemies
+    );</pre>
+</div>
+</article>
+</section><section class="group" id="platformer"><h2>PLATFORMER</h2>
+<article class="block" id="applygravity">
+<div class="toprow">
+<div><div class="name">applyGravity(...)</div><h3>Increase vertical speed and move the player downward.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>applyGravity(item, ySpeed, gravityStrength);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: player/object.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-applygravity')">COPY EXAMPLE</button>
+<pre id="ex-applygravity">ySpeed =
+    applyGravity(
+        player,
+        ySpeed,
+        0.55
+    );</pre>
+</div>
+</article>
+
+<article class="block" id="standingonany">
+<div class="toprow">
+<div><div class="name">standingOnAny(...)</div><h3>Return true when player feet are on any platform in an array.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>standingOnAny(player, platforms);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: player + platform elements.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-standingonany')">COPY EXAMPLE</button>
+<pre id="ex-standingonany">if (
+    standingOnAny(
+        player,
+        platforms
+    )
+) {
+    ySpeed = -11;
+}</pre>
+</div>
+</article>
+
+<article class="block" id="landonplatforms">
+<div class="toprow">
+<div><div class="name">landOnPlatforms(...)</div><h3>Land on any platform in an array and return corrected vertical speed.</h3></div>
+<span class="lib game">GAME LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>landOnPlatforms(player, ySpeed, platforms);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: player + platforms.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-landonplatforms')">COPY EXAMPLE</button>
+<pre id="ex-landonplatforms">ySpeed =
+    landOnPlatforms(
+        player,
+        ySpeed,
+        platforms
+    );</pre>
+</div>
+</article>
+</section><section class="group" id="gamepad"><h2>GAMEPAD</h2>
+<article class="block" id="movewithgamepad">
+<div class="toprow">
+<div><div class="name">moveWithGamepad(...)</div><h3>Move an object with the left stick. Optional pad index supports multiple controllers.</h3></div>
+<span class="lib gamepad">GAMEPAD LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>moveWithGamepad(object, speed, gameArea, padIndex);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: object + game area. Needs GAME + GAMEPAD libraries.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-movewithgamepad')">COPY EXAMPLE</button>
+<pre id="ex-movewithgamepad">moveWithGamepad(
+    &quot;player1&quot;,
+    8,
+    &quot;game&quot;,
+    0
+);
+
+moveWithGamepad(
+    &quot;player2&quot;,
+    8,
+    &quot;game&quot;,
+    1
+);</pre>
+</div>
+</article>
+
+<article class="block" id="drivewithgamepad">
+<div class="toprow">
+<div><div class="name">driveWithGamepad(...)</div><h3>Top-down drive: left stick steers, RT forward, LT reverse.</h3></div>
+<span class="lib gamepad">GAMEPAD LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>driveWithGamepad(vehicle, steeringSpeed, driveSpeed, gameArea, padIndex);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: vehicle + game area. Needs GAME + GAMEPAD libraries.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-drivewithgamepad')">COPY EXAMPLE</button>
+<pre id="ex-drivewithgamepad">driveWithGamepad(
+    &quot;car&quot;,
+    5,
+    7,
+    &quot;game&quot;,
+    0
+);</pre>
+</div>
+</article>
+
+<article class="block" id="leftstick">
+<div class="toprow">
+<div><div class="name">leftStick(...)</div><h3>Read left-stick x/y values from -1 to +1.</h3></div>
+<span class="lib gamepad">GAMEPAD LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>leftStick(padIndex);</code></div>
+<div class="need"><b>Needs HTML?</b> NO by itself.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-leftstick')">COPY EXAMPLE</button>
+<pre id="ex-leftstick">let stick =
+    leftStick(0);
+
+move(
+    player,
+    stick.x * 6,
+    stick.y * 6
+);</pre>
+</div>
+</article>
+
+<article class="block" id="rightstick">
+<div class="toprow">
+<div><div class="name">rightStick(...)</div><h3>Read right-stick x/y values from -1 to +1.</h3></div>
+<span class="lib gamepad">GAMEPAD LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>rightStick(padIndex);</code></div>
+<div class="need"><b>Needs HTML?</b> NO by itself.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-rightstick')">COPY EXAMPLE</button>
+<pre id="ex-rightstick">let aim =
+    rightStick(0);</pre>
+</div>
+</article>
+
+<article class="block" id="padbutton">
+<div class="toprow">
+<div><div class="name">padButton(...)</div><h3>Check whether a button is held down.</h3></div>
+<span class="lib gamepad">GAMEPAD LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>padButton(buttonNumber, padIndex);</code></div>
+<div class="need"><b>Needs HTML?</b> NO by itself.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-padbutton')">COPY EXAMPLE</button>
+<pre id="ex-padbutton">if (
+    padButton(
+        PAD.A,
+        0
+    )
+) {
+    console.log(&quot;A DOWN&quot;);
+}</pre>
+</div>
+</article>
+
+<article class="block" id="padjustpressed">
+<div class="toprow">
+<div><div class="name">padJustPressed(...)</div><h3>True once when a button changes from up to down.</h3></div>
+<span class="lib gamepad">GAMEPAD LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>padJustPressed(buttonNumber, padIndex);</code></div>
+<div class="need"><b>Needs HTML?</b> NO by itself. Call updatePadButtons() at end of your own polling loop.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-padjustpressed')">COPY EXAMPLE</button>
+<pre id="ex-padjustpressed">if (
+    padJustPressed(
+        PAD.A,
+        0
+    )
+) {
+    jump();
+}
+
+updatePadButtons();</pre>
+</div>
+</article>
+
+<article class="block" id="padbuttonvalue">
+<div class="toprow">
+<div><div class="name">padButtonValue(...)</div><h3>Read analog button/trigger value, usually 0 to 1.</h3></div>
+<span class="lib gamepad">GAMEPAD LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>padButtonValue(buttonNumber, padIndex);</code></div>
+<div class="need"><b>Needs HTML?</b> NO by itself.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-padbuttonvalue')">COPY EXAMPLE</button>
+<pre id="ex-padbuttonvalue">let gas =
+    padButtonValue(
+        PAD.RT,
+        0
+    );</pre>
+</div>
+</article>
+
+<article class="block" id="rumble">
+<div class="toprow">
+<div><div class="name">rumble(...)</div><h3>Vibrate one controller.</h3></div>
+<span class="lib gamepad">GAMEPAD LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>rumble(strong, weak, milliseconds, padIndex);</code></div>
+<div class="need"><b>Needs HTML?</b> NO. Hardware/browser support varies.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-rumble')">COPY EXAMPLE</button>
+<pre id="ex-rumble">rumble(
+    1,
+    0.4,
+    250,
+    1
+);</pre>
+</div>
+</article>
+
+<article class="block" id="rumbleontouch">
+<div class="toprow">
+<div><div class="name">rumbleOnTouch(...)</div><h3>Buzz once when two objects first touch. Optional pad index chooses controller.</h3></div>
+<span class="lib gamepad">GAMEPAD LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>rumbleOnTouch(item1, item2, strong, weak, ms, padIndex);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: two objects. Needs GAME + GAMEPAD libraries.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-rumbleontouch')">COPY EXAMPLE</button>
+<pre id="ex-rumbleontouch">rumbleOnTouch(
+    &quot;player2&quot;,
+    &quot;enemy&quot;,
+    1,
+    0.4,
+    250,
+    1
+);</pre>
+</div>
+</article>
+
+<article class="block" id="movetwoplayerswithgamepads">
+<div class="toprow">
+<div><div class="name">moveTwoPlayersWithGamepads(...)</div><h3>Shortcut: first controller moves player1, second moves player2.</h3></div>
+<span class="lib gamepad">GAMEPAD LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>moveTwoPlayersWithGamepads(player1, player2, speed, gameArea);</code></div>
+<div class="need"><b>Needs HTML?</b> YES: both players + game area.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-movetwoplayerswithgamepads')">COPY EXAMPLE</button>
+<pre id="ex-movetwoplayerswithgamepads">moveTwoPlayersWithGamepads(
+    &quot;red&quot;,
+    &quot;blue&quot;,
+    8,
+    &quot;game&quot;
+);</pre>
+</div>
+</article>
+</section><section class="group" id="audio"><h2>AUDIO</h2>
+<article class="block" id="makesound">
+<div class="toprow">
+<div><div class="name">makeSound(...)</div><h3>Load a sound and choose volume/looping.</h3></div>
+<span class="lib audio">AUDIO LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>makeSound(file, volume, loop);</code></div>
+<div class="need"><b>Needs HTML?</b> NO HTML required. Needs AUDIO library.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-makesound')">COPY EXAMPLE</button>
+<pre id="ex-makesound">let coinSound =
+    makeSound(
+        &quot;sounds/coin.mp3&quot;,
+        0.7
+    );</pre>
+</div>
+</article>
+
+<article class="block" id="playsound">
+<div class="toprow">
+<div><div class="name">playSound(...)</div><h3>Restart and play a loaded sound.</h3></div>
+<span class="lib audio">AUDIO LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>playSound(sound);</code></div>
+<div class="need"><b>Needs HTML?</b> NO HTML required.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-playsound')">COPY EXAMPLE</button>
+<pre id="ex-playsound">playSound(
+    coinSound
+);</pre>
+</div>
+</article>
+
+<article class="block" id="playoverlap">
+<div class="toprow">
+<div><div class="name">playOverlap(...)</div><h3>Play a fresh sound instance so rapid effects can overlap.</h3></div>
+<span class="lib audio">AUDIO LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>playOverlap(file, volume);</code></div>
+<div class="need"><b>Needs HTML?</b> NO HTML required.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-playoverlap')">COPY EXAMPLE</button>
+<pre id="ex-playoverlap">playOverlap(
+    &quot;sounds/laser.mp3&quot;,
+    0.5
+);</pre>
+</div>
+</article>
+
+<article class="block" id="pausesound-stopsound">
+<div class="toprow">
+<div><div class="name">pauseSound / stopSound(...)</div><h3>Pause audio, or stop and rewind to the beginning.</h3></div>
+<span class="lib audio">AUDIO LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>pauseSound(sound); / stopSound(sound);</code></div>
+<div class="need"><b>Needs HTML?</b> NO HTML required.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-pausesound-stopsound')">COPY EXAMPLE</button>
+<pre id="ex-pausesound-stopsound">pauseSound(music);
+
+stopSound(music);</pre>
+</div>
+</article>
+
+<article class="block" id="setvolume">
+<div class="toprow">
+<div><div class="name">setVolume(...)</div><h3>Change volume from 0 to 1.</h3></div>
+<span class="lib audio">AUDIO LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>setVolume(sound, volume);</code></div>
+<div class="need"><b>Needs HTML?</b> NO HTML required.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-setvolume')">COPY EXAMPLE</button>
+<pre id="ex-setvolume">setVolume(
+    music,
+    0.2
+);</pre>
+</div>
+</article>
+
+<article class="block" id="fadeout">
+<div class="toprow">
+<div><div class="name">fadeOut(...)</div><h3>Gradually lower volume until the sound stops.</h3></div>
+<span class="lib audio">AUDIO LIBRARY</span>
+</div>
+<div class="meta"><b>Call</b><code>fadeOut(sound, step, everyMilliseconds);</code></div>
+<div class="need"><b>Needs HTML?</b> NO HTML required.</div>
+<div class="codewrap">
+<button class="copy" onclick="copyCode(this,'ex-fadeout')">COPY EXAMPLE</button>
+<pre id="ex-fadeout">fadeOut(
+    music,
+    0.05,
+    50
+);</pre>
+</div>
+</article>
+</section>
+</main>
+<script>
+function copyCode(button,id){
+    navigator.clipboard.writeText(
+        document.getElementById(id).textContent
+    ).then(function(){
+        let old=button.textContent;
+        button.textContent="COPIED!";
+        setTimeout(function(){
+            button.textContent=old;
+        },1000);
+    });
+}
+</script>
+</body>
+</html>

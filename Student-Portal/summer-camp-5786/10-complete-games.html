@@ -1,0 +1,1966 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>10 Games You Can Build · RBS Code</title>
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#f4f7fb;color:#172033;font-family:Arial,sans-serif;line-height:1.5}
+main{width:min(1260px,calc(100% - 24px));margin:auto;padding:28px 0 80px}
+.hero{background:linear-gradient(135deg,#111827,#312e81);color:white;border-radius:22px;padding:26px;margin-bottom:18px}
+.hero h1{font-size:clamp(42px,7vw,76px);line-height:.95;margin:7px 0 14px}
+.hero p{font-size:20px;max-width:900px;color:#e0e7ff}
+.path{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:18px 0}
+.path div{background:rgba(255,255,255,.09);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.15)}
+.path b{display:block;color:#facc15} .path span{font-size:13px;color:#dbeafe}
+.toc{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.toc a{color:#dbeafe;background:#1f2937;text-decoration:none;padding:7px 9px;border-radius:8px;font-size:13px;font-weight:bold}
+.start{background:white;border:1px solid #dfe5ee;border-radius:18px;padding:18px;margin:18px 0}
+.start-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.start-grid div{background:#f8fafc;border:1px solid #e2e8f0;border-radius:11px;padding:11px}
+.start-grid b{display:block;color:#3730a3}
+.folder{margin-top:12px;background:#0b1220;color:#e5eefc;padding:14px;border-radius:10px;font:14px/1.6 Consolas,monospace;white-space:pre}
+.good{margin-top:12px;background:#ecfdf5;border-left:5px solid #10b981;padding:12px;border-radius:10px}
+.game-card{background:white;border:1px solid #dfe5ee;border-radius:20px;overflow:hidden;margin:22px 0}
+.game-head{display:flex;justify-content:space-between;gap:15px;padding:18px;align-items:flex-start}
+.game-head h2{font-size:29px;margin:3px 0 5px} .game-head p{margin:0;color:#475569}
+.eyebrow{font-size:12px;font-weight:900;color:#4f46e5}
+.play-btn{background:#4f46e5;color:white;text-decoration:none;font-weight:900;padding:10px 12px;border-radius:9px;white-space:nowrap}
+.game-grid{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #e5e7eb}
+.preview-side,.code-side{padding:15px} .preview-side{border-right:1px solid #e5e7eb}
+h3{margin:4px 0 7px} .small{font-size:13px;color:#64748b}
+iframe{width:100%;height:535px;border:1px solid #cbd5e1;border-radius:12px;background:white}
+.codewrap{position:relative;margin:9px 0}
+pre{margin:0;background:#0b1220;color:#edf4ff;border-radius:11px;padding:48px 15px 15px;overflow:auto;white-space:pre;font:14px/1.55 Consolas,monospace;max-height:540px}
+.copy{position:absolute;right:8px;top:8px;border:0;border-radius:8px;padding:8px 11px;background:#facc15;color:#422006;font-weight:900;cursor:pointer;z-index:2;transition:.15s}
+.copy.copied{background:#22c55e;color:white;transform:scale(1.08)}
+.explanations{display:grid;gap:8px}
+.func-explain{border:1px solid #dbe3ef;border-radius:11px;overflow:hidden}
+.func-name{background:#4f46e5;color:white;font:900 15px Consolas,monospace;padding:9px 11px}
+.func-plain{padding:10px 11px 5px;font-weight:bold}
+.slots{padding:0 11px 8px;display:flex;gap:5px;flex-wrap:wrap}
+.slots span{background:#eef2ff;color:#3730a3;border-radius:999px;padding:4px 7px;font-size:12px;font-weight:bold}
+.try{background:#fffbeb;border-top:1px solid #fde68a;padding:8px 11px;color:#92400e;font-size:13px}
+details{margin-top:13px} summary{cursor:pointer;font-weight:900;color:#3730a3;background:#eef2ff;padding:10px;border-radius:9px}
+.copy-help{background:#ecfdf5;border-left:5px solid #10b981;padding:10px 12px;margin:10px 0;border-radius:9px}
+@media(max-width:900px){.game-grid,.path,.start-grid{grid-template-columns:1fr}.preview-side{border-right:0;border-bottom:1px solid #e5e7eb}.game-head{display:block}.play-btn{display:inline-block;margin-top:10px}}
+</style>
+</head>
+<body>
+<main>
+<section class="hero">
+    <div style="font-weight:900;color:#facc15">RBS CODE · GAME WORKSHOP</div>
+    <h1>10 Games You Can Build</h1>
+    <p>Play them. Read the tiny game blocks. Learn what each block means. Then copy, change and combine them to invent your own game.</p>
+    <div class="path">
+        <div><b>1 · PLAY</b><span>Understand the game before the code.</span></div>
+        <div><b>2 · READ</b><span>Look at the few blocks that make it work.</span></div>
+        <div><b>3 · CHANGE</b><span>Change one number or object and run again.</span></div>
+        <div><b>4 · REMIX</b><span>Combine blocks from different games.</span></div>
+    </div>
+    <p><a class="play-btn" href="game-blocks-dictionary.html">📘 GAME BLOCKS DICTIONARY</a></p><div class="toc"><a href="#01-coin-collector">1. Coin Collector</a><a href="#02-treasure-rush">2. Treasure Rush</a><a href="#03-key-escape">3. Key Escape</a><a href="#04-dodge-to-door">4. Dodge to the Door</a><a href="#05-timed-gem-rush">5. Timed Gem Rush</a><a href="#06-two-player-tag">6. Two-Player Tag</a><a href="#07-monster-survival">7. Monster Survival</a><a href="#08-gamepad-treasure">8. Gamepad Treasure Hunt</a><a href="#09-gamepad-racer">9. Gamepad Racer</a><a href="#10-gamepad-key-mission">10. Gamepad Key Mission</a></div>
+</section>
+
+<section class="start">
+    <h2>🚀 How to Make Your Own Copy</h2>
+    <div class="start-grid">
+        <div><b>1. Choose a game</b><span>Coin Collector is easiest first.</span></div>
+        <div><b>2. Open “MAKE YOUR OWN COPY”</b><span>Press COPY WHOLE GAME.</span></div>
+        <div><b>3. Paste into index.html</b><span>Save it in a new folder.</span></div>
+        <div><b>4. Keep the library beside it</b><span>Then open index.html and play.</span></div>
+    </div>
+    <div class="folder">my-game/
+    index.html
+    rbs-game-library.js
+    rbs-gamepad-library.js   ← only for gamepad games</div>
+    <div class="good"><b>Important:</b> the library does the complicated engine work. You learn the readable game blocks first. Later you can look inside the library and learn how they are built.</div>
+</section>
+
+
+<section class="game-card" id="01-coin-collector">
+    <div class="game-head">
+        <div>
+            <div class="eyebrow">⌨️ KEYBOARD GAME</div>
+            <h2>1. Coin Collector</h2>
+            <p>Move around and collect 10 coins.</p>
+        </div>
+        <a class="play-btn" href="01-coin-collector.html" target="_blank">PLAY FULL GAME ↗</a>
+    </div>
+
+    <div class="game-grid">
+        <div class="preview-side">
+            <h3>1 · PLAY IT</h3>
+            <p class="small"><b>Click inside the game</b>, then use the controls.</p>
+            <iframe src="01-coin-collector.html" title="1. Coin Collector"></iframe>
+        </div>
+
+        <div class="code-side">
+            <h3>2 · READ THE GAME BLOCKS</h3>
+            <p class="small">These few lines are the main rules of this game.</p>
+
+            <div class="codewrap">
+                <button class="copy" onclick="copyCode(this,'js-01-coin-collector')">COPY BLOCKS</button>
+                <pre id="js-01-coin-collector">moveWithKeys(&quot;player&quot;, 7, &quot;game&quot;);
+collect(&quot;player&quot;, &quot;coin&quot;, &quot;scoreText&quot;, 1, &quot;game&quot;);
+winAtScore(&quot;scoreText&quot;, 10, &quot;message&quot;);</pre>
+            </div>
+
+            <h3>3 · WHAT DO THE BLOCKS MEAN?</h3>
+            <div class="explanations">
+                
+        <div class="func-explain">
+            <div class="func-name">moveWithKeys(...)</div>
+            <div class="func-plain">Move an object with the keyboard.</div>
+            <div class="slots"><span>object</span> · <span>speed</span> · <span>game area</span> · <span>optional keys</span></div>
+            <div class="try"><b>TRY:</b> Change the speed number. Bigger = faster.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">collect(...)</div>
+            <div class="func-plain">When the player touches an item: add points and move the item somewhere new.</div>
+            <div class="slots"><span>player</span> · <span>item</span> · <span>score display</span> · <span>points to add</span> · <span>game area</span></div>
+            <div class="try"><b>TRY:</b> Change 1 to 5 to make the item worth 5 points.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">winAtScore(...)</div>
+            <div class="func-plain">Win when the score reaches a number.</div>
+            <div class="slots"><span>score display</span> · <span>score needed</span> · <span>message box</span></div>
+            <div class="try"><b>TRY:</b> Change the target number.</div>
+        </div>
+        
+            </div>
+
+            <details>
+                <summary>4 · MAKE YOUR OWN COPY</summary>
+                <div class="copy-help">
+                    <b>Easiest method:</b> press <b>COPY WHOLE GAME</b>, make a new file named
+                    <code>index.html</code>, paste, and save. Keep the library file(s) in the same folder.
+                </div>
+                <div class="codewrap">
+                    <button class="copy" onclick="copyCode(this,'full-01-coin-collector')">COPY WHOLE GAME</button>
+                    <pre id="full-01-coin-collector">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+    &lt;title&gt;1. Coin Collector&lt;/title&gt;
+
+    &lt;style&gt;
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef2f7;
+    color: #172033;
+}
+.wrap {
+    width: 700px;
+    max-width: calc(100% - 24px);
+    margin: 24px auto;
+}
+h1 {
+    margin: 0 0 8px;
+}
+.hud {
+    background: white;
+    padding: 12px 16px;
+    border-radius: 12px 12px 0 0;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+.message {
+    background: #172033;
+    color: white;
+    padding: 10px 16px;
+    font-weight: bold;
+    text-align: center;
+}
+.game {
+    position: relative;
+    width: 100%;
+    height: 390px;
+    overflow: hidden;
+    border: 4px solid #172033;
+    box-sizing: border-box;
+    background: linear-gradient(#dff4ff, #c9f1d2);
+}
+.sprite {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    font-size: 42px;
+    line-height: 52px;
+    text-align: center;
+    user-select: none;
+}
+.big {
+    width: 68px;
+    height: 68px;
+    font-size: 54px;
+    line-height: 68px;
+}
+button {
+    margin-top: 12px;
+    padding: 10px 15px;
+    border: 0;
+    border-radius: 9px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class=&quot;wrap&quot;&gt;
+    &lt;h1&gt;1. Coin Collector&lt;/h1&gt;
+    &lt;p&gt;Move around and collect 10 coins.&lt;/p&gt;
+
+    &lt;div class=&quot;hud&quot;&gt;
+        &lt;span&gt;Coins: &lt;span id=&quot;scoreText&quot;&gt;0&lt;/span&gt;&lt;/span&gt;
+        &lt;span&gt;Goal: 10&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;GO!&lt;/div&gt;
+
+    &lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;
+        &lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:160px&quot;&gt;😀&lt;/div&gt;
+        &lt;div id=&quot;coin&quot; class=&quot;sprite&quot; style=&quot;left:540px;top:90px&quot;&gt;🪙&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;button onclick=&quot;restartGame()&quot;&gt;RESTART&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- LIBRARIES FIRST --&gt;
+&lt;script src=&quot;rbs-game-library.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- YOUR GAME CODE --&gt;
+&lt;script&gt;
+moveWithKeys(&quot;player&quot;, 7, &quot;game&quot;);
+collect(&quot;player&quot;, &quot;coin&quot;, &quot;scoreText&quot;, 1, &quot;game&quot;);
+winAtScore(&quot;scoreText&quot;, 10, &quot;message&quot;);
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+                </div>
+            </details>
+        </div>
+    </div>
+</section>
+
+<section class="game-card" id="02-treasure-rush">
+    <div class="game-head">
+        <div>
+            <div class="eyebrow">⌨️ KEYBOARD GAME</div>
+            <h2>2. Treasure Rush</h2>
+            <p>Collect treasure, but a monster chases you.</p>
+        </div>
+        <a class="play-btn" href="02-treasure-rush.html" target="_blank">PLAY FULL GAME ↗</a>
+    </div>
+
+    <div class="game-grid">
+        <div class="preview-side">
+            <h3>1 · PLAY IT</h3>
+            <p class="small"><b>Click inside the game</b>, then use the controls.</p>
+            <iframe src="02-treasure-rush.html" title="2. Treasure Rush"></iframe>
+        </div>
+
+        <div class="code-side">
+            <h3>2 · READ THE GAME BLOCKS</h3>
+            <p class="small">These few lines are the main rules of this game.</p>
+
+            <div class="codewrap">
+                <button class="copy" onclick="copyCode(this,'js-02-treasure-rush')">COPY BLOCKS</button>
+                <pre id="js-02-treasure-rush">moveWithKeys(&quot;player&quot;, 7, &quot;game&quot;);
+collect(&quot;player&quot;, &quot;treasure&quot;, &quot;scoreText&quot;, 1, &quot;game&quot;);
+chase(&quot;monster&quot;, &quot;player&quot;, 1.2);
+loseOnTouch(&quot;player&quot;, &quot;monster&quot;, &quot;message&quot;);
+winAtScore(&quot;scoreText&quot;, 7, &quot;message&quot;);</pre>
+            </div>
+
+            <h3>3 · WHAT DO THE BLOCKS MEAN?</h3>
+            <div class="explanations">
+                
+        <div class="func-explain">
+            <div class="func-name">moveWithKeys(...)</div>
+            <div class="func-plain">Move an object with the keyboard.</div>
+            <div class="slots"><span>object</span> · <span>speed</span> · <span>game area</span> · <span>optional keys</span></div>
+            <div class="try"><b>TRY:</b> Change the speed number. Bigger = faster.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">collect(...)</div>
+            <div class="func-plain">When the player touches an item: add points and move the item somewhere new.</div>
+            <div class="slots"><span>player</span> · <span>item</span> · <span>score display</span> · <span>points to add</span> · <span>game area</span></div>
+            <div class="try"><b>TRY:</b> Change 1 to 5 to make the item worth 5 points.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">chase(...)</div>
+            <div class="func-plain">Make one object follow another.</div>
+            <div class="slots"><span>chaser</span> · <span>target</span> · <span>speed</span></div>
+            <div class="try"><b>TRY:</b> Change the last number to make the enemy slower or faster.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">loseOnTouch(...)</div>
+            <div class="func-plain">Lose when two objects touch.</div>
+            <div class="slots"><span>player</span> · <span>danger</span> · <span>message box</span></div>
+            <div class="try"><b>TRY:</b> Change the danger name to make a different object deadly.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">winAtScore(...)</div>
+            <div class="func-plain">Win when the score reaches a number.</div>
+            <div class="slots"><span>score display</span> · <span>score needed</span> · <span>message box</span></div>
+            <div class="try"><b>TRY:</b> Change the target number.</div>
+        </div>
+        
+            </div>
+
+            <details>
+                <summary>4 · MAKE YOUR OWN COPY</summary>
+                <div class="copy-help">
+                    <b>Easiest method:</b> press <b>COPY WHOLE GAME</b>, make a new file named
+                    <code>index.html</code>, paste, and save. Keep the library file(s) in the same folder.
+                </div>
+                <div class="codewrap">
+                    <button class="copy" onclick="copyCode(this,'full-02-treasure-rush')">COPY WHOLE GAME</button>
+                    <pre id="full-02-treasure-rush">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+    &lt;title&gt;2. Treasure Rush&lt;/title&gt;
+
+    &lt;style&gt;
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef2f7;
+    color: #172033;
+}
+.wrap {
+    width: 700px;
+    max-width: calc(100% - 24px);
+    margin: 24px auto;
+}
+h1 {
+    margin: 0 0 8px;
+}
+.hud {
+    background: white;
+    padding: 12px 16px;
+    border-radius: 12px 12px 0 0;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+.message {
+    background: #172033;
+    color: white;
+    padding: 10px 16px;
+    font-weight: bold;
+    text-align: center;
+}
+.game {
+    position: relative;
+    width: 100%;
+    height: 390px;
+    overflow: hidden;
+    border: 4px solid #172033;
+    box-sizing: border-box;
+    background: linear-gradient(#dff4ff, #c9f1d2);
+}
+.sprite {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    font-size: 42px;
+    line-height: 52px;
+    text-align: center;
+    user-select: none;
+}
+.big {
+    width: 68px;
+    height: 68px;
+    font-size: 54px;
+    line-height: 68px;
+}
+button {
+    margin-top: 12px;
+    padding: 10px 15px;
+    border: 0;
+    border-radius: 9px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class=&quot;wrap&quot;&gt;
+    &lt;h1&gt;2. Treasure Rush&lt;/h1&gt;
+    &lt;p&gt;Collect treasure, but a monster chases you.&lt;/p&gt;
+
+    &lt;div class=&quot;hud&quot;&gt;
+        &lt;span&gt;Treasure: &lt;span id=&quot;scoreText&quot;&gt;0&lt;/span&gt;&lt;/span&gt;
+        &lt;span&gt;Goal: 7&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;GO!&lt;/div&gt;
+
+    &lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;
+        &lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:160px&quot;&gt;🏃&lt;/div&gt;
+        &lt;div id=&quot;treasure&quot; class=&quot;sprite&quot; style=&quot;left:560px;top:80px&quot;&gt;💎&lt;/div&gt;
+        &lt;div id=&quot;monster&quot; class=&quot;sprite&quot; style=&quot;left:560px;top:300px&quot;&gt;👾&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;button onclick=&quot;restartGame()&quot;&gt;RESTART&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- LIBRARIES FIRST --&gt;
+&lt;script src=&quot;rbs-game-library.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- YOUR GAME CODE --&gt;
+&lt;script&gt;
+moveWithKeys(&quot;player&quot;, 7, &quot;game&quot;);
+collect(&quot;player&quot;, &quot;treasure&quot;, &quot;scoreText&quot;, 1, &quot;game&quot;);
+chase(&quot;monster&quot;, &quot;player&quot;, 1.2);
+loseOnTouch(&quot;player&quot;, &quot;monster&quot;, &quot;message&quot;);
+winAtScore(&quot;scoreText&quot;, 7, &quot;message&quot;);
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+                </div>
+            </details>
+        </div>
+    </div>
+</section>
+
+<section class="game-card" id="03-key-escape">
+    <div class="game-head">
+        <div>
+            <div class="eyebrow">⌨️ KEYBOARD GAME</div>
+            <h2>3. Key Escape</h2>
+            <p>Find the key, avoid the guard, then reach the locked door.</p>
+        </div>
+        <a class="play-btn" href="03-key-escape.html" target="_blank">PLAY FULL GAME ↗</a>
+    </div>
+
+    <div class="game-grid">
+        <div class="preview-side">
+            <h3>1 · PLAY IT</h3>
+            <p class="small"><b>Click inside the game</b>, then use the controls.</p>
+            <iframe src="03-key-escape.html" title="3. Key Escape"></iframe>
+        </div>
+
+        <div class="code-side">
+            <h3>2 · READ THE GAME BLOCKS</h3>
+            <p class="small">These few lines are the main rules of this game.</p>
+
+            <div class="codewrap">
+                <button class="copy" onclick="copyCode(this,'js-03-key-escape')">COPY BLOCKS</button>
+                <pre id="js-03-key-escape">moveWithKeys(&quot;player&quot;, 7, &quot;game&quot;);
+keyOpensDoor(&quot;player&quot;, &quot;key&quot;, &quot;door&quot;, &quot;message&quot;);
+patrol(&quot;guard&quot;, 3, 0, &quot;game&quot;);
+loseOnTouch(&quot;player&quot;, &quot;guard&quot;, &quot;message&quot;);</pre>
+            </div>
+
+            <h3>3 · WHAT DO THE BLOCKS MEAN?</h3>
+            <div class="explanations">
+                
+        <div class="func-explain">
+            <div class="func-name">moveWithKeys(...)</div>
+            <div class="func-plain">Move an object with the keyboard.</div>
+            <div class="slots"><span>object</span> · <span>speed</span> · <span>game area</span> · <span>optional keys</span></div>
+            <div class="try"><b>TRY:</b> Change the speed number. Bigger = faster.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">keyOpensDoor(...)</div>
+            <div class="func-plain">Hide the door. When the player gets the key, show the door. Touch the door to win.</div>
+            <div class="slots"><span>player</span> · <span>key</span> · <span>door</span> · <span>message box</span></div>
+            <div class="try"><b>TRY:</b> Change the emoji or position of the key and door in the HTML.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">patrol(...)</div>
+            <div class="func-plain">Move an object automatically and bounce it around the game area.</div>
+            <div class="slots"><span>object</span> · <span>X speed</span> · <span>Y speed</span> · <span>game area</span></div>
+            <div class="try"><b>TRY:</b> Use 4, 0 for sideways. Use 0, 4 for up/down.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">loseOnTouch(...)</div>
+            <div class="func-plain">Lose when two objects touch.</div>
+            <div class="slots"><span>player</span> · <span>danger</span> · <span>message box</span></div>
+            <div class="try"><b>TRY:</b> Change the danger name to make a different object deadly.</div>
+        </div>
+        
+            </div>
+
+            <details>
+                <summary>4 · MAKE YOUR OWN COPY</summary>
+                <div class="copy-help">
+                    <b>Easiest method:</b> press <b>COPY WHOLE GAME</b>, make a new file named
+                    <code>index.html</code>, paste, and save. Keep the library file(s) in the same folder.
+                </div>
+                <div class="codewrap">
+                    <button class="copy" onclick="copyCode(this,'full-03-key-escape')">COPY WHOLE GAME</button>
+                    <pre id="full-03-key-escape">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+    &lt;title&gt;3. Key Escape&lt;/title&gt;
+
+    &lt;style&gt;
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef2f7;
+    color: #172033;
+}
+.wrap {
+    width: 700px;
+    max-width: calc(100% - 24px);
+    margin: 24px auto;
+}
+h1 {
+    margin: 0 0 8px;
+}
+.hud {
+    background: white;
+    padding: 12px 16px;
+    border-radius: 12px 12px 0 0;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+.message {
+    background: #172033;
+    color: white;
+    padding: 10px 16px;
+    font-weight: bold;
+    text-align: center;
+}
+.game {
+    position: relative;
+    width: 100%;
+    height: 390px;
+    overflow: hidden;
+    border: 4px solid #172033;
+    box-sizing: border-box;
+    background: linear-gradient(#dff4ff, #c9f1d2);
+}
+.sprite {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    font-size: 42px;
+    line-height: 52px;
+    text-align: center;
+    user-select: none;
+}
+.big {
+    width: 68px;
+    height: 68px;
+    font-size: 54px;
+    line-height: 68px;
+}
+button {
+    margin-top: 12px;
+    padding: 10px 15px;
+    border: 0;
+    border-radius: 9px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class=&quot;wrap&quot;&gt;
+    &lt;h1&gt;3. Key Escape&lt;/h1&gt;
+    &lt;p&gt;Find the key, avoid the guard, then reach the locked door.&lt;/p&gt;
+
+    &lt;div class=&quot;hud&quot;&gt;
+        &lt;span&gt;Mission: get 🔑&lt;/span&gt;
+        &lt;span&gt;Then reach 🚪&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;GO!&lt;/div&gt;
+
+    &lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;
+        &lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:35px;top:300px&quot;&gt;🧑&lt;/div&gt;
+        &lt;div id=&quot;key&quot; class=&quot;sprite&quot; style=&quot;left:300px;top:70px&quot;&gt;🔑&lt;/div&gt;
+        &lt;div id=&quot;door&quot; class=&quot;sprite big&quot; style=&quot;left:585px;top:20px&quot;&gt;🚪&lt;/div&gt;
+        &lt;div id=&quot;guard&quot; class=&quot;sprite&quot; style=&quot;left:250px;top:245px&quot;&gt;🤖&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;button onclick=&quot;restartGame()&quot;&gt;RESTART&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- LIBRARIES FIRST --&gt;
+&lt;script src=&quot;rbs-game-library.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- YOUR GAME CODE --&gt;
+&lt;script&gt;
+moveWithKeys(&quot;player&quot;, 7, &quot;game&quot;);
+keyOpensDoor(&quot;player&quot;, &quot;key&quot;, &quot;door&quot;, &quot;message&quot;);
+patrol(&quot;guard&quot;, 3, 0, &quot;game&quot;);
+loseOnTouch(&quot;player&quot;, &quot;guard&quot;, &quot;message&quot;);
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+                </div>
+            </details>
+        </div>
+    </div>
+</section>
+
+<section class="game-card" id="04-dodge-to-door">
+    <div class="game-head">
+        <div>
+            <div class="eyebrow">⌨️ KEYBOARD GAME</div>
+            <h2>4. Dodge to the Door</h2>
+            <p>Reach the exit while two hazards patrol the arena.</p>
+        </div>
+        <a class="play-btn" href="04-dodge-to-door.html" target="_blank">PLAY FULL GAME ↗</a>
+    </div>
+
+    <div class="game-grid">
+        <div class="preview-side">
+            <h3>1 · PLAY IT</h3>
+            <p class="small"><b>Click inside the game</b>, then use the controls.</p>
+            <iframe src="04-dodge-to-door.html" title="4. Dodge to the Door"></iframe>
+        </div>
+
+        <div class="code-side">
+            <h3>2 · READ THE GAME BLOCKS</h3>
+            <p class="small">These few lines are the main rules of this game.</p>
+
+            <div class="codewrap">
+                <button class="copy" onclick="copyCode(this,'js-04-dodge-to-door')">COPY BLOCKS</button>
+                <pre id="js-04-dodge-to-door">moveWithKeys(&quot;player&quot;, 7, &quot;game&quot;);
+patrol(&quot;danger1&quot;, 4, 0, &quot;game&quot;);
+patrol(&quot;danger2&quot;, 0, 3, &quot;game&quot;);
+loseOnTouch(&quot;player&quot;, &quot;danger1&quot;, &quot;message&quot;);
+loseOnTouch(&quot;player&quot;, &quot;danger2&quot;, &quot;message&quot;);
+winOnTouch(&quot;player&quot;, &quot;door&quot;, &quot;message&quot;);</pre>
+            </div>
+
+            <h3>3 · WHAT DO THE BLOCKS MEAN?</h3>
+            <div class="explanations">
+                
+        <div class="func-explain">
+            <div class="func-name">moveWithKeys(...)</div>
+            <div class="func-plain">Move an object with the keyboard.</div>
+            <div class="slots"><span>object</span> · <span>speed</span> · <span>game area</span> · <span>optional keys</span></div>
+            <div class="try"><b>TRY:</b> Change the speed number. Bigger = faster.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">patrol(...)</div>
+            <div class="func-plain">Move an object automatically and bounce it around the game area.</div>
+            <div class="slots"><span>object</span> · <span>X speed</span> · <span>Y speed</span> · <span>game area</span></div>
+            <div class="try"><b>TRY:</b> Use 4, 0 for sideways. Use 0, 4 for up/down.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">loseOnTouch(...)</div>
+            <div class="func-plain">Lose when two objects touch.</div>
+            <div class="slots"><span>player</span> · <span>danger</span> · <span>message box</span></div>
+            <div class="try"><b>TRY:</b> Change the danger name to make a different object deadly.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">winOnTouch(...)</div>
+            <div class="func-plain">Win when the player reaches an object.</div>
+            <div class="slots"><span>player</span> · <span>goal</span> · <span>message box</span></div>
+            <div class="try"><b>TRY:</b> Use a door, flag, rocket or treasure as the goal.</div>
+        </div>
+        
+            </div>
+
+            <details>
+                <summary>4 · MAKE YOUR OWN COPY</summary>
+                <div class="copy-help">
+                    <b>Easiest method:</b> press <b>COPY WHOLE GAME</b>, make a new file named
+                    <code>index.html</code>, paste, and save. Keep the library file(s) in the same folder.
+                </div>
+                <div class="codewrap">
+                    <button class="copy" onclick="copyCode(this,'full-04-dodge-to-door')">COPY WHOLE GAME</button>
+                    <pre id="full-04-dodge-to-door">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+    &lt;title&gt;4. Dodge to the Door&lt;/title&gt;
+
+    &lt;style&gt;
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef2f7;
+    color: #172033;
+}
+.wrap {
+    width: 700px;
+    max-width: calc(100% - 24px);
+    margin: 24px auto;
+}
+h1 {
+    margin: 0 0 8px;
+}
+.hud {
+    background: white;
+    padding: 12px 16px;
+    border-radius: 12px 12px 0 0;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+.message {
+    background: #172033;
+    color: white;
+    padding: 10px 16px;
+    font-weight: bold;
+    text-align: center;
+}
+.game {
+    position: relative;
+    width: 100%;
+    height: 390px;
+    overflow: hidden;
+    border: 4px solid #172033;
+    box-sizing: border-box;
+    background: linear-gradient(#dff4ff, #c9f1d2);
+}
+.sprite {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    font-size: 42px;
+    line-height: 52px;
+    text-align: center;
+    user-select: none;
+}
+.big {
+    width: 68px;
+    height: 68px;
+    font-size: 54px;
+    line-height: 68px;
+}
+button {
+    margin-top: 12px;
+    padding: 10px 15px;
+    border: 0;
+    border-radius: 9px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class=&quot;wrap&quot;&gt;
+    &lt;h1&gt;4. Dodge to the Door&lt;/h1&gt;
+    &lt;p&gt;Reach the exit while two hazards patrol the arena.&lt;/p&gt;
+
+    &lt;div class=&quot;hud&quot;&gt;
+        &lt;span&gt;Mission: survive&lt;/span&gt;
+        &lt;span&gt;Goal: 🚪&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;GO!&lt;/div&gt;
+
+    &lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;
+        &lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:35px;top:300px&quot;&gt;🏃&lt;/div&gt;
+        &lt;div id=&quot;danger1&quot; class=&quot;sprite&quot; style=&quot;left:200px;top:90px&quot;&gt;💥&lt;/div&gt;
+        &lt;div id=&quot;danger2&quot; class=&quot;sprite&quot; style=&quot;left:440px;top:250px&quot;&gt;☄️&lt;/div&gt;
+        &lt;div id=&quot;door&quot; class=&quot;sprite big&quot; style=&quot;left:580px;top:25px&quot;&gt;🚪&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;button onclick=&quot;restartGame()&quot;&gt;RESTART&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- LIBRARIES FIRST --&gt;
+&lt;script src=&quot;rbs-game-library.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- YOUR GAME CODE --&gt;
+&lt;script&gt;
+moveWithKeys(&quot;player&quot;, 7, &quot;game&quot;);
+patrol(&quot;danger1&quot;, 4, 0, &quot;game&quot;);
+patrol(&quot;danger2&quot;, 0, 3, &quot;game&quot;);
+loseOnTouch(&quot;player&quot;, &quot;danger1&quot;, &quot;message&quot;);
+loseOnTouch(&quot;player&quot;, &quot;danger2&quot;, &quot;message&quot;);
+winOnTouch(&quot;player&quot;, &quot;door&quot;, &quot;message&quot;);
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+                </div>
+            </details>
+        </div>
+    </div>
+</section>
+
+<section class="game-card" id="05-timed-gem-rush">
+    <div class="game-head">
+        <div>
+            <div class="eyebrow">⌨️ KEYBOARD GAME</div>
+            <h2>5. Timed Gem Rush</h2>
+            <p>Collect 8 gems before the countdown reaches zero.</p>
+        </div>
+        <a class="play-btn" href="05-timed-gem-rush.html" target="_blank">PLAY FULL GAME ↗</a>
+    </div>
+
+    <div class="game-grid">
+        <div class="preview-side">
+            <h3>1 · PLAY IT</h3>
+            <p class="small"><b>Click inside the game</b>, then use the controls.</p>
+            <iframe src="05-timed-gem-rush.html" title="5. Timed Gem Rush"></iframe>
+        </div>
+
+        <div class="code-side">
+            <h3>2 · READ THE GAME BLOCKS</h3>
+            <p class="small">These few lines are the main rules of this game.</p>
+
+            <div class="codewrap">
+                <button class="copy" onclick="copyCode(this,'js-05-timed-gem-rush')">COPY BLOCKS</button>
+                <pre id="js-05-timed-gem-rush">moveWithKeys(&quot;player&quot;, 8, &quot;game&quot;);
+collect(&quot;player&quot;, &quot;gem&quot;, &quot;scoreText&quot;, 1, &quot;game&quot;);
+winAtScore(&quot;scoreText&quot;, 8, &quot;message&quot;);
+countdown(20, &quot;timeText&quot;, &quot;message&quot;);</pre>
+            </div>
+
+            <h3>3 · WHAT DO THE BLOCKS MEAN?</h3>
+            <div class="explanations">
+                
+        <div class="func-explain">
+            <div class="func-name">moveWithKeys(...)</div>
+            <div class="func-plain">Move an object with the keyboard.</div>
+            <div class="slots"><span>object</span> · <span>speed</span> · <span>game area</span> · <span>optional keys</span></div>
+            <div class="try"><b>TRY:</b> Change the speed number. Bigger = faster.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">collect(...)</div>
+            <div class="func-plain">When the player touches an item: add points and move the item somewhere new.</div>
+            <div class="slots"><span>player</span> · <span>item</span> · <span>score display</span> · <span>points to add</span> · <span>game area</span></div>
+            <div class="try"><b>TRY:</b> Change 1 to 5 to make the item worth 5 points.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">winAtScore(...)</div>
+            <div class="func-plain">Win when the score reaches a number.</div>
+            <div class="slots"><span>score display</span> · <span>score needed</span> · <span>message box</span></div>
+            <div class="try"><b>TRY:</b> Change the target number.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">countdown(...)</div>
+            <div class="func-plain">Count down once per second. When it reaches 0, time is up.</div>
+            <div class="slots"><span>seconds</span> · <span>time display</span> · <span>message box</span></div>
+            <div class="try"><b>TRY:</b> Change 20 to 10 for a harder game.</div>
+        </div>
+        
+            </div>
+
+            <details>
+                <summary>4 · MAKE YOUR OWN COPY</summary>
+                <div class="copy-help">
+                    <b>Easiest method:</b> press <b>COPY WHOLE GAME</b>, make a new file named
+                    <code>index.html</code>, paste, and save. Keep the library file(s) in the same folder.
+                </div>
+                <div class="codewrap">
+                    <button class="copy" onclick="copyCode(this,'full-05-timed-gem-rush')">COPY WHOLE GAME</button>
+                    <pre id="full-05-timed-gem-rush">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+    &lt;title&gt;5. Timed Gem Rush&lt;/title&gt;
+
+    &lt;style&gt;
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef2f7;
+    color: #172033;
+}
+.wrap {
+    width: 700px;
+    max-width: calc(100% - 24px);
+    margin: 24px auto;
+}
+h1 {
+    margin: 0 0 8px;
+}
+.hud {
+    background: white;
+    padding: 12px 16px;
+    border-radius: 12px 12px 0 0;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+.message {
+    background: #172033;
+    color: white;
+    padding: 10px 16px;
+    font-weight: bold;
+    text-align: center;
+}
+.game {
+    position: relative;
+    width: 100%;
+    height: 390px;
+    overflow: hidden;
+    border: 4px solid #172033;
+    box-sizing: border-box;
+    background: linear-gradient(#dff4ff, #c9f1d2);
+}
+.sprite {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    font-size: 42px;
+    line-height: 52px;
+    text-align: center;
+    user-select: none;
+}
+.big {
+    width: 68px;
+    height: 68px;
+    font-size: 54px;
+    line-height: 68px;
+}
+button {
+    margin-top: 12px;
+    padding: 10px 15px;
+    border: 0;
+    border-radius: 9px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class=&quot;wrap&quot;&gt;
+    &lt;h1&gt;5. Timed Gem Rush&lt;/h1&gt;
+    &lt;p&gt;Collect 8 gems before the countdown reaches zero.&lt;/p&gt;
+
+    &lt;div class=&quot;hud&quot;&gt;
+        &lt;span&gt;Gems: &lt;span id=&quot;scoreText&quot;&gt;0&lt;/span&gt;&lt;/span&gt;
+        &lt;span&gt;Time: &lt;span id=&quot;timeText&quot;&gt;20&lt;/span&gt;&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;GO!&lt;/div&gt;
+
+    &lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;
+        &lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:160px&quot;&gt;🛸&lt;/div&gt;
+        &lt;div id=&quot;gem&quot; class=&quot;sprite&quot; style=&quot;left:550px;top:100px&quot;&gt;💠&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;button onclick=&quot;restartGame()&quot;&gt;RESTART&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- LIBRARIES FIRST --&gt;
+&lt;script src=&quot;rbs-game-library.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- YOUR GAME CODE --&gt;
+&lt;script&gt;
+moveWithKeys(&quot;player&quot;, 8, &quot;game&quot;);
+collect(&quot;player&quot;, &quot;gem&quot;, &quot;scoreText&quot;, 1, &quot;game&quot;);
+winAtScore(&quot;scoreText&quot;, 8, &quot;message&quot;);
+countdown(20, &quot;timeText&quot;, &quot;message&quot;);
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+                </div>
+            </details>
+        </div>
+    </div>
+</section>
+
+<section class="game-card" id="06-two-player-tag">
+    <div class="game-head">
+        <div>
+            <div class="eyebrow">⌨️ KEYBOARD GAME</div>
+            <h2>6. Two-Player Tag</h2>
+            <p>Blue uses WASD. Red uses arrows. Blue wins by catching Red.</p>
+        </div>
+        <a class="play-btn" href="06-two-player-tag.html" target="_blank">PLAY FULL GAME ↗</a>
+    </div>
+
+    <div class="game-grid">
+        <div class="preview-side">
+            <h3>1 · PLAY IT</h3>
+            <p class="small"><b>Click inside the game</b>, then use the controls.</p>
+            <iframe src="06-two-player-tag.html" title="6. Two-Player Tag"></iframe>
+        </div>
+
+        <div class="code-side">
+            <h3>2 · READ THE GAME BLOCKS</h3>
+            <p class="small">These few lines are the main rules of this game.</p>
+
+            <div class="codewrap">
+                <button class="copy" onclick="copyCode(this,'js-06-two-player-tag')">COPY BLOCKS</button>
+                <pre id="js-06-two-player-tag">moveWithKeys(&quot;blue&quot;, 7, &quot;game&quot;, &quot;w&quot;, &quot;s&quot;, &quot;a&quot;, &quot;d&quot;);
+moveWithKeys(&quot;red&quot;, 7, &quot;game&quot;);
+winOnTouch(&quot;blue&quot;, &quot;red&quot;, &quot;message&quot;);</pre>
+            </div>
+
+            <h3>3 · WHAT DO THE BLOCKS MEAN?</h3>
+            <div class="explanations">
+                
+        <div class="func-explain">
+            <div class="func-name">moveWithKeys(...)</div>
+            <div class="func-plain">Move an object with the keyboard.</div>
+            <div class="slots"><span>object</span> · <span>speed</span> · <span>game area</span> · <span>optional keys</span></div>
+            <div class="try"><b>TRY:</b> Change the speed number. Bigger = faster.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">winOnTouch(...)</div>
+            <div class="func-plain">Win when the player reaches an object.</div>
+            <div class="slots"><span>player</span> · <span>goal</span> · <span>message box</span></div>
+            <div class="try"><b>TRY:</b> Use a door, flag, rocket or treasure as the goal.</div>
+        </div>
+        
+            </div>
+
+            <details>
+                <summary>4 · MAKE YOUR OWN COPY</summary>
+                <div class="copy-help">
+                    <b>Easiest method:</b> press <b>COPY WHOLE GAME</b>, make a new file named
+                    <code>index.html</code>, paste, and save. Keep the library file(s) in the same folder.
+                </div>
+                <div class="codewrap">
+                    <button class="copy" onclick="copyCode(this,'full-06-two-player-tag')">COPY WHOLE GAME</button>
+                    <pre id="full-06-two-player-tag">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+    &lt;title&gt;6. Two-Player Tag&lt;/title&gt;
+
+    &lt;style&gt;
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef2f7;
+    color: #172033;
+}
+.wrap {
+    width: 700px;
+    max-width: calc(100% - 24px);
+    margin: 24px auto;
+}
+h1 {
+    margin: 0 0 8px;
+}
+.hud {
+    background: white;
+    padding: 12px 16px;
+    border-radius: 12px 12px 0 0;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+.message {
+    background: #172033;
+    color: white;
+    padding: 10px 16px;
+    font-weight: bold;
+    text-align: center;
+}
+.game {
+    position: relative;
+    width: 100%;
+    height: 390px;
+    overflow: hidden;
+    border: 4px solid #172033;
+    box-sizing: border-box;
+    background: linear-gradient(#dff4ff, #c9f1d2);
+}
+.sprite {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    font-size: 42px;
+    line-height: 52px;
+    text-align: center;
+    user-select: none;
+}
+.big {
+    width: 68px;
+    height: 68px;
+    font-size: 54px;
+    line-height: 68px;
+}
+button {
+    margin-top: 12px;
+    padding: 10px 15px;
+    border: 0;
+    border-radius: 9px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class=&quot;wrap&quot;&gt;
+    &lt;h1&gt;6. Two-Player Tag&lt;/h1&gt;
+    &lt;p&gt;Blue uses WASD. Red uses arrows. Blue wins by catching Red.&lt;/p&gt;
+
+    &lt;div class=&quot;hud&quot;&gt;
+        &lt;span&gt;Blue: W A S D&lt;/span&gt;
+        &lt;span&gt;Red: arrows&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;GO!&lt;/div&gt;
+
+    &lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;
+        &lt;div id=&quot;blue&quot; class=&quot;sprite&quot; style=&quot;left:60px;top:170px&quot;&gt;🔵&lt;/div&gt;
+        &lt;div id=&quot;red&quot; class=&quot;sprite&quot; style=&quot;left:560px;top:170px&quot;&gt;🔴&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;button onclick=&quot;restartGame()&quot;&gt;RESTART&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- LIBRARIES FIRST --&gt;
+&lt;script src=&quot;rbs-game-library.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- YOUR GAME CODE --&gt;
+&lt;script&gt;
+moveWithKeys(&quot;blue&quot;, 7, &quot;game&quot;, &quot;w&quot;, &quot;s&quot;, &quot;a&quot;, &quot;d&quot;);
+moveWithKeys(&quot;red&quot;, 7, &quot;game&quot;);
+winOnTouch(&quot;blue&quot;, &quot;red&quot;, &quot;message&quot;);
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+                </div>
+            </details>
+        </div>
+    </div>
+</section>
+
+<section class="game-card" id="07-monster-survival">
+    <div class="game-head">
+        <div>
+            <div class="eyebrow">⌨️ KEYBOARD GAME</div>
+            <h2>7. Monster Survival</h2>
+            <p>Stay alive for 15 seconds while two monsters chase you.</p>
+        </div>
+        <a class="play-btn" href="07-monster-survival.html" target="_blank">PLAY FULL GAME ↗</a>
+    </div>
+
+    <div class="game-grid">
+        <div class="preview-side">
+            <h3>1 · PLAY IT</h3>
+            <p class="small"><b>Click inside the game</b>, then use the controls.</p>
+            <iframe src="07-monster-survival.html" title="7. Monster Survival"></iframe>
+        </div>
+
+        <div class="code-side">
+            <h3>2 · READ THE GAME BLOCKS</h3>
+            <p class="small">These few lines are the main rules of this game.</p>
+
+            <div class="codewrap">
+                <button class="copy" onclick="copyCode(this,'js-07-monster-survival')">COPY BLOCKS</button>
+                <pre id="js-07-monster-survival">moveWithKeys(&quot;player&quot;, 7, &quot;game&quot;);
+chase(&quot;monster1&quot;, &quot;player&quot;, 1.0);
+chase(&quot;monster2&quot;, &quot;player&quot;, 0.8);
+loseOnTouch(&quot;player&quot;, &quot;monster1&quot;, &quot;message&quot;);
+loseOnTouch(&quot;player&quot;, &quot;monster2&quot;, &quot;message&quot;);
+survive(15, &quot;timeText&quot;, &quot;message&quot;, &quot;player&quot;);</pre>
+            </div>
+
+            <h3>3 · WHAT DO THE BLOCKS MEAN?</h3>
+            <div class="explanations">
+                
+        <div class="func-explain">
+            <div class="func-name">moveWithKeys(...)</div>
+            <div class="func-plain">Move an object with the keyboard.</div>
+            <div class="slots"><span>object</span> · <span>speed</span> · <span>game area</span> · <span>optional keys</span></div>
+            <div class="try"><b>TRY:</b> Change the speed number. Bigger = faster.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">chase(...)</div>
+            <div class="func-plain">Make one object follow another.</div>
+            <div class="slots"><span>chaser</span> · <span>target</span> · <span>speed</span></div>
+            <div class="try"><b>TRY:</b> Change the last number to make the enemy slower or faster.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">loseOnTouch(...)</div>
+            <div class="func-plain">Lose when two objects touch.</div>
+            <div class="slots"><span>player</span> · <span>danger</span> · <span>message box</span></div>
+            <div class="try"><b>TRY:</b> Change the danger name to make a different object deadly.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">survive(...)</div>
+            <div class="func-plain">Win if the player stays alive until the timer reaches 0.</div>
+            <div class="slots"><span>seconds</span> · <span>time display</span> · <span>message box</span> · <span>player</span></div>
+            <div class="try"><b>TRY:</b> Change the number of seconds.</div>
+        </div>
+        
+            </div>
+
+            <details>
+                <summary>4 · MAKE YOUR OWN COPY</summary>
+                <div class="copy-help">
+                    <b>Easiest method:</b> press <b>COPY WHOLE GAME</b>, make a new file named
+                    <code>index.html</code>, paste, and save. Keep the library file(s) in the same folder.
+                </div>
+                <div class="codewrap">
+                    <button class="copy" onclick="copyCode(this,'full-07-monster-survival')">COPY WHOLE GAME</button>
+                    <pre id="full-07-monster-survival">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+    &lt;title&gt;7. Monster Survival&lt;/title&gt;
+
+    &lt;style&gt;
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef2f7;
+    color: #172033;
+}
+.wrap {
+    width: 700px;
+    max-width: calc(100% - 24px);
+    margin: 24px auto;
+}
+h1 {
+    margin: 0 0 8px;
+}
+.hud {
+    background: white;
+    padding: 12px 16px;
+    border-radius: 12px 12px 0 0;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+.message {
+    background: #172033;
+    color: white;
+    padding: 10px 16px;
+    font-weight: bold;
+    text-align: center;
+}
+.game {
+    position: relative;
+    width: 100%;
+    height: 390px;
+    overflow: hidden;
+    border: 4px solid #172033;
+    box-sizing: border-box;
+    background: linear-gradient(#dff4ff, #c9f1d2);
+}
+.sprite {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    font-size: 42px;
+    line-height: 52px;
+    text-align: center;
+    user-select: none;
+}
+.big {
+    width: 68px;
+    height: 68px;
+    font-size: 54px;
+    line-height: 68px;
+}
+button {
+    margin-top: 12px;
+    padding: 10px 15px;
+    border: 0;
+    border-radius: 9px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class=&quot;wrap&quot;&gt;
+    &lt;h1&gt;7. Monster Survival&lt;/h1&gt;
+    &lt;p&gt;Stay alive for 15 seconds while two monsters chase you.&lt;/p&gt;
+
+    &lt;div class=&quot;hud&quot;&gt;
+        &lt;span&gt;Survive!&lt;/span&gt;
+        &lt;span&gt;Time: &lt;span id=&quot;timeText&quot;&gt;15&lt;/span&gt;&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;GO!&lt;/div&gt;
+
+    &lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;
+        &lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:320px;top:170px&quot;&gt;😎&lt;/div&gt;
+        &lt;div id=&quot;monster1&quot; class=&quot;sprite&quot; style=&quot;left:30px;top:30px&quot;&gt;👹&lt;/div&gt;
+        &lt;div id=&quot;monster2&quot; class=&quot;sprite&quot; style=&quot;left:590px;top:300px&quot;&gt;👾&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;button onclick=&quot;restartGame()&quot;&gt;RESTART&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- LIBRARIES FIRST --&gt;
+&lt;script src=&quot;rbs-game-library.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- YOUR GAME CODE --&gt;
+&lt;script&gt;
+moveWithKeys(&quot;player&quot;, 7, &quot;game&quot;);
+chase(&quot;monster1&quot;, &quot;player&quot;, 1.0);
+chase(&quot;monster2&quot;, &quot;player&quot;, 0.8);
+loseOnTouch(&quot;player&quot;, &quot;monster1&quot;, &quot;message&quot;);
+loseOnTouch(&quot;player&quot;, &quot;monster2&quot;, &quot;message&quot;);
+survive(15, &quot;timeText&quot;, &quot;message&quot;, &quot;player&quot;);
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+                </div>
+            </details>
+        </div>
+    </div>
+</section>
+
+<section class="game-card" id="08-gamepad-treasure">
+    <div class="game-head">
+        <div>
+            <div class="eyebrow">🎮 GAMEPAD GAME</div>
+            <h2>8. Gamepad Treasure Hunt</h2>
+            <p>Use the LEFT STICK to collect 10 gems.</p>
+        </div>
+        <a class="play-btn" href="08-gamepad-treasure.html" target="_blank">PLAY FULL GAME ↗</a>
+    </div>
+
+    <div class="game-grid">
+        <div class="preview-side">
+            <h3>1 · PLAY IT</h3>
+            <p class="small"><b>Click inside the game</b>, then use the controls.</p>
+            <iframe src="08-gamepad-treasure.html" title="8. Gamepad Treasure Hunt"></iframe>
+        </div>
+
+        <div class="code-side">
+            <h3>2 · READ THE GAME BLOCKS</h3>
+            <p class="small">These few lines are the main rules of this game.</p>
+
+            <div class="codewrap">
+                <button class="copy" onclick="copyCode(this,'js-08-gamepad-treasure')">COPY BLOCKS</button>
+                <pre id="js-08-gamepad-treasure">moveWithGamepad(&quot;player&quot;, 8, &quot;game&quot;);
+collect(&quot;player&quot;, &quot;gem&quot;, &quot;scoreText&quot;, 1, &quot;game&quot;);
+winAtScore(&quot;scoreText&quot;, 10, &quot;message&quot;);</pre>
+            </div>
+
+            <h3>3 · WHAT DO THE BLOCKS MEAN?</h3>
+            <div class="explanations">
+                
+        <div class="func-explain">
+            <div class="func-name">moveWithGamepad(...)</div>
+            <div class="func-plain">Move an object with the LEFT joystick.</div>
+            <div class="slots"><span>object</span> · <span>speed</span> · <span>game area</span></div>
+            <div class="try"><b>TRY:</b> Change the speed number.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">collect(...)</div>
+            <div class="func-plain">When the player touches an item: add points and move the item somewhere new.</div>
+            <div class="slots"><span>player</span> · <span>item</span> · <span>score display</span> · <span>points to add</span> · <span>game area</span></div>
+            <div class="try"><b>TRY:</b> Change 1 to 5 to make the item worth 5 points.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">winAtScore(...)</div>
+            <div class="func-plain">Win when the score reaches a number.</div>
+            <div class="slots"><span>score display</span> · <span>score needed</span> · <span>message box</span></div>
+            <div class="try"><b>TRY:</b> Change the target number.</div>
+        </div>
+        
+            </div>
+
+            <details>
+                <summary>4 · MAKE YOUR OWN COPY</summary>
+                <div class="copy-help">
+                    <b>Easiest method:</b> press <b>COPY WHOLE GAME</b>, make a new file named
+                    <code>index.html</code>, paste, and save. Keep the library file(s) in the same folder.
+                </div>
+                <div class="codewrap">
+                    <button class="copy" onclick="copyCode(this,'full-08-gamepad-treasure')">COPY WHOLE GAME</button>
+                    <pre id="full-08-gamepad-treasure">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+    &lt;title&gt;8. Gamepad Treasure Hunt&lt;/title&gt;
+
+    &lt;style&gt;
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef2f7;
+    color: #172033;
+}
+.wrap {
+    width: 700px;
+    max-width: calc(100% - 24px);
+    margin: 24px auto;
+}
+h1 {
+    margin: 0 0 8px;
+}
+.hud {
+    background: white;
+    padding: 12px 16px;
+    border-radius: 12px 12px 0 0;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+.message {
+    background: #172033;
+    color: white;
+    padding: 10px 16px;
+    font-weight: bold;
+    text-align: center;
+}
+.game {
+    position: relative;
+    width: 100%;
+    height: 390px;
+    overflow: hidden;
+    border: 4px solid #172033;
+    box-sizing: border-box;
+    background: linear-gradient(#dff4ff, #c9f1d2);
+}
+.sprite {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    font-size: 42px;
+    line-height: 52px;
+    text-align: center;
+    user-select: none;
+}
+.big {
+    width: 68px;
+    height: 68px;
+    font-size: 54px;
+    line-height: 68px;
+}
+button {
+    margin-top: 12px;
+    padding: 10px 15px;
+    border: 0;
+    border-radius: 9px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class=&quot;wrap&quot;&gt;
+    &lt;div style=&quot;background:#fff7ed;border-left:5px solid #f59e0b;padding:10px 12px;border-radius:9px;margin-bottom:12px&quot;&gt;&lt;b&gt;🎮 Gamepad:&lt;/b&gt; Plug it in, press a button once, then play.&lt;/div&gt;
+    &lt;h1&gt;8. Gamepad Treasure Hunt&lt;/h1&gt;
+    &lt;p&gt;Use the LEFT STICK to collect 10 gems.&lt;/p&gt;
+
+    &lt;div class=&quot;hud&quot;&gt;
+        &lt;span&gt;Gems: &lt;span id=&quot;scoreText&quot;&gt;0&lt;/span&gt;&lt;/span&gt;
+        &lt;span&gt;LEFT STICK&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;GO!&lt;/div&gt;
+
+    &lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;
+        &lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:40px;top:160px&quot;&gt;🎮&lt;/div&gt;
+        &lt;div id=&quot;gem&quot; class=&quot;sprite&quot; style=&quot;left:550px;top:90px&quot;&gt;💎&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;button onclick=&quot;restartGame()&quot;&gt;RESTART&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- LIBRARIES FIRST --&gt;
+&lt;script src=&quot;rbs-game-library.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;rbs-gamepad-library.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- YOUR GAME CODE --&gt;
+&lt;script&gt;
+moveWithGamepad(&quot;player&quot;, 8, &quot;game&quot;);
+collect(&quot;player&quot;, &quot;gem&quot;, &quot;scoreText&quot;, 1, &quot;game&quot;);
+winAtScore(&quot;scoreText&quot;, 10, &quot;message&quot;);
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+                </div>
+            </details>
+        </div>
+    </div>
+</section>
+
+<section class="game-card" id="09-gamepad-racer">
+    <div class="game-head">
+        <div>
+            <div class="eyebrow">🎮 GAMEPAD GAME</div>
+            <h2>9. Gamepad Racer</h2>
+            <p>LEFT STICK steers. RT accelerates. LT reverses/brakes. Reach the flag.</p>
+        </div>
+        <a class="play-btn" href="09-gamepad-racer.html" target="_blank">PLAY FULL GAME ↗</a>
+    </div>
+
+    <div class="game-grid">
+        <div class="preview-side">
+            <h3>1 · PLAY IT</h3>
+            <p class="small"><b>Click inside the game</b>, then use the controls.</p>
+            <iframe src="09-gamepad-racer.html" title="9. Gamepad Racer"></iframe>
+        </div>
+
+        <div class="code-side">
+            <h3>2 · READ THE GAME BLOCKS</h3>
+            <p class="small">These few lines are the main rules of this game.</p>
+
+            <div class="codewrap">
+                <button class="copy" onclick="copyCode(this,'js-09-gamepad-racer')">COPY BLOCKS</button>
+                <pre id="js-09-gamepad-racer">driveWithGamepad(&quot;car&quot;, 5, 7, &quot;game&quot;);
+patrol(&quot;block2&quot;, 2.5, 0, &quot;game&quot;);
+loseOnTouch(&quot;car&quot;, &quot;block1&quot;, &quot;message&quot;);
+loseOnTouch(&quot;car&quot;, &quot;block2&quot;, &quot;message&quot;);
+winOnTouch(&quot;car&quot;, &quot;flag&quot;, &quot;message&quot;);</pre>
+            </div>
+
+            <h3>3 · WHAT DO THE BLOCKS MEAN?</h3>
+            <div class="explanations">
+                
+        <div class="func-explain">
+            <div class="func-name">driveWithGamepad(...)</div>
+            <div class="func-plain">Drive with LEFT STICK steering, RT gas and LT brake/reverse.</div>
+            <div class="slots"><span>vehicle</span> · <span>steering speed</span> · <span>drive speed</span> · <span>game area</span></div>
+            <div class="try"><b>TRY:</b> Change steering and drive speeds separately.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">patrol(...)</div>
+            <div class="func-plain">Move an object automatically and bounce it around the game area.</div>
+            <div class="slots"><span>object</span> · <span>X speed</span> · <span>Y speed</span> · <span>game area</span></div>
+            <div class="try"><b>TRY:</b> Use 4, 0 for sideways. Use 0, 4 for up/down.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">loseOnTouch(...)</div>
+            <div class="func-plain">Lose when two objects touch.</div>
+            <div class="slots"><span>player</span> · <span>danger</span> · <span>message box</span></div>
+            <div class="try"><b>TRY:</b> Change the danger name to make a different object deadly.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">winOnTouch(...)</div>
+            <div class="func-plain">Win when the player reaches an object.</div>
+            <div class="slots"><span>player</span> · <span>goal</span> · <span>message box</span></div>
+            <div class="try"><b>TRY:</b> Use a door, flag, rocket or treasure as the goal.</div>
+        </div>
+        
+            </div>
+
+            <details>
+                <summary>4 · MAKE YOUR OWN COPY</summary>
+                <div class="copy-help">
+                    <b>Easiest method:</b> press <b>COPY WHOLE GAME</b>, make a new file named
+                    <code>index.html</code>, paste, and save. Keep the library file(s) in the same folder.
+                </div>
+                <div class="codewrap">
+                    <button class="copy" onclick="copyCode(this,'full-09-gamepad-racer')">COPY WHOLE GAME</button>
+                    <pre id="full-09-gamepad-racer">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+    &lt;title&gt;9. Gamepad Racer&lt;/title&gt;
+
+    &lt;style&gt;
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef2f7;
+    color: #172033;
+}
+.wrap {
+    width: 700px;
+    max-width: calc(100% - 24px);
+    margin: 24px auto;
+}
+h1 {
+    margin: 0 0 8px;
+}
+.hud {
+    background: white;
+    padding: 12px 16px;
+    border-radius: 12px 12px 0 0;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+.message {
+    background: #172033;
+    color: white;
+    padding: 10px 16px;
+    font-weight: bold;
+    text-align: center;
+}
+.game {
+    position: relative;
+    width: 100%;
+    height: 390px;
+    overflow: hidden;
+    border: 4px solid #172033;
+    box-sizing: border-box;
+    background: linear-gradient(#dff4ff, #c9f1d2);
+}
+.sprite {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    font-size: 42px;
+    line-height: 52px;
+    text-align: center;
+    user-select: none;
+}
+.big {
+    width: 68px;
+    height: 68px;
+    font-size: 54px;
+    line-height: 68px;
+}
+button {
+    margin-top: 12px;
+    padding: 10px 15px;
+    border: 0;
+    border-radius: 9px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.game{background:linear-gradient(90deg,#4b5563 0 15%,#d1d5db 15% 17%,#374151 17% 83%,#d1d5db 83% 85%,#4b5563 85%);}
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class=&quot;wrap&quot;&gt;
+    &lt;div style=&quot;background:#fff7ed;border-left:5px solid #f59e0b;padding:10px 12px;border-radius:9px;margin-bottom:12px&quot;&gt;&lt;b&gt;🎮 Gamepad:&lt;/b&gt; Plug it in, press a button once, then play.&lt;/div&gt;
+    &lt;h1&gt;9. Gamepad Racer&lt;/h1&gt;
+    &lt;p&gt;LEFT STICK steers. RT accelerates. LT reverses/brakes. Reach the flag.&lt;/p&gt;
+
+    &lt;div class=&quot;hud&quot;&gt;
+        &lt;span&gt;Steer: LEFT STICK&lt;/span&gt;
+        &lt;span&gt;Gas: RT · Brake: LT&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;GO!&lt;/div&gt;
+
+    &lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;
+        &lt;div id=&quot;car&quot; class=&quot;sprite&quot; style=&quot;left:310px;top:310px&quot;&gt;🏎️&lt;/div&gt;
+        &lt;div id=&quot;block1&quot; class=&quot;sprite&quot; style=&quot;left:130px;top:150px&quot;&gt;🚧&lt;/div&gt;
+        &lt;div id=&quot;block2&quot; class=&quot;sprite&quot; style=&quot;left:500px;top:210px&quot;&gt;🚙&lt;/div&gt;
+        &lt;div id=&quot;flag&quot; class=&quot;sprite big&quot; style=&quot;left:315px;top:15px&quot;&gt;🏁&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;button onclick=&quot;restartGame()&quot;&gt;RESTART&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- LIBRARIES FIRST --&gt;
+&lt;script src=&quot;rbs-game-library.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;rbs-gamepad-library.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- YOUR GAME CODE --&gt;
+&lt;script&gt;
+driveWithGamepad(&quot;car&quot;, 5, 7, &quot;game&quot;);
+patrol(&quot;block2&quot;, 2.5, 0, &quot;game&quot;);
+loseOnTouch(&quot;car&quot;, &quot;block1&quot;, &quot;message&quot;);
+loseOnTouch(&quot;car&quot;, &quot;block2&quot;, &quot;message&quot;);
+winOnTouch(&quot;car&quot;, &quot;flag&quot;, &quot;message&quot;);
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+                </div>
+            </details>
+        </div>
+    </div>
+</section>
+
+<section class="game-card" id="10-gamepad-key-mission">
+    <div class="game-head">
+        <div>
+            <div class="eyebrow">🎮 GAMEPAD GAME</div>
+            <h2>10. Gamepad Key Mission</h2>
+            <p>LEFT STICK moves. Get the key, avoid the moving drone and escape.</p>
+        </div>
+        <a class="play-btn" href="10-gamepad-key-mission.html" target="_blank">PLAY FULL GAME ↗</a>
+    </div>
+
+    <div class="game-grid">
+        <div class="preview-side">
+            <h3>1 · PLAY IT</h3>
+            <p class="small"><b>Click inside the game</b>, then use the controls.</p>
+            <iframe src="10-gamepad-key-mission.html" title="10. Gamepad Key Mission"></iframe>
+        </div>
+
+        <div class="code-side">
+            <h3>2 · READ THE GAME BLOCKS</h3>
+            <p class="small">These few lines are the main rules of this game.</p>
+
+            <div class="codewrap">
+                <button class="copy" onclick="copyCode(this,'js-10-gamepad-key-mission')">COPY BLOCKS</button>
+                <pre id="js-10-gamepad-key-mission">moveWithGamepad(&quot;player&quot;, 8, &quot;game&quot;);
+keyOpensDoor(&quot;player&quot;, &quot;key&quot;, &quot;door&quot;, &quot;message&quot;);
+patrol(&quot;drone&quot;, 3, 0, &quot;game&quot;);
+rumbleOnTouch(&quot;player&quot;, &quot;drone&quot;, 1, 0.5, 250);
+loseOnTouch(&quot;player&quot;, &quot;drone&quot;, &quot;message&quot;);</pre>
+            </div>
+
+            <h3>3 · WHAT DO THE BLOCKS MEAN?</h3>
+            <div class="explanations">
+                
+        <div class="func-explain">
+            <div class="func-name">moveWithGamepad(...)</div>
+            <div class="func-plain">Move an object with the LEFT joystick.</div>
+            <div class="slots"><span>object</span> · <span>speed</span> · <span>game area</span></div>
+            <div class="try"><b>TRY:</b> Change the speed number.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">keyOpensDoor(...)</div>
+            <div class="func-plain">Hide the door. When the player gets the key, show the door. Touch the door to win.</div>
+            <div class="slots"><span>player</span> · <span>key</span> · <span>door</span> · <span>message box</span></div>
+            <div class="try"><b>TRY:</b> Change the emoji or position of the key and door in the HTML.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">patrol(...)</div>
+            <div class="func-plain">Move an object automatically and bounce it around the game area.</div>
+            <div class="slots"><span>object</span> · <span>X speed</span> · <span>Y speed</span> · <span>game area</span></div>
+            <div class="try"><b>TRY:</b> Use 4, 0 for sideways. Use 0, 4 for up/down.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">rumbleOnTouch(...)</div>
+            <div class="func-plain">Vibrate the gamepad when two objects touch.</div>
+            <div class="slots"><span>object 1</span> · <span>object 2</span> · <span>strong motor</span> · <span>weak motor</span> · <span>milliseconds</span></div>
+            <div class="try"><b>TRY:</b> Try 0.2, 0.2, 80 for a tiny buzz; 1, 0.5, 300 for a crash.</div>
+        </div>
+        
+        <div class="func-explain">
+            <div class="func-name">loseOnTouch(...)</div>
+            <div class="func-plain">Lose when two objects touch.</div>
+            <div class="slots"><span>player</span> · <span>danger</span> · <span>message box</span></div>
+            <div class="try"><b>TRY:</b> Change the danger name to make a different object deadly.</div>
+        </div>
+        
+            </div>
+
+            <details>
+                <summary>4 · MAKE YOUR OWN COPY</summary>
+                <div class="copy-help">
+                    <b>Easiest method:</b> press <b>COPY WHOLE GAME</b>, make a new file named
+                    <code>index.html</code>, paste, and save. Keep the library file(s) in the same folder.
+                </div>
+                <div class="codewrap">
+                    <button class="copy" onclick="copyCode(this,'full-10-gamepad-key-mission')">COPY WHOLE GAME</button>
+                    <pre id="full-10-gamepad-key-mission">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+    &lt;title&gt;10. Gamepad Key Mission&lt;/title&gt;
+
+    &lt;style&gt;
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef2f7;
+    color: #172033;
+}
+.wrap {
+    width: 700px;
+    max-width: calc(100% - 24px);
+    margin: 24px auto;
+}
+h1 {
+    margin: 0 0 8px;
+}
+.hud {
+    background: white;
+    padding: 12px 16px;
+    border-radius: 12px 12px 0 0;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+.message {
+    background: #172033;
+    color: white;
+    padding: 10px 16px;
+    font-weight: bold;
+    text-align: center;
+}
+.game {
+    position: relative;
+    width: 100%;
+    height: 390px;
+    overflow: hidden;
+    border: 4px solid #172033;
+    box-sizing: border-box;
+    background: linear-gradient(#dff4ff, #c9f1d2);
+}
+.sprite {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    font-size: 42px;
+    line-height: 52px;
+    text-align: center;
+    user-select: none;
+}
+.big {
+    width: 68px;
+    height: 68px;
+    font-size: 54px;
+    line-height: 68px;
+}
+button {
+    margin-top: 12px;
+    padding: 10px 15px;
+    border: 0;
+    border-radius: 9px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class=&quot;wrap&quot;&gt;
+    &lt;div style=&quot;background:#fff7ed;border-left:5px solid #f59e0b;padding:10px 12px;border-radius:9px;margin-bottom:12px&quot;&gt;&lt;b&gt;🎮 Gamepad:&lt;/b&gt; Plug it in, press a button once, then play.&lt;/div&gt;
+    &lt;h1&gt;10. Gamepad Key Mission&lt;/h1&gt;
+    &lt;p&gt;LEFT STICK moves. Get the key, avoid the moving drone and escape.&lt;/p&gt;
+
+    &lt;div class=&quot;hud&quot;&gt;
+        &lt;span&gt;LEFT STICK&lt;/span&gt;
+        &lt;span&gt;Mission: 🔑 → 🚪&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div id=&quot;message&quot; class=&quot;message&quot;&gt;GO!&lt;/div&gt;
+
+    &lt;div id=&quot;game&quot; class=&quot;game&quot;&gt;
+        &lt;div id=&quot;player&quot; class=&quot;sprite&quot; style=&quot;left:35px;top:300px&quot;&gt;👨‍🚀&lt;/div&gt;
+        &lt;div id=&quot;key&quot; class=&quot;sprite&quot; style=&quot;left:300px;top:80px&quot;&gt;🔑&lt;/div&gt;
+        &lt;div id=&quot;door&quot; class=&quot;sprite big&quot; style=&quot;left:580px;top:25px&quot;&gt;🚪&lt;/div&gt;
+        &lt;div id=&quot;drone&quot; class=&quot;sprite&quot; style=&quot;left:220px;top:230px&quot;&gt;🛸&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;button onclick=&quot;restartGame()&quot;&gt;RESTART&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- LIBRARIES FIRST --&gt;
+&lt;script src=&quot;rbs-game-library.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;rbs-gamepad-library.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- YOUR GAME CODE --&gt;
+&lt;script&gt;
+moveWithGamepad(&quot;player&quot;, 8, &quot;game&quot;);
+keyOpensDoor(&quot;player&quot;, &quot;key&quot;, &quot;door&quot;, &quot;message&quot;);
+patrol(&quot;drone&quot;, 3, 0, &quot;game&quot;);
+rumbleOnTouch(&quot;player&quot;, &quot;drone&quot;, 1, 0.5, 250);
+loseOnTouch(&quot;player&quot;, &quot;drone&quot;, &quot;message&quot;);
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+                </div>
+            </details>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<script>
+function copyCode(button,id){
+    let text=document.getElementById(id).textContent.replace(/^\n+|\n+$/g,"");
+    navigator.clipboard.writeText(text).then(function(){
+        let old=button.textContent;
+        button.textContent="COPIED! ✓";
+        button.classList.add("copied");
+        setTimeout(function(){button.textContent=old;button.classList.remove("copied")},1200);
+    });
+}
+</script>
+</body>
+</html>

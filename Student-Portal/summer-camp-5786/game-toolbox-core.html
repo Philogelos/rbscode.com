@@ -1,0 +1,38 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Game Toolbox — What Do You Want?</title>
+<style>
+:root{--bg:#f5f7fb;--ink:#172033;--muted:#64748b;--line:#dfe5ee;--blue:#4f46e5;--dark:#0b1220}*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Arial,sans-serif;color:var(--ink)}main{max-width:1100px;margin:auto;padding:28px 18px 70px}h1{font-size:clamp(38px,7vw,64px);margin:4px 0 10px;line-height:1}h2{margin:0 0 7px}.lead{font-size:19px;color:var(--muted)}.search{position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:5}.search input{width:100%;font-size:18px;padding:13px;border:2px solid #c7d2fe;border-radius:12px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:white;border:1px solid var(--line);border-radius:15px;padding:15px}.want{font-size:17px;font-weight:900;color:#3730a3}.fn{font:700 16px Consolas,monospace;background:#eef2ff;padding:7px 9px;border-radius:8px;display:inline-block;margin:8px 0}.code{background:var(--dark);color:#edf4ff;border-radius:10px;padding:11px;font:14px/1.5 Consolas,monospace;white-space:pre-wrap}.mini{font-size:13px;color:var(--muted)}.recipe{background:#fff7ed;border-left:5px solid #ea580c;padding:11px;border-radius:10px;margin:13px 0}@media(max-width:760px){.grid{grid-template-columns:1fr}}</style></head><body><main>
+<div style="font-weight:900;color:#3730a3">RBS CODE · MINI GAME LIBRARY</div><h1>WHAT DO YOU WANT TO HAPPEN?</h1><p class="lead">Search by your idea, not by a function name.</p>
+<div class="search"><input id="q" placeholder="Try: move, touch, score, random, chase, timer, hide..." oninput="filterCards()"></div>
+<div class="recipe"><b>Most beginner games use only 5 ideas:</b> move → detect a touch → change something → move/hide something → win or lose.</div>
+<div class="grid" id="cards">
+<div class="card" data-words="move keyboard arrows wasd player controls"><div class="want">Move a player with keys</div><div class="fn">moveWithKeys(item, speed, up, down, left, right)</div><pre class="code">moveWithKeys(player, 12,
+  "ArrowUp", "ArrowDown",
+  "ArrowLeft", "ArrowRight");</pre><div class="mini">Use this once near the start.</div></div>
+<div class="card" data-words="touch collision hit crash collect enemy"><div class="want">Know when two things touch</div><div class="fn">touching(item1, item2)</div><pre class="code">if (touching(player, coin)) {
+    // what happens next?
+}</pre><div class="mini">Usually belongs inside an IF.</div></div>
+<div class="card" data-words="score points health lives gold number add subtract"><div class="want">Add or subtract a number</div><div class="fn">changeNumber(number, amount, display)</div><pre class="code">score = changeNumber(score, 1, scoreText);
+health = changeNumber(health, -1, healthText);</pre></div>
+<div class="card" data-words="random move reset respawn teleport treasure coin"><div class="want">Put an object somewhere random</div><div class="fn">randomPosition(item, gameArea)</div><pre class="code">randomPosition(coin, game);</pre></div>
+<div class="card" data-words="inside boundary edge leave screen wall"><div class="want">Keep player inside the game</div><div class="fn">keepInside(item, gameArea)</div><pre class="code">keepInside(player, game);</pre></div>
+<div class="card" data-words="message text win lose game over instructions"><div class="want">Change words on screen</div><div class="fn">setText(item, text)</div><pre class="code">setText(message, "YOU WIN!");</pre></div>
+<div class="card" data-words="hide disappear collect key remove invisible show appear"><div class="want">Hide or show something</div><div class="fn">hide(item) / show(item)</div><pre class="code">hide(key);
+show(door);</pre></div>
+<div class="card" data-words="move exact pixels enemy automatic left right up down"><div class="want">Move something by pixels</div><div class="fn">move(item, xChange, yChange)</div><pre class="code">move(enemy, -5, 0);
+move(rocket, 0, -10);</pre></div>
+<div class="card" data-words="place exact position coordinates reset start"><div class="want">Put something at an exact place</div><div class="fn">place(item, x, y)</div><pre class="code">place(player, 20, 120);</pre></div>
+<div class="card" data-words="chase follow enemy target zombie"><div class="want">Make an enemy chase the player</div><div class="fn">moveToward(enemy, target, speed)</div><pre class="code">function gameLoop() {
+    moveToward(enemy, player, 2);
+}
+setInterval(gameLoop, 30);</pre></div>
+<div class="card" data-words="timer countdown seconds time end"><div class="want">Count down</div><div class="fn">startCountdown(seconds, display, finished)</div><pre class="code">startCountdown(20, timeText, function() {
+    setText(message, "TIME UP!");
+});</pre></div>
+<div class="card" data-words="edge bottom top left right detect"><div class="want">Know if something reached an edge</div><div class="fn">atEdge(item, gameArea, side)</div><pre class="code">if (atEdge(car, game, "bottom")) {
+    place(car, 200, 0);
+}</pre></div>
+</div>
+<div class="recipe"><b>Don't browse forever.</b> Say the rule out loud: “WHEN ___ happens, THEN ___.” Search for the verb in that sentence.</div>
+<script>
+function filterCards(){let q=document.getElementById('q').value.toLowerCase().trim();document.querySelectorAll('.card').forEach(function(c){let text=(c.innerText+' '+c.dataset.words).toLowerCase();c.style.display=text.includes(q)?'block':'none';});}
+</script></main></body></html>

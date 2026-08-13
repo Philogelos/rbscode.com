@@ -1,0 +1,48 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Audio Mechanics Lab</title><style>
+*{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#172033;font-family:Arial,sans-serif;line-height:1.5}main{max-width:1050px;margin:auto;padding:28px 18px 70px}.top{font-weight:800;text-decoration:none;color:#4338ca}.hero{background:#111827;color:white;border-radius:20px;padding:28px;margin:18px 0}.hero h1{font-size:44px;margin:0}.hero p{font-size:18px;color:#dbeafe}.card{background:white;border:1px solid #dfe5ee;border-radius:16px;padding:18px;margin:14px 0}.code{background:#0b1220;color:#e7eefc;border-radius:12px;padding:14px;white-space:pre-wrap;overflow:auto;font:14px/1.55 Consolas,monospace}.mechanic{display:inline-block;width:47%;vertical-align:top;margin:1%;background:white;border:1px solid #dfe5ee;border-radius:16px;padding:17px}.pill{display:inline-block;background:#eef2ff;color:#3730a3;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:900}.good{border-left:6px solid #0f766e}.warn{border-left:6px solid #b45309}code{background:#eef2ff;padding:2px 5px;border-radius:5px}@media(max-width:760px){.mechanic{width:100%;margin:8px 0}.hero h1{font-size:34px}}</style></head><body><main>
+<a class="top" href="final-day.html">← Final Day</a>
+<div class="hero"><span class="pill">GAME FEEDBACK</span><h1>🔊 Audio Mechanics Lab</h1><p>Sound makes a tiny game feel finished. Learn a few reusable patterns — then add them anywhere.</p></div>
+<div class="card good"><h2>1 · Put the library in your game folder</h2><p>Your folder might look like this:</p><pre class="code">my-game/
+    index.html
+    rbs-game-library.js
+    rbs-audio-library.js
+    sounds/
+        collect.mp3
+        hit.mp3
+        win.mp3
+        music.mp3</pre><p>Then, just before <code>&lt;/body&gt;</code>:</p><pre class="code">&lt;script src="rbs-game-library.js"&gt;&lt;/script&gt;
+&lt;script src="rbs-audio-library.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+    // YOUR GAME CODE HERE
+&lt;/script&gt;</pre></div>
+<div class="mechanic"><span class="pill">SET UP ONCE</span><h2>Make a sound</h2><pre class="code">let collectSound = makeSound(
+    "sounds/collect.mp3",
+    0.7
+);</pre><p><b>0</b> = silent. <b>1</b> = full volume.</p></div>
+<div class="mechanic"><span class="pill">EVENT</span><h2>Play it</h2><pre class="code">if (touching(player, coin)) {
+    playSound(collectSound);
+}</pre><p>Perfect for collect, jump, hit, unlock and win sounds.</p></div>
+<div class="mechanic"><span class="pill">FAST EFFECTS</span><h2>Allow overlap</h2><pre class="code">playOverlap(
+    "sounds/laser.mp3",
+    0.5
+);</pre><p>Useful when the same effect may happen again before the previous sound finishes.</p></div>
+<div class="mechanic"><span class="pill">MUSIC</span><h2>Background loop</h2><pre class="code">let music = makeSound(
+    "sounds/music.mp3",
+    0.25,
+    true
+);
+
+playSound(music);</pre><p>Keep music much quieter than effects.</p></div>
+<div class="mechanic"><span class="pill">CONTROL</span><h2>Stop / pause / volume</h2><pre class="code">pauseSound(music);
+stopSound(music);
+setVolume(music, 0.15);</pre></div>
+<div class="mechanic"><span class="pill">POLISH</span><h2>Fade out</h2><pre class="code">fadeOut(music);</pre><p>Useful at GAME OVER or when changing screens.</p></div>
+<div class="card warn"><h2>Important browser rule</h2><p>Browsers often block sound that starts automatically before the player has interacted with the page. The safest pattern is: <b>player clicks START → start music</b>. Sound effects triggered after keyboard, mouse or gamepad interaction are usually much easier.</p></div>
+<div class="card"><h2>Sound + haptic = powerful feedback</h2><pre class="code">if (touching(player, gem)) {
+    score = changeNumber(score, 1, scoreText);
+    playSound(collectSound);
+    rumble(0.12, 0.25, 80);
+    randomPosition(gem, game);
+}</pre><p>Think in feedback recipes:</p><p><b>Collect</b> → bright sound + tiny buzz · <b>Hit</b> → heavy sound + strong rumble · <b>Win</b> → success sound + longer rumble.</p></div>
+<div class="card"><h2>Challenge</h2><p>Add three sounds to your game: <b>one action sound, one danger sound and one win sound</b>. Then decide which one should also use haptics.</p></div>
+</main></body></html>

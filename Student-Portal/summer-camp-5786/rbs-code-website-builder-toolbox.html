@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RBS Code - Website Builder Toolbox</title>
+<style>
+* { box-sizing: border-box; }
+
+:root {
+  --ink: #172033;
+  --muted: #556174;
+  --line: #d6deea;
+  --paper: #ffffff;
+  --bg: #edf1f7;
+  --navy: #18243a;
+  --html: #fff1e7;
+  --html-line: #ef8b45;
+  --css1: #eaf2ff;
+  --css1-line: #4d7fe8;
+  --css2: #eef9ef;
+  --css2-line: #4a9b59;
+  --css3: #f2ecff;
+  --css3-line: #7c57cc;
+  --css4: #fff7d9;
+  --css4-line: #c49717;
+  --js: #fff0f2;
+  --js-line: #d95c70;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--bg);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.28;
+}
+
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 10px 14px;
+  text-align: center;
+  background: var(--navy);
+  color: white;
+  box-shadow: 0 2px 12px rgba(0,0,0,.16);
+}
+.toolbar button {
+  border: 0;
+  border-radius: 8px;
+  padding: 9px 14px;
+  background: white;
+  color: var(--navy);
+  font-weight: 700;
+  cursor: pointer;
+}
+.toolbar span { margin-left: 10px; font-size: 13px; opacity: .9; }
+
+.page {
+  width: min(940px, calc(100% - 28px));
+  margin: 20px auto;
+  padding: 24px;
+  background: var(--paper);
+  border: 1px solid #d8e0eb;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(29,42,68,.08);
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 18px;
+  background: var(--navy);
+  color: white;
+  border-radius: 13px;
+  padding: 15px 18px;
+  margin-bottom: 12px;
+}
+.hero h1 { margin: 0; font-size: 29px; letter-spacing: .3px; }
+.hero p { margin: 4px 0 0; font-size: 13px; opacity: .92; }
+.hero .side { font-size: 12px; font-weight: 700; white-space: nowrap; opacity: .85; }
+
+.rule {
+  margin: 0 0 12px;
+  padding: 7px 10px;
+  background: #f6f8fb;
+  border: 1px solid #e0e5ed;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.cols-43 { display: grid; grid-template-columns: 1.15fr .85fr; gap: 12px; }
+.stack > * + * { margin-top: 10px; }
+
+.section {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  break-inside: avoid;
+}
+.section-title {
+  margin: 0;
+  padding: 7px 9px;
+  font-size: 16px;
+  line-height: 1.1;
+  border-bottom: 1px solid var(--line);
+}
+.section-title small { font-size: 10px; color: var(--muted); font-weight: 400; margin-left: 5px; }
+.section-body { padding: 8px 9px; }
+.html .section-title { background: var(--html); border-left: 5px solid var(--html-line); }
+.css1 .section-title { background: var(--css1); border-left: 5px solid var(--css1-line); }
+.css2 .section-title { background: var(--css2); border-left: 5px solid var(--css2-line); }
+.css3 .section-title { background: var(--css3); border-left: 5px solid var(--css3-line); }
+.css4 .section-title { background: var(--css4); border-left: 5px solid var(--css4-line); }
+.js .section-title { background: var(--js); border-left: 5px solid var(--js-line); }
+
+.mini-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px 9px; }
+.mini-grid.three { grid-template-columns: repeat(3, 1fr); }
+.item { border-bottom: 1px dotted #d9dfe7; padding: 2px 0 4px; min-width: 0; }
+.item:last-child { border-bottom-color: transparent; }
+.item code { font-weight: 700; }
+.desc { display: block; color: var(--muted); font-size: 10.7px; margin-top: 1px; }
+
+code, pre, .code {
+  font-family: Consolas, "Courier New", monospace;
+}
+code {
+  background: #f0f3f7;
+  padding: 1px 3px;
+  border-radius: 3px;
+  font-size: .94em;
+}
+pre {
+  margin: 6px 0 0;
+  padding: 7px 8px;
+  border-radius: 7px;
+  background: #f5f7fa;
+  border: 1px solid #dfe5ed;
+  white-space: pre-wrap;
+  font-size: 10.3px;
+  line-height: 1.26;
+  overflow: hidden;
+}
+
+.callout {
+  margin-top: 6px;
+  padding: 6px 8px;
+  border-radius: 7px;
+  background: #f8fafc;
+  border: 1px solid #e0e6ee;
+  font-size: 10.7px;
+}
+.callout strong { color: #243b64; }
+
+.kv {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 10.5px;
+}
+.kv td, .kv th { border-bottom: 1px solid #e3e8ef; padding: 3px 4px; vertical-align: top; }
+.kv th { text-align: left; font-size: 10px; color: #445269; background: #f7f9fb; }
+.kv tr:last-child td { border-bottom: 0; }
+.kv td:first-child { width: 31%; font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+
+.flex-ref {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 7px;
+}
+.flex-card {
+  border: 1px solid #ded8ef;
+  background: #fbf9ff;
+  border-radius: 8px;
+  padding: 6px 7px;
+}
+.flex-card strong { display: block; font-size: 10.8px; margin-bottom: 3px; }
+.flex-card .values { font-family: Consolas, "Courier New", monospace; font-size: 9.7px; line-height: 1.34; }
+.flex-card .why { color: var(--muted); font-size: 9.7px; margin-top: 3px; }
+
+.axis-note {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 7px;
+}
+.axis-note div { background: #f5f2fc; border: 1px solid #e0d8f2; border-radius: 6px; padding: 5px 7px; font-size: 10px; }
+
+.patterns { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 7px; }
+.pattern { border: 1px solid #e0e5ec; border-radius: 7px; padding: 6px 7px; background: #fbfcfd; }
+.pattern strong { font-size: 10.5px; }
+.pattern pre { margin-top: 4px; font-size: 9.5px; padding: 5px 6px; }
+
+.footer {
+  margin-top: 9px;
+  padding-top: 6px;
+  border-top: 1px solid #dfe4eb;
+  color: #687486;
+  text-align: center;
+  font-size: 9.5px;
+}
+
+/* Interactive Flexbox lab: visible online, hidden when printing. */
+.lab {
+  width: min(940px, calc(100% - 28px));
+  margin: 20px auto 36px;
+  padding: 20px;
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #d7dfeb;
+  box-shadow: 0 8px 30px rgba(29,42,68,.08);
+}
+.lab h2 { margin: 0 0 5px; }
+.lab p { margin: 0 0 14px; color: var(--muted); font-size: 13px; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+.controls label { font-size: 12px; font-weight: 700; }
+.controls select, .controls input {
+  display: block;
+  margin-top: 4px;
+  min-width: 145px;
+  padding: 7px 8px;
+  border: 1px solid #cdd6e3;
+  border-radius: 7px;
+  background: white;
+}
+#flexDemo {
+  display: flex;
+  min-height: 190px;
+  padding: 12px;
+  gap: 12px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  border: 3px dashed #8b78bd;
+  border-radius: 10px;
+  background: #f8f6ff;
+}
+.demo-box {
+  width: 76px;
+  min-height: 58px;
+  padding: 18px 8px;
+  text-align: center;
+  border-radius: 9px;
+  background: #e8e0ff;
+  border: 2px solid #7154bb;
+  font-weight: 800;
+}
+#liveCode { margin-top: 10px; font-size: 12px; }
+
+@media (max-width: 720px) {
+  .cols, .cols-43, .flex-ref, .patterns { grid-template-columns: 1fr; }
+  .mini-grid.three { grid-template-columns: repeat(2,1fr); }
+  .page { width: 100%; margin: 0; border-radius: 0; border-left: 0; border-right: 0; padding: 15px; }
+  .hero { align-items: flex-start; }
+  .hero .side { white-space: normal; }
+}
+
+@page { size: A4 portrait; margin: 8mm; }
+
+@media print {
+  body { background: white; line-height: 1.19; }
+  .toolbar, .lab { display: none !important; }
+  .page {
+    width: auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .page + .page { break-before: page; page-break-before: always; }
+  .hero { border-radius: 6px; padding: 8px 11px; margin-bottom: 6px; }
+  .hero h1 { font-size: 19.5pt; }
+  .hero p { font-size: 9pt; margin-top: 2px; }
+  .hero .side { font-size: 8.2pt; }
+  .rule { font-size: 8.2pt; padding: 5px 7px; margin-bottom: 7px; }
+  .cols, .cols-43 { gap: 7px; }
+  .stack > * + * { margin-top: 6px; }
+  .section { border-radius: 5px; }
+  .section-title { font-size: 11.6pt; padding: 5px 7px; }
+  .section-title small { font-size: 7.2pt; }
+  .section-body { padding: 5px 7px; }
+  .mini-grid { gap: 2px 6px; }
+  .mini-grid.three { gap: 2px 5px; }
+  .item { padding: 1px 0 2px; }
+  .desc { font-size: 7.8pt; margin-top: 0; }
+  code { padding: 0 2px; font-size: .92em; }
+  pre { margin-top: 4px; padding: 5px 6px; border-radius: 4px; font-size: 7.5pt; line-height: 1.18; }
+  .callout { margin-top: 4px; padding: 4px 6px; font-size: 7.7pt; }
+  .kv { font-size: 7.5pt; }
+  .kv td, .kv th { padding: 2px 3px; }
+  .kv th { font-size: 7.1pt; }
+  .flex-ref { gap: 4px; }
+  .flex-card { padding: 3px 4px; border-radius: 4px; }
+  .flex-card strong { font-size: 7.8pt; margin-bottom: 1px; }
+  .flex-card .values, .flex-card .why { font-size: 7.05pt; line-height: 1.2; margin-top: 1px; }
+  .axis-note { gap: 4px; margin-top: 4px; }
+  .axis-note div { padding: 4px 5px; font-size: 7.2pt; border-radius: 3px; }
+  .patterns { gap: 4px; margin-top: 4px; }
+  .pattern { padding: 3px 4px; border-radius: 4px; }
+  .pattern strong { font-size: 7.4pt; }
+  .pattern pre { font-size: 6.9pt; padding: 4px 5px; }
+  .footer { margin-top: 5px; padding-top: 4px; font-size: 6.8pt; }
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button onclick="window.print()">Print / Save as PDF</button>
+  <span>Designed to print on exactly 2 sides of A4.</span>
+</div>
+
+<!-- SIDE 1 -->
+<section class="page">
+  <div class="hero">
+    <div>
+      <h1>WEBSITE BUILDER TOOLBOX</h1>
+      <p>HTML + CSS quick reference - find the tool you need, then keep building.</p>
+    </div>
+    <div class="side">SIDE 1 · HTML + CSS 1 + CSS 2</div>
+  </div>
+
+  <div class="rule"><strong>Best rule:</strong> do not memorize the page. Remember roughly what tools exist, then look up the exact spelling when you need one.</div>
+
+  <div class="cols">
+    <div class="stack">
+      <section class="section html">
+        <h2 class="section-title">HTML <small>what goes on the page</small></h2>
+        <div class="section-body">
+          <pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;My Website&lt;/title&gt;
+  &lt;style&gt; /* CSS goes here */ &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Hello!&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+          <div class="mini-grid" style="margin-top:6px">
+            <div class="item"><code>&lt;h1&gt;...&lt;h6&gt;</code><span class="desc">Headings.</span></div>
+            <div class="item"><code>&lt;p&gt;</code><span class="desc">Normal paragraph text.</span></div>
+            <div class="item"><code>&lt;div&gt;</code><span class="desc">General-purpose box/group.</span></div>
+            <div class="item"><code>&lt;img src="..."&gt;</code><span class="desc">Show an image.</span></div>
+            <div class="item"><code>&lt;a href="..."&gt;</code><span class="desc">Link to another page/place.</span></div>
+            <div class="item"><code>&lt;button&gt;</code><span class="desc">Clickable button.</span></div>
+            <div class="item"><code>&lt;input&gt;</code><span class="desc">Box the visitor can type in.</span></div>
+            <div class="item"><code>&lt;br&gt;</code><span class="desc">Start a new line.</span></div>
+          </div>
+          <div class="callout"><strong>Useful named boxes:</strong> <code>header</code>, <code>nav</code>, <code>main</code>, <code>section</code>, <code>footer</code>. Think of them as <code>div</code>-like boxes whose names explain their job.</div>
+          <div class="callout"><strong>Targets:</strong> <code>class="card"</code> can be reused on many elements. <code>id="menu"</code> gives one element a unique name.</div>
+        </div>
+      </section>
+
+      <section class="section css2">
+        <h2 class="section-title">CSS 2 <small>spacing + comfortable page layout</small></h2>
+        <div class="section-body">
+          <div class="mini-grid">
+            <div class="item"><code>padding</code><span class="desc">Space <strong>inside</strong> the box.</span></div>
+            <div class="item"><code>margin</code><span class="desc">Space <strong>outside</strong> the box.</span></div>
+            <div class="item"><code>margin: auto</code><span class="desc">Center a box that has a width.</span></div>
+            <div class="item"><code>width: 80%</code><span class="desc">Use part of available width.</span></div>
+            <div class="item"><code>line-height</code><span class="desc">Space between lines of text.</span></div>
+            <div class="item"><code>text-decoration</code><span class="desc"><code>none</code> removes link underline.</span></div>
+          </div>
+          <pre>padding: 12px 20px;   /* top/bottom | left/right */
+margin: 20px auto;    /* space + center the box */</pre>
+          <div class="callout"><strong>Memory:</strong> <code>padding</code> = inside. <code>margin</code> = outside. <code>text-align: center</code> centers content <em>inside</em>; <code>margin: auto</code> centers the box itself.</div>
+        </div>
+      </section>
+    </div>
+
+    <div class="stack">
+      <section class="section css1">
+        <h2 class="section-title">CSS 1 <small>make it look good</small></h2>
+        <div class="section-body">
+          <div class="mini-grid three">
+            <div class="item"><code>color</code><span class="desc">Text colour</span></div>
+            <div class="item"><code>background-color</code><span class="desc">Background</span></div>
+            <div class="item"><code>font-size</code><span class="desc">Text size</span></div>
+            <div class="item"><code>font-family</code><span class="desc">Font</span></div>
+            <div class="item"><code>font-weight</code><span class="desc"><code>normal</code>, <code>bold</code></span></div>
+            <div class="item"><code>text-align</code><span class="desc"><code>left</code>, <code>center</code>, <code>right</code></span></div>
+            <div class="item"><code>width</code><span class="desc">How wide</span></div>
+            <div class="item"><code>height</code><span class="desc">How tall</span></div>
+            <div class="item"><code>border</code><span class="desc"><code>2px solid navy</code></span></div>
+            <div class="item"><code>border-radius</code><span class="desc">Rounded corners</span></div>
+            <div class="item"><code>background</code><span class="desc">Colour/image/gradient</span></div>
+            <div class="item"><code>cursor</code><span class="desc"><code>pointer</code> for clickable things</span></div>
+          </div>
+
+          <div class="callout"><strong>CSS pattern:</strong> selector → braces → <code>property: value;</code></div>
+          <pre>h1 { color: navy; }
+.card { background-color: white; }
+#menu { border: 2px solid black; }</pre>
+          <div class="mini-grid" style="margin-top:6px">
+            <div class="item"><code>h1 { }</code><span class="desc">Every <code>h1</code></span></div>
+            <div class="item"><code>.card { }</code><span class="desc">Every <code>class="card"</code></span></div>
+            <div class="item"><code>#menu { }</code><span class="desc">The one <code>id="menu"</code></span></div>
+            <div class="item"><code>nav a { }</code><span class="desc">Links inside <code>nav</code></span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section html">
+        <h2 class="section-title">Common HTML patterns <small>copy, then change</small></h2>
+        <div class="section-body">
+          <div class="patterns">
+            <div class="pattern"><strong>Link</strong><pre>&lt;a href="about.html"&gt;About&lt;/a&gt;</pre></div>
+            <div class="pattern"><strong>Image</strong><pre>&lt;img src="images/logo.png" alt="Logo"&gt;</pre></div>
+            <div class="pattern"><strong>Class</strong><pre>&lt;div class="card"&gt;...&lt;/div&gt;</pre></div>
+            <div class="pattern"><strong>ID + button</strong><pre>&lt;button onclick="showMenu()"&gt;Menu&lt;/button&gt;</pre></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section css2">
+        <h2 class="section-title">Website sizing <small>quick choices</small></h2>
+        <div class="section-body">
+          <table class="kv">
+            <tr><th>Value</th><th>Use it when...</th></tr>
+            <tr><td>300px</td><td>You want a fixed, exact size.</td></tr>
+            <tr><td>80%</td><td>You want size based on the parent.</td></tr>
+            <tr><td>100%</td><td>You want it to fill available width.</td></tr>
+            <tr><td>100vh</td><td>You want the full browser height.</td></tr>
+          </table>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <section class="section html" style="margin-top:7px">
+    <h2 class="section-title">HTML attributes <small>extra information written inside the opening tag</small></h2>
+    <div class="section-body">
+      <div class="mini-grid three">
+        <div class="item"><code>href="..."</code><span class="desc">Where a link goes.</span></div>
+        <div class="item"><code>src="..."</code><span class="desc">Where an image/file comes from.</span></div>
+        <div class="item"><code>alt="..."</code><span class="desc">Short description of an image.</span></div>
+        <div class="item"><code>class="..."</code><span class="desc">Reusable name for CSS/JS.</span></div>
+        <div class="item"><code>id="..."</code><span class="desc">Unique name for one element.</span></div>
+        <div class="item"><code>placeholder="..."</code><span class="desc">Hint text inside an input.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">RBS Code · Website Builder Toolbox · Side 1 of 2</div>
+</section>
+
+<!-- SIDE 2 -->
+<section class="page">
+  <div class="hero">
+    <div>
+      <h1>WEBSITE POWER TOOLS</h1>
+      <p>Flexbox, useful CSS layout/polish, and simple JavaScript interaction.</p>
+    </div>
+    <div class="side">SIDE 2 · CSS 3 + CSS 4 + JS</div>
+  </div>
+
+  <section class="section css3">
+    <h2 class="section-title">CSS 3 · FLEXBOX <small>your main tool for rows, navbars, cards and centering</small></h2>
+    <div class="section-body">
+      <pre>.cards {
+  display: flex;          gap: 16px;
+  flex-direction: row;    justify-content: center;
+  align-items: center;    flex-wrap: wrap;
+}</pre>
+
+      <div class="axis-note">
+        <div><strong>Main direction</strong> = the direction items travel. <code>justify-content</code> works along this direction.</div>
+        <div><strong>Other direction</strong> = across the main direction. <code>align-items</code> works across it.</div>
+      </div>
+
+      <div class="flex-ref" style="margin-top:6px">
+        <div class="flex-card">
+          <strong><code>display: flex</code></strong>
+          <div class="values">display: flex;</div>
+          <div class="why">Turn the parent into a flex container. Its direct children become flex items.</div>
+        </div>
+        <div class="flex-card">
+          <strong><code>flex-direction</code></strong>
+          <div class="values">row<br>column<br>row-reverse<br>column-reverse</div>
+          <div class="why">Choose side-by-side or top-to-bottom.</div>
+        </div>
+        <div class="flex-card">
+          <strong><code>justify-content</code></strong>
+          <div class="values">flex-start · center · flex-end<br>space-between · space-around · space-evenly</div>
+          <div class="why">Move/spread items along the main direction.</div>
+        </div>
+        <div class="flex-card">
+          <strong><code>align-items</code></strong>
+          <div class="values">stretch · flex-start<br>center · flex-end</div>
+          <div class="why">Line items up across the other direction.</div>
+        </div>
+        <div class="flex-card">
+          <strong><code>flex-wrap</code></strong>
+          <div class="values">nowrap<br>wrap</div>
+          <div class="why"><code>wrap</code> moves items onto another row/column when needed.</div>
+        </div>
+        <div class="flex-card">
+          <strong><code>gap</code></strong>
+          <div class="values">gap: 16px;<br>gap: 10px 20px;</div>
+          <div class="why">Clean space between flex items.</div>
+        </div>
+        <div class="flex-card">
+          <strong>Useful child tools</strong>
+          <div class="values">flex: 1;<br>align-self: center;</div>
+          <div class="why"><code>flex: 1</code> lets siblings share available space.</div>
+        </div>
+      </div>
+
+      <div class="callout"><strong>Fast recipes:</strong> navbar → <code>display:flex; justify-content:space-between; align-items:center;</code> · card row → <code>display:flex; gap:20px; flex-wrap:wrap;</code> · perfect centering → <code>display:flex; justify-content:center; align-items:center;</code></div>
+    </div>
+  </section>
+
+  <div class="cols-43" style="margin-top:10px">
+    <div class="stack">
+      <section class="section css4">
+        <h2 class="section-title">CSS 4 <small>useful layout + polish for real websites</small></h2>
+        <div class="section-body">
+          <div class="mini-grid">
+            <div class="item"><code>display: none</code><span class="desc">Hide something completely.</span></div>
+            <div class="item"><code>overflow: hidden</code><span class="desc">Clip anything sticking outside a box.</span></div>
+            <div class="item"><code>object-fit: cover</code><span class="desc">Fill an image window without stretching.</span></div>
+            <div class="item"><code>box-shadow</code><span class="desc">Add depth behind cards/buttons.</span></div>
+            <div class="item"><code>opacity</code><span class="desc"><code>0</code> invisible → <code>1</code> solid.</span></div>
+            <div class="item"><code>transition</code><span class="desc">Smooth a hover/style change.</span></div>
+            <div class="item"><code>:hover</code><span class="desc">Style an element while mouse is over it.</span></div>
+            <div class="item"><code>linear-gradient(...)</code><span class="desc">Smooth colour background.</span></div>
+          </div>
+
+          <div class="patterns">
+            <div class="pattern"><strong>Images: same window every time</strong><pre>.card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}</pre></div>
+            <div class="pattern"><strong>Simple hover</strong><pre>.button { transition: .2s; }
+.button:hover {
+  transform: translateY(-2px);
+}</pre></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section css4">
+        <h2 class="section-title">Position <small>use sparingly on normal websites</small></h2>
+        <div class="section-body">
+          <table class="kv">
+            <tr><td>static</td><td>Normal/default page flow.</td></tr>
+            <tr><td>relative</td><td>Stays in normal flow. <code>top/left</code> can shift it from its normal spot. It also anchors absolute children.</td></tr>
+            <tr><td>absolute</td><td>Leaves normal flow. Place with <code>top/right/bottom/left</code>. Great for a badge or icon inside a card.</td></tr>
+            <tr><td>fixed</td><td>Stays attached to the browser window while scrolling.</td></tr>
+            <tr><td>sticky</td><td>Scrolls normally, then sticks at a chosen edge.</td></tr>
+          </table>
+          <pre>.card { position: relative; }
+.badge { position: absolute; top: 8px; right: 8px; }</pre>
+          <div class="callout"><strong>Website rule:</strong> normal flow + Flexbox first. Use <code>absolute</code> for overlays, badges and special placement, not for building the whole page.</div>
+        </div>
+      </section>
+    </div>
+
+    <div class="stack">
+      <section class="section js">
+        <h2 class="section-title">JavaScript <small>make the website react</small></h2>
+        <div class="section-body">
+          <table class="kv">
+            <tr><td>onclick</td><td>Run code when something is clicked.</td></tr>
+            <tr><td>function</td><td>Name a set of instructions.</td></tr>
+            <tr><td>getElementById</td><td>Find an HTML element by its <code>id</code>.</td></tr>
+            <tr><td>.innerText</td><td>Read/change text.</td></tr>
+            <tr><td>.style</td><td>Change CSS from JavaScript.</td></tr>
+            <tr><td>.value</td><td>Read what someone typed into an input.</td></tr>
+            <tr><td>classList.toggle</td><td>Add/remove a CSS class, useful for menus and show/hide.</td></tr>
+          </table>
+
+          <pre>&lt;h2 id="title"&gt;Hello&lt;/h2&gt;
+&lt;button onclick="changeTitle()"&gt;Change&lt;/button&gt;
+
+&lt;script&gt;
+let title = document.getElementById("title");
+
+function changeTitle() {
+  title.innerText = "Welcome!";
+  title.style.color = "royalblue";
+}
+&lt;/script&gt;</pre>
+
+          <div class="callout"><strong>Think:</strong> HTML = the thing. CSS = how it looks. JavaScript = what happens.</div>
+        </div>
+      </section>
+
+      <section class="section js">
+        <h2 class="section-title">2 website JS patterns <small>worth remembering</small></h2>
+        <div class="section-body">
+          <div class="pattern"><strong>Read an input</strong><pre>let name = document.getElementById("name").value;</pre></div>
+          <div class="pattern" style="margin-top:5px"><strong>Show / hide with a class</strong><pre>.hidden { display: none; }
+
+menu.classList.toggle("hidden");</pre></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="footer">RBS Code · Website Builder Toolbox · Side 2 of 2 · Online version includes a Flexbox playground below.</div>
+</section>
+
+<!-- SCREEN-ONLY FLEXBOX PLAYGROUND -->
+<section class="lab">
+  <h2>Try Flexbox</h2>
+  <p>Change one setting at a time. Watch what happens, then copy the live CSS into your own website.</p>
+  <div class="controls">
+    <label>flex-direction
+      <select id="direction" onchange="updateFlex()">
+        <option>row</option><option>column</option><option>row-reverse</option><option>column-reverse</option>
+      </select>
+    </label>
+    <label>justify-content
+      <select id="justify" onchange="updateFlex()">
+        <option>center</option><option>flex-start</option><option>flex-end</option><option>space-between</option><option>space-around</option><option>space-evenly</option>
+      </select>
+    </label>
+    <label>align-items
+      <select id="align" onchange="updateFlex()">
+        <option>center</option><option>stretch</option><option>flex-start</option><option>flex-end</option>
+      </select>
+    </label>
+    <label>flex-wrap
+      <select id="wrap" onchange="updateFlex()">
+        <option>wrap</option><option>nowrap</option>
+      </select>
+    </label>
+    <label>gap
+      <select id="gap" onchange="updateFlex()">
+        <option value="0px">0px</option><option value="8px">8px</option><option value="16px" selected>16px</option><option value="30px">30px</option>
+      </select>
+    </label>
+  </div>
+  <div id="flexDemo">
+    <div class="demo-box">1</div><div class="demo-box">2</div><div class="demo-box">3</div><div class="demo-box">4</div>
+  </div>
+  <pre id="liveCode"></pre>
+</section>
+
+<script>
+function updateFlex() {
+  let demo = document.getElementById("flexDemo");
+  let direction = document.getElementById("direction").value;
+  let justify = document.getElementById("justify").value;
+  let align = document.getElementById("align").value;
+  let wrap = document.getElementById("wrap").value;
+  let gap = document.getElementById("gap").value;
+
+  demo.style.flexDirection = direction;
+  demo.style.justifyContent = justify;
+  demo.style.alignItems = align;
+  demo.style.flexWrap = wrap;
+  demo.style.gap = gap;
+
+  document.getElementById("liveCode").innerText =
+`.container {
+  display: flex;
+  flex-direction: ${direction};
+  justify-content: ${justify};
+  align-items: ${align};
+  flex-wrap: ${wrap};
+  gap: ${gap};
+}`;
+}
+updateFlex();
+</script>
+
+</body>
+</html>
