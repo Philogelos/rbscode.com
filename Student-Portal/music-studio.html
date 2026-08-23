@@ -1,0 +1,969 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RBS Code Music Lab</title>
+<style>
+:root{
+  --bg:#07111f;
+  --panel:#0f1b2d;
+  --panel-2:#14243a;
+  --panel-3:#091525;
+  --text:#f7fbff;
+  --muted:#9fb1c8;
+  --line:rgba(255,255,255,.10);
+  --accent:#7dd3fc;
+  --accent-2:#a78bfa;
+  --good:#86efac;
+  --danger:#fda4af;
+  --radius:22px;
+  --shadow:0 22px 70px rgba(0,0,0,.28);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at 12% 0%,rgba(125,211,252,.13),transparent 28%),
+    radial-gradient(circle at 88% 2%,rgba(167,139,250,.11),transparent 27%),
+    var(--bg);
+}
+button,input,select,textarea{font:inherit}
+button,select{touch-action:manipulation}
+.app{max-width:1180px;margin:auto;padding:28px 20px 42px}
+header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:22px;
+  margin-bottom:20px;
+}
+.eyebrow{
+  color:var(--accent);
+  font-weight:850;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  font-size:.74rem;
+}
+h1{
+  margin:.38rem 0 .55rem;
+  font-size:clamp(2.25rem,5vw,4.7rem);
+  line-height:.96;
+  letter-spacing:-.06em;
+}
+.lead{
+  margin:0;
+  max-width:680px;
+  color:var(--muted);
+  line-height:1.5;
+  font-size:1rem;
+}
+.status{
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.035);
+  color:var(--good);
+  border-radius:999px;
+  padding:9px 13px;
+  font-weight:800;
+  font-size:.82rem;
+  white-space:nowrap;
+}
+.card{
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012)),
+    var(--panel);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+.card + .card{margin-top:18px}
+.card-head{
+  padding:19px 21px 0;
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+  align-items:flex-start;
+}
+.card-head h2{margin:0;font-size:1.06rem}
+.sub{margin-top:5px;color:var(--muted);font-size:.86rem;line-height:1.4}
+.toolbar{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+.btn,select,.field{
+  min-height:40px;
+  border-radius:11px;
+  border:1px solid var(--line);
+  background:var(--panel-2);
+  color:var(--text);
+}
+.btn{
+  padding:0 14px;
+  font-weight:800;
+  cursor:pointer;
+  transition:.15s ease;
+}
+.btn:hover{transform:translateY(-1px);border-color:rgba(125,211,252,.4)}
+.btn:active{transform:translateY(0)}
+.btn.primary{
+  background:linear-gradient(135deg,var(--accent),#60a5fa);
+  color:#06101d;
+  border:0;
+}
+.btn.download{
+  background:linear-gradient(135deg,#86efac,#5eead4);
+  color:#06101d;
+  border:0;
+}
+.btn.danger{color:var(--danger)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+select{padding:0 10px}
+.field{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:0 10px;
+  color:var(--muted);
+}
+.field input{
+  width:58px;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:white;
+}
+.compose-toolbar{
+  padding:16px 21px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.duration-group{
+  display:flex;
+  gap:7px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.duration-label{
+  color:var(--muted);
+  font-size:.8rem;
+  font-weight:800;
+  margin-right:2px;
+}
+.dur{
+  min-width:56px;
+  height:36px;
+  border-radius:10px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.03);
+  color:var(--muted);
+  font-weight:800;
+  cursor:pointer;
+}
+.dur.active{
+  color:var(--text);
+  background:rgba(125,211,252,.13);
+  border-color:rgba(125,211,252,.42);
+}
+.compose-grid{
+  display:grid;
+  grid-template-columns:1.12fr .88fr;
+  min-height:370px;
+}
+.piano-pane{
+  padding:20px;
+  border-right:1px solid var(--line);
+}
+.pane-title{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-end;
+  margin-bottom:13px;
+}
+.pane-title b{font-size:.9rem}
+.pane-title span{color:var(--muted);font-size:.78rem}
+.now-note{
+  display:flex;
+  align-items:baseline;
+  gap:10px;
+  margin-bottom:14px;
+}
+.now-note strong{
+  font-size:2.6rem;
+  letter-spacing:-.05em;
+}
+.now-note span{color:var(--muted);font-size:.85rem;font-weight:700}
+.keys{
+  height:228px;
+  display:flex;
+  position:relative;
+  user-select:none;
+}
+.white{
+  flex:1;
+  border:0;
+  border-right:1px solid #cad5e2;
+  background:linear-gradient(#fff,#e9eef6);
+  color:#132033;
+  cursor:pointer;
+  display:flex;
+  justify-content:center;
+  align-items:flex-end;
+  padding-bottom:15px;
+  font-weight:900;
+  transition:.08s ease;
+}
+.white:first-child{border-radius:10px 0 10px 10px}
+.white:last-child{border-radius:0 10px 10px 10px}
+.white.active{
+  background:linear-gradient(#def7ff,#8ddcf8);
+  transform:translateY(3px);
+}
+.black{
+  position:absolute;
+  top:0;
+  width:7.1%;
+  height:62%;
+  z-index:2;
+  border:0;
+  border-radius:0 0 7px 7px;
+  background:linear-gradient(#273247,#05070d);
+  color:#e7eef8;
+  cursor:pointer;
+  display:flex;
+  justify-content:center;
+  align-items:flex-end;
+  padding-bottom:11px;
+  font-size:.7rem;
+  font-weight:850;
+  box-shadow:0 8px 16px rgba(0,0,0,.42);
+}
+.black.active{
+  background:linear-gradient(#5a4178,#18111f);
+  transform:translateY(3px);
+}
+.key-hint{
+  margin-top:12px;
+  text-align:center;
+  color:var(--muted);
+  font-size:.77rem;
+}
+.song-pane{
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+}
+.song-pane-head{
+  padding:18px 16px 11px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  border-bottom:1px solid var(--line);
+}
+.song-pane-head b{font-size:.9rem}
+.song-count{color:var(--muted);font-size:.78rem}
+.song-scroll{
+  flex:1;
+  min-height:0;
+  max-height:318px;
+  overflow:auto;
+  padding:10px 10px 12px;
+  scrollbar-width:thin;
+  scrollbar-color:#33445f transparent;
+}
+.song-list{display:grid;gap:7px}
+.note-row{
+  display:grid;
+  grid-template-columns:34px minmax(100px,1fr) 104px 36px;
+  align-items:center;
+  gap:7px;
+  min-height:46px;
+  padding:5px;
+  border-radius:11px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.025);
+}
+.note-row.playing{
+  outline:2px solid var(--accent);
+  background:rgba(125,211,252,.09);
+}
+.note-index{
+  display:grid;
+  place-items:center;
+  color:var(--muted);
+  font-size:.76rem;
+  font-weight:800;
+}
+.note-row select{width:100%;min-height:34px}
+.icon-btn{
+  height:32px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:rgba(255,255,255,.03);
+  color:var(--muted);
+  cursor:pointer;
+}
+.icon-btn:hover{color:white;border-color:rgba(255,255,255,.22)}
+.empty{
+  padding:30px 16px;
+  text-align:center;
+  color:var(--muted);
+  border:1px dashed var(--line);
+  border-radius:12px;
+  line-height:1.45;
+}
+.code-wrap{padding:16px 21px 18px}
+textarea{
+  width:100%;
+  min-height:230px;
+  resize:vertical;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background:var(--panel-3);
+  color:#dff7ff;
+  padding:15px 16px;
+  outline:0;
+  font:13.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+textarea:focus{
+  border-color:rgba(125,211,252,.42);
+  box-shadow:0 0 0 3px rgba(125,211,252,.06);
+}
+.code-actions{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-top:10px;
+  flex-wrap:wrap;
+}
+.message{font-size:.8rem;color:var(--muted)}
+.message.ok{color:var(--good)}
+.message.err{color:var(--danger)}
+.bottom-bar{
+  margin-top:18px;
+  display:flex;
+  justify-content:flex-end;
+}
+@media(max-width:850px){
+  .compose-grid{grid-template-columns:1fr}
+  .piano-pane{border-right:0;border-bottom:1px solid var(--line)}
+  .status{display:none}
+  .song-scroll{max-height:300px}
+}
+@media(max-width:580px){
+  .app{padding:20px 11px 30px}
+  .card-head,.compose-toolbar,.piano-pane,.code-wrap{padding-left:14px;padding-right:14px}
+  .keys{height:180px}
+  .note-row{grid-template-columns:30px 1fr 92px 34px}
+  h1{font-size:2.45rem}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div>
+      <div class="eyebrow">RBS Code · Music Lab</div>
+      <h1>Build a song.<br>Turn it into code.</h1>
+      <p class="lead">Play notes, choose their length, edit the JavaScript, then download your own working music webpage.</p>
+    </div>
+    <div class="status">● Demo ready</div>
+  </header>
+
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>Compose</h2>
+        <div class="sub">Choose a duration, then press a piano key.</div>
+      </div>
+    </div>
+
+    <div class="compose-toolbar">
+      <div class="duration-group">
+        <span class="duration-label">Duration</span>
+        <button class="dur" data-duration="2">2 beats</button>
+        <button class="dur" data-duration="1">1 beat</button>
+        <button class="dur active" data-duration="0.5">½ beat</button>
+        <button class="dur" data-duration="0.25">¼ beat</button>
+        <button class="btn" id="restBtn">+ Rest</button>
+      </div>
+
+      <div class="toolbar">
+        <button class="btn primary" id="playBtn">▶ Play</button>
+        <button class="btn" id="undoBtn">Undo</button>
+        <label class="field">BPM <input id="bpm" type="number" min="50" max="220" value="110"></label>
+        <select id="wave" aria-label="Instrument">
+          <option value="triangle">Soft Synth</option>
+          <option value="sine">Pure Tone</option>
+          <option value="square">8-bit</option>
+          <option value="sawtooth">Bright Synth</option>
+        </select>
+        <button class="btn danger" id="clearBtn">Clear</button>
+      </div>
+    </div>
+
+    <div class="compose-grid">
+      <div class="piano-pane">
+        <div class="pane-title">
+          <b>Piano</b>
+          <span>Press a key to add it</span>
+        </div>
+
+        <div class="now-note">
+          <strong id="nowNote">C4</strong>
+          <span id="nowDur">½ beat</span>
+        </div>
+
+        <div class="keys">
+          <button class="white" data-note="C4">C</button>
+          <button class="white" data-note="D4">D</button>
+          <button class="white" data-note="E4">E</button>
+          <button class="white" data-note="F4">F</button>
+          <button class="white" data-note="G4">G</button>
+          <button class="white" data-note="A4">A</button>
+          <button class="white" data-note="B4">B</button>
+          <button class="white" data-note="C5">C</button>
+
+          <button class="black" style="left:8.9%" data-note="C#4">C#</button>
+          <button class="black" style="left:21.4%" data-note="D#4">D#</button>
+          <button class="black" style="left:46.4%" data-note="F#4">F#</button>
+          <button class="black" style="left:58.9%" data-note="G#4">G#</button>
+          <button class="black" style="left:71.4%" data-note="A#4">A#</button>
+        </div>
+
+        <div class="key-hint">Keyboard: A S D F G H J K · black keys W E T Y U</div>
+      </div>
+
+      <div class="song-pane">
+        <div class="song-pane-head">
+          <b>Your song</b>
+          <span class="song-count" id="songCount">0 notes</span>
+        </div>
+        <div class="song-scroll" id="songScroll">
+          <div class="song-list" id="songList"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>Edit the code</h2>
+        <div class="sub">Change a note or duration, then apply your changes.</div>
+      </div>
+    </div>
+
+    <div class="code-wrap">
+      <textarea id="arrayEditor" spellcheck="false"></textarea>
+      <div class="code-actions">
+        <span class="message" id="message">Song and code are synced.</span>
+        <button class="btn" id="applyBtn">Apply changes</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="bottom-bar">
+    <button class="btn download" id="downloadBtn">↓ Download my webpage</button>
+  </div>
+</div>
+
+<script>
+let audioCtx;
+let selectedDuration = 0.5;
+let isPlaying = false;
+
+const NOTE_FREQ = {
+  "C4":261.63,"C#4":277.18,"D4":293.66,"D#4":311.13,
+  "E4":329.63,"F4":349.23,"F#4":369.99,"G4":392,
+  "G#4":415.30,"A4":440,"A#4":466.16,"B4":493.88,"C5":523.25
+};
+
+const NOTES = Object.keys(NOTE_FREQ);
+const DURATIONS = [2,1,0.5,0.25];
+
+let song = [
+  { note: "C4", duration: 0.5 },
+  { note: "C4", duration: 0.5 },
+  { note: "G4", duration: 0.5 },
+  { note: "G4", duration: 0.5 },
+  { note: "A4", duration: 0.5 },
+  { note: "A4", duration: 0.5 },
+  { note: "G4", duration: 1 }
+];
+
+const keyboardMap = {
+  a:"C4", w:"C#4", s:"D4", e:"D#4", d:"E4",
+  f:"F4", t:"F#4", g:"G4", y:"G#4", h:"A4",
+  u:"A#4", j:"B4", k:"C5"
+};
+
+const songList = document.getElementById("songList");
+const editor = document.getElementById("arrayEditor");
+const message = document.getElementById("message");
+
+function ensureAudio(){
+  if(!audioCtx){
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if(audioCtx.state === "suspended") audioCtx.resume();
+}
+
+function playTone(note, seconds){
+  if(note === "REST") return;
+  ensureAudio();
+
+  const oscillator = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  const now = audioCtx.currentTime;
+
+  oscillator.type = document.getElementById("wave").value;
+  oscillator.frequency.value = NOTE_FREQ[note];
+
+  gain.gain.setValueAtTime(0.0001, now);
+  gain.gain.exponentialRampToValueAtTime(0.18, now + 0.02);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + Math.max(0.08, seconds * 0.92));
+
+  oscillator.connect(gain).connect(audioCtx.destination);
+  oscillator.start(now);
+  oscillator.stop(now + seconds + 0.05);
+}
+
+function flashKey(note){
+  const key = [...document.querySelectorAll("[data-note]")].find(x => x.dataset.note === note);
+  if(!key) return;
+  key.classList.add("active");
+  setTimeout(() => key.classList.remove("active"), 140);
+}
+
+function durationLabel(value){
+  if(value === 2) return "2 beats";
+  if(value === 1) return "1 beat";
+  if(value === 0.5) return "½ beat";
+  if(value === 0.25) return "¼ beat";
+  return value + " beat";
+}
+
+function addNote(note){
+  song.push({ note, duration:selectedDuration });
+
+  document.getElementById("nowNote").textContent = note;
+  playTone(note, 0.24);
+  flashKey(note);
+
+  renderAll();
+
+  requestAnimationFrame(() => {
+    const scroll = document.getElementById("songScroll");
+    scroll.scrollTop = scroll.scrollHeight;
+  });
+}
+
+document.querySelectorAll(".dur").forEach(button => {
+  button.addEventListener("click", () => {
+    selectedDuration = Number(button.dataset.duration);
+
+    document.querySelectorAll(".dur").forEach(x => {
+      x.classList.toggle("active", x === button);
+    });
+
+    document.getElementById("nowDur").textContent = durationLabel(selectedDuration);
+  });
+});
+
+document.querySelectorAll("[data-note]").forEach(button => {
+  button.addEventListener("click", () => addNote(button.dataset.note));
+});
+
+document.addEventListener("keydown", event => {
+  const tag = document.activeElement.tagName;
+
+  if(
+    event.repeat ||
+    document.activeElement === editor ||
+    tag === "INPUT" ||
+    tag === "SELECT"
+  ) return;
+
+  const note = keyboardMap[event.key.toLowerCase()];
+  if(note) addNote(note);
+});
+
+document.getElementById("restBtn").addEventListener("click", () => {
+  song.push({ note:"REST", duration:selectedDuration });
+  renderAll();
+});
+
+function noteOptions(selected){
+  return ["REST", ...NOTES].map(note => {
+    return `<option value="${note}" ${note === selected ? "selected" : ""}>${note}</option>`;
+  }).join("");
+}
+
+function durationOptions(selected){
+  return DURATIONS.map(duration => {
+    return `<option value="${duration}" ${duration === selected ? "selected" : ""}>${durationLabel(duration)}</option>`;
+  }).join("");
+}
+
+function renderSong(){
+  songList.innerHTML = "";
+
+  document.getElementById("songCount").textContent =
+    song.length === 1 ? "1 note" : `${song.length} notes`;
+
+  document.getElementById("undoBtn").disabled = song.length === 0;
+
+  if(song.length === 0){
+    songList.innerHTML = `
+      <div class="empty">
+        Your song is empty.<br>
+        Press a piano key to add a note.
+      </div>`;
+    return;
+  }
+
+  song.forEach((item, index) => {
+    const row = document.createElement("div");
+    row.className = "note-row";
+    row.dataset.index = index;
+
+    row.innerHTML = `
+      <div class="note-index">${index + 1}</div>
+      <select class="noteSelect" aria-label="Note ${index + 1}">
+        ${noteOptions(item.note)}
+      </select>
+      <select class="durSelect" aria-label="Duration ${index + 1}">
+        ${durationOptions(item.duration)}
+      </select>
+      <button class="icon-btn" title="Delete note" aria-label="Delete note ${index + 1}">×</button>
+    `;
+
+    row.querySelector(".noteSelect").addEventListener("change", event => {
+      song[index].note = event.target.value;
+      syncEditor();
+
+      if(event.target.value !== "REST"){
+        playTone(event.target.value, 0.22);
+      }
+    });
+
+    row.querySelector(".durSelect").addEventListener("change", event => {
+      song[index].duration = Number(event.target.value);
+      syncEditor();
+    });
+
+    row.querySelector(".icon-btn").addEventListener("click", () => {
+      song.splice(index, 1);
+      renderAll();
+    });
+
+    songList.appendChild(row);
+  });
+}
+
+function songToCode(){
+  if(song.length === 0) return "const song = [];";
+
+  const lines = song.map(item => {
+    return `  { note: "${item.note}", duration: ${item.duration} }`;
+  });
+
+  return "const song = [\n" + lines.join(",\n") + "\n];";
+}
+
+function syncEditor(){
+  editor.value = songToCode();
+}
+
+function renderAll(){
+  renderSong();
+  syncEditor();
+  message.textContent = "Song and code are synced.";
+  message.className = "message ok";
+}
+
+function parseEditor(){
+  let text = editor.value.trim();
+
+  text = text
+    .replace(/^const\s+song\s*=\s*/, "")
+    .replace(/;\s*$/, "");
+
+  const jsonLike = text
+    .replace(/([{,]\s*)note\s*:/g, '$1"note":')
+    .replace(/([{,]\s*)duration\s*:/g, '$1"duration":');
+
+  const parsed = JSON.parse(jsonLike);
+
+  if(!Array.isArray(parsed)){
+    throw new Error("Song must be an array.");
+  }
+
+  return parsed.map((item, index) => {
+    if(!item || typeof item !== "object"){
+      throw new Error(`Item ${index + 1} must be a note object.`);
+    }
+
+    if(!["REST", ...NOTES].includes(item.note)){
+      throw new Error(`Item ${index + 1}: unknown note.`);
+    }
+
+    const duration = Number(item.duration);
+
+    if(!DURATIONS.includes(duration)){
+      throw new Error(`Item ${index + 1}: use 2, 1, 0.5 or 0.25.`);
+    }
+
+    return {
+      note:item.note,
+      duration
+    };
+  });
+}
+
+document.getElementById("applyBtn").addEventListener("click", () => {
+  try{
+    song = parseEditor();
+    renderSong();
+    syncEditor();
+
+    message.textContent = "Changes applied.";
+    message.className = "message ok";
+  }catch(error){
+    message.textContent = error.message;
+    message.className = "message err";
+  }
+});
+
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+async function playSong(){
+  if(isPlaying || song.length === 0) return;
+
+  isPlaying = true;
+
+  const button = document.getElementById("playBtn");
+  button.textContent = "Playing…";
+
+  const bpm = Math.max(
+    50,
+    Math.min(220, Number(document.getElementById("bpm").value) || 110)
+  );
+
+  const beat = 60000 / bpm;
+  const rows = [...document.querySelectorAll(".note-row")];
+
+  for(let i = 0; i < song.length; i++){
+    rows[i]?.classList.add("playing");
+    rows[i]?.scrollIntoView({ block:"nearest", behavior:"smooth" });
+
+    const milliseconds = beat * song[i].duration;
+
+    playTone(
+      song[i].note,
+      Math.max(0.08, milliseconds / 1000 * 0.88)
+    );
+
+    if(song[i].note !== "REST"){
+      flashKey(song[i].note);
+    }
+
+    await sleep(milliseconds);
+    rows[i]?.classList.remove("playing");
+  }
+
+  button.textContent = "▶ Play";
+  isPlaying = false;
+}
+
+document.getElementById("playBtn").addEventListener("click", playSong);
+
+document.getElementById("undoBtn").addEventListener("click", () => {
+  if(song.length === 0) return;
+  song.pop();
+  renderAll();
+});
+
+document.getElementById("clearBtn").addEventListener("click", () => {
+  song = [];
+  renderAll();
+});
+
+function makeExportHTML(){
+  const bpm = Math.max(
+    50,
+    Math.min(220, Number(document.getElementById("bpm").value) || 110)
+  );
+
+  const instrument = document.getElementById("wave").value;
+
+  const songLines = song.length
+    ? song.map(item => `    { note: "${item.note}", duration: ${item.duration} }`).join(",\n")
+    : "";
+
+  return `<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>My Song</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #eef7ff;
+            color: #123;
+            padding: 50px 20px;
+        }
+
+        .box {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+        }
+
+        button {
+            font-size: 18px;
+            padding: 12px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+        <h1>My Song</h1>
+
+        <p>I made this song with JavaScript!</p>
+
+        <button onclick="playSong()">▶ Play Song</button>
+    </div>
+
+
+    <script>
+
+        // ============================
+        // EDIT YOUR SONG HERE
+        // ============================
+
+        const song = [
+${songLines}
+        ];
+
+        const bpm = ${bpm};
+
+
+        // Try changing a note:
+        // "C4"  "D4"  "E4"  "F4"
+        // "G4"  "A4"  "B4"  "C5"
+
+        // Try changing duration:
+        // 2    = long
+        // 1    = one beat
+        // 0.5  = half beat
+        // 0.25 = short
+
+
+        // ============================
+        // MUSIC PLAYER
+        // Leave this part for now.
+        // ============================
+
+        const instrument = ${JSON.stringify(instrument)};
+
+        const frequencies = {
+            C4: 261.63,
+            "C#4": 277.18,
+            D4: 293.66,
+            "D#4": 311.13,
+            E4: 329.63,
+            F4: 349.23,
+            "F#4": 369.99,
+            G4: 392,
+            "G#4": 415.30,
+            A4: 440,
+            "A#4": 466.16,
+            B4: 493.88,
+            C5: 523.25
+        };
+
+        let audio;
+
+        function playNote(note, seconds) {
+            if (note === "REST") return;
+
+            if (!audio) {
+                audio = new AudioContext();
+            }
+
+            const oscillator = audio.createOscillator();
+            const volume = audio.createGain();
+
+            oscillator.type = instrument;
+            oscillator.frequency.value = frequencies[note];
+
+            oscillator.connect(volume);
+            volume.connect(audio.destination);
+
+            volume.gain.value = 0.15;
+
+            oscillator.start();
+            oscillator.stop(audio.currentTime + seconds);
+        }
+
+        function wait(milliseconds) {
+            return new Promise(resolve => {
+                setTimeout(resolve, milliseconds);
+            });
+        }
+
+        async function playSong() {
+            const beat = 60000 / bpm;
+
+            for (const item of song) {
+                const length = beat * item.duration;
+
+                playNote(item.note, length / 1000);
+                await wait(length);
+            }
+        }
+
+    <\/script>
+
+</body>
+</html>`;
+}
+
+document.getElementById("downloadBtn").addEventListener("click", () => {
+  const blob = new Blob([makeExportHTML()], { type:"text/html" });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "my-music-page.html";
+  link.click();
+
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+});
+
+renderAll();
+</script>
+</body>
+</html>
